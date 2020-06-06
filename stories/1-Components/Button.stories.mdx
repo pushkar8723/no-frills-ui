@@ -1,0 +1,31 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview } from '@storybook/addon-docs/blocks';
+import { Button, LinkButton, RaisedButton } from '../../src/components/Button';
+
+<Meta title='Components/Button' component={Button} />
+
+# Button
+
+Simple button component. The component itself is just a styled `<button>` element. Thus, its props are those
+of `HTMLButtonElement`. Since, this is the native button element, you might also need to pass a `type` prop
+if you are using this in a form or the form's submit event will get triggered on button click.
+
+<Preview>
+    <Button>Normal Button</Button>
+    <Button disabled>Disabled Button</Button>
+    <LinkButton>Link Button</LinkButton>
+    <LinkButton disabled>Disabled Link Button</LinkButton>
+    <RaisedButton>Raised Button</RaisedButton>
+    <RaisedButton disabled>Disabled Raised Button</RaisedButton>
+</Preview>
+
+### Props
+
+Since this is just a native button element. You can use any button element props.
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| ---primary | User for `color` and `border-color`. |
+| ---primary-light | User for `box-shadow`. |

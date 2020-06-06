@@ -1,0 +1,33 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction/Theming" />
+
+# Theming
+
+I used CSS variables to style each component with a fallback value. What this means is that you can directly use the
+component without any theming if you like the blue theme that I followed. Or you can choose to override them by
+setting values to each of these variable in `:root` selector.
+
+**Example**
+```css
+:root {
+    --primary: red;
+    --primary-light: cyan;
+}
+```
+
+You can also style each component by passing a `style` prop or if you like you can set a `className` and then override
+style to these class.
+
+### Variables
+
+<table>
+    <thead>
+        <th>Variable Name</th><th>Default Value</th>
+    </thead>
+    <tbody>
+        <tr><td><pre>--primary</pre></td><td style={{ backgroundColor: '#2283d2', color: '#fff' }}>#2283d2</td></tr>
+        <tr><td><pre>--primary-light</pre></td><td style={{ backgroundColor: '#64baff', }}>#64baff</td></tr>
+        <tr><td><pre>--primary-lighter</pre></td><td style={{ backgroundColor: '#cfe9ff', }}>#cfe9ff</td></tr>
+    </tbody>
+</table>
