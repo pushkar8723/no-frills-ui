@@ -22,3 +22,5 @@ Well, this is the Achilles heel of this project. Currently, it is not production
 project. I created this repository mostly after realizing that at the start of each project I juggle a lot between
 different UI libraries and then using `styled-components` for half of the components. This is tailored to my needs and
 I may not even have time to work on it regularly. But you can freely use this in any POCs that you might be doing.
+
+[MIT License](https://github.com/pushkar8723/no-frills-ui/blob/master/LICENSE)
