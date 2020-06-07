@@ -24,6 +24,19 @@ However, for better readability and to not add an unnecessary `div` to the DOM. 
     </Tabs>
 </Preview>
 
+```jsx
+import { Tabs, Tab } from 'no-frills-ui';
+
+// Render
+<Tabs active={1}>
+    <Tab name="Tab 1">
+        This is tab 1 content.
+    </Tab>
+    <Tab name="Tab 2">
+        This is tab 2 content.
+    </Tab>
+</Tabs>
+```
 
 ### `Tabs` Props
 
@@ -33,7 +46,7 @@ However, for better readability and to not add an unnecessary `div` to the DOM. 
 
 <Props of={Tab} />
 
-### CSS Variables used
+### CSS Variables Used
 
 | Variable Name | Description |
 | :- | :- |

@@ -1,5 +1,10 @@
 # No Frills UI
 
+[![npm version](https://badge.fury.io/js/no-frills-ui.svg)](https://badge.fury.io/js/no-frills-ui)
+![Minifized Size](https://badgen.net/bundlephobia/min/no-frills-ui)
+![Gzipped Size](https://badgen.net/bundlephobia/minzip/no-frills-ui)
+[![license](https://badgen.now.sh/badge/license/MIT)](./LICENSE)
+
 **React components that are made of styled native components. Mostly! 😅**
 
 This means that our DOM is much more cleaner and is not a [div soup](https://www.hackterms.com/div%20soup). Improving

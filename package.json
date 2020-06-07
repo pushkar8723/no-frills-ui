@@ -1,9 +1,16 @@
 {
   "name": "no-frills-ui",
-  "version": "0.0.0",
-  "description": "React components with unnecessary divs",
-  "main": "index.js",
+  "version": "0.0.2",
+  "description": "React components that are made of styled native components. Mostly!",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -27,16 +34,23 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
+    "@rollup/plugin-node-resolve": "^8.0.1",
     "@storybook/addon-actions": "^5.3.19",
-    "@storybook/addon-links": "^5.3.19",
     "@storybook/addon-docs": "^5.3.19",
+    "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
     "@storybook/cli": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
     "@types/styled-components": "^5.1.0",
     "babel-loader": "^8.1.0",
+    "rollup": "^2.14.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.2",
+    "rollup-plugin-typescript2": "^0.27.1",
     "storybook": "^5.3.19",
+    "tslib": "^2.0.0",
     "typescript": "^3.9.5"
   },
   "dependencies": {
