@@ -7,14 +7,23 @@
 
 **React components that are made of styled native components. Mostly! 😅**
 
-This means that our DOM is much more cleaner and is not a [div soup](https://www.hackterms.com/div%20soup). Improving
-the semantic of the document and making it more SEO friendly. It also means that we are not adding extra code to support
-accessibility which comes out of the box with the platform itself.
+**Storybook:** [https://no-frills-ui.netlify.app/](https://no-frills-ui.netlify.app/)
 
-This also simplifies the API for the component as the developer now doesn't need to go to a huge doc to know how to use
-the component, instead it can directly use the native element's props. However, this is also not always possible, as we
-might want additional functionality on top of the native component. To solve this, I use prop spreading on each component
-and only added the props for these extra features.
+Modern-day  component libraries make components out of divs with custom styles and abstractions for events.
+Often their focus is on touch-screen devices and so their event handlers are more focused on handling touch events.
+This means when we use these libraries, we often ship a lot of code for styles and touch event handlers. Most of
+which are available in native components out of the box. No Frills UI does not have these decorations, instead it
+relies on the native components' APIs.
+
+This helps in keeping our DOM much more cleaner as it is not a [div soup](https://www.hackterms.com/div%20soup) anymore.
+It also improves the semantic of the document and making it more SEO friendly. This also means that we are not adding extra
+code to support accessibility which comes out of the box with the platform itself.
+
+Thus simplifying the API for the component. Now the developer doesn't need to go through a huge doc to know how to use
+the component, instead, he/she can directly use the native element's props. However, this is also not always possible, as we
+might want additional functionality on top of our native component. For which I will have to wrap it in divs and the native
+API won't be directly accessible. To solve this, I use prop spreading on each component and only add props for these
+extra features.
 
 ### Limitations
 
