@@ -1,0 +1,40 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { TextArea } from '../../src/components/Input';
+
+<Meta title='Components/TextArea' component={TextArea} />
+
+# TextArea
+
+Wraps `HTMLTextAreaElement` in a React component to give additional `label` and `errorText` props.
+
+A `*` is added to the label if the field is required.
+
+<Preview>
+    <TextArea
+        label='Description'
+        minLength={100}
+        placeholder='Write anything here...'
+        required
+    />
+</Preview>
+
+```jsx
+import { TextArea } from 'no-frills-ui';
+
+// Render
+<TextArea />
+```
+### Props
+Following props are added on top of `HTMLTextAreaElement` props.
+<Props of={TextArea} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | User for `color` and `border-color`. |
+| --primary-light | User for `box-shadow`. |
+| --error | User for `color` and `border-color`. |
+| --error-light | User for `box-shadow`. |
+| --background | User for `background-color`. |

@@ -1,0 +1,56 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { Select } from '../../src/components/Input';
+
+<Meta title='Components/Select' component={Select} />
+
+# Select
+
+Wraps `HTMLSelectElement` in a React component to give additional `label` and `errorText` props.
+
+A `*` is added to the label if the field is required.
+
+Though `HTMLSelectElement` supports `multiple` parameter, I override it in this component to `false`. Because I 
+personally feel that the interaction is not intutive for the user. So, this elements works only as a
+single select input.
+
+<Preview>
+    <Select
+        label='Gender'
+        required
+    >
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+        <option value="T">Transgender</option>
+        <option value="N">Don't want to specify</option>
+    </Select>
+    <Select
+        label='Country'
+        value='IN'
+        disabled
+    >
+        <option value="IN">India</option>
+        <option value="US">America</option>
+        <option value="UK">United Kingdom</option>
+    </Select>
+</Preview>
+
+```jsx
+import { Select } from 'no-frills-ui';
+
+// Render
+<Select />
+```
+### Props
+Following props are added on top of `HTMLSelectElement` props.
+<Props of={Select} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | User for `color` and `border-color`. |
+| --primary-light | User for `box-shadow`. |
+| --error | User for `color` and `border-color`. |
+| --error-light | User for `box-shadow`. |
+| --background | User for `background-color`. |

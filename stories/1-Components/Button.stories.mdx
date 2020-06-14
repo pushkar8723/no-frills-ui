@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, Preview } from '@storybook/addon-docs/blocks';
-import { Button, LinkButton, RaisedButton } from '../../src/components/Button';
+import { Button, LinkButton, RaisedButton, ActionButton } from '../../src/components/Button';
 
 <Meta title='Components/Button' component={Button} />
 
@@ -11,21 +11,24 @@ of `HTMLButtonElement`. Since, this is the native button element, you might also
 if you are using this in a form or the form's submit event will get triggered on button click.
 
 <Preview>
-    <Button>Normal Button</Button>
-    <Button disabled>Disabled Button</Button>
+    <Button>Button</Button>
     <LinkButton>Link Button</LinkButton>
-    <LinkButton disabled>Disabled Link Button</LinkButton>
     <RaisedButton>Raised Button</RaisedButton>
+    <ActionButton>Action Button</ActionButton>
+    <Button disabled>Disabled Button</Button>
+    <LinkButton disabled>Disabled Link Button</LinkButton>
     <RaisedButton disabled>Disabled Raised Button</RaisedButton>
+    <ActionButton disabled>Disabled Action Button</ActionButton>
 </Preview>
 
 ```jsx
-import { Button, RaisedButton LinkButton } from 'no-frills-ui';
+import { Button, RaisedButton, LinkButton, Action } from 'no-frills-ui';
 
 // Render
 <Button>Normal Button</Button>
 <LinkButton>Link Button</LinkButton>
 <RaisedButton>Raised Button</RaisedButton>
+<ActionButton>Action Button</ActionButton>
 ```
 
 ### Props

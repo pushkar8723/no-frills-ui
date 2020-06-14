@@ -13,6 +13,7 @@ export default styled.button`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin: 5px;
 
     &:enabled:hover {
         border: 1px solid var(--primary, #2283d2);

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-type InputProps = PropTypes.InferType<typeof Input.propTypes> &
-    React.HTMLAttributes<HTMLInputElement> & {
+type TextAreaProps = PropTypes.InferType<typeof TextArea.propTypes> &
+    React.HTMLAttributes<HTMLTextAreaElement> & {
         value?: string;
     }
 
-type InputInternalProps = InputProps & {
+type TextAreaInternalProps = TextAreaProps & {
     touched: boolean;
 }
 
@@ -19,12 +19,11 @@ const Label = styled.label`
     margin: 10px 5px;
 `;
 
-const TextField = styled.input<InputInternalProps>`
+const TextField = styled.textarea<TextAreaInternalProps>`
     border: none;
-    padding: 0 8px;
-    line-height: 30px;
-    height: 30px;
-    width: 250px;
+    padding: 8px;
+    height: 150px;
+    min-width: 250px;
     border-radius: 3px;
     border: 1px solid #333;
     display: inline-block;
@@ -112,7 +111,7 @@ const ErrorContainer = styled.div`
     font-size: 12px;
 `;
 
-export default function Input(props: InputProps) {
+export default function TextArea(props: TextAreaProps) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
 
@@ -146,7 +145,7 @@ export default function Input(props: InputProps) {
     );
 }
 
-Input.propTypes = {
+TextArea.propTypes = {
     /** Label for the field */
     label: PropTypes.string,
     /** Error text to be shown below the field */

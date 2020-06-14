@@ -13,6 +13,7 @@ export default styled.button`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin: 5px;
 
     &:enabled:hover, &:focus {
         text-decoration: underline;

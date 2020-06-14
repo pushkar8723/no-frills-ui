@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-type InputProps = PropTypes.InferType<typeof Input.propTypes> &
+type SelectProps = PropTypes.InferType<typeof Select.propTypes> &
     React.HTMLAttributes<HTMLInputElement> & {
         value?: string;
     }
 
-type InputInternalProps = InputProps & {
+type SelectInternalProps = SelectProps & {
     touched: boolean;
 }
 
@@ -19,9 +19,9 @@ const Label = styled.label`
     margin: 10px 5px;
 `;
 
-const TextField = styled.input<InputInternalProps>`
+const SelectField = styled.select<SelectInternalProps>`
     border: none;
-    padding: 0 8px;
+    padding: 0 4px;
     line-height: 30px;
     height: 30px;
     width: 250px;
@@ -112,7 +112,7 @@ const ErrorContainer = styled.div`
     font-size: 12px;
 `;
 
-export default function Input(props: InputProps) {
+export default function Select(props: SelectProps) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
 
@@ -133,20 +133,24 @@ export default function Input(props: InputProps) {
 
     return (
         <Label>
-            <TextField
+            <SelectField
                 {...props}
+                multiple={false}
                 value={value}
                 onChange={onChangeHandler}
                 onFocus={handleFocus}
                 touched={touched}
-            />
+            >
+                <option />
+                {props.children}
+            </SelectField>
             <span>{props.label}</span>
             { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
         </Label>
     );
 }
 
-Input.propTypes = {
+Select.propTypes = {
     /** Label for the field */
     label: PropTypes.string,
     /** Error text to be shown below the field */

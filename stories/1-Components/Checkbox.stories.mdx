@@ -1,0 +1,34 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { Checkbox } from '../../src/components/Input';
+
+<Meta title='Components/Checkbox' component={Checkbox} />
+
+# Checkbox
+
+Wraps `HTMLInputElement` of type `checkbox` in a React component to give additional `label`
+and `indeterminate` props.
+
+<Preview>
+    <Checkbox label='Android' />
+    <Checkbox label='iOS' />
+    <Checkbox label='Desktop' indeterminate checked disabled />
+</Preview>
+
+```jsx
+import { Checkbox } from 'no-frills-ui';
+
+// Render
+<Checkbox />
+```
+### Props
+Following props are added on top of `HTMLSelectElement` props.
+<Props of={Checkbox} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | User for `color` and `border-color`. |
+| --primary-light | User for `box-shadow`. |
+| --background | User for `background-color`. |
