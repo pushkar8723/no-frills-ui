@@ -1,6 +1,6 @@
 {
   "name": "no-frills-ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React components that are made of styled native components. Mostly!",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -10,10 +10,12 @@
     "dist"
   ],
   "scripts": {
+    "clean": "shx rm -rf dist",
     "build": "rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "prepublish": "npm run clean && npm run build"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.2",
     "rollup-plugin-typescript2": "^0.27.1",
+    "shx": "^0.3.2",
     "storybook": "^5.3.19",
     "tslib": "^2.0.0",
     "typescript": "^3.9.5"
