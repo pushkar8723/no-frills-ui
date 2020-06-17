@@ -36,22 +36,22 @@ const Input = styled.input`
     }
 
     /** active and focus */
-    &:active::before, &:focus::before {
+    &:enabled:active::before, &:focus::before {
         border-color: var(--primary, #2283d2);
         box-shadow: 0 0 0 3px var(--primary-light, #64baff); 
     }
 
-    &:active + span, &:focus + span {
+    &:enabled:active + span, &:focus + span {
         color: var(--primary, #2283d2);
     }
 
     /** hover */
-    &:hover::before {
+    &:enabled:hover::before {
         border-color: var(--primary, #2283d2);
         box-shadow: 0 0 0 3px var(--primary-light, #64baff); 
     }
 
-    &:hover + span {
+    &:enabled:hover + span {
         color: var(--primary, #2283d2);
     }
 

@@ -54,7 +54,8 @@
     "shx": "^0.3.2",
     "storybook": "^5.3.19",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.5",
+    "typescript-plugin-styled-components": "^1.4.4"
   },
   "dependencies": {
     "prop-types": "^15.7.2",

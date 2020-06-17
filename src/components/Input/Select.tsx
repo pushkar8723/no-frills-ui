@@ -17,6 +17,7 @@ const Label = styled.label`
     flex: 1;
     position: relative;
     margin: 10px 5px;
+    pointer-events: none;
 `;
 
 const SelectField = styled.select<SelectInternalProps>`
@@ -29,6 +30,7 @@ const SelectField = styled.select<SelectInternalProps>`
     border: 1px solid #333;
     display: inline-block;
     background-color: var(--background, #fff);
+    pointer-events: auto;
 
     /** Focused */
     &:focus, &:active {

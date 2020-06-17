@@ -1,0 +1,32 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { Toggle } from '../../src/components/Input';
+
+<Meta title='Components/Toggle' component={Toggle} />
+
+# Toggle
+
+Wraps `HTMLInputElement` of type `checkbox` in a React component to give additional `label` prop.
+
+<Preview>
+    <Toggle label='Mobile' />
+    <Toggle label='Electron'/>
+    <Toggle label='Desktop' disabled checked />
+</Preview>
+
+```jsx
+import { Toggle } from 'no-frills-ui';
+
+// Render
+<Toggle />
+```
+### Props
+Following props are added on top of `HTMLInputElement` props.
+<Props of={Toggle} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | User for `color` and `border-color`. |
+| --primary-light | User for `box-shadow` and `background-color`. |
