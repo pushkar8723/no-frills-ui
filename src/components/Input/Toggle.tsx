@@ -11,7 +11,7 @@ const Input = styled.input`
     appearance: none;
     margin: 0;
 
-    & + .slider {
+    & + span {
         position: relative;
         cursor: pointer;
         width: 30px;
@@ -25,7 +25,7 @@ const Input = styled.input`
         padding: 0 3px;
         margin-right: 10px;
     }
-    & + .slider:before {
+    & + span:before {
         position: absolute;
         content: "";
         height: 14px;
@@ -39,19 +39,25 @@ const Input = styled.input`
     }
 
     /* checked */
-    &:checked + .slider {
+    &:checked + span {
         background-color: var(--primary-light, #64baff);
     }
 
-    &:checked + .slider:before {
+    &:checked + span:before {
         transform: translateX(18px);
         border: 1px solid var(--primary, #2283d2);
     }
 
     /* focus */
-    &:enabled:focus + .slider:before {
+    &:enabled:focus + span:before {
         box-shadow: 0 0 0 3px var(--primary-light, #64baff);
         border: 1px solid var(--primary, #2283d2);
+    }
+
+    /* hover */
+    &:enabled:hover ~ span {
+        cursor: pointer;
+        color: var(--primary, #2283d2);
     }
 
     /* disabled */
@@ -59,12 +65,12 @@ const Input = styled.input`
         color: #aaa;
     }
 
-    &:disabled + .slider {
+    &:disabled + span {
         background-color: #ccc;
         cursor: not-allowed;
     }
     
-    &:disabled + .slider:before {
+    &:disabled + span:before {
         background-color: #eee;
         border: 1px solid #aaa;
     }
@@ -76,8 +82,8 @@ type ToggleProps = PropTypes.InferProps<typeof Toggle.propTypes>;
 function Toggle(props: ToggleProps) {
     return (
         <Switch>
-            <Input type='checkbox' {...props} />
-            <span className='slider'></span>
+            <Input {...props} type='checkbox' />
+            <span></span>
             <span>{props.label}</span>
         </Switch>
     );

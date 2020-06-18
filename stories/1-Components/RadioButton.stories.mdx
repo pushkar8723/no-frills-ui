@@ -1,0 +1,54 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { RadioGroup, RadioButton } from '../../src/components/Input';
+
+<Meta title='Components/RadioButton' component={RadioButton} />
+
+# RadioButton
+
+Wraps `HTMLInputElement` of type `radio` in a React component. There is also another component `RadioGroup` which
+can be used to wrap `RadioButton` component to give a rounded border and a better experience on focus.
+
+`RadioGroup` component is purely for esthetical purpose.
+
+#### Example with `RadioGroup`
+<Preview>
+    <RadioGroup>
+        <RadioButton name='type' label='D'/>
+        <RadioButton name='type' label='W'/>
+        <RadioButton name='type' label='M' disabled />
+        <RadioButton name='type' label='Y'/>
+    </RadioGroup>
+</Preview>
+
+#### Example without `RadioGroup`
+<Preview>
+    <div>
+        <RadioButton name='viewType' label='D'/>
+        <RadioButton name='viewType' label='W'/>
+        <RadioButton name='viewType' label='M' disabled />
+        <RadioButton name='viewType' label='Y'/>
+    </div>
+</Preview>
+
+```jsx
+import { RadioGroup, RadioButton } from 'no-frills-ui';
+
+// Render
+<RadioGroup>
+    <RadioButton name='type' label='D'/>
+    <RadioButton name='type' label='W'/>
+    <RadioButton name='type' label='M'/>
+    <RadioButton name='type' label='Y'/>
+</RadioGroup>
+```
+### Props
+Following props are added on top of `HTMLInputElement` props.
+<Props of={RadioButton} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | User for `color` and `border-color` and `background-color`. |
+| --primary-light | User for `box-shadow`. |
