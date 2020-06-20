@@ -1,29 +1,29 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 export default styled.button`
     border: 1px solid #ccc;
     border-radius: 5px;
-    height: 30px;
+    height: 32px;
     min-width: 100px;
     font-size: 14px;
     text-align: center;
     padding: 0 12px;
     cursor: pointer;
-    background-color: #fff;
+    background-color: var(--background, #fff);
     transform: translateY(-2px);
-    box-shadow: 0 3px 7px #ccc;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     margin: 5px;
 
     &:enabled:hover {
-        border: 1px solid var(--primary, #2283d2);
+        border-color: var(--primary, #2283d2);
         color: var(--primary, #2283d2);
     }
 
     &:focus {
-        border: 1px solid var(--primary, #2283d2);
+        border-color: var(--primary, #2283d2);
     }
 
     &:disabled {
@@ -33,6 +33,6 @@ export default styled.button`
 
     &:active {
         transform: translateY(0);
-        box-shadow: 0 1px 3px #888;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
 `;

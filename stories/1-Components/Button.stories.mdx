@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, Preview } from '@storybook/addon-docs/blocks';
-import { Button, LinkButton, RaisedButton, ActionButton } from '../../src/components/Button';
+import { Button, LinkButton, RaisedButton, ActionButton, IconButton } from '../../src/components/Button';
+import SearchIcon from '../resources/SearchIcon.tsx';
 
 <Meta title='Components/Button' component={Button} />
 
@@ -10,25 +11,33 @@ Simple button component. The component itself is just a styled `<button>` elemen
 of `HTMLButtonElement`. Since, this is the native button element, you might also need to pass a `type` prop
 if you are using this in a form or the form's submit event will get triggered on button click.
 
+#### Enabled State
 <Preview>
     <Button>Button</Button>
     <LinkButton>Link Button</LinkButton>
     <RaisedButton>Raised Button</RaisedButton>
     <ActionButton>Action Button</ActionButton>
+    <IconButton><SearchIcon /> Icon Button</IconButton>
+</Preview>
+
+#### Disabled State
+<Preview>
     <Button disabled>Disabled Button</Button>
     <LinkButton disabled>Disabled Link Button</LinkButton>
     <RaisedButton disabled>Disabled Raised Button</RaisedButton>
     <ActionButton disabled>Disabled Action Button</ActionButton>
+    <IconButton disabled><SearchIcon /> Icon Button</IconButton>
 </Preview>
 
 ```jsx
-import { Button, RaisedButton, LinkButton, Action } from 'no-frills-ui';
+import { Button, RaisedButton, LinkButton, Action, IconButton } from 'no-frills-ui';
 
 // Render
 <Button>Normal Button</Button>
 <LinkButton>Link Button</LinkButton>
 <RaisedButton>Raised Button</RaisedButton>
 <ActionButton>Action Button</ActionButton>
+<IconButton><SVGIcon> Icon Button</IconButton>
 ```
 
 ### Props
@@ -41,3 +50,4 @@ Since this is just a native button element. You can use any `HTMLButtonElement` 
 | :- | :- |
 | --primary | User for `color` and `border-color`. |
 | --primary-light | User for `box-shadow`. |
+| --background | User for `background-color`. |

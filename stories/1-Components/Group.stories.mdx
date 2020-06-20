@@ -1,0 +1,79 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { Button, IconButton } from '../../src/components/Button';
+import { Input, Select } from '../../src/components/Input';
+import { Group, GroupLabel } from '../../src/components/Groups';
+import SearchIcon from '../resources/SearchIcon.tsx';
+
+<Meta title='Components/Group' component={Group} />
+
+# Group
+
+This component groups multiple `inputs` / `buttons` / `labels` together.
+
+I find this a better solution for grouping elements instead of having `prefix` and `suffix` props. Also, it
+solves the problem of grouping more than 2 components. Only demerit of going by this method is an extra `errorText`
+prop is needed to be exposed at group level and the individual component's `errorText` cannot be used.
+
+A `GroupLabel` component is available for prepending / appending label to the group.
+
+#### Preview Multiple components
+
+<Preview>
+    <Group>
+        <GroupLabel><SearchIcon /></GroupLabel>
+        <Input label='Search Campaign' />
+        <Select label="Status" style={{ width: '100px' }}>
+            <option>Active</option>
+            <option>Inactive</option>
+            <option>Disabled</option>
+            <option>Deleted</option>
+        </Select>
+        <Button>Search</Button>
+    </Group>
+</Preview>
+
+#### Preview `Group Label` at start
+
+<Preview>
+    <Group>
+        <GroupLabel>$</GroupLabel>
+        <Input type='number' label='Budget' />
+    </Group>
+</Preview>
+
+#### Preview `Group Label` at end
+
+<Preview>
+    <Group>
+        <Input required label='Discount' />
+        <GroupLabel>%</GroupLabel>
+    </Group>
+</Preview>
+
+#### Preview Error Text
+
+<Preview>
+    <Group errorText='Invalid input'>
+        <Input label='Discount' />
+        <GroupLabel>%</GroupLabel>
+    </Group>
+</Preview>
+
+```jsx
+import { Group, GroupLabel } from 'no-frills-ui';
+
+// Render
+<Group>
+    <Input required label='Discount' />
+    <GroupLabel>%</GroupLabel>
+</Group>
+```
+### Props
+<Props of={Group} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --error | User for `border-color`. |

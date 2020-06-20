@@ -4,10 +4,9 @@ export default styled.button`
     border: 1px solid #ccc;
     border-radius: 5px;
     height: 32px;
-    min-width: 100px;
     font-size: 14px;
     text-align: center;
-    padding: 0 12px;
+    padding: 0 3px;
     cursor: pointer;
     background-color: var(--background, #fff);
     text-overflow: ellipsis;
@@ -15,9 +14,19 @@ export default styled.button`
     overflow: hidden;
     margin: 5px;
 
+    & svg {
+        vertical-align: middle;
+        height: 24px;
+        width: 24px;
+    }
+
     &:enabled:hover {
         border-color: var(--primary, #2283d2);
         color: var(--primary, #2283d2);
+    }
+
+    &:enabled:hover > svg {
+        fill: var(--primary, #2283d2);
     }
 
     &:focus {
@@ -28,5 +37,9 @@ export default styled.button`
     &:disabled {
         background-color: #eee;
         color: #777;
+    }
+
+    &:disabled > svg {
+        fill: #777;
     }
 `;

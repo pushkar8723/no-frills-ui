@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const Switch = styled.label`
     position: relative;
@@ -19,9 +19,6 @@ const Input = styled.input`
         background-color: #ccc;
         transition: .4s;
         border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         padding: 0 3px;
         margin-right: 10px;
     }
@@ -45,13 +42,13 @@ const Input = styled.input`
 
     &:checked + span:before {
         transform: translateX(18px);
-        border: 1px solid var(--primary, #2283d2);
+        border-color: var(--primary, #2283d2);
     }
 
     /* focus */
     &:enabled:focus + span:before {
         box-shadow: 0 0 0 3px var(--primary-light, #64baff);
-        border: 1px solid var(--primary, #2283d2);
+        border-color: var(--primary, #2283d2);
     }
 
     /* hover */
@@ -72,7 +69,7 @@ const Input = styled.input`
     
     &:disabled + span:before {
         background-color: #eee;
-        border: 1px solid #aaa;
+        border-color: #aaa;
     }
 `;
 

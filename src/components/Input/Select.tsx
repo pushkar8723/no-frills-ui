@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 type SelectProps = PropTypes.InferType<typeof Select.propTypes> &
     React.HTMLAttributes<HTMLInputElement> & {
@@ -24,7 +24,7 @@ const SelectField = styled.select<SelectInternalProps>`
     border: none;
     padding: 0 4px;
     line-height: 30px;
-    height: 30px;
+    height: 32px;
     width: 250px;
     border-radius: 3px;
     border: 1px solid #333;

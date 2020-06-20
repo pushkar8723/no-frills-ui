@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 export default styled.button`
     min-width: 100px;
     font-size: 14px;
     text-align: center;
-    height: 30px;
+    height: 32px;
     cursor: pointer;
     background-color: transparent;
     border: none;

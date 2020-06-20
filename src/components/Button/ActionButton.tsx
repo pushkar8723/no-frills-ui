@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 export default styled.button`
     border: 1px solid var(--primary, #2283d2);
     background-color: var(--primary, #2283d2);
     color: #fff;
     border-radius: 5px;
-    height: 30px;
+    height: 32px;
     min-width: 100px;
     font-size: 14px;
     text-align: center;
@@ -21,10 +21,10 @@ export default styled.button`
     }
 
     &:focus {
-        box-shadow: 0 0 0 3px var(--primary-light, #64baff);
+        box-shadow: 0 0 0 4px var(--primary-light, #64baff);
     }
 
-    &[disabled] {
+    &:disabled {
         border: 1px solid #ccc;
         background-color: #eee;
         color: #777;
