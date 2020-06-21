@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 const Switch = styled.label`
     position: relative;
     display: inline-flex;
+    margin: 5px 0;
 `;
 
 const Input = styled.input`
@@ -20,7 +21,7 @@ const Input = styled.input`
         transition: .4s;
         border-radius: 10px;
         padding: 0 3px;
-        margin-right: 10px;
+        margin: 0 10px 0 5px;
     }
     & + span:before {
         position: absolute;

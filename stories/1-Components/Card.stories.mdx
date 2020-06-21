@@ -1,0 +1,44 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { Card } from '../../src/components/Card';
+import { Dummy } from '../resources/Dummy.tsx';
+
+<Meta title='Components/Card' component={Card} />
+
+# Card
+
+A styled `div`. This component doesn't do much, but helps maintain consistent expirence across other components.
+
+<Preview>
+    <Card>
+        <Dummy>Card 1</Dummy>
+    </Card>
+    <Card>
+        <Dummy>Card 2</Dummy>
+    </Card>
+    <Card>
+        <Dummy>Card 3</Dummy>
+    </Card>
+    <Card>
+        <Dummy>Card 4</Dummy>
+    </Card>
+</Preview>
+
+```jsx
+import { Card } from 'no-frills-ui';
+
+// Render
+<Card />
+```
+### Props
+
+Props of native`div` element.
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | User for `color` and `border-color`. |
+| --primary-light | User for `box-shadow`. |
+| --background | User for `background-color`. |
+| --border-color | User for `border-color`. |

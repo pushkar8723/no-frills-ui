@@ -6,6 +6,7 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     display: inline-flex;
     border: 1px solid var(--border-color, #555);
     border-radius: 3px;
+    margin: 5px;
 
     /* overrides */
     & > button, & > label {
@@ -31,13 +32,15 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     }
 
     /* Handling for first and last child */
-    & > *:first-child, & > label:first-child input {
+    & > *:first-child, & > label:first-child input,
+    & > label:first-child select {
         border-left: none;
-        border-radius: 3px 0 0  3px;
+        border-radius: 2px 0 0  2px;
     }
 
-    & > *:last-child, & > label:last-child input {
-        border-radius: 0 3px 3px 0;
+    & > *:last-child, & > label:last-child input,
+    & > label:last-child select {
+        border-radius: 0 2px 2px 0;
     }
 
     /* focus */

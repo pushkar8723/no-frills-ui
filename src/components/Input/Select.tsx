@@ -22,10 +22,11 @@ const Label = styled.label`
 
 const SelectField = styled.select<SelectInternalProps>`
     border: none;
+    color: inherit;
     padding: 0 4px;
     line-height: 30px;
     height: 32px;
-    width: 250px;
+    width: 268px;
     border-radius: 3px;
     border: 1px solid var(--border-color, #555);
     display: inline-block;
@@ -90,6 +91,7 @@ const SelectField = styled.select<SelectInternalProps>`
         padding: 0 5px;
         top: 7px;
         left: 4px;
+        font-size: 14px;
         transition: all 300ms ease;
     }
 

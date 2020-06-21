@@ -21,6 +21,7 @@ const Label = styled.label`
 
 const TextField = styled.textarea<TextAreaInternalProps>`
     border: none;
+    color: inherit;
     padding: 8px;
     height: 150px;
     min-width: 250px;
@@ -87,6 +88,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
         padding: 0 5px;
         top: 7px;
         left: 4px;
+        font-size: 14px;
         transition: all 300ms ease;
     }
 

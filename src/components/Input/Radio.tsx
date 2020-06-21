@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 const Label = styled.label`
     display: inline-flex;
     align-items: center;
+    margin: 5px 0;
 `;
 
 const Input = styled.input`
@@ -15,7 +16,7 @@ const Input = styled.input`
         content: ' ';
         width: 16px;
         height: 16px;
-        margin-right: 5px;
+        margin: 0 5px;
         border: 1px solid var(--border-color, #555);
         border-radius: 50%;
         display: block;

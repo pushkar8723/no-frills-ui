@@ -51,6 +51,7 @@ export const RadioGroup = styled.div`
     display: inline-flex;
     align-items: center;
     border-radius: 3px;
+    margin: 5px 0;
 
     & ${Label}:first-child > span {
         border-radius: 3px 0 0 3px;

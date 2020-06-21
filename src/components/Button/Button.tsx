@@ -9,6 +9,7 @@ export default styled.button`
     text-align: center;
     padding: 0 12px;
     cursor: pointer;
+    color: inherit;
     background-color: var(--background, #fff);
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -21,6 +21,7 @@ const Label = styled.label`
 
 const TextField = styled.input<InputInternalProps>`
     border: none;
+    color: inherit;
     padding: 0 8px;
     line-height: 30px;
     height: 30px;
@@ -88,6 +89,7 @@ const TextField = styled.input<InputInternalProps>`
         padding: 0 5px;
         top: 7px;
         left: 4px;
+        font-size: 14px;
         transition: all 300ms ease;
     }
 
