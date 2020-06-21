@@ -7,10 +7,12 @@ export default styled.label`
     line-height: 32px;
     min-width: 24px;
     text-align: center;
+    color: #555;
 
     & > svg {
         height: 24px;
         width: 24px;
         vertical-align: middle;
+        fill: #555;
     }
 `;

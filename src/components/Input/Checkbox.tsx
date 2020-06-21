@@ -9,7 +9,7 @@ const Input = styled.input`
         content: ' ';
         width: 16px;
         height: 16px;
-        border: 1px solid #000;
+        border: 1px solid var(--border-color, #555);
         display: inline-block;
         border-radius: 3px;
         vertical-align: bottom;
@@ -48,7 +48,6 @@ const Input = styled.input`
     /** hover */
     &:enabled:hover::before {
         border-color: var(--primary, #2283d2);
-        box-shadow: 0 0 0 3px var(--primary-light, #64baff); 
     }
 
     &:enabled:hover + span {

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export default styled.button`
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color, #555);
     border-radius: 5px;
     height: 32px;
     font-size: 14px;
@@ -36,6 +36,7 @@ export default styled.button`
 
     &:disabled {
         background-color: #eee;
+        border-color: #ccc;
         color: #777;
     }
 

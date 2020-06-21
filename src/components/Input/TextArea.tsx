@@ -25,7 +25,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     height: 150px;
     min-width: 250px;
     border-radius: 3px;
-    border: 1px solid #333;
+    border: 1px solid var(--border-color, #555);
     display: inline-block;
     background-color: var(--background, #fff);
 

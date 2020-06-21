@@ -15,11 +15,24 @@ export default styled.button`
     overflow: hidden;
     margin: 5px;
 
+    & svg {
+        vertical-align: middle;
+        height: 24px;
+        width: 24px;
+        fill: var(--primary, #2283d2);
+        margin-left: -6px;
+    }
+
     &:enabled:hover, &:focus {
         text-decoration: underline;
     }
 
-    &[disabled] {
+    &:disabled {
+        border-color: #ccc;
         color: #aaa;
+    }
+
+    &:disabled > svg {
+        fill: #aaa;
     }
 `;

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     display: inline-flex;
-    border: 1px solid #000;
+    border: 1px solid var(--border-color, #555);
     border-radius: 3px;
 
     /* overrides */
@@ -12,7 +12,7 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
         margin: 0;
         border: none;
         border-radius: 0;
-        border-left: 1px solid #000;
+        border-left: 1px solid var(--border-color, #555);
         box-shadow: none;
         height: 32px;
     }

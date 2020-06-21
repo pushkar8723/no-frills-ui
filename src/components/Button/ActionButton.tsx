@@ -16,6 +16,14 @@ export default styled.button`
     overflow: hidden;
     margin: 5px;
 
+    & svg {
+        vertical-align: middle;
+        height: 24px;
+        width: 24px;
+        fill: #fff;
+        margin-left: -6px;
+    }
+
     &:enabled:hover {
         box-shadow: 0 2px 4px #aaa;
     }
@@ -28,5 +36,9 @@ export default styled.button`
         border: 1px solid #ccc;
         background-color: #eee;
         color: #777;
+    }
+
+    &:disabled > svg {
+        fill: #777;
     }
 `;
