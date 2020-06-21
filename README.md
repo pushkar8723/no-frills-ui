@@ -7,7 +7,7 @@
 
 **React components that are made of styled native components. Mostly! 😅**
 
-**Storybook:** [https://no-frills-ui.netlify.app/](https://no-frills-ui.netlify.app/)
+**Storybook / Documentation:** [https://no-frills-ui.netlify.app/](https://no-frills-ui.netlify.app/)
 
 Modern-day  component libraries make components out of divs with custom styles and abstractions for events.
 Often their focus is on touch-screen devices and so their event handlers are more focused on handling touch events.
@@ -33,8 +33,9 @@ style it to some degree, the user experience will still differ based on the plat
 ### Should this be used in production?
 
 Well, this is the Achilles heel of this project. Currently, it is not production-ready. Nor it is battle-tested on any big
-project. I created this repository mostly after realizing that at the start of each project I juggle a lot between
-different UI libraries and then using `@emotion/styled` for half of the components. This is tailored to my needs and
-I may not even have time to work on it regularly. But you can freely use this in any POCs that you might be doing.
+project. I created this repository mostly after realizing that at the start of each project, I juggle a lot between
+different UI libraries and then settle to using `@emotion/styled` for half of the components. This is tailored to my needs
+and I may not even have time to work on it regularly. But you can freely use this in any POCs that you might be working on
+and then decide whether it fits your needs.
 
 [MIT License](https://github.com/pushkar8723/no-frills-ui/blob/master/LICENSE)

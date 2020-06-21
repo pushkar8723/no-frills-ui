@@ -1,0 +1,63 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Get Started/Development" />
+
+# Development
+
+Development with `no-frills-ui` is pretty staright forward.
+
+### Installation
+
+`react` and `react-dom` are peer dependencies and needs to be installed for `no-frills-ui`.
+
+```bash
+npm i react react-dom no-frills-ui
+```
+
+### Using a component
+
+`no-frills-ui` exports each component as a stand alone react component and so doesn't need any context
+to be configured at root. You can directly import a component and put it on your react component.
+
+**Example: Using `Button`**
+
+```jsx
+import { Button } from 'no-frills-ui';
+
+// Use Button in your render function
+<Button>Just a button</Button>
+```
+
+### Theming
+
+For themeing we use CSS variables. Checkout the details on our [theming page](/?path=/docs/get-started-theming--page).
+
+### Cost of using a component
+
+`no-frills-ui` is completely tree shakable and you can checkout our export analysis on
+[BundlePhobia](https://bundlephobia.com/result?p=no-frills-ui).
+
+### Running locally
+
+Clone our repo
+
+```bash
+git clone https://github.com/pushkar8723/no-frills-ui.git
+cd no-frills-ui
+```
+
+Install npm dependencies
+
+```bash
+npm i
+```
+
+Run storybook
+
+```bash
+npm run storybook
+```
+
+Storybook will up and running on [http://localhost:6006/](http://localhost:6006/)
+
+** Contributions are welcome. 😁 **

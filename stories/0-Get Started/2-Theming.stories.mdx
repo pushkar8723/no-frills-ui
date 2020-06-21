@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Introduction/Theming" />
+<Meta title="Get Started/Theming" />
 
 # Theming
 
@@ -11,13 +11,25 @@ setting values to each of these variable in `:root` selector.
 **Example**
 ```css
 :root {
-    --primary: red;
-    --primary-light: cyan;
+    --primary: darkorange;
+    --primary-light: orange;
+}
+```
+
+Further, these variables can also be overriden at a block level.
+
+**Example**
+```css
+.block {
+    --primary: darkgreen;
+    --primary-light: green;
 }
 ```
 
 You can also style each component by passing a `style` prop or if you like you can set a `className` and then override
-style to these class.
+style to these class. This should work fine for small tweaks like overriding `width` of the component. But if you want
+to do it for a lot of styles, your code quality may take a hit. For such cases refer our
+[extending styles guide](/?path=/docs/get-started-extending-styles--page).
 
 ### Variables
 

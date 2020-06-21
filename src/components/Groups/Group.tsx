@@ -43,7 +43,6 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     /* focus */
     & *:focus, & *:focus + span {
         z-index: 1;
-        border: none;
     }
 
     &:focus-within, &:hover {
