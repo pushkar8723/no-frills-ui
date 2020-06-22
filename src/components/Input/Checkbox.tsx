@@ -2,6 +2,10 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
+const Label = styled.label`
+    margin: 5px 0;
+`;
+
 const Input = styled.input`
     appearance: none;
 
@@ -13,7 +17,7 @@ const Input = styled.input`
         display: inline-block;
         border-radius: 3px;
         vertical-align: bottom;
-        margin-right: 5px;
+        margin: 0 5px;
         text-align: center;
         line-height: 16px;
         background-color: var(--background, #fff);
@@ -85,10 +89,10 @@ export default function Checkbox(props: CheckboxProps) {
     }, []);
 
     return (
-        <label>
+        <Label>
             <Input {...props} ref={ref} type="checkbox" />
             <span>{props.label}</span>
-        </label>
+        </Label>
     );
 }
 

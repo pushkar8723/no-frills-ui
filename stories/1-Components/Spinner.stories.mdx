@@ -1,0 +1,26 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import { Spinner } from '../../src/components/Spinner';
+
+<Meta title='Components/Spinner' component={Spinner} />
+
+# Spinner
+
+Just a rotating spinner. It centers it self automatically.
+
+<Preview>
+    <Spinner />
+</Preview>
+
+```jsx
+import { Spinner } from 'no-frills-ui';
+
+// Render
+<Spinner />
+```
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | User for `color` and `border-color`. |
