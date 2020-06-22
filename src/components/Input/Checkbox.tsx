@@ -4,13 +4,14 @@ import styled from '@emotion/styled';
 
 const Label = styled.label`
     margin: 5px 0;
+    position: relative;
 `;
 
 const Input = styled.input`
     appearance: none;
 
     &::before {
-        content: ' ';
+        content: '';
         width: 16px;
         height: 16px;
         border: 1px solid var(--border-color, #555);
@@ -21,22 +22,46 @@ const Input = styled.input`
         text-align: center;
         line-height: 16px;
         background-color: var(--background, #fff);
+        transition: background-color .3s ease;
+    }
+
+    &::after {
+        content: '';
+        width: 3px;
+        height: 10px;
+        border-right: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        transform: translate(-16px, 1px);
+        opacity: 0;
+        transition: transform .3s ease;
+        position: absolute;
     }
 
     /** checked */
     &:checked::before {
-        content: '✔';
+        content: '';
         background-color: var(--primary, #2283d2);
         border-color: var(--primary, #2283d2);
         color: #fff;
     }
 
+    &:checked::after {
+        opacity: 1;
+        transform: translate(-16px, 2px) rotate(45deg);
+    }
+
     /** indeterminate */
     &:indeterminate::before {
-        content: '-';
+        content: '';
         background-color: var(--primary, #2283d2);
         border-color: var(--primary, #2283d2);
         color: #fff;
+    }
+
+    &:indeterminate::after {
+        width: 0;
+        opacity: 1;
+        transform: translate(-15px, 3px) rotate(90deg);
     }
 
     /** active and focus */

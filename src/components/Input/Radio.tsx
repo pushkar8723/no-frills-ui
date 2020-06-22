@@ -20,6 +20,7 @@ const Input = styled.input`
         border: 1px solid var(--border-color, #555);
         border-radius: 50%;
         display: block;
+        transition: background-color .3s ease;
     }
 
     /* checked */

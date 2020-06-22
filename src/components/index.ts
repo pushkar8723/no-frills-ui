@@ -3,3 +3,4 @@ export * from './Tabs';
 export * from './Input';
 export * from './Groups';
 export * from './Card';
+export * from './Spinner';
