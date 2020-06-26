@@ -111,6 +111,7 @@ const ErrorContainer = styled.div`
     color: var(--error, #d63b3b);
     padding-top: 3px;
     font-size: 12px;
+    margin-left: 3px;
 `;
 
 export default function TextArea(props: TextAreaProps) {

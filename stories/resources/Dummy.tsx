@@ -8,4 +8,5 @@ export const Dummy = styled.div`
     text-align: center;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 `;

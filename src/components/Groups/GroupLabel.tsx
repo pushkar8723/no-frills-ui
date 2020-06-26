@@ -13,6 +13,6 @@ export default styled.label`
         height: 24px;
         width: 24px;
         vertical-align: middle;
-        fill: #555;
+        fill: currentColor;
     }
 `;

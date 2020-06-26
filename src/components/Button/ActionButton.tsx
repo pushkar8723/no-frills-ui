@@ -20,7 +20,7 @@ export default styled.button`
         vertical-align: middle;
         height: 24px;
         width: 24px;
-        fill: #fff;
+        fill: currentColor;
         margin-left: -6px;
     }
 
@@ -36,9 +36,5 @@ export default styled.button`
         border: 1px solid #ccc;
         background-color: #eee;
         color: #777;
-    }
-
-    &:disabled > svg {
-        fill: #777;
     }
 `;

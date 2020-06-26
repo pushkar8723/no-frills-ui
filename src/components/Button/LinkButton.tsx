@@ -19,7 +19,7 @@ export default styled.button`
         vertical-align: middle;
         height: 24px;
         width: 24px;
-        fill: var(--primary, #2283d2);
+        fill: currentColor;
         margin-left: -6px;
     }
 
@@ -30,9 +30,5 @@ export default styled.button`
     &:disabled {
         border-color: #ccc;
         color: #aaa;
-    }
-
-    &:disabled > svg {
-        fill: #aaa;
     }
 `;

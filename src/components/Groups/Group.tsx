@@ -63,7 +63,7 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
 
 const ErrorContainer = styled.div`
     color: var(--error, #d63b3b);
-    padding-top: 3px;
+    margin-left: 8px;
     font-size: 12px;
 `;
 

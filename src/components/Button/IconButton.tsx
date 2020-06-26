@@ -19,15 +19,12 @@ export default styled.button`
         vertical-align: middle;
         height: 24px;
         width: 24px;
+        fill: currentColor;
     }
 
     &:enabled:hover {
         border-color: var(--primary, #2283d2);
         color: var(--primary, #2283d2);
-    }
-
-    &:enabled:hover > svg {
-        fill: var(--primary, #2283d2);
     }
 
     &:focus {

@@ -23,15 +23,12 @@ export default styled.button`
         height: 24px;
         width: 24px;
         margin-left: -6px;
+        fill: currentColor;
     }
 
     &:enabled:hover {
         border-color: var(--primary, #2283d2);
         color: var(--primary, #2283d2);
-    }
-
-    &:enabled:hover svg {
-        fill: var(--primary, #2283d2);
     }
 
     &:focus {
@@ -42,10 +39,6 @@ export default styled.button`
         background-color: #eee;
         border-color: #ccc;
         color: #777;
-    }
-
-    &:disabled svg {
-        fill: #777;
     }
 
     &:active {
