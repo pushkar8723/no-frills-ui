@@ -102,7 +102,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
     const [focused, setFocused] = useState(false);
     const { open, disabled, header, errorText, completed, onStepClick } = props;
 
-    const ref = el => setHeight(el?.scrollHeight || 0);
+    const ref = (el?: HTMLDivElement) => setHeight(el?.scrollHeight || 0);
 
     const toggleFocus = () => {
         setFocused(!focused)

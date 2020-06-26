@@ -9,6 +9,7 @@ const Label = styled.label`
 
 const Input = styled.input`
     appearance: none;
+    position: relative;
 
     &::before {
         content: '';
