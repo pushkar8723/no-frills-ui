@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-type TextAreaProps = PropTypes.InferType<typeof TextArea.propTypes> &
-    React.HTMLAttributes<HTMLTextAreaElement> & {
+interface TextAreaProps extends PropTypes.InferType<typeof TextArea.propTypes>,
+    React.InputHTMLAttributes<HTMLTextAreaElement> {
         value?: string;
     }
 
@@ -86,9 +86,10 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     & + span {
         position: absolute;
         padding: 0 5px;
-        top: 7px;
+        top: 0px;
         left: 4px;
         font-size: 14px;
+        line-height: 32px;
         transition: all 300ms ease;
     }
 
@@ -97,6 +98,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
         top: -8px;
         background: var(--background, #ffffff);
         font-size: 12px;
+        line-height: 14px;
     }
     `: ''}
 
@@ -104,6 +106,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
         top: -8px;
         background: var(--background, #ffffff);
         font-size: 12px;
+        line-height: 14px;
     }
 `;
 
@@ -111,6 +114,7 @@ const ErrorContainer = styled.div`
     color: var(--error, #d63b3b);
     padding-top: 3px;
     font-size: 12px;
+    line-height: 14px;
     margin-left: 3px;
 `;
 
@@ -118,16 +122,17 @@ export default function TextArea(props: TextAreaProps) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
 
-    const handleFocus = () => {
+    const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         setTouched(true);
         if (props.onFocus) {
-            props.onFocus.apply(null, arguments);
+            props.onFocus(e);
         }
     }
 
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (props.onChange) {
-            props.onChange.apply(null, arguments);
+            setValue(e.target.value);
+            props.onChange(e);
         } else {
             setValue(e.target.value);
         }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { Card } from '../Card';
+import { Ellipsis } from '../../shared/ellipsis';
 import { FiberManualRecord, ExpandMore } from '../../icons';
 
 const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
@@ -39,6 +40,7 @@ const StepHeader = styled.div<{ open: boolean, disabled: boolean }>`
 const HeaderContainer = styled.div<{ open: boolean, completed: boolean }>`
     display: flex;
     align-items: center;
+    min-width: 40px;
 
     & svg {
         vertical-align: top;
@@ -50,6 +52,7 @@ const HeaderContainer = styled.div<{ open: boolean, completed: boolean }>`
                 : '#ccc'};
         transform: ${props => props.open ? 'scale(0.8)' : 'scale(0.6)'};
         transition: all .3s ease;
+        min-width: 24px;
     }
 `;
 
@@ -84,6 +87,7 @@ const ErrorContainer = styled.span`
     font-size: 12px;
     margin-right: 20px;
     border-radius: 10px;
+    white-space: nowrap;
 `;
 
 export const AccordionStepBody = styled.div`
@@ -120,7 +124,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                         onBlur={toggleFocus}
                     />
                     <FiberManualRecord />
-                    <span>{header}</span>
+                    <Ellipsis>{header}</Ellipsis>
                 </HeaderContainer>
                 <ExpandContainer open={open}>
                     {errorText && <ErrorContainer>{errorText}</ErrorContainer>}

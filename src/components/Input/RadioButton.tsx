@@ -14,6 +14,7 @@ const Input = styled.input`
         border: 1px solid var(--primary, #2283d2);
         cursor: pointer;
         margin-right: -1px;
+        line-height: 18px;
     }
 
     &:enabled:focus + span {
@@ -42,6 +43,8 @@ const Input = styled.input`
 `;
 
 const Label = styled.label`
+    display: inline-flex;
+
     &:focus-within {
         z-index: 1;
     }
