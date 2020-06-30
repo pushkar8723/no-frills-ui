@@ -85,7 +85,7 @@ entire process seemless for the developer. We also export `DialogBody` and `Dial
 
 There are following 4 Dialog function that you can use.
 
-### `AlertDialog`
+### `AlertDialog` Usage and Attributes
 
 This can be used to show certain information to the user.
 
@@ -115,7 +115,7 @@ interface AlertOption {
 }
 ```
 
-### `ConfirmDialog`
+### `ConfirmDialog` Usage and Attributes
 
 This can be used for confirmation before performing certain action.
 
@@ -152,7 +152,7 @@ interface ConfirmOption {
 }
 ```
 
-### `PromptDialog`
+### `PromptDialog` Usage and Attributes
 
 This can be used to prompt user for some additional information.
 
@@ -190,7 +190,7 @@ interface PromptOption {
     props?: object,
 }
 ```
-### `Dialog`
+### `Dialog` Usage and Attributes
 
 Fully customizable dialog. This works on call backs and not promise. This is because there are two possible actions.
 1. User closes the dialog by some action.
@@ -231,3 +231,9 @@ interface DialogOptions {
     props?: object;
 }
 ```
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --backdrop-color | User for `background-color`. |

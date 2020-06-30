@@ -67,7 +67,7 @@ const Container = styled.div<LayerConfig & { zIndex: number}>`
     ${props => props.overlay && `
         width: 100%;
         height: 100vh;
-        background-color: #2681da80;
+        background-color: var(--backdrop-color, #2681da80);
         backdrop-filter: blur(3px);
         pointer-events: all;
     `}
