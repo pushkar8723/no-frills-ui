@@ -23,7 +23,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     border: none;
     color: inherit;
     padding: 8px;
-    height: 150px;
+    min-height: 150px;
     min-width: 250px;
     border-radius: 3px;
     border: 1px solid var(--border-color, #555);

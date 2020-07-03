@@ -1,5 +1,5 @@
 import { Meta, Preview } from '@storybook/addon-docs/blocks';
-import { Dialog, AlertDialog, DialogBody } from '../../src/components/Dialog';
+import LayerDemo from '../resources/LayerDemo.tsx'
 import { Button } from '../../src/components/Button';
 
 <Meta title="Get Started/Layer Manager" />
@@ -19,28 +19,6 @@ behaviour can be customized.
 
 **Example**
 
-<Preview>
-    <Button
-        onClick={() => {
-            const dialog = new Dialog({
-                body: (
-                    <DialogBody>
-                        <Button
-                            onClick={() => {
-                                AlertDialog({
-                                    body: `
-                                        This is another dialog, rendered on top of previous dialog and
-                                        no z-index was passed as props.
-                                    `
-                                })
-                            }}
-                        >
-                            Open Another Dialog
-                        </Button>
-                    </DialogBody>
-                )
-            });
-            dialog.open();
-        }}
-    >Open Dialog</Button>
+<Preview withSource='none'>
+    <LayerDemo />
 </Preview>

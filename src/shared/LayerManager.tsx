@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import ReactDOM from 'react-dom';
 
@@ -9,7 +9,8 @@ export enum LAYER_POSITION {
     TOP_RIGHT,
     BOTTOM_LEFT,
     BOTTOM_CENTER,
-    BOTTOM_RIGHT
+    BOTTOM_RIGHT,
+    DIALOG
 };
 
 interface LayerConfig {
@@ -26,7 +27,7 @@ interface LayerConfig {
     /** Close layer overlay is clicked. */
     closeOnOverlayClick?: boolean;
     /** Callback called when modal closes */
-    closeCallback?: () => void;
+    closeCallback?: <T extends unknown>(resp: T) => void;
 }
 
 /** Default value of config */
@@ -49,29 +50,37 @@ interface Layer {
 /** Styles for each position */
 const POSITION_STYLE = {
     [LAYER_POSITION.TOP_LEFT]: 'top: 0; left: 0;',
-    [LAYER_POSITION.TOP_CENTER]: 'top: 0; margin: 0 auto;',
-    [LAYER_POSITION.TOP_RIGHT]: 'top: 0; right: 0;',
+    [LAYER_POSITION.TOP_CENTER]: 'top: 0; left: 50%; justify-content: center;',
+    [LAYER_POSITION.TOP_RIGHT]: 'top: 0; right: 0; justify-content: flex-end;',
     [LAYER_POSITION.BOTTOM_LEFT]: 'bottom: 0; left: 0;',
-    [LAYER_POSITION.BOTTOM_CENTER]: 'bottom: 0; margin: 0 auto;',
-    [LAYER_POSITION.BOTTOM_RIGHT]: 'bottom: 0; right: 0;',
+    [LAYER_POSITION.BOTTOM_CENTER]: 'bottom: 0; left: 50%; justify-content: center;',
+    [LAYER_POSITION.BOTTOM_RIGHT]: 'bottom: 0; right: 0; justify-content: flex-end;',
+    [LAYER_POSITION.DIALOG]: 'top: 0; left: 0; justify-content: center; align-items: center;',
 }
 
 /** Layer container component. */
-const Container = styled.div<LayerConfig & { zIndex: number}>`
+const Container = styled.div<LayerConfig & { zIndex: number }>`
     position: fixed;
     display: flex;
-    justify-content: center;
-    align-items: center;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s ease;
     ${props => POSITION_STYLE[props.position]}
     ${props => props.overlay && `
         width: 100%;
         height: 100vh;
         background-color: var(--backdrop-color, #2681da80);
-        backdrop-filter: blur(3px);
+        backdrop-filter: blur(0px);
         pointer-events: all;
     `}
     z-index: ${props => props.zIndex};
+
+    .nf-layer-enter & {
+        opacity: 1;
+        ${props => props.overlay && `
+            backdrop-filter: blur(3px);
+        `}
+    }
 `;
 
 /** Key code for different keys. */
@@ -119,18 +128,17 @@ class LayerManager {
      *
      * @param layer
      */
-    private unmount = (layer: Layer) => {
+    private unmount = (layer: Layer, resp?: any) => {
         layer.element.setAttribute('class', 'nf-layer-exit');
         this.layers.splice(this.layers.findIndex(item => item === layer), 1);
-        try {
-            layer.config.closeCallback && layer.config.closeCallback();
-        } catch (e) {
-            // Error in callback function. Ignore and proceed.
-            console.warn(e.message);
-        }
+        
         setTimeout(() => {
-            ReactDOM.unmountComponentAtNode(layer.element);
-            document.body.removeChild(layer.element);
+            try {
+                layer.config.closeCallback && layer.config.closeCallback(resp);
+            } catch (e) {
+                // Error in callback function. Ignore and proceed.
+                console.warn(e.message);
+            }
         }, layer.config.exitDelay);
     }
 
@@ -138,7 +146,7 @@ class LayerManager {
      * Renders a layer.
      * @param config
      */
-    public renderLayer = (config: LayerConfig) => {
+    public renderLayer = (config: LayerConfig): [() => React.ReactPortal, (resp: any) => void] => {
         // Merge default config with the provided config.
         const layerConfig = {
             ...defaultConfig,
@@ -165,27 +173,37 @@ class LayerManager {
             layer.config.closeOnOverlayClick !== false && this.unmount(layer);
         }
 
-        // Render the layer and then add `nf-layer-enter` class to
-        // the div created above.
-        // This class will help component in triggering the entry animation.
-        ReactDOM.render(
-            <Container
-                onClick={overlayClickHandler(currentLayer)}
-                zIndex={currentIndex}
-                {...layerConfig}
-            >
-                {layerConfig.component}
-            </Container>,
-            divElement,
-            // Used setTimeout so that the attribute is added only after
-            // the component is completely mounted.
-            () => { setTimeout(() => divElement.setAttribute('class', 'nf-layer-enter'), 100) }
-        );
-
         // Return callback which will trigger the un-mount.
-        return () => {
-            this.unmount(currentLayer);
-        }
+        return [
+            // Render the layer and then add `nf-layer-enter` class to
+            // the div created above.
+            // This class will help component in triggering the entry animation.
+            function TestLayer() {
+                useEffect(() => {
+                    divElement.setAttribute('class', 'nf-layer-enter');
+                    return () => {
+                        document.body.removeChild(divElement);
+                    }
+                }, []);
+
+                return ReactDOM.createPortal(
+                    <Container
+                        onClick={overlayClickHandler(currentLayer)}
+                        zIndex={currentIndex}
+                        {...layerConfig}
+                    >
+                        {layerConfig.component}
+                    </Container>,
+                    divElement,
+                    // Used setTimeout so that the attribute is added only after
+                    // the component is completely mounted.
+                    // () => { setTimeout(() => divElement.setAttribute('class', 'nf-layer-enter'), 100) }
+                )
+            },
+            (resp?: any) => {
+                this.unmount(currentLayer, resp);
+            }
+        ]
     }
 }
 

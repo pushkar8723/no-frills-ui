@@ -30,7 +30,7 @@ const SelectField = styled.select<SelectInternalProps>`
     color: inherit;
     padding: 0 8px;
     line-height: 30px;
-    height: 32px;
+    min-height: 32px;
     width: 268px;
     border-radius: 3px;
     border: 1px solid var(--border-color, #555);

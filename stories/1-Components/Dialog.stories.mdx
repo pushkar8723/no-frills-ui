@@ -1,239 +1,185 @@
+import { useRef } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Meta, Preview, Props, Story } from '@storybook/addon-docs/blocks';
-import { Dialog, AlertDialog, ConfirmDialog, PromptDialog, DialogBody, DialogFooter } from '../../src/components/Dialog';
-import { Button } from '../../src/components/Button';
+import { Dialog, AlertDialog, PromptDialog, ConfirmDialog } from '../../src/components';
+import DialogDemo from '../resources/DialogDemo.tsx';
 
-<Meta title='Components/Dialog'/>
+<Meta title='Components/Dialog' compopent={Dialog}/>
 
 # Dialog
 
-**This is not a React component.**
+I deviated from how most other libraries manages dialogs. This Dialog component has no prop called `open`. Instead it exposes
+`open` and `close` methods. To call this method, ref to the `Dialog` component needs to be used. This is because of my observation
+that often we need dialogs only to show or get some small amount of information asynchronously. But to maintain
+this asynchronous behaviour we have to juggle a lot with the state in the application and have to deal with multiple functions.
 
-I deviated from how most other libraries manages dialogs. Instead of having a component mounted on DOM that opens
-up when the prop `open` is set to true. I created a class whose instance can be created and opened. This way the
-developer doesn't need to do a lot of handling, it is just a few function calls that can be done in a few lines.
+Exposing `open` and `close` methods, enables the developer to quicky wrap the dialog state in a `Promise` and thus the
+developer need not worry about the dialog state at all and can get the result without having to jump between multiple functions.
+I exploited this feature to create components for following common use cases to use a dialog.
+- `AlertDialog` to show some static information to the user.
+- `ConfrimDialog` to confirm if the user wants to proceed with certain action.
+- `PromptDialog` to prompt a user for a small information.
 
-<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
-    <Button
-        onClick={() => AlertDialog({
-            header: '📣 Attention!',
-            body: 'This is just a async function call. No need to manage dialog state in your application.',
-            buttonText: 'Got it!'
-        })}
-    >Alert Dialog</Button>
-    <Button
-        onClick={() => ConfirmDialog({
-            header: '💭 Feedback',
-            body: `
-                The confirmation dialog is a async function call and results are returned via promise.
-                This means that there is no need to maintain dialog state in your application.
-                Do you think that this will help you keep your code clean and save time?
-            `
-        }).then(
-            () => alert('Thanks! Glad you like it'),
-            () => alert('Hmmm... Give it a try atleast.')
-        )}
-    >Confirm Dialog</Button>
-    <Button
-        onClick={() => PromptDialog({
-            header: 'Bulk Order',
-            defaultValue: 1,
-            body: 'Thanks for your interest in this product. If you like, you can place order multiple quantity.',
-            inputProps: {
-                label: 'Enter Quantity',
-                type: 'number',
-                min: 1,
-                max: 10,
-                required: true
-            }
-        }).then(resp => alert(`Order placed for ${resp} products.`))}
-    >Prompt Dialog</Button>
-    <Button
-        onClick={() => {
-            const dialog = new Dialog({
-                body: (
-                    <>
-                    <DialogBody>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                        esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
-                        in culpa qui officia deserunt mollit anim id est laborum.
-                    </DialogBody>
-                    <DialogFooter>
-                        <Button onClick={() => dialog.close()}>Close Dialog</Button>
-                    </DialogFooter>
-                    </>
-                ),
-            });
-            dialog.open();
-        }}
-    >Open Dialog</Button>
+Apart form these component, `DialogHeader`, `DialogBody` and `DialogFooter` are the additional components that are exported
+from `no-frills-ui`. These only help with styling the dialog and have no other functional use cases.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }} withSource='none'>
+    <DialogDemo />
 </Preview>
 
-How will this help? Well often we need to take confirmation from the user before doing a destructive action or an
-action where we need to double check. Imagine creating a component and keeping it in the render function. Then the
-user performs an action and on that you need to open this dialog. Finally, when user responds then you need to catch
-that in an `onClick` handler and then dispatch the final action. Here you will need at least 3 functions to maintain
-the state of the dialog. First, you will have a render function where you will render the dialog. Then you will have
-the actual event handler that the user can trigger which in turn needs to trigger state change to open the dialog.
-Finally, when user responds you need to update the state to close the dialog and dispatch action based on user action.
+Lets look how these components can be used.
 
-In no frills ui you don't need to do that. When user performs an action, you can just call the confirm dialog which
-will return a promise and when the user responds, the promise will be resolved or rejected accordingly. Making the
-entire process seemless for the developer. We also export `DialogBody` and `DialogFooter` to help with styling.
+## `AlertDialog`
 
-There are following 4 Dialog function that you can use.
-
-### `AlertDialog` Usage and Attributes
-
-This can be used to show certain information to the user.
+Inspired by native `alert` method.
 
 ```jsx
-import { AlertDialog, Button } from 'no-frills-ui';
+import { useRef } from 'react';
+import { AlertDialog } from 'no-frills-ui';
 
-const alertUser = () => {
-    AlertDialog({
-        body: 'Information for the user.'
-    });
+const alertDialog = useRef();
+const showAlert = async () => {
+    await alertDialog.current.show();
+    alert('Alert closed');
 }
 
-// Render
-<Button onClick={alertUser}>Show Alert</Button>
+//render
+<button onClick={showAlert}>Alert Dialog</button>
+<AlertDialog
+    ref={alertDialog}
+    header='📣 Attention!'
+    body='This is just a async function call. No need to manage dialog state in your application.'
+    buttonText='Got it!'
+/>
 ```
 
-```typescript
-interface AlertOption {
-    /** Shown as header of the dialog */
-    header?: string | JSX.Element,
-    /** Rendered in the body. */
-    body: string | JSX.Element,
-    /** Accept button text, default value is `OK` */
-    buttonText?: string,
-    /** props for the dialog */
-    props?: object,
-}
-```
+As you can see that we can simply wait for the dialog to close with just using `await`. Otherwise, we would have to keep a state
+called open and also create a callback function which is triggred when the dialog is closed. This may not seem like a big issue,
+but when you have to do it several times in a application, things add up.
 
-### `ConfirmDialog` Usage and Attributes
+### `AlertDialog` Props
 
-This can be used for confirmation before performing certain action.
+<Props of={AlertDialog} />
+
+## `ConfirmDialog`
+
+Inspired by native `confirm` method.
 
 ```jsx
-import { ConfirmDialog, Button } from 'no-frills-ui';
+import { useRef } from 'react';
+import { ConfrimDialog } from 'no-frills-ui';
 
+const confirmDialog = useRef<ConfirmDialog>();
 const confirm = async () => {
     try {
-        const resp = await ConfirmDialog({
-            body: 'Are you sure?'
-        });
-        // Proceed with the action.
+        await confirmDialog.current.show();
+        alert('Thanks! Glad you liked it.');
     } catch (e) {
-        // User rejected the confirmation. Fallback.
+        alert('Hmmm! Give it a try at least.');
     }
 }
 
-// Render
-<Button onClick={confirm}>Show Confirmation</Button>
+// render
+<button onClick={confirm}>Confirm Dialog</Bbtton>
+<ConfirmDialog
+    ref={confirmDialog}
+    header='💭 Feedback'
+    body={`
+        The confirmation dialog is a async function call and results are returned via promise.
+        This means that there is no need to maintain dialog state in your application.
+        Do you think that this will help you keep your code clean and save time?
+    `}
+/>
 ```
 
-```typescript
-interface ConfirmOption {
-    /** Shown as header of the dialog */
-    header?: string | JSX.Element,
-    /** Rendered as body of the dialog */
-    body: string | JSX.Element,
-    /** Accept button text */
-    yesText?: string,
-    /** Reject button text */
-    noText?: string,
-    /** Props for the dialog */
-    props?: object,
-}
-```
+This might be the most frequent use case for a dialog. Often we need to confirm user for a destructive action
+like discard or delete. Similar to `AlertDialog`, here too we simply `await` for the response. If the user confirms
+the action, the promise is resolved otherwise it is rejected.
 
-### `PromptDialog` Usage and Attributes
+If we had gone with the traditional approach, then again we would need to use a state to manange `open` prop for the
+dialog and 2 different callback functions, one for success and one for failure. Thus, our logic would get fragmented.
 
-This can be used to prompt user for some additional information.
+### `ConfrimDialog` Props
+
+<Props of={ConfirmDialog} />
+
+## `PromptDialog`
+
+Inspired by native `prompt` method.
 
 ```jsx
-import { PromptDialog, Button } from 'no-frills-ui';
+import { useRef } from 'react';
+import { PromptDialog } from 'no-frills-ui';
 
-const promptUser = async () => {
+const promptDialog = useRef<PromptDialog>();
+const show = async () => {
     try {
-        const resp = await PromptDialog();
-        // resp contains user's response.
+        const resp = await promptDialog.current.show();
+        alert(`Order placed for ${resp} products.`);
     } catch (e) {
-        // User rejected the prompt. Fallback.
+        alert('Transaction canceled');
     }
 }
 
-// Render
-<Button onClick={promptUser}>Show Prompt</Button>
+// render
+<button onClick={show}>PromptDialog</button>
+<PromptDialog
+    ref={promptDialog}
+    header='Bulk Order'
+    body='Thanks for your interest in this product. If you like, you can place order multiple quantity.'
+    defaultValue='1'
+    inputProps={{
+        label: 'Enter Quantity',
+        type: 'number',
+        min: 1,
+        max: 10,
+        required: true,
+    }}
+/>
 ```
 
-```typescript
-interface PromptOption {
-    /** Shown as header of the dialog */
-    header?: string | JSX.Element,
-    /** Rendered as the body of the dialog */
-    body?: string,
-    /** Default value for the input. */
-    defaultValue?: string,
-    /** Submit button text. Default value is 'Submit' */
-    submitText?: string,
-    /** Cancel button text. Default value is 'Cancel' */
-    cancelText?: string,
-    /** Props for the input. */
-    inputProps?: object,
-    /** Props for the dialog. */
-    props?: object,
-}
-```
-### `Dialog` Usage and Attributes
+Like previous components, this too works on promise but when the promise is resovled. The value is
+what user entered in the input box. Whatever validatons are provided by the native `input` element
+can be used here as demonstrated above.
 
-Fully customizable dialog. This works on call backs and not promise. This is because there are two possible actions.
-1. User closes the dialog by some action.
-2. Dialog was closed programmatically.
+### `PromptDialog` Props
 
-You can easily wrap this in a promise depending on the use case or use it as is.
+<Props of={PromptDialog} />
+
+## `Dialog`
+
+All of the previous components were created by using `Dialog` component. The working of dialog component
+is similar where you need to use ref to get access to `open` method. However this method doesn't return
+a promise. It simply opens the dialog. However, it takes a callback function as an argument.
+
+There is another method called `close` which can be used to close the dialog. And whatever value is
+passed to the `close` function, the callback function receives it as an input.
+
+This component can be used to create other custom dialogs as per your use case. Like creating a login
+dialog. To wrap the custom dialog in a promise, create a function that returns a promise. This promise
+should call the `open` method and have a callback function which is passed to the `open` method. The
+callback function will resolve the promise based on the input received. And on some user action on the
+dialog, call the `close` function with the desired input for resolving the promise.
 
 ```jsx
-import { Dialog, Button } from 'no-frills-ui';
+import { useRef } from 'react';
+import { Dialog, DialogBody, DialogFooter } from 'no-frills-ui';
 
-const showDialog = () => {
-    // Create instance of the dialog.
-    const dialog = new Dialog({
-        body: 'Come to the dark side Luke!'
-    });
+const dialog = useRef();
+const openDialog = () => dialog.current.open();
 
-    // Open dialog.
-    const closeFn = dialog.open();
-}
-
-// Render
-<Button onClick={showDialog}>Show Dialog</Button>
+//render
+<button onClick={openDialog}>Open Dialog</button>
+<Dialog ref={dialog}>
+    <DialogBody>
+        This shows up inside the dialog.
+    </DialogBody>
+    <DialogFooter>
+        <button onClick={() => dialog.current.close()}>Close</button>
+    </DialogFooter>
+</Dialog>
 ```
 
-```typescript
-interface DialogOptions {
-    /** Shown as header of the dialog */
-    header?: string | JSX.Element;
-    /** Rendered as the body of the dialog */
-    body: string | JSX.Element;
-    /** Flag to close dialog on `esc` click. Default value is true. */
-    closeOnEsc?: boolean;
-    /** Close layer overlay is clicked. Default value is true. */
-    closeOnOverlayClick?: boolean;
-    /** Callback function that is called when dialog is closed. */
-    closeCallback?: () => void;
-    /** Props for the dialog. */
-    props?: object;
-}
-```
+### `Dialog` Props
 
-### CSS Variables Used
-
-| Variable Name | Description |
-| :- | :- |
-| --backdrop-color | User for `background-color`. |
+<Props of={Dialog} />

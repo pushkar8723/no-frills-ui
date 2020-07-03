@@ -36,18 +36,13 @@ style prop can be used to override this to `display: flex`.
 It also supports rich tooltip but creating a rich tooltip is discouraged.
 
 <Preview>
-    <Tooltip tooltipText='Now you see me'>
-        <Button>
-            Hover over me
-        </Button>
+    <Tooltip tooltipText='Enter your full name here' position={TOOLTIP_POSITION.RIGHT}>
+        <Input label='Enter Name'/>
     </Tooltip>
     <Tooltip tooltipText={<strong style={{ color: 'lightgreen' }}>Bad Tooltip</strong>}>
         <a>
             Hover over me
         </a>
-    </Tooltip>
-    <Tooltip tooltipText='Enter your full name here' position={TOOLTIP_POSITION.RIGHT}>
-        <Input label='Enter Name'/>
     </Tooltip>
 </Preview>
 

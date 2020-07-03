@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import styled from '@emotion/styled';
-import Dialog, { DialogBody, DialogFooter } from './Dialog';
+import Dialog, { DialogHeader, DialogBody, DialogFooter } from './Dialog';
 import { Button, ActionButton } from '../Button';
 import { Input } from '../Input';
 
@@ -18,52 +18,84 @@ interface PromptOption {
     /** Props for the input. */
     inputProps?: object,
     /** Props for the dialog. */
-    props?: object,
+    dialogProps?: object,
 }
 
 const BodyText = styled.p`
     margin-top: 0;
 `
 
-export default function PromptDialog(options: PromptOption) {
-    return new Promise((resolve, reject) => {
-        let value: string = options.defaultValue;
-        const cancel = () => {
-            dialog.close();
-            reject();
-        };
-        const confirm = (e: React.FormEvent) => {
-            e.preventDefault();
-            dialog.close();
-            resolve(value);
-        };
+export default class PromptDialog extends React.Component<PromptOption, { value: string }> {
+    static defaultProps = {
+        cancelText: 'Cancel',
+        submitText: 'Submit',
+        defaultValue: '',
+    }
 
-        const dialog = new Dialog({
-            closeOnEsc: false,
-            closeOnOverlayClick: false,
-            header: options.header,
-            body: (
-                <form onSubmit={confirm}>
+    constructor(props: PromptOption) {
+        super(props);
+        this.state = {
+            value: props.defaultValue,
+        }
+    }
+    
+    private dialog = createRef<Dialog>();
+
+    private valueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            value: e.target.value,
+        })
+    }
+
+    private cancel = () => this.dialog.current.close();
+
+    private submit = (e: React.FormEvent) => {
+        e.preventDefault();
+        this.dialog.current.close(this.state.value);
+    }
+
+    public show = () => {
+        return new Promise((resolve, reject) => {
+            const onClose = (value: string) => {
+                if (value) {
+                    resolve(value);
+                } else {
+                    reject();
+                }
+                this.setState({
+                    value: this.props.defaultValue,
+                });
+            }
+            this.dialog.current.open(onClose);
+        });
+    }
+
+    render() {
+        const { header, body, inputProps, submitText, cancelText, dialogProps } = this.props;
+
+        return (
+            <Dialog {...dialogProps} ref={this.dialog} closeOnEsc={false} closeOnOverlayClick={false}>
+                <form onSubmit={this.submit}>
+                    {header && <DialogHeader>{header}</DialogHeader>}
                     <DialogBody>
-                        <BodyText>{options.body}</BodyText>
+                        <BodyText>{body}</BodyText>
                         <div style={{ display: 'flex' }}>
                             <Input
                                 style={{ width: 'auto', flex: '1' }}
-                                value={options.defaultValue}
-                                onChange={e => value = e.target.value}
+                                value={this.state.value}
+                                onChange={this.valueChange}
                                 autoFocus
-                                {...options.inputProps}
+                                {...inputProps}
                             />
                         </div>
                     </DialogBody>
                     <DialogFooter>
-                        <Button type='button' onClick={cancel}>{options.cancelText || 'Cancel'}</Button>
-                        <ActionButton>{options.submitText || 'Submit'}</ActionButton>
+                        <Button type='button' onClick={this.cancel}>{cancelText}</Button>
+                        <ActionButton>{submitText}</ActionButton>
                     </DialogFooter>
                 </form>
-            ),
-            props: options.props,
-        });
-        dialog.open();
-    });
+            </Dialog>
+        )
+    }
+
 }

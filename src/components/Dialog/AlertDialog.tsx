@@ -1,5 +1,5 @@
-import React from 'react';
-import Dialog, { DialogBody, DialogFooter } from './Dialog';
+import React, { createRef } from 'react';
+import Dialog, { DialogBody, DialogFooter, DialogHeader } from './Dialog';
 import { Button } from '../Button';
 
 interface AlertOption {
@@ -10,29 +10,32 @@ interface AlertOption {
     /** Accept button text, default value is `OK` */
     buttonText?: string,
     /** props for the dialog */
-    props?: object,
+    dialogProps?: object,
 }
 
-export default function AlertDialog(options: AlertOption) {
-    return new Promise((resolve) => {
-        const close = () => {
-            dialog.close();
-            resolve();
-        };
-        const dialog = new Dialog({
-            closeOnEsc: false,
-            closeOnOverlayClick: false,
-            header: options.header,
-            body: (
-                <>
-                <DialogBody>{options.body}</DialogBody>
-                <DialogFooter>
-                    <Button onClick={close}>{options.buttonText || 'OK'}</Button>
-                </DialogFooter>
-                </>
-            ),
-            props: options.props,
+export default class AlertDialog extends React.Component<AlertOption> {
+    private dialog = createRef<Dialog>();
+    
+    static defaultProps = {
+        buttonText: 'OK'
+    }
+
+    public show = () => {
+        return new Promise(resolve => {
+            const onClose = () => resolve();
+            this.dialog.current.open(onClose);
         });
-        dialog.open();
-    });
+    }
+
+    private close = () => this.dialog.current.close();
+    
+    render() {
+        return (
+            <Dialog {...this.props.dialogProps} ref={this.dialog} closeOnEsc={false} closeOnOverlayClick={false}>
+                { this.props.header && <DialogHeader>{this.props.header}</DialogHeader>}
+                <DialogBody>{this.props.body}</DialogBody>
+                <DialogFooter><Button onClick={this.close}>{this.props.buttonText}</Button></DialogFooter>
+            </Dialog>
+        );
+    }
 }

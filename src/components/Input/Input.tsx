@@ -24,7 +24,7 @@ const TextField = styled.input<InputInternalProps>`
     color: inherit;
     padding: 0 8px;
     line-height: 30px;
-    height: 30px;
+    min-height: 30px;
     width: 250px;
     border-radius: 3px;
     border: 1px solid var(--border-color, #555);

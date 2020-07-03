@@ -1,5 +1,6 @@
-import React from 'react';
-import Dialog, { DialogBody, DialogFooter } from './Dialog';
+import React, { createRef } from 'react';
+import PropTypes from 'prop-types';
+import Dialog, { DialogBody, DialogFooter, DialogHeader } from './Dialog';
 import { Button, ActionButton } from '../Button';
 
 interface ConfirmOption {
@@ -12,35 +13,43 @@ interface ConfirmOption {
     /** Reject button text */
     noText?: string,
     /** Props for the dialog */
-    props?: object,
+    dialogProps?: object,
 }
 
-export default function ConfirmDialog(options: ConfirmOption) {
-    return new Promise((resolve, reject) => {
-        const cancel = () => {
-            dialog.close();
-            reject();
-        };
-        const confirm = () => {
-            dialog.close();
-            resolve();
-        };
+export default class ConfirmDialog extends React.Component<ConfirmOption> {
+    private dialog = createRef<Dialog>();
 
-        const dialog = new Dialog({
-            closeOnEsc: false,
-            closeOnOverlayClick: false,
-            header: options.header,
-            body: (
-                <>
-                <DialogBody>{options.body}</DialogBody>
+    static defaultProps = {
+        yesText: 'Yes',
+        noText: 'No'
+    }
+
+    public show = () => {
+        return new Promise((resolve, reject) => {
+            const onClose = (resp: boolean) => {
+                if (resp)
+                    resolve();
+                else 
+                    reject();
+            }
+            this.dialog.current.open(onClose);
+        })
+    }
+
+    private cancel = () => this.dialog.current.close(false);
+    private confirm = () => this.dialog.current.close(true);
+
+    render() {
+        const { header, body, yesText, noText, dialogProps } = this.props;
+        return (
+            <Dialog {...dialogProps} ref={this.dialog} closeOnEsc={false} closeOnOverlayClick={false}>
+                {header && <DialogHeader>{header}</DialogHeader>}
+                <DialogBody>{body}</DialogBody>
                 <DialogFooter>
-                    <Button onClick={cancel}>{options.noText || 'No'}</Button>
-                    <ActionButton onClick={confirm}>{options.yesText || 'Yes'}</ActionButton>
+                    <Button onClick={this.cancel}>{noText}</Button>
+                    <ActionButton onClick={this.confirm}>{yesText}</ActionButton>
                 </DialogFooter>
-                </>
-            ),
-            props: options.props,
-        });
-        dialog.open();
-    });
+            </Dialog>
+        )
+    }
 }
