@@ -1,0 +1,53 @@
+import { useRef } from 'react';
+import { Meta, Preview, Props, Story } from '@storybook/addon-docs/blocks';
+import { Modal } from '../../src/components';
+import ModalDemo from '../resources/ModalDemo.tsx';
+
+<Meta title='Components/Modal' compopent={Modal}/>
+
+# Modal
+
+Component that renders in another layer. I used a custom layer mananger for this. This ensures that the
+modal always renders on top of whatever is opened without any need of `z-index` attribute.
+
+I also exported `ModalHeader`, `ModalBody` and `ModalFooter` components. These are there only to help with
+styling the modal and adds no additional functionality.
+
+**Why is there a `Dialog` component?**
+
+`Modal` takes declerative approach to manage component's state. Whereas `Dialog` take an imperative approach.
+This is because a lot of time we just want to show/get certain information to/from the user in an async way
+and then continue with our work. Having a declerative approach fragments the logic in such cases. However, I
+didn't want to have a component that does both. Hence, the two component to power the same user expirence.
+But at the same time enhancing the developer expirence at the cost of one additional component.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }} withSource='none' >
+    <ModalDemo />
+</Preview>
+
+```jsx
+import { useState } from 'react';
+import { Modal, ModalBody, ModalFooter } from 'no-frills-ui';
+
+const [open, setOpen] = useState(false);
+
+// render
+<Modal open={open} onClose={() => setOpen(false)}>
+    <ModalBody>
+        This will always render on top.
+    </ModalBody>
+    <ModalFooter>
+        <button onClick={() => setOpen(false)}></button>
+    </ModalFooter>
+</Modal>
+```
+
+### `Modal` Props
+
+<Props of={Modal} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --backdrop-color | User for `background-color`. |

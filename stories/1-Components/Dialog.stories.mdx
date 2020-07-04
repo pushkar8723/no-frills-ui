@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { action } from '@storybook/addon-actions';
 import { Meta, Preview, Props, Story } from '@storybook/addon-docs/blocks';
 import { Dialog, AlertDialog, PromptDialog, ConfirmDialog } from '../../src/components';
 import DialogDemo from '../resources/DialogDemo.tsx';
@@ -8,14 +7,17 @@ import DialogDemo from '../resources/DialogDemo.tsx';
 
 # Dialog
 
-I deviated from how most other libraries manages dialogs. This Dialog component has no prop called `open`. Instead it exposes
-`open` and `close` methods. To call this method, ref to the `Dialog` component needs to be used. This is because of my observation
-that often we need dialogs only to show or get some small amount of information asynchronously. But to maintain
-this asynchronous behaviour we have to juggle a lot with the state in the application and have to deal with multiple functions.
+I deviated from how most other libraries manages dialogs. I took an imperative approach for this. If you are not comfortable with
+this then checkout our [Modal](/?path=/docs/components-modal--page) component, which takes a declarative approach for the same user
+experience. I did this as I feel that often we need use dialogs in an imperative way, where we just want to show some information to
+the user or get some confirmation and need not bother about the state of the dialog.
+
+Thus the Dialog component has no prop called `open`. Instead it exposes `open` and `close` methods. To call this method, ref to the
+`Dialog` component needs to be used.
 
 Exposing `open` and `close` methods, enables the developer to quicky wrap the dialog state in a `Promise` and thus the
 developer need not worry about the dialog state at all and can get the result without having to jump between multiple functions.
-I exploited this feature to create components for following common use cases to use a dialog.
+I exploited this feature to create separate components for following common use cases to use a dialog.
 - `AlertDialog` to show some static information to the user.
 - `ConfrimDialog` to confirm if the user wants to proceed with certain action.
 - `PromptDialog` to prompt a user for a small information.
@@ -183,3 +185,9 @@ const openDialog = () => dialog.current.open();
 ### `Dialog` Props
 
 <Props of={Dialog} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --backdrop-color | User for `background-color`. |

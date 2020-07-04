@@ -1,31 +1,34 @@
 import React, { createRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import Dialog, { DialogHeader, DialogBody, DialogFooter } from './Dialog';
 import { Button, ActionButton } from '../Button';
 import { Input } from '../Input';
 
-interface PromptOption {
-    /** Shown as header of the dialog */
-    header?: string | JSX.Element,
-    /** Rendered as the body of the dialog */
-    body?: string,
-    /** Default value for the input. */
-    defaultValue?: string,
-    /** Submit button text. Default value is 'Submit' */
-    submitText?: string,
-    /** Cancel button text. Default value is 'Cancel' */
-    cancelText?: string,
-    /** Props for the input. */
-    inputProps?: object,
-    /** Props for the dialog. */
-    dialogProps?: object,
-}
+type PromptOption = PropTypes.InferProps<typeof PromptDialog.propTypes>;
 
 const BodyText = styled.p`
     margin-top: 0;
 `
 
 export default class PromptDialog extends React.Component<PromptOption, { value: string }> {
+    static propTypes = {
+        /** Shown as header of the dialog */
+        header: PropTypes.string,
+        /** Rendered as the body of the dialog */
+        body: PropTypes.string,
+        /** Default value for the input. */
+        defaultValue: PropTypes.string,
+        /** Submit button text. Default value is 'Submit' */
+        submitText: PropTypes.string,
+        /** Cancel button text. Default value is 'Cancel' */
+        cancelText: PropTypes.string,
+        /** Props for the input. */
+        inputProps: PropTypes.object,
+        /** Additional props for the dialog. */
+        dialogProps: PropTypes.object,
+    }
+
     static defaultProps = {
         cancelText: 'Cancel',
         submitText: 'Submit',

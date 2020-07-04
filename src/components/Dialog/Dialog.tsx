@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import { Card } from '../Card';
 
-const DialogContainer = styled(Card)`
+export const DialogContainer = styled(Card)`
     max-width: 768px;
     max-height: 80vh;
     transform: scale(0);
@@ -21,35 +22,24 @@ const DialogContainer = styled(Card)`
     }
 `;
 
-export const DialogHeader = styled.div`
-    padding: 10px 15px;
-    line-height: 26px;
-    border-bottom: 1px solid var(--border-light-color, #eeeeee);
-    font-size: 16px;
-    font-weight: bold;
-`;
+export {
+    Header as DialogHeader,
+    Body as DialogBody,
+    Footer as DialogFooter,
+} from '../../shared/styles';
 
-export const DialogBody = styled.div`
-    padding: 20px 15px;
-`;
-
-export const DialogFooter = styled.div`
-    padding: 10px 15px;
-    border-top: 1px solid var(--border-light-color, #eeeeee);
-    display: flex;
-    justify-content: flex-end;
-`;
-
-interface DialogOptions {
-    /** Flag to close dialog on `esc` click. Default value is true. */
-    closeOnEsc?: boolean;
-    /** Close layer overlay is clicked. Default value is true. */
-    closeOnOverlayClick?: boolean;
-}
+type DialogOptions = PropTypes.InferProps<typeof Dialog.propTypes>;
 
 interface DialogState { show: boolean }
 
-class Dialog extends React.Component<DialogOptions, DialogState> {
+class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, DialogState> {
+    static propTypes = {
+        /** Flag to close dialog on `esc` click. Default value is true. */
+        closeOnEsc: PropTypes.bool,
+        /** Close layer overlay is clicked. Default value is true. */
+        closeOnOverlayClick: PropTypes.bool,
+    }
+
     static defaultProps = {
         closeOnEsc: true,
         closeOnOverlayClick: true,
@@ -82,7 +72,7 @@ class Dialog extends React.Component<DialogOptions, DialogState> {
             show: false,
         });
         this.onCloseFn && this.onCloseFn(resp);
-    } 
+    }
 
     render () {
         const { closeOnEsc, closeOnOverlayClick, children, ...rest} = this.props;

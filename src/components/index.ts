@@ -6,4 +6,5 @@ export * from './Card';
 export * from './Spinner';
 export * from './Dialog';
 export * from './Tooltip';
-// export * from './Drawer';
+export * from './Drawer';
+export * from './Modal';

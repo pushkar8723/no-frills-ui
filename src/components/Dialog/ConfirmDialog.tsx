@@ -3,21 +3,23 @@ import PropTypes from 'prop-types';
 import Dialog, { DialogBody, DialogFooter, DialogHeader } from './Dialog';
 import { Button, ActionButton } from '../Button';
 
-interface ConfirmOption {
-    /** Shown as header of the dialog */
-    header?: string | JSX.Element,
-    /** Rendered as body of the dialog */
-    body: string | JSX.Element,
-    /** Accept button text */
-    yesText?: string,
-    /** Reject button text */
-    noText?: string,
-    /** Props for the dialog */
-    dialogProps?: object,
-}
+type ConfirmOption = PropTypes.InferProps<typeof ConfirmDialog.propTypes>;
 
 export default class ConfirmDialog extends React.Component<ConfirmOption> {
     private dialog = createRef<Dialog>();
+
+    static propTypes = {
+        /** Shown as header of the dialog */
+        header: PropTypes.string,
+        /** Rendered as body of the dialog */
+        body: PropTypes.string.isRequired,
+        /** Accept button text */
+        yesText: PropTypes.string,
+        /** Reject button text */
+        noText: PropTypes.string,
+        /** Props for the dialog */
+        dialogProps: PropTypes.object,
+    }
 
     static defaultProps = {
         yesText: 'Yes',

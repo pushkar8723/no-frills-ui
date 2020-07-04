@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import { Card } from '../Card';
-import { Ellipsis } from '../../shared/ellipsis';
+import { Ellipsis } from '../../shared/styles';
 import { FiberManualRecord, ExpandMore } from '../../icons';
 
 const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`

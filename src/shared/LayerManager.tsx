@@ -146,7 +146,7 @@ class LayerManager {
      * Renders a layer.
      * @param config
      */
-    public renderLayer = (config: LayerConfig): [() => React.ReactPortal, (resp: any) => void] => {
+    public renderLayer = (config: LayerConfig): [() => React.ReactPortal, (resp?: any) => void] => {
         // Merge default config with the provided config.
         const layerConfig = {
             ...defaultConfig,
@@ -180,7 +180,14 @@ class LayerManager {
             // This class will help component in triggering the entry animation.
             function TestLayer() {
                 useEffect(() => {
-                    divElement.setAttribute('class', 'nf-layer-enter');
+                    // The delay is introduced to enable entry animation on Firefox.
+                    // Somehow on Firefox, useEffect is triggered before the component
+                    // is rendered it seems.
+                    setTimeout(() => {
+                        divElement.setAttribute('class', 'nf-layer-enter');
+                    }, 10);
+
+                    // Cleanup function
                     return () => {
                         document.body.removeChild(divElement);
                     }

@@ -44,7 +44,7 @@ export default function DialogDemo() {
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <Button onClick={showAlert}>Alert Dialog</Button>
                 <Button onClick={confirm}>Confirm Dialog</Button>
                 <Button onClick={show}>Prompt Dialog</Button>
