@@ -73,7 +73,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
                 closeOnEsc: closeOnEsc,
                 closeOnOverlayClick: closeOnOverlayClick,
                 component: (
-                    <ModalContainer {...rest} onClick={e => e.stopPropagation()}>
+                    <ModalContainer {...rest} onClick={e => e.stopPropagation()} elevated>
                         {children}
                     </ModalContainer>
                 )

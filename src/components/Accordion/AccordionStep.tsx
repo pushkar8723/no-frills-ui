@@ -9,7 +9,6 @@ const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
     transition: all .6s ease;
 
     ${props => props.open && `
-        box-shadow: 0px 8px 17px 2px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12), 0px 5px 5px -3px rgba(0,0,0,0.2);
         margin: 20px 5px;
     `}
 
@@ -113,7 +112,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
     }
 
     return(
-        <Step {...props} focused={focused}>
+        <Step {...props} focused={focused} elevated={props.open}>
             <StepHeader open={open} disabled={disabled} onClick={onStepClick}>
                 <HeaderContainer open={open} completed={completed}>
                     <input

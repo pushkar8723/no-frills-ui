@@ -13,13 +13,13 @@ A styled `div`. This component doesn't do much, but helps maintain consistent ex
     <Card>
         <Dummy>Card 1</Dummy>
     </Card>
-    <Card>
+    <Card elevated>
         <Dummy>Card 2</Dummy>
     </Card>
     <Card>
         <Dummy>Card 3</Dummy>
     </Card>
-    <Card>
+    <Card elevated>
         <Dummy>Card 4</Dummy>
     </Card>
 </Preview>
@@ -34,11 +34,15 @@ import { Card } from 'no-frills-ui';
 
 Props of native`div` element.
 
+| Name | Description | Default |
+| :- | :- | :- |
+| elevated | Elevates the card. | `true` |
+
 ### CSS Variables Used
 
 | Variable Name | Description |
 | :- | :- |
-| --primary | Used for `color` and `border-color`. |
-| --primary-light | Used for `box-shadow`. |
 | --background | Used for `background-color`. |
-| --border-color | Used for `border-color`. |
+| --shadow | Used for `box-shadow`. |
+| --modal-shadow | Used for `box-shadow`. |
+

@@ -35,7 +35,8 @@ const DrawerDiv = styled.div<{position: DRAWER_POSITION}>`
     flex-direction: column;
     background-color: #fff;
     transition: transform .3s ease;
-    box-shadow: 0px 8px 17px 2px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12), 0px 5px 5px -3px rgba(0,0,0,0.2);
+    box-shadow: var(--modal-shadow, 0px 8px 17px 2px rgba(0,0,0,0.14),
+            0px 3px 14px 2px rgba(0,0,0,0.12), 0px 5px 5px -3px rgba(0,0,0,0.2));
     ${props => positionStyle[props.position].before}
 
     .nf-layer-enter & {

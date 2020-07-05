@@ -86,7 +86,7 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
                 closeOnOverlayClick,
                 position: LAYER_POSITION.DIALOG,
                 component: (
-                    <DialogContainer {...rest} onClick={e => e.stopPropagation()}>
+                    <DialogContainer {...rest} onClick={e => e.stopPropagation()} elevated>
                         {children}
                     </DialogContainer>
                 )
