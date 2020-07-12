@@ -8,3 +8,4 @@ export * from './Dialog';
 export * from './Tooltip';
 export * from './Drawer';
 export * from './Modal';
+export * from './Notification';

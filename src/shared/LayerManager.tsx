@@ -28,6 +28,8 @@ interface LayerConfig {
     closeOnOverlayClick?: boolean;
     /** Callback called when modal closes */
     closeCallback?: <T extends unknown>(resp: T) => void;
+    /** Layer is created with max z-index */
+    alwaysOnTop?: boolean;
 }
 
 /** Default value of config */
@@ -38,6 +40,7 @@ const defaultConfig: LayerConfig = {
     component: null,
     exitDelay: 0,
     closeOnOverlayClick: true,
+    alwaysOnTop: false,
 }
 
 /** Metadata of each layer */
@@ -62,7 +65,6 @@ const POSITION_STYLE = {
 const Container = styled.div<LayerConfig & { zIndex: number }>`
     position: fixed;
     display: flex;
-    pointer-events: none;
     opacity: 0;
     transition: opacity .3s ease;
     ${props => POSITION_STYLE[props.position]}
@@ -154,7 +156,7 @@ class LayerManager {
         };
 
         // Get the z-index for the new layer
-        const currentIndex = this.nextIndex++;
+        const currentIndex = layerConfig.alwaysOnTop ? 2147483647 : this.nextIndex++;
 
         // Prepare the div on DOM where the new layer will be mounted.
         const divElement = document.createElement('div');

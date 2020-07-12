@@ -1,8 +1,8 @@
 # No Frills UI
 
 [![npm version](https://badge.fury.io/js/no-frills-ui.svg)](https://badge.fury.io/js/no-frills-ui)
-![Minifized Size](https://badgen.net/bundlephobia/min/no-frills-ui)
-![Gzipped Size](https://badgen.net/bundlephobia/minzip/no-frills-ui)
+[![Minified Size](https://badgen.net/bundlephobia/min/no-frills-ui)](https://bundlephobia.com/result?p=no-frills-ui)
+[![Gzipped Size](https://badgen.net/bundlephobia/minzip/no-frills-ui)](https://bundlephobia.com/result?p=no-frills-ui)
 [![license](https://badgen.now.sh/badge/license/MIT)](./LICENSE)
 
 **React components that are made of styled native components. Mostly! 😅**

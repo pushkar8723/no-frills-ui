@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-interface CardExtraProps {
+export interface CardExtraProps {
     elevated?: boolean
 }
 

@@ -1,0 +1,170 @@
+import { useRef } from 'react';
+import { Meta, Preview, Props, Story } from '@storybook/addon-docs/blocks';
+import { Notification, NOTIFICATION_POSITION, NOTIFICATION_TYPE, Button } from '../../src/components';
+import { StoryProps } from '../../src/components/Notification/Notification.tsx';
+
+<Meta title='Imperative Components/Notification' compopent={Notification}/>
+
+# Notification
+
+> **Note:** This is not a React component. This is more of a service.
+
+Notification component can be used to give feedback to the user in an unobtrusive way of certain
+event, like success of a delete operation or a new message has arrived in inbox. The notification is
+rendered on the topmost layer and so any modal/dialog/drawer will open under it, i.e, it is alway on top.
+A notification can have max height of 150px only.
+
+I again took imperative approach for this. Anywhere in the application, developer can call Notification
+with `add`/`remove`/`destroy` operation. The rendering is done in a seprate react application. This means
+that state and context can not be shared between notification and the rest of the app. Developer will have
+to rely on callbacks. This in my opinion should not be a problem as notification should only be used as a
+feedback and should not have context of the application in any way.
+
+### Position
+
+Notification can be spawned in any four corner of the page and subsequent notification in the same corner
+are stacked. Once all the notification in that corner is dismissed, the addition `div` node is cleared from
+the DOM.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_LEFT, {
+            title: 'Top Left Notification',
+            description: 'I came from top left.'
+        })
+    }}>Top Left</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Top Right Notification',
+            description: 'I came from top right.'
+        })
+    }}>Top Right</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.BOTTOM_RIGHT, {
+            title: 'Bottom Right Notification',
+            description: 'I came from bottom right.'
+        })
+    }}>Bottom Right</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.BOTTOM_LEFT, {
+            title: 'Bottom Left Notification',
+            description: 'I came from bottom left.'
+        })
+    }}>Bottom Left</Button>
+</Preview>
+
+### Types
+
+I followed the standard for creating different types of notifications, i.e, `info`, `success`, `warning`,
+and `error`. They all function in the same fashion but have subtle colour differences.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Information Notification',
+            description: 'This notification contains some information.',
+            type: NOTIFICATION_TYPE.INFO,
+        })
+    }}>Information</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Success Notification',
+            description: 'This notification contains success information.',
+            type: NOTIFICATION_TYPE.SUCCESS,
+        })
+    }}>Success</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Warning Notification',
+            description: 'This notification contains warning information.',
+            type: NOTIFICATION_TYPE.WARNING,
+        })
+    }}>Warning</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Danger Notification',
+            description: 'This notification contains error information.',
+            type: NOTIFICATION_TYPE.DANGER,
+        })
+    }}>Danger</Button>
+</Preview>
+
+### Features
+
+A notification can be sticky, can have a action button or even have a callback when the notification
+is closed. I also exposed an `id` prop, which can be used to de-duplicate notifications. This can be
+useful in scenarios like when your app checks for a new version and creates a notification for the user.
+Using the `id` prop, the developer doesn't need to maintain state to check if the notification was already
+shown to the user. However, if the notification is dismissed, on subsequent call it will again be shown
+to the user.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Sticky Notification',
+            description: 'This notification will not go away until you dismiss it.',
+            sticky: true,
+        })
+    }}>Sticky</Button>
+    <Button onClick={() => {
+        const id = Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Button Notification',
+            description: 'This notification will contains a actionable button.',
+            sticky: true,
+            buttonText: 'OK',
+            buttonClick: () => { Notification.remove(NOTIFICATION_POSITION.TOP_RIGHT, id) }
+        })
+    }}>Actionable Notification</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            id: 'unique-id',
+            title: 'Unique Notification',
+            description: 'There will only be one of me.',
+        })
+    }}>Deduped Notification</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Close me',
+            description: 'This notification will trigger an alert on close.',
+            onClose: () => alert('Notification closed'),
+        })
+    }}>Close Callback</Button>
+</Preview>
+
+```jsx
+import { Notification, NOTIFICATION_POSITION, NOTIFICATION_TYPE } from 'no-frills-ui';
+
+// Add a notification
+// It returns an id which can be used to programatically dismiss the notification.
+const id = Notification.add(
+    NOTIFICATION_POSITION.TOP_RIGHT, {
+        title: 'New message received',
+        description: 'Please share feedback if you like this approach.',
+        type: NOTIFICATION_TYPE.INFO
+    }
+);
+
+// Remove a notification
+Notification.remove(NOTIFICATION_POSITION.TOP_RIGHT, id);
+
+// Destroy stack of notification
+Notification.destroy(NOTIFICATION_POSITION.TOP_RIGHT);
+```
+
+### `Notification` options
+<Props of={StoryProps} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --backdrop-color | Used for `background-color`. |
+| --shadow | Used for `box-shdow` |
+| --info | Used for `color` |
+| --info-light | Used for `border-color` |
+| --success | Used for `color` |
+| --success-light | Used for `border-color` |
+| --warn | Used for `color` |
+| --warn-light | Used for `border-color` |
+| --error | Used for `color` |
+| --error-light | Used for `border-color` |
