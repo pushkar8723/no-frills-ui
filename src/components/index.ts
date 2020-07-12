@@ -9,3 +9,4 @@ export * from './Tooltip';
 export * from './Drawer';
 export * from './Modal';
 export * from './Notification';
+export * from './Toast';

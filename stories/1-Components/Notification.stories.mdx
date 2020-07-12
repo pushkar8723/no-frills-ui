@@ -3,7 +3,7 @@ import { Meta, Preview, Props, Story } from '@storybook/addon-docs/blocks';
 import { Notification, NOTIFICATION_POSITION, NOTIFICATION_TYPE, Button } from '../../src/components';
 import { StoryProps } from '../../src/components/Notification/Notification.tsx';
 
-<Meta title='Imperative Components/Notification' compopent={Notification}/>
+<Meta title='Imperative Components/Notification' component={Notification}/>
 
 # Notification
 
@@ -19,39 +19,6 @@ with `add`/`remove`/`destroy` operation. The rendering is done in a seprate reac
 that state and context can not be shared between notification and the rest of the app. Developer will have
 to rely on callbacks. This in my opinion should not be a problem as notification should only be used as a
 feedback and should not have context of the application in any way.
-
-### Position
-
-Notification can be spawned in any four corner of the page and subsequent notification in the same corner
-are stacked. Once all the notification in that corner is dismissed, the addition `div` node is cleared from
-the DOM.
-
-<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
-    <Button onClick={() => {
-        Notification.add(NOTIFICATION_POSITION.TOP_LEFT, {
-            title: 'Top Left Notification',
-            description: 'I came from top left.'
-        })
-    }}>Top Left</Button>
-    <Button onClick={() => {
-        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
-            title: 'Top Right Notification',
-            description: 'I came from top right.'
-        })
-    }}>Top Right</Button>
-    <Button onClick={() => {
-        Notification.add(NOTIFICATION_POSITION.BOTTOM_RIGHT, {
-            title: 'Bottom Right Notification',
-            description: 'I came from bottom right.'
-        })
-    }}>Bottom Right</Button>
-    <Button onClick={() => {
-        Notification.add(NOTIFICATION_POSITION.BOTTOM_LEFT, {
-            title: 'Bottom Left Notification',
-            description: 'I came from bottom left.'
-        })
-    }}>Bottom Left</Button>
-</Preview>
 
 ### Types
 
@@ -87,6 +54,39 @@ and `error`. They all function in the same fashion but have subtle colour differ
             type: NOTIFICATION_TYPE.DANGER,
         })
     }}>Danger</Button>
+</Preview>
+
+### Position
+
+Notification can be spawned in any four corner of the page and subsequent notification in the same corner
+are stacked. Once all the notification in that corner is dismissed, the addition `div` node is cleared from
+the DOM.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_LEFT, {
+            title: 'Top Left Notification',
+            description: 'I came from top left.'
+        })
+    }}>Top Left</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+            title: 'Top Right Notification',
+            description: 'I came from top right.'
+        })
+    }}>Top Right</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.BOTTOM_RIGHT, {
+            title: 'Bottom Right Notification',
+            description: 'I came from bottom right.'
+        })
+    }}>Bottom Right</Button>
+    <Button onClick={() => {
+        Notification.add(NOTIFICATION_POSITION.BOTTOM_LEFT, {
+            title: 'Bottom Left Notification',
+            description: 'I came from bottom left.'
+        })
+    }}>Bottom Left</Button>
 </Preview>
 
 ### Features
@@ -158,7 +158,7 @@ Notification.destroy(NOTIFICATION_POSITION.TOP_RIGHT);
 
 | Variable Name | Description |
 | :- | :- |
-| --backdrop-color | Used for `background-color`. |
+| --background | Used for `background-color`. |
 | --shadow | Used for `box-shdow` |
 | --info | Used for `color` |
 | --info-light | Used for `border-color` |

@@ -79,7 +79,7 @@ export const Notice = styled(Card)<NoticeProp>`
     border-left: 4px solid ${props => getBorderColor(props.type)};
     width: 300px;
     display: flex;
-    padding-bottom: 5px;
+    padding: 0 5px 5px 0;
     overflow: hidden;
     animation: ${props => getEntryAnimation(props.position)} .6s ease;
     

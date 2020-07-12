@@ -61,25 +61,27 @@ class NotificationManager extends React.Component<NotificationManagerProps, Noti
         // Remove notification on animation completion.
         setTimeout(() => {
             const notice = this.state.notices.find(notice => notice.id === id);
-            // call close callback, ignore any errors in callback.
-            if (notice.onClose) {
-                try {
-                    notice.onClose();
-                } catch (e) {
-                    console.warn('Error in notification close callback', e.message);
+            if (notice) {
+                // call close callback, ignore any errors in callback.
+                if (notice.onClose) {
+                    try {
+                        notice.onClose();
+                    } catch (e) {
+                        console.warn('Error in notification close callback', e.message);
+                    }
                 }
+    
+                // Remove the notification
+                this.setState({
+                    notices: this.state.notices.filter(notice => notice.id !== id),
+                }, () => {
+                    // Check if the stack is empty and then call the 
+                    // empty callback function.
+                    if (this.state.notices.length === 0) {
+                        this.props.onEmpty();
+                    }
+                });
             }
-
-            // Remove the notification
-            this.setState({
-                notices: this.state.notices.filter(notice => notice.id !== id),
-            }, () => {
-                // Check if the stack is empty and then call the 
-                // empty callback function.
-                if (this.state.notices.length === 0) {
-                    this.props.onEmpty();
-                }
-            });
         }, 550);
     }
 

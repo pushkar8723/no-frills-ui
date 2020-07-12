@@ -15,33 +15,40 @@ export enum DRAWER_POSITION {
     BOTTOM = 'BOTTOM',
 }
 
-const positionStyle = {
+const positionStyle = (size: string) => ({
     [DRAWER_POSITION.LEFT]: {
-        before: 'height: 100vh; min-width: 300px; transform: translateX(-100%);',
+        before: `height: 100vh; min-width: ${size || '300px'}; transform: translateX(-100%);`,
         after:'transform: translateX(0%);',
     },
     [DRAWER_POSITION.RIGHT]: {
-        before: 'height: 100vh; min-width: 300px; transform: translateX(100%);',
+        before: `height: 100vh; min-width: ${size || '300px'}; transform: translateX(100%);`,
         after:'transform: translateX(0%);',
     },
     [DRAWER_POSITION.BOTTOM]: {
-        before: 'position: absolute; bottom: 0; width: 100%; height: 90vh; transform: translateY(100%);',
+        before: `
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: ${size || '90vh'};
+            transform: translateY(100%);
+            border-radius: 15px 15px 0 0; 
+        `,
         after:'transform: translateX(0%);',
     },
-}
+});
 
-const DrawerDiv = styled.div<{position: DRAWER_POSITION}>`
+const DrawerDiv = styled.div<{position: DRAWER_POSITION, size: string}>`
     display: flex;
     flex-direction: column;
     background-color: #fff;
     transition: transform .3s ease;
     box-shadow: var(--modal-shadow, 0px 8px 17px 2px rgba(0,0,0,0.14),
             0px 3px 14px 2px rgba(0,0,0,0.12), 0px 5px 5px -3px rgba(0,0,0,0.2));
-    ${props => positionStyle[props.position].before}
+    ${props => positionStyle(props.size)[props.position].before}
 
     .nf-layer-enter & {
         transform: translateX(0%);
-        ${props => positionStyle[props.position].after}
+        ${props => positionStyle(props.size)[props.position].after}
     }
 `;
 
@@ -70,6 +77,8 @@ export default class Drawer extends React.Component<DrawerProps, DrawerState> {
             DRAWER_POSITION.RIGHT,
             DRAWER_POSITION.BOTTOM,
         ]),
+        /** size of the drawer */
+        size: PropTypes.string,
         /** Shows an overlay behind the drawer. */
         overlay: PropTypes.bool,
         /** Closes the drawer on esc */
@@ -112,7 +121,7 @@ export default class Drawer extends React.Component<DrawerProps, DrawerState> {
     getSnapshotBeforeUpdate(prevProps: DrawerProps) {
         const {
             open, closeOnEsc, closeOnOverlayClick,
-            overlay, position, children, ...rest } = this.props;
+            overlay, position, children, size, ...rest } = this.props;
 
         if (prevProps.open && !open) {
             this.closeCallback && this.closeCallback();
@@ -127,7 +136,7 @@ export default class Drawer extends React.Component<DrawerProps, DrawerState> {
                 closeOnEsc,
                 closeOnOverlayClick,
                 component: (
-                    <DrawerDiv {...rest} position={position} onClick={e => e.stopPropagation()}>
+                    <DrawerDiv {...rest} position={position} size={size} onClick={e => e.stopPropagation()}>
                         {children}
                     </DrawerDiv>
                 )

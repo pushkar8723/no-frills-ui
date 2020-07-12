@@ -1,0 +1,109 @@
+import { useRef } from 'react';
+import { Meta, Preview, Props, Story } from '@storybook/addon-docs/blocks';
+import { Toast, TOAST_TYPE, Button } from '../../src/components';
+import ToastStory from '../../src/components/Toast/ToastStory.tsx';
+
+<Meta title='Imperative Components/Toast' component={Toast}/>
+
+# Toast
+
+> **Note:** This is not a React component. This is more of a service.
+
+A simple toast component. It also takes an imperative approach. This can be used to give quick feedback
+to the user. And since only one toast can be present at a time, if a subsequent toast is triggered before
+the first one is removed, the first one is automatically removed.
+
+### Variations
+
+A toast can be single or multiple with our without an actionable button.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
+    <Button onClick={() => {
+        Toast.add({
+            text: 'I am a 🍞 bro.',
+        })
+    }}>Simple Toast</Button>
+    <Button onClick={() => {
+        Toast.add({
+            text: 'I am a 🍞 bro.',
+            buttonText: 'Action',
+            buttonClick: () => alert('Action button on toast was clicked.')
+        })
+    }}>Action Toast</Button>
+    <Button onClick={() => {
+        Toast.add({
+            text: `
+                When a toast contains a very large string, the excess
+                string is wrapped and showed on the next line.
+            `
+        })
+    }}>Multiline Toast</Button>
+    <Button onClick={() => {
+        Toast.add({
+            text: `
+                When a toast contains a very large string, the excess
+                string is wrapped and showed on the next line.
+            `,
+            buttonText: 'Action',
+            buttonClick: () => alert('Action button on toast was clicked.'),
+        })
+    }}>Multiline Action Toast</Button>
+</Preview>
+
+### Types
+
+I followed the standard for creating different types of notifications, i.e, `info`, `success`, `warning`,
+and `error`. They all function in the same fashion but have colour differences.
+
+<Preview style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)' }}>
+    <Button onClick={() => {
+        Toast.add({
+            text: 'I am a 🍞 bro.',
+            type: TOAST_TYPE.INFO
+        })
+    }}>Information Toast</Button>
+    <Button onClick={() => {
+        Toast.add({
+            text: 'I am a 🍞 bro.',
+            type: TOAST_TYPE.SUCCESS
+        })
+    }}>Success Toast</Button>
+    <Button onClick={() => {
+        Toast.add({
+            text: 'I am a 🍞 bro.',
+            type: TOAST_TYPE.WARNING
+        })
+    }}>Warning Toast</Button>
+    <Button onClick={() => {
+        Toast.add({
+            text: 'I am a 🍞 bro.',
+            type: TOAST_TYPE.DANGER
+        })
+    }}>Danger Toast</Button>
+</Preview>
+
+
+```jsx
+import { Toast, TOAST_TYPE } from 'no-frills-ui';
+
+// Show a toast.
+Toast.add({ title: 'Email sent.' });
+
+// Remove any visible toast.
+Toast.remove();
+```
+
+### `Toast` options
+
+<Props of={ToastStory} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --modal-shadow | Used for `box-shdow` |
+| --info | Used for `background-color` |
+| --success | Used for `background-color` |
+| --warn | Used for `background-color` |
+| --error | Used for `background-color` |
+| --toast | Used for `background-color` |
