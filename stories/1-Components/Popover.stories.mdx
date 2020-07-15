@@ -1,0 +1,52 @@
+import { action } from '@storybook/addon-actions';
+import { Meta, Preview, Props } from '@storybook/addon-docs/blocks';
+import PopoverDemo from '../resources/PopoverDemo.tsx';
+import { Popover, POPOVER_POSITION, Card } from '../../src/components';
+
+<Meta title='Declarative Components/Popover' component={PopoverDemo} />
+
+# Popover
+
+A component that reders as a card relative to a given element. This can be used to implement custom
+dropdowns or menu. When the popover opens, it check if it can fit into the viewport and tries to 
+adjust itself such that there is no overflow. It also automatically closes on click anywhere outside
+the container.
+
+<Card style={{
+        display: 'flex', justifyContent: 'space-between', padding: '10px',
+        background: 'linear-gradient(to right, #00b09b, #96c93d)'
+    }}
+>
+    <PopoverDemo position={POPOVER_POSITION.BOTTOM_LEFT} />
+    <PopoverDemo position={POPOVER_POSITION.TOP_LEFT} />
+    <PopoverDemo position={POPOVER_POSITION.TOP_RIGHT} />
+    <PopoverDemo position={POPOVER_POSITION.BOTTOM_RIGHT} />
+</Card>
+
+```jsx
+import { useState } from 'react';
+import { Popover, POPOVER_POSITION } from 'no-frills-ui';
+
+const [open, setOpen] = useState(false);
+
+// render
+<Popover
+    open={open}
+    position={POPOVER_POSITION.TOP_RIGHT}
+    element={<button onClick={() => setOpen(true)}>Open Popover</button>}
+>
+    Popover Content goes here
+</Popover>
+```
+
+### Props
+
+<Props of={Popover} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --background | Used for `background-color`. |
+| --shadow | Used for `box-shadow`. |
+| --modal-shadow | Used for `box-shadow`. |

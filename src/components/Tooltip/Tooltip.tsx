@@ -45,12 +45,13 @@ const positionHoverStyle = {
 
 const TooltipDiv = styled.div<{ position: TOOLTIP_POSITION }>`
     position: absolute;
-    background-color: var(--tooltip-color, rgba(0,0,0,0.5));
+    background-color: var(--tooltip-color, rgba(0,0,0,0.7));
     padding: 5px;
     color: #fff;
     border-radius: 3px;
     transition: transform .3s ease;
     font-size: 12px;
+    z-index: 1;
     ${props => positionStyle[props.position]}
 `;
 

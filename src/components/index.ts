@@ -10,3 +10,4 @@ export * from './Drawer';
 export * from './Modal';
 export * from './Notification';
 export * from './Toast';
+export * from './Popover';
