@@ -13,14 +13,14 @@ adjust itself such that there is no overflow. It also automatically closes on cl
 the container.
 
 <Card style={{
-        display: 'flex', justifyContent: 'space-between', padding: '10px',
-        background: 'linear-gradient(to right, #00b09b, #96c93d)'
+        display: 'flex', justifyContent: 'space-between', padding: '30px 20px',
+        background: 'linear-gradient(to right, #00b09b, #96c93d)', flexWrap: 'wrap',
     }}
 >
-    <PopoverDemo position={POPOVER_POSITION.BOTTOM_LEFT} />
-    <PopoverDemo position={POPOVER_POSITION.TOP_LEFT} />
-    <PopoverDemo position={POPOVER_POSITION.TOP_RIGHT} />
-    <PopoverDemo position={POPOVER_POSITION.BOTTOM_RIGHT} />
+    <PopoverDemo position={POPOVER_POSITION.BOTTOM_LEFT} text='Bottom Left' />
+    <PopoverDemo position={POPOVER_POSITION.BOTTOM_RIGHT} text='Bottom Right' />
+    <PopoverDemo position={POPOVER_POSITION.TOP_LEFT} text='Top Left' />
+    <PopoverDemo position={POPOVER_POSITION.TOP_RIGHT} text='Top Right' />
 </Card>
 
 ```jsx

@@ -207,15 +207,20 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
 }
 
 Popover.propTypes = {
+    /** Opens the popover */
     open: PropTypes.bool.isRequired,
+    /** Anchor element for the popover */
     element: PropTypes.node,
+    /** Position of the popover around anchor element */
     position: PropTypes.oneOf([
         POPOVER_POSITION.TOP_LEFT,
         POPOVER_POSITION.TOP_RIGHT,
         POPOVER_POSITION.BOTTOM_LEFT,
         POPOVER_POSITION.BOTTOM_RIGHT,
     ]),
+    /** If the popover should close on `esc` key press */
     closeOnEsc: PropTypes.bool,
+    /** Popover close callback */
     onClose: PropTypes.func,
 }
 
