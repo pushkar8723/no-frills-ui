@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 interface InputProps extends PropTypes.InferType<typeof Input.propTypes>,
     React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,24 +28,24 @@ const TextField = styled.input<InputInternalProps>`
     min-height: 30px;
     width: 250px;
     border-radius: 3px;
-    border: 1px solid var(--border-color, #555);
+    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
     display: inline-block;
-    background-color: var(--background, #fff);
+    background-color: var(--background, ${constants.BACKGROUND});
 
     /** Focused */
     &:focus, &:active {
-        border-color: var(--primary, #2283d2);
-        box-shadow: 0 0 0 4px var(--primary-light, #64baff);
+        border-color: var(--primary, ${constants.PRIMARY});
+        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 
     &:focus + span, &:active + span {
-        color: var(--primary, #2283d2);
+        color: var(--primary, ${constants.PRIMARY});
     }
 
     /** Disabled */
     &:disabled {
-        border-color: #aaa;
-        background-color: #fafafa;
+        border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
+        background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
     }
     
     &:disabled + span {
@@ -53,26 +54,26 @@ const TextField = styled.input<InputInternalProps>`
 
     /** Invalid */
     &:focus:invalid {
-        border-color: var(--error, #d63b3b);
-        box-shadow: 0 0 0 4px var(--error-light, #f1a5a5);
+        border-color: var(--error, ${constants.ERROR});
+        box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
     }
 
     ${props => props.touched ? `
     &:invalid {
-        border-color: var(--error, #d63b3b);
+        border-color: var(--error, ${constants.ERROR});
     }
 
     &:invalid + span {
-        color: var(--error, #d63b3b);
+        color: var(--error, ${constants.ERROR});
     }
     ` : ''}
 
     /** Error */
     ${props => props.errorText ? `
-    border-color: var(--error, #d63b3b);
+    border-color: var(--error, ${constants.ERROR});
 
     & + span {
-        color: var(--error, #d63b3b);
+        color: var(--error, ${constants.ERROR});
     }
     ` : ''}
 
@@ -80,7 +81,7 @@ const TextField = styled.input<InputInternalProps>`
     &:required + span:after {
         content: '*';
         margin-left: 2px;
-        color: var(--error, #d63b3b);
+        color: var(--error, ${constants.ERROR});
     }
 
     /** Label Animation */
@@ -97,7 +98,7 @@ const TextField = styled.input<InputInternalProps>`
     ${props => props.value !== '' ? `
     & + span {
         top: -8px;
-        background: var(--background, #ffffff);
+        background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
         line-height: 14px;
     }
@@ -105,14 +106,14 @@ const TextField = styled.input<InputInternalProps>`
 
     &:focus + span, &:placeholder-shown + span {
         top: -8px;
-        background: var(--background, #ffffff);
+        background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
         line-height: 14px;
     }
 `;
 
 const ErrorContainer = styled.div`
-    color: var(--error, #d63b3b);
+    color: var(--error, ${constants.ERROR});
     padding-top: 3px;
     font-size: 12px;
         line-height: 14px;

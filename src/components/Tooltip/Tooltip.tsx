@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 export enum TOOLTIP_POSITION {
     TOP = 'TOP',
@@ -45,7 +46,7 @@ const positionHoverStyle = {
 
 const TooltipDiv = styled.div<{ position: TOOLTIP_POSITION }>`
     position: absolute;
-    background-color: var(--tooltip-color, rgba(0,0,0,0.7));
+    background-color: var(--tooltip-color, ${constants.TOOLTIP_COLOR});
     padding: 5px;
     color: #fff;
     border-radius: 3px;

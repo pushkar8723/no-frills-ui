@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import styled from '@emotion/styled';
 import { Card } from '../Card';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
+import constants from '../../shared/constants';
 
 export interface ToastOptions {
     text: string;
@@ -23,15 +24,15 @@ export enum TOAST_TYPE {
 const getBackgroundColor = (type: TOAST_TYPE) => {
     switch(type) {
         case TOAST_TYPE.INFO:
-            return 'var(--info, #2283d2)';
+            return `var(--info, ${constants.INFO})`;
         case TOAST_TYPE.SUCCESS:
-            return 'var(--success, #22d295)';
+            return `var(--success, ${constants.SUCCESS})`;
         case TOAST_TYPE.WARNING:
-            return 'var(--warning, #cc9500)';
+            return `var(--warning, ${constants.WARNING})`;
         case TOAST_TYPE.DANGER:
-            return 'var(--danger, #d63b3b)';
+            return `var(--error, ${constants.ERROR})`;
         case TOAST_TYPE.NORMAL:
-            return 'var(--toast, #5f5f5f)';
+            return `var(--toast, ${constants.TOAST})`;
     }
 }
 
@@ -75,7 +76,7 @@ const TextContainer = styled.div`
 
 const CloseContainer = styled.button`
     background-color: transparent;
-    color: var(--primary-light, #64baff);
+    color: var(--primary, ${constants.PRIMARY_LIGHT});
     padding: 6px 10px;
     border: none;
     border-radius: 3px;

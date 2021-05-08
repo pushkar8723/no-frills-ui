@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 const Label = styled.label`
     margin: 5px 0;
@@ -15,14 +16,14 @@ const Input = styled.input`
         content: '';
         width: 16px;
         height: 16px;
-        border: 1px solid var(--border-color, #555);
+        border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
         display: inline-block;
         border-radius: 3px;
         vertical-align: bottom;
         margin: 0 5px;
         text-align: center;
         line-height: 16px;
-        background-color: var(--background, #fff);
+        background-color: var(--background, ${constants.BACKGROUND});
         transition: background-color .3s ease;
     }
 
@@ -41,8 +42,8 @@ const Input = styled.input`
     /** checked */
     &:checked::before {
         content: '';
-        background-color: var(--primary, #2283d2);
-        border-color: var(--primary, #2283d2);
+        background-color: var(--primary, ${constants.PRIMARY});
+        border-color: var(--primary, ${constants.PRIMARY});
         color: #fff;
     }
 
@@ -54,8 +55,8 @@ const Input = styled.input`
     /** indeterminate */
     &:indeterminate::before {
         content: '';
-        background-color: var(--primary, #2283d2);
-        border-color: var(--primary, #2283d2);
+        background-color: var(--primary, ${constants.PRIMARY});
+        border-color: var(--primary, ${constants});
         color: #fff;
     }
 
@@ -67,21 +68,21 @@ const Input = styled.input`
 
     /** active and focus */
     &:enabled:active::before, &:focus::before {
-        border-color: var(--primary, #2283d2);
-        box-shadow: 0 0 0 3px var(--primary-light, #64baff); 
+        border-color: var(--primary, ${constants.PRIMARY});
+        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT}); 
     }
 
     &:enabled:active + span, &:focus + span {
-        color: var(--primary, #2283d2);
+        color: var(--primary, ${constants.PRIMARY});
     }
 
     /** hover */
     &:enabled:hover::before {
-        border-color: var(--primary, #2283d2);
+        border-color: var(--primary, ${constants.PRIMARY});
     }
 
     &:enabled:hover + span {
-        color: var(--primary, #2283d2);
+        color: var(--primary, ${constants.PRIMARY});
     }
 
     /** disabled */

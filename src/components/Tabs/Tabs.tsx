@@ -1,6 +1,7 @@
 import React, { useState, Children, useEffect } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import constants from '../../shared/constants';
 
 const Button = styled.button<{ active: boolean }>`
     background-color: transparent;
@@ -8,24 +9,24 @@ const Button = styled.button<{ active: boolean }>`
     padding: 8px 12px;
     font-size: 14px;
     border-radius: 3px 3px 0 0;
-    border-bottom: ${(props) => (props.active ? '3px solid var(--primary, #2283d2)' : 'none')};
-    color: ${(props) => (props.active ? 'var(--primary, #2283d2)' : '#000')};
+    border-bottom: ${(props) => (props.active ? `3px solid var(--primary, ${constants.PRIMARY})` : 'none')};
+    color: ${(props) => (props.active ? `var(--primary, ${constants.PRIMARY})` : '#000')};
     cursor: pointer;
 
     &:hover, &:focus {
         background-color: var(--primary-lighter, #cfe9ff);
-        border-bottom: ${(props) => (props.active ? '3px solid var(--primary, #2283d2)' : '3px solid var(--primary, #2283d2)')};
+        border-bottom: ${(props) => (props.active ? `3px solid var(--primary, ${constants.PRIMARY})` : `3px solid var(--primary, ${constants.PRIMARY})`)};
     }
 
     &[disabled] {
-        background-color: #eee;
-        color: #777;
-        border-bottom: 3px solid #ddd;
+        background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
+        color: var(--disabled, ${constants.DISABLED});
+        border-bottom: 3px solid var(--disabled-border, ${constants.DISABLED_BORDER});
     }
 `;
 
 const ButtonContainer = styled.div`
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
     margin-bottom: 5px;
 `;
 

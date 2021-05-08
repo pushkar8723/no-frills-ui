@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Card } from '../Card';
 import { Ellipsis } from '../../shared/styles';
 import { FiberManualRecord, ExpandMore } from '../../icons';
+import constants from '../../shared/constants';
 
 const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
     transition: all .6s ease;
@@ -12,7 +13,7 @@ const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
         margin: 20px 5px;
     `}
 
-    ${props => props.focused && 'box-shadow: 0 0 0 4px var(--primary-light, #64baff);'}
+    ${props => props.focused && `box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});`}
 `;
 
 const StepHeader = styled.div<{ open: boolean, disabled: boolean }>`
@@ -26,11 +27,11 @@ const StepHeader = styled.div<{ open: boolean, disabled: boolean }>`
     }
 
     ${props => props.open ? `
-        border-bottom: 1px solid var(--border-light-color, #eee);
+        border-bottom: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
     ` : ''}
 
     ${props => props.disabled ? `
-        color: #ccc;
+        color: ${constants.LIGHT_GREY};
     ` : `
         cursor: pointer;
     `}
@@ -45,10 +46,10 @@ const HeaderContainer = styled.div<{ open: boolean, completed: boolean }>`
         vertical-align: top;
         margin-right: 10px;
         fill: ${props => props.open
-            ? 'var(--primary, #2283d2)'
+            ? `var(--primary, ${constants.PRIMARY})`
             : props.completed 
-                ? 'var(--success, #22d295)'
-                : '#ccc'};
+                ? `var(--success, ${constants.SUCCESS})`
+                : constants.LIGHT_GREY};
         transform: ${props => props.open ? 'scale(0.8)' : 'scale(0.6)'};
         transition: all .3s ease;
         min-width: 24px;
@@ -80,7 +81,7 @@ const StepBody = styled.div<{ height: number }>`
 `;
 
 const ErrorContainer = styled.span`
-    background-color: var(--error, #d63b3b);
+    background-color: var(--error, ${constants.ERROR});
     color: #fff;
     padding: 3px 10px;
     font-size: 12px;
@@ -97,7 +98,7 @@ export const AccordionStepFooter = styled.div`
     display: flex;
     justify-content: flex-end;
     padding: 10px 15px;
-    border-top: 1px solid var(--border-light-color, #eee);
+    border-top: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
 `;
 
 export default function AccordionStep(props: React.PropsWithChildren<AccordionStepProps>) {

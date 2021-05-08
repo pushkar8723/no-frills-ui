@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     display: inline-flex;
-    border: 1px solid var(--border-color, #555);
+    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
     border-radius: 3px;
     margin: 5px;
 
@@ -13,7 +14,7 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
         margin: 0;
         border: none;
         border-radius: 0;
-        border-left: 1px solid var(--border-color, #555);
+        border-left: 1px solid var(--border-color, ${constants.BORDER_COLOR});
         box-shadow: none;
         height: 32px;
     }
@@ -49,20 +50,20 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     }
 
     &:focus-within, &:hover {
-        box-shadow: var(--hover-shadow, 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06));
+        box-shadow: var(--hover-shadow, ${constants.HOVER_SHADOW});
     }
 
     ${props => props.errorText ? `
-        border-color: var(--error, #d63b3b);
+        border-color: var(--error, ${constants.ERROR});
 
         & > button, & > label {
-            border-color: var(--error, #d63b3b);
+            border-color: var(--error, ${constants.ERROR});
         }
     `: ''}
 `;
 
 const ErrorContainer = styled.div`
-    color: var(--error, #d63b3b);
+    color: var(--error, ${constants.ERROR});
     margin-left: 8px;
     font-size: 12px;
 `;

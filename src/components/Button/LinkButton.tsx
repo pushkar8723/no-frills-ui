@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 export default styled.button`
     min-width: 100px;
@@ -8,7 +9,7 @@ export default styled.button`
     cursor: pointer;
     background-color: transparent;
     border: none;
-    color: var(--primary, #2283d2);
+    color: var(--primary, ${constants.PRIMARY});
     padding: 0 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -28,7 +29,7 @@ export default styled.button`
     }
 
     &:disabled {
-        border-color: #ccc;
-        color: #aaa;
+        border-color: ${constants.BORDER_COLOR};
+        color: ${constants.DISABLED_BORDER};
     }
 `;

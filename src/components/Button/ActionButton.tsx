@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 export default styled.button`
-    border: 1px solid var(--primary, #2283d2);
-    background-color: var(--primary, #2283d2);
+    border: 1px solid var(--primary, ${constants.PRIMARY});
+    background-color: var(--primary, ${constants.PRIMARY});
     color: #fff;
     border-radius: 5px;
     height: 32px;
@@ -25,16 +26,16 @@ export default styled.button`
     }
 
     &:enabled:hover {
-        box-shadow: 0 2px 4px #aaa;
+        box-shadow: var(--hover-shadow, ${constants.HOVER_SHADOW});
     }
 
     &:focus {
-        box-shadow: 0 0 0 4px var(--primary-light, #64baff);
+        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 
     &:disabled {
-        border: 1px solid #ccc;
-        background-color: #eee;
-        color: #777;
+        border: 1px solid ${constants.LIGHT_GREY};
+        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        color: var(--disabled, ${constants.DISABLED});
     }
 `;

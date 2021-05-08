@@ -29,10 +29,7 @@ export default class ConfirmDialog extends React.Component<ConfirmOption> {
     public show = () => {
         return new Promise((resolve, reject) => {
             const onClose = (resp: boolean) => {
-                if (resp)
-                    resolve();
-                else 
-                    reject();
+                resp ? resolve(null) : reject();
             }
             this.dialog.current.open(onClose);
         })

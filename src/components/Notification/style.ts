@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 import { Card } from '../Card';
 import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './Notification';
 
@@ -25,39 +26,39 @@ const getExitAnimation = (position: NOTIFICATION_POSITION) => {
 const getBorderColor = (type: NOTIFICATION_TYPE) => {
     switch(type) {
         case NOTIFICATION_TYPE.SUCCESS:
-            return 'var(--success-light, #80eac6)';
+            return `var(--success-light, ${constants.SUCCESS_LIGHT})`;
         case NOTIFICATION_TYPE.DANGER:
-            return 'var(--error-light, #f1a5a5)';
+            return `var(--error-light, ${constants.ERROR_LIGHT})`;
         case NOTIFICATION_TYPE.WARNING:
-            return 'var(--warning-light, #ffba00)';
+            return `var(--warning-light, ${constants.WARNING_LIGHT})`;
         default:
-            return 'var(--info-light, #64baff)';
+            return `var(--info-light, ${constants.INFO_LIGHT})`;
     }
 }
 
 const getTitleColor = (type: NOTIFICATION_TYPE) => {
     switch(type) {
         case NOTIFICATION_TYPE.SUCCESS:
-            return 'var(--success, #22d295)';
+            return `var(--success, ${constants.SUCCESS})`;
         case NOTIFICATION_TYPE.DANGER:
-            return 'var(--error, #d63b3b)';
+            return `var(--error, ${constants.ERROR})`;
         case NOTIFICATION_TYPE.WARNING:
-            return 'var(--warning, #cc9500)';
+            return `var(--warning, ${constants.WARNING})`;
         case NOTIFICATION_TYPE.INFO:
-            return 'var(--info, #2283d2)';
+            return `var(--info, ${constants.INFO})`;
     }
 }
 
 const getTypeStyle = (type: NOTIFICATION_TYPE) => {
     switch(type) {
         case NOTIFICATION_TYPE.INFO:
-            return 'color:  var(--info, #2283d2)';
+            return `color:  var(--info, ${constants.INFO})`;
         case NOTIFICATION_TYPE.SUCCESS:
-            return 'color: var(--success, #22d295)';
+            return `color: var(--success, ${constants.SUCCESS})`;
         case NOTIFICATION_TYPE.DANGER:
-            return 'color: var(--error, #d63b3b)';
+            return `color: var(--error, ${constants.ERROR})`;
         case NOTIFICATION_TYPE.WARNING:
-            return 'color: var(--warning, #cc9500)';
+            return `color: var(--warning, ${constants.WARNING})`;
     }
 }
 
@@ -170,7 +171,7 @@ export const CloseButton = styled.button`
     cursor: pointer;
 
     &:focus {
-        box-shadow: 0 0 0 3px var(--primary-light, #64baff);
+        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT});
         border-radius: 3px;
     }
 `;

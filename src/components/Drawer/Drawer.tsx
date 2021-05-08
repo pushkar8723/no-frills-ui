@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
+import constants from '../../shared/constants';
 
 export {
     Header as DrawerHeader,
@@ -42,8 +43,7 @@ const DrawerDiv = styled.div<{position: DRAWER_POSITION, size: string}>`
     flex-direction: column;
     background-color: #fff;
     transition: transform .3s ease;
-    box-shadow: var(--modal-shadow, 0px 8px 17px 2px rgba(0,0,0,0.14),
-            0px 3px 14px 2px rgba(0,0,0,0.12), 0px 5px 5px -3px rgba(0,0,0,0.2));
+    box-shadow: var(--modal-shadow, ${constants.MODAL_SHADOW});
     ${props => positionStyle(props.size)[props.position].before}
 
     .nf-layer-enter & {

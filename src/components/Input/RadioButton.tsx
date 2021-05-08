@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 const Input = styled.input`
     appearance: none;
@@ -8,36 +9,36 @@ const Input = styled.input`
     width: 0;
 
     & + span {
-        color: var(--primary, #2283d2);
+        color: var(--primary, ${constants.PRIMARY});
         padding: 6px 12px;
         border: none;
-        border: 1px solid var(--primary, #2283d2);
+        border: 1px solid var(--primary, ${constants.PRIMARY});
         cursor: pointer;
         margin-right: -1px;
         line-height: 18px;
     }
 
     &:enabled:focus + span {
-        box-shadow: 0 0 0 4px var(--primary-light, #64baff);
+        box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
     }
 
     &:enabled:hover + span {
-        background-color: var(--primary-light, #64baff);
+        background-color: var(--primary, ${constants.PRIMARY_LIGHT});
         color: #fff;
     }
 
     &:enabled:checked + span {
-        background-color: var(--primary, #2283d2);
+        background-color: var(--primary, ${constants.PRIMARY});
         color: #fff;
     }
 
     &:disabled + span {
-        background-color: #eee;
-        color: #aaa;
+        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        color: var(--disabled-border, ${constants.DISABLED_BORDER});
     }
 
     &:disabled:checked + span {
-        background-color: #aaa;
+        background-color: var(--disabled-border, ${constants.DISABLED_BORDER});
         color: #fff;
     }
 `;

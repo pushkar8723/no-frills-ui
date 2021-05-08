@@ -25,7 +25,7 @@ export default class AlertDialog extends React.Component<AlertOption> {
 
     public show = () => {
         return new Promise(resolve => {
-            const onClose = () => resolve();
+            const onClose = () => resolve(null);
             this.dialog.current.open(onClose);
         });
     }

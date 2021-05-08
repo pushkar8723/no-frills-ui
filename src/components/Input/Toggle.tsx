@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 const Switch = styled.label`
     position: relative;
@@ -17,7 +18,7 @@ const Input = styled.input`
         cursor: pointer;
         width: 30px;
         height: 18px;
-        background-color: #ccc;
+        background-color: ${constants.LIGHT_GREY};
         transition: .4s;
         border-radius: 10px;
         padding: 0 3px;
@@ -30,47 +31,47 @@ const Input = styled.input`
         width: 14px;
         left: 1px;
         top: 1px;
-        border: 1px solid #aaa;
+        border: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
         border-radius: 50%;
-        background-color: #fff;
+        background-color: var(--background, ${constants.BACKGROUND});
         transition: .4s;
     }
 
     /* checked */
     &:checked + span {
-        background-color: var(--primary-light, #64baff);
+        background-color: var(--primary, ${constants.PRIMARY_LIGHT});
     }
 
     &:checked + span:before {
         transform: translateX(18px);
-        border-color: var(--primary, #2283d2);
+        border-color: var(--primary, ${constants.PRIMARY});
     }
 
     /* focus */
     &:enabled:focus + span:before {
-        box-shadow: 0 0 0 3px var(--primary-light, #64baff);
-        border-color: var(--primary, #2283d2);
+        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT});
+        border-color: var(--primary, ${constants.PRIMARY});
     }
 
     /* hover */
     &:enabled:hover ~ span {
         cursor: pointer;
-        color: var(--primary, #2283d2);
+        color: var(--primary, ${constants.PRIMARY});
     }
 
     /* disabled */
     &:disabled ~ span {
-        color: #aaa;
+        color: var(--disabled-border, ${constants.DISABLED_BORDER});
     }
 
     &:disabled + span {
-        background-color: #ccc;
+        background-color: ${constants.LIGHT_GREY};
         cursor: not-allowed;
     }
     
     &:disabled + span:before {
-        background-color: #eee;
-        border-color: #aaa;
+        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
     }
 `;
 

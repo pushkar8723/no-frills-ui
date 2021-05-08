@@ -13,6 +13,24 @@ This is similar to `Modal` component but it slides in from one of the three edge
     <DrawerDemo />
 </Preview>
 
+```jsx
+import { useState } from 'react';
+import { Drawer, DrawerHeader, DrawerBody, DrawerFooter, DRAWER_POSITION } from 'no-frills-ui';
+
+const [open, setOpen] = useState(false);
+
+<Drawer open={open} onClose={() => setOpen(false)} position={DRAWER_POSITION.LEFT}>
+    <DrawerHeader>Header goes here</DrawerHeader>
+    <DrawerBody>
+        Here goes body.
+    </DrawerBody>
+    <DrawerFooter>
+        And footer over here.
+    </DrawerFooter>
+</Drawer>
+```
+
+
 ### Props
 
 <Props of={Drawer} />

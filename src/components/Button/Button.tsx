@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
+import constants from '../../shared/constants';
 
 export default styled.button`
-    border: 1px solid var(--border-color, #555);
+    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
     border-radius: 5px;
     height: 32px;
     min-width: 100px;
@@ -10,7 +11,7 @@ export default styled.button`
     padding: 0 12px;
     cursor: pointer;
     color: inherit;
-    background-color: var(--background, #fff);
+    background-color: var(--background, ${constants.BACKGROUND});
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -25,18 +26,18 @@ export default styled.button`
     }
 
     &:enabled:hover {
-        border-color: var(--primary, #2283d2);
-        color: var(--primary, #2283d2);
+        border-color: var(--primary, ${constants.PRIMARY});
+        color: var(--primary, ${constants.PRIMARY});
     }
 
     &:focus {
-        border-color: var(--primary, #2283d2);
-        box-shadow: 0 0 0 4px var(--primary-light, #64baff);
+        border-color: var(--primary, ${constants.PRIMARY});
+        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 
     &:disabled {
-        background-color: #eee;
-        border-color: #ccc;
-        color: #777;
+        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        border-color: var(--light-grey, ${constants.LIGHT_GREY});
+        color: var(--disabled, ${constants.DISABLED});
     }
 `;

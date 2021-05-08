@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import constants from '../../shared/constants';
 
 const SpinnerDiv = styled.div<SpinnerProp>`
-    border: 4px solid var(--primary, #2283d2);
-    border-top: 4px solid #f2f2f2;
+    border: 4px solid var(--primary, ${constants.PRIMARY});
+    border-top: 4px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
     border-radius: 50%;
     width: ${props => props.size}px;
     height: ${props => props.size}px;
