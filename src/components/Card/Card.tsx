@@ -13,6 +13,7 @@ const Card = styled.div<CardExtraProps>`
         : `box-shadow: var(--shadow, ${constants.SHADOW});`
     }
     margin: 5px;
+    overflow: auto;
 `;
 
 export default Card;

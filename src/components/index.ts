@@ -11,3 +11,4 @@ export * from './Modal';
 export * from './Notification';
 export * from './Toast';
 export * from './Popover';
+export * from './Menu';

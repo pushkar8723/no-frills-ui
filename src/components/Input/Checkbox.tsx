@@ -99,18 +99,13 @@ const Input = styled.input`
     }
 `;
 
-type CheckboxProps = {
-        ref: React.MutableRefObject<HTMLInputElement>
-    } & PropTypes.InferProps<typeof Checkbox.propTypes>;
+type CheckboxProps = React.HTMLProps<HTMLInputElement> & PropTypes.InferProps<typeof Checkbox.propTypes>;
 
 export default function Checkbox(props: CheckboxProps) {
     const ref = useCallback((node) => {
         if (node !== null) {
             if (props.indeterminate) {
                 node.indeterminate = true;
-            }
-            if (props.ref) {
-                props.ref.current = node;
             }
         }
     }, []);
@@ -132,4 +127,5 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
     indeterminate: false,
+    label: ''
 }
