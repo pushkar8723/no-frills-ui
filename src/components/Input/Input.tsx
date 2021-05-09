@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 
-interface InputProps extends PropTypes.InferType<typeof Input.propTypes>,
-    React.InputHTMLAttributes<HTMLInputElement> {
-        value?: string;
-    }
+type InputProps = React.AllHTMLAttributes<HTMLInputElement> & {
+    label?: string,
+    errorText?: string,
+}
 
 type InputInternalProps = InputProps & {
     touched: boolean;
@@ -120,7 +120,7 @@ const ErrorContainer = styled.div`
     margin-left: 3px;
 `;
 
-export default function Input(props: InputProps) {
+const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
 
@@ -144,6 +144,7 @@ export default function Input(props: InputProps) {
         <Label>
             <TextField
                 {...props}
+                ref={ref}
                 value={value}
                 onChange={onChangeHandler}
                 onFocus={handleFocus}
@@ -153,7 +154,9 @@ export default function Input(props: InputProps) {
             { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
         </Label>
     );
-}
+});
+
+export default Input;
 
 Input.propTypes = {
     /** Label for the field */

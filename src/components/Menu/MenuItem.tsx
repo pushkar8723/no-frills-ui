@@ -36,13 +36,16 @@ export default function MenuItem<T>(props: MenuItemProps<T>) {
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
+        if (context.multiSelect) {
+            e.nativeEvent.stopImmediatePropagation();
+        }
         context.updateValue(value);
     };
 
     const selected = context.multiSelect ? context.value?.includes?.(value) : context.value === value;
 
     return (
-        <Container {...rest} tabIndex={context.multiSelect ? -1 : 0} selected={selected} onClick={clickHandler}>
+        <Container {...rest} type='button' tabIndex={context.multiSelect ? -1 : 0} selected={selected} onClick={clickHandler}>
             {context.multiSelect  && <Checkbox checked={selected} />}
             {props.children}
         </Container>

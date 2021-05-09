@@ -184,14 +184,16 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
             // Note it can still overflow, but in that case fitting popper inside the
             // window is not possible.
             setTranslate(translation);
+            popperRef.current.focus();
         }
     }, [open]);
 
     return (
         <PopoverDiv>
-            {props.element}
+            <props.element />
             { open && (
                 <Popper
+                    tabIndex={0}
                     position={props.position}
                     translateX={translate.x}
                     translateY={translate.y}
@@ -210,7 +212,7 @@ Popover.propTypes = {
     /** Opens the popover */
     open: PropTypes.bool.isRequired,
     /** Anchor element for the popover */
-    element: PropTypes.node,
+    element: PropTypes.func,
     /** Position of the popover around anchor element */
     position: PropTypes.oneOf([
         POPOVER_POSITION.TOP_LEFT,
