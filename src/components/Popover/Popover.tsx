@@ -193,6 +193,7 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
             <props.element />
             { open && (
                 <Popper
+                    elevated
                     tabIndex={0}
                     position={props.position}
                     translateX={translate.x}
