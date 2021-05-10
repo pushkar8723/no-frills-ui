@@ -13,8 +13,8 @@ export default styled.button`
     background-color: var(--background, ${constants.BACKGROUND});
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
     margin: 5px;
+    position: relative;
 
     & svg {
         vertical-align: middle;

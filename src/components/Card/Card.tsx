@@ -14,6 +14,7 @@ const Card = styled.div<CardExtraProps>`
     }
     margin: 5px;
     overflow: auto;
+    position: relative;
 `;
 
 export default Card;

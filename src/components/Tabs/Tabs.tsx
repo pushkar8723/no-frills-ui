@@ -28,6 +28,7 @@ const Button = styled.button<{ active: boolean }>`
 const ButtonContainer = styled.div`
     border-bottom: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
     margin-bottom: 5px;
+    position: relative;
 `;
 
 const TabBody = styled.div`

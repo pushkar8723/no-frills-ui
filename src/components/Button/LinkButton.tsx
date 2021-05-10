@@ -13,8 +13,8 @@ export default styled.button`
     padding: 0 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
     margin: 5px;
+    position: relative;
 
     & svg {
         vertical-align: middle;

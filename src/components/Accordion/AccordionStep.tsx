@@ -1,10 +1,13 @@
+/** @jsx jsx */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { css, jsx } from '@emotion/core';
 import PropTypes from 'prop-types';
 import { Card } from '../Card';
 import { Ellipsis } from '../../shared/styles';
 import { FiberManualRecord, ExpandMore } from '../../icons';
 import constants from '../../shared/constants';
+import { Badge, BADGE_TYPE } from '../Badge';
 
 const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
     transition: all .6s ease;
@@ -80,16 +83,6 @@ const StepBody = styled.div<{ height: number }>`
     height: ${ props => props.height || 0}px;
 `;
 
-const ErrorContainer = styled.span`
-    background-color: var(--error, ${constants.ERROR});
-    color: #fff;
-    padding: 3px 10px;
-    font-size: 12px;
-    margin-right: 20px;
-    border-radius: 10px;
-    white-space: nowrap;
-`;
-
 export const AccordionStepBody = styled.div`
     padding: 20px 15px;
 `;
@@ -127,7 +120,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                     <Ellipsis>{header}</Ellipsis>
                 </HeaderContainer>
                 <ExpandContainer open={open}>
-                    {errorText && <ErrorContainer>{errorText}</ErrorContainer>}
+                    {errorText && <Badge css={css`margin-right: 20px;`} inline type={BADGE_TYPE.DANGER}>{errorText}</Badge>}
                     <ExpandMore />
                 </ExpandContainer>
             </StepHeader>

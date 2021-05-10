@@ -21,6 +21,7 @@ const Container = styled.button<{selected: boolean}>`
     display: flex;
     align-items: center;
     cursor: pointer;
+    position: relative;
 
     &:hover, &:focus, &:focus-within {
         background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
