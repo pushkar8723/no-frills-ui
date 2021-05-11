@@ -11,6 +11,7 @@ export * from './Modal';
 export * from './Notification';
 export * from './Popover';
 export * from './Spinner';
+export * from './Stepper';
 export * from './Tabs';
 export * from './Toast';
 export * from './Tooltip';

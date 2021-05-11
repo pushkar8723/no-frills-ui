@@ -120,7 +120,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                     <Ellipsis>{header}</Ellipsis>
                 </HeaderContainer>
                 <ExpandContainer open={open}>
-                    {errorText && <Badge css={css`margin-right: 20px;`} inline type={BADGE_TYPE.DANGER}>{errorText}</Badge>}
+                    {errorText && <Badge css={css`margin-right: 15px;`} inline type={BADGE_TYPE.DANGER}>{errorText}</Badge>}
                     <ExpandMore />
                 </ExpandContainer>
             </StepHeader>

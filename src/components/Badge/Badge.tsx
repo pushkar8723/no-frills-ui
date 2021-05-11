@@ -7,7 +7,8 @@ export enum BADGE_TYPE {
     PRIMARY='primary',
     SUCCESS='success',
     WARNING='warning',
-    DANGER='danger'
+    DANGER='danger',
+    DISABLED='disabled',
 }
 
 type BadgeProps = React.PropsWithChildren<PropTypes.InferProps<typeof Badge.propTypes>>;
@@ -24,6 +25,9 @@ const BadgeSpan = styled.span<BadgeProps>`
             case BADGE_TYPE.DANGER:
                 return `var(--error, ${constants.ERROR})`;
 
+            case BADGE_TYPE.DISABLED:
+                return `var(--disabled, ${constants.DISABLED})`;
+
             default:
                 return `var(--primary, ${constants.PRIMARY})`;
         }
@@ -35,6 +39,7 @@ const BadgeSpan = styled.span<BadgeProps>`
     min-height: 4px;
     min-width: 4px;
     font-size: 12px;
+    margin: 0 5px;
 
     ${props => !props.inline && 'position: absolute; top: 0; right: 0; transform: translate(50%, -50%);'};
 `;
