@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Menu } from '../Menu';
@@ -6,7 +6,22 @@ import { Popover, POPOVER_POSITION } from '../Popover';
 import Input from './Input';
 import { ExpandMore } from '../../icons';
 
-type DropdownProps<T> = React.PropsWithChildren<PropTypes.InferProps<typeof Dropdown.propTypes>>;
+type DropdownProps<T> = {
+    /** Value of the control */
+    value?: T | T[],
+    /** If multiple elements can be selected */
+    multiSelect: boolean,
+    /** Change handler */
+    onChange?: (v: T | T[]) => void,
+    /** Label of the control */
+    label?: string,
+    /** Error message */
+    errorText?: string,
+    /** Makes field required */
+    required?: boolean,
+    /** Disables the field */
+    disabled?: boolean
+} & React.PropsWithChildren<{}>;
 
 const ArrowContainer = styled.span`
     position: absolute;
@@ -18,6 +33,35 @@ export default function Dropdown<T>(props: DropdownProps<T>) {
     const { multiSelect, onChange } = props;
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(props.value);
+
+    const focusHandler = (e: KeyboardEvent) => {
+        if (open && (e.keyCode === 38 || e.keyCode === 40)) {
+            e.preventDefault();
+            const current = document.querySelector(':focus');
+            if (current.tagName === "DIV") {
+                const firstBtn = current.querySelector('button');
+                firstBtn?.focus();
+            } else {
+                const currentBtn = current.closest('button');
+                if (e.keyCode === 38) {
+                    const prev = currentBtn?.previousElementSibling?.closest('button');
+                    prev?.focus();
+                } else {
+                    const next = currentBtn?.nextElementSibling?.closest('button');
+                    next?.focus();
+                }
+            }
+            return false;
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('keydown', focusHandler);
+        
+        return () => {
+            document.removeEventListener('keydown', focusHandler);
+        };
+    }, [open]);
 
     const clickHandler = () => setOpen(true);
     
@@ -59,23 +103,6 @@ export default function Dropdown<T>(props: DropdownProps<T>) {
         </Popover>
     );
 }
-
-Dropdown.propTypes = {
-    /** Value of the control */
-    value: PropTypes.oneOfType([PropTypes.any, PropTypes.arrayOf(PropTypes.any)]),
-    /** If multiple elements can be selected */
-    multiSelect: PropTypes.bool,
-    /** CHange handler */
-    onChange: PropTypes.func,
-    /** Label of the control */
-    label: PropTypes.string,
-    /** Error message */
-    errorText: PropTypes.string,
-    /** Makes field required */
-    required: PropTypes.bool,
-    /** Disables the field */
-    disabled: PropTypes.bool
-};
 
 Dropdown.defaultProps = {
     multiSelect: false,

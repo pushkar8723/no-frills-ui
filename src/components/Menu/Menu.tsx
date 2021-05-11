@@ -1,13 +1,11 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { useState, ReactNode, ForwardedRef } from 'react';
 import styled from '@emotion/styled';
 import MenuContext from './MenuContext';
-import MenuItem from './MenuItem';
-
 interface MenuProps<T> {
     /** Multiple Menu Items can be selected */
     multiSelect: boolean;
     /** Value(s) selected */
-    value: T | T[];
+    value?: T | T[];
     /** Callback when the selected value changes */
     onChange?: (value: T | T[]) => void;
     /** Menu Items */
@@ -24,7 +22,7 @@ const MenuContainer = styled.div`
     }
 `;
 
-export default function Menu<T>(props: MenuProps<T>) {
+const Menu = React.forwardRef(function <T>(props: MenuProps<T>, ref: ForwardedRef<HTMLDivElement>) {
     const { multiSelect, onChange } = props;
     const [value, setValue] = useState(props.value || (multiSelect ? [] : ''));
 
@@ -51,13 +49,15 @@ export default function Menu<T>(props: MenuProps<T>) {
             multiSelect,
             updateValue
         }}>
-            <MenuContainer>
+            <MenuContainer ref={ref}>
                 {props.children}
             </MenuContainer>
         </MenuContext.Provider>
     )
-}
+});
 
 Menu.defaultProps = {
     multiSelect: false,
 } 
+
+export default Menu;

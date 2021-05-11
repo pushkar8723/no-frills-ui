@@ -6,8 +6,8 @@ import { Checkbox } from '../Input';
 import { ReactElementLike } from 'prop-types';
 
 interface MenuItemProps<T> {
+    /** Value of the element */
     value: T;
-    children: ReactElementLike;
 }
 
 const Container = styled.button<{selected: boolean}>`
@@ -32,7 +32,7 @@ const Container = styled.button<{selected: boolean}>`
     }
 `;
 
-export default function MenuItem<T>(props: MenuItemProps<T>) {
+export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChildren<{}>) {
     const context = useContext(MenuContext);
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
