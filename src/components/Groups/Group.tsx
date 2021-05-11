@@ -10,13 +10,17 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     margin: 5px;
 
     /* overrides */
-    & > button, & > label {
+    & button, & label {
         margin: 0;
         border: none;
         border-radius: 0;
         border-left: 1px solid var(--border-color, ${constants.BORDER_COLOR});
         box-shadow: none;
         height: 32px;
+    }
+
+    & > div button {
+        border-left: none;
     }
 
     & input, & select {
@@ -32,15 +36,21 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
         box-shadow: none;
     }
 
+    & > div > span {
+        top: 8px;
+    }
+
     /* Handling for first and last child */
     & > *:first-child, & > label:first-child input,
-    & > label:first-child select {
+    & > label:first-child select, & > *:first-child label,
+    & > *:first-child input  {
         border-left: none;
         border-radius: 2px 0 0  2px;
     }
 
     & > *:last-child, & > label:last-child input,
-    & > label:last-child select {
+    & > label:last-child select, & > *:last-child label,
+    & > *:last-child input {
         border-radius: 0 2px 2px 0;
     }
 

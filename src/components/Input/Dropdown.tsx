@@ -27,6 +27,7 @@ const ArrowContainer = styled.span`
     position: absolute;
     right: 12px;
     top: 16px;
+    pointer-events: none;
 `;
 
 export default function Dropdown<T>(props: DropdownProps<T>) {

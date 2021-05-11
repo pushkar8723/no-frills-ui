@@ -57,6 +57,7 @@ class NotificationManager extends React.Component<NotificationManagerProps, Noti
                 leaving: notice.id === id ? true : notice.leaving,
             }))
         });
+        this.set.delete(id);
 
         // Remove notification on animation completion.
         setTimeout(() => {
