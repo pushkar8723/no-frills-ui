@@ -11,6 +11,7 @@ const Label = styled.label`
 const Input = styled.input`
     appearance: none;
     position: relative;
+    margin: 0;
 
     &::before {
         content: '';

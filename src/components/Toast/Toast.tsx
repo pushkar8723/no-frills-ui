@@ -153,7 +153,7 @@ class Toast {
                 >
                     <TextContainer>{text}</TextContainer>
                     {buttonText && (
-                        <CloseContainer onClick={buttonClick}>
+                        <CloseContainer onClick={buttonClick} type='button'>
                             {buttonText}
                         </CloseContainer>
                     )}

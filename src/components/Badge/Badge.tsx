@@ -39,7 +39,7 @@ const BadgeSpan = styled.span<BadgeProps>`
     min-height: 4px;
     min-width: 4px;
     font-size: 12px;
-    margin: 0 5px;
+    margin: ${props => props.inline ? '0 5px' : '0'};
 
     ${props => !props.inline && 'position: absolute; top: 0; right: 0; transform: translate(50%, -50%);'};
 `;
@@ -56,7 +56,8 @@ Badge.propTypes = {
         BADGE_TYPE.PRIMARY,
         BADGE_TYPE.SUCCESS,
         BADGE_TYPE.WARNING,
-        BADGE_TYPE.DANGER
+        BADGE_TYPE.DANGER,
+        BADGE_TYPE.DISABLED,
     ]),
 }
 
