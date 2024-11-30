@@ -7,4 +7,4 @@ lib-esm
 .yarnrc.yml
 .yarn
 
-.log
+*.log

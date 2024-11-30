@@ -1,0 +1,15 @@
+import { Title, Meta, Canvas, Story, Props, Primary } from '@storybook/blocks';
+import { Badge, BADGE_TYPE } from '../../../src/components/Badge';
+import { Button } from '../../../src/components/Button';
+import * as BadgeStories from './Badge.stories';
+
+
+<Meta title='Declarative Components/Badge' of={BadgeStories} />
+<Title>Badge</Title>
+
+A styled `div`. This component doesn't do much, but helps maintain consistent expirence across other components.
+
+<Canvas>
+    <Story of={BadgeStories.Primary} />
+    <Story of={BadgeStories.Success} />
+</Canvas>
