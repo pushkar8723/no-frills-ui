@@ -59,6 +59,7 @@ Badge.propTypes = {
         BADGE_TYPE.DANGER,
         BADGE_TYPE.DISABLED,
     ]),
+    css: PropTypes.any,
 }
 
 Badge.defaultProps = {

@@ -1,7 +1,6 @@
-/** @jsx jsx */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { css, jsx } from '@emotion/core';
+import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
 import { Card } from '../Card';
 import { Ellipsis } from '../../shared/styles';

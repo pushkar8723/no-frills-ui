@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 import { Card } from '../Card';
-import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './Notification';
+import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './types';
 
 const getEntryAnimation = (position: NOTIFICATION_POSITION) => {
     switch(position) {

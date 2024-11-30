@@ -47,24 +47,24 @@
     "@storybook/cli": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
-    "@types/react": "^18",
-    "@types/react-dom": "^16.9.8",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "babel-loader": "^8.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rollup": "^2.14.0",
+    "rollup": "^4.28.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.2",
-    "rollup-plugin-typescript2": "^0.27.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.36.0",
     "shx": "^0.3.2",
     "storybook": "^5.3.19",
     "tslib": "^2.0.0",
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
     "prop-types": "^15.7.2"
   },
   "bit": {
@@ -73,5 +73,6 @@
     },
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "npm"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

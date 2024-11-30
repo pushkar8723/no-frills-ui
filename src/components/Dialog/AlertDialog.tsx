@@ -12,7 +12,7 @@ export default class AlertDialog extends React.Component<AlertOption> {
         /** Shown as header of the dialog */
         header: PropTypes.string,
         /** Rendered in the body. */
-        body: PropTypes.node.isRequired,
+        body: PropTypes.any.isRequired,
         /** Accept button text, default value is `OK` */
         buttonText: PropTypes.string,
         /** props for the dialog */

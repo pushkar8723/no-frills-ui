@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactPortal, useEffect } from 'react';
 import styled from '@emotion/styled';
 import ReactDOM from 'react-dom';
 
@@ -180,7 +180,7 @@ class LayerManager {
             // Render the layer and then add `nf-layer-enter` class to
             // the div created above.
             // This class will help component in triggering the entry animation.
-            function TestLayer() {
+            function TestLayer(): ReactPortal {
                 useEffect(() => {
                     // The delay is introduced to enable entry animation on Firefox.
                     // Somehow on Firefox, useEffect is triggered before the component
