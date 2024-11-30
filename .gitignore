@@ -3,3 +3,8 @@ storybook-static
 dist
 lib-esm
 .DS_Store
+
+.yarnrc.yml
+.yarn
+
+.log

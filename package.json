@@ -47,8 +47,11 @@
     "@storybook/cli": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
+    "@types/react": "^18",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "^8.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "rollup": "^2.14.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
@@ -57,7 +60,7 @@
     "shx": "^0.3.2",
     "storybook": "^5.3.19",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
