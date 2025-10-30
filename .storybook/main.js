@@ -8,7 +8,7 @@ const config = {
   ],
 
   addons: [
-    "@storybook/addon-webpack5-compiler-swc",
+    "@storybook/addon-webpack5-compiler-babel",
     "@storybook/addon-links",
     {
       name: '@storybook/addon-docs',

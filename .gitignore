@@ -3,6 +3,7 @@ storybook-static
 dist
 lib-esm
 .DS_Store
+.swc
 
 .yarnrc.yml
 .yarn

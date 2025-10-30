@@ -42,7 +42,8 @@ export const Variants: Story = {
 };
 
 export const Primary: Story = {
+  render: (args) => <Card {...args}><Dummy>Card Content</Dummy></Card>,
   args: {
-    children: <Dummy>Card Content</Dummy>,
+    elevated: true,
   },
 };

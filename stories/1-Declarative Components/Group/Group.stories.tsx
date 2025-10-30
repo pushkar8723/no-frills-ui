@@ -71,10 +71,13 @@ export const WithErrorText: Story = {
 };
 
 export const Primary: Story = {
+  render: (args) => (
+    <Group {...args}>
+      <Input label='Input' />
+      <GroupLabel>Label</GroupLabel>
+    </Group>
+  ),
   args: {
-    children: [
-      <Input key="1" label='Input' />,
-      <GroupLabel key="2">Label</GroupLabel>,
-    ],
+    errorText: '',
   },
 };
