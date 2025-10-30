@@ -1,0 +1,64 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as NotificationStories from './Notification.stories';
+
+<Meta of={NotificationStories} />
+
+# Notification
+
+> **Note:** This is not a React component. This is more of a service.
+
+Notification component can be used to give feedback to the user in an unobtrusive way of certain
+event, like success of a delete operation or a new message has arrived in inbox. The notification is
+rendered on the topmost layer and so any modal/dialog/drawer will open under it, i.e, it is always on top.
+A notification can have max height of 150px only.
+
+I again took imperative approach for this. Anywhere in the application, developer can call Notification
+with `add`/`remove`/`destroy` operation. The rendering is done in a separate react application. This means
+that state and context can not be shared between notification and the rest of the app. Developer will have
+to rely on callbacks. This in my opinion should not be a problem as notification should only be used as a
+feedback and should not have context of the application in any way.
+
+## Types
+
+I followed the standard for creating different types of notifications, i.e, `info`, `success`, `warning`,
+and `error`. They all function in the same fashion but have subtle colour differences.
+
+<Canvas of={NotificationStories.Types} />
+
+## Position
+
+Notification can be spawned in any four corner of the page and subsequent notification in the same corner
+are stacked. Once all the notification in that corner is dismissed, the addition `div` node is cleared from
+the DOM.
+
+<Canvas of={NotificationStories.Position} />
+
+## Features
+
+A notification can be sticky, can have a action button or even have a callback when the notification
+is closed. I also exposed an `id` prop, which can be used to de-duplicate notifications. This can be
+useful in scenarios like when your app checks for a new version and creates a notification for the user.
+Using the `id` prop, the developer doesn't need to maintain state to check if the notification was already
+shown to the user. However, if the notification is dismissed, on subsequent call it will again be shown
+to the user.
+
+<Canvas of={NotificationStories.Features} />
+
+### `Notification` options
+
+<Controls of={NotificationStories.Options} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --background | Used for `background-color`. |
+| --shadow | Used for `box-shadow` |
+| --info | Used for `color` |
+| --info-light | Used for `border-color` |
+| --success | Used for `color` |
+| --success-light | Used for `border-color` |
+| --warn | Used for `color` |
+| --warn-light | Used for `border-color` |
+| --error | Used for `color` |
+| --error-light | Used for `border-color` |

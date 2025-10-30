@@ -1,0 +1,28 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as SpinnerStories from './Spinner.stories';
+
+<Meta of={SpinnerStories} />
+
+# Spinner
+
+Just a rotating spinner. It centers itself automatically.
+
+<Canvas of={SpinnerStories.Sizes} />
+
+```jsx
+import { Spinner } from 'no-frills-ui';
+
+// Render
+<Spinner />
+```
+
+### Props
+
+<Controls of={SpinnerStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| ------------- | ----------- |
+| `--primary` | Used for `color` and `border-color`. |
+| `--border-light-color` | Used for `border-color`. |

@@ -1,0 +1,33 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as ModalStories from './Modal.stories';
+
+<Meta of={ModalStories} />
+
+# Modal
+
+Component that renders in another layer. I used a custom layer manager for this. This ensures that the
+modal always renders on top of whatever is opened without any need of `z-index` attribute.
+
+I also exported `ModalHeader`, `ModalBody` and `ModalFooter` components. These are there only to help with
+styling the modal and adds no additional functionality.
+
+**Why is there a `Dialog` component?**
+
+`Modal` takes declarative approach to manage component's state. Whereas `Dialog` take an imperative approach.
+This is because a lot of time we just want to show/get certain information to/from the user in an async way
+and then continue with our work. Having a declarative approach fragments the logic in such cases. However, I
+didn't want to have a component that does both. Hence, the two component to power the same user experience.
+But at the same time enhancing the developer experience at the cost of one additional component.
+
+<Canvas of={ModalStories.Demo} />
+
+### `Modal` Props
+
+<Controls of={ModalStories.Primary} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --backdrop-color | Used for `background-color`. |
+| --modal-shadow | Used for `box-shadow` |

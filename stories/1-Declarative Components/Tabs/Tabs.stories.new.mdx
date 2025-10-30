@@ -1,0 +1,27 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as TabsStories from './Tabs.stories';
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+This is a slightly complex component. Since there is no native tab component. It uses `HTMLButtonElement` to
+create tabs. The content of the button is derived from `name` prop of children. Anything can be a child element.
+However, for better readability and to not add an unnecessary `div` to the DOM. We also export a `Tab` component.
+
+<Canvas of={TabsStories.Demo} />
+
+### `Tabs` Props
+
+<Controls of={TabsStories.TabsProps} />
+
+### `Tab` Props
+
+<Controls of={TabsStories.TabProps} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | Used for `color` and `border-color`. |
+| --primary-lighter | Used for `background-color`. |

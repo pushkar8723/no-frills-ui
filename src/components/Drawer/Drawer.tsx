@@ -63,7 +63,7 @@ const positionMap = {
     [DRAWER_POSITION.BOTTOM]: LAYER_POSITION.BOTTOM_LEFT,
 }
 
-export default class Drawer extends React.Component<DrawerProps, DrawerState> {
+export default class Drawer extends React.Component<React.PropsWithChildren<DrawerProps>, DrawerState> {
     state = {
         open: false,
     }

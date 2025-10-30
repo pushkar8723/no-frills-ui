@@ -14,7 +14,7 @@ interface ModalState {
     open: boolean,
 }
 
-export default class Modal extends React.Component<ModalProps, ModalState> {
+export default class Modal extends React.Component<React.PropsWithChildren<ModalProps>, ModalState> {
     state = {
         open: false,
     }

@@ -1,0 +1,52 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Get Started/Extending Styles" />
+
+# Extending Styles
+
+Although themeing via css variables enables a developer to easily customize the colors of the components. It also
+limits on sizes. I could have exposed these as variables too. But felt that it would make components too complex
+as I would need to repeateadly use `calc` to keep various dimentions (like width, height, margin, and padding) in sync.
+Also, my approach to have a `Group` component mandates all these components to work in sync out of the box.
+
+So instead I settled for `style` prop. This way my life remains simple and developer can override and create components
+with custom styles on top of it in a wrapper component and use them instead. However, this overhead means a poor
+developer experience as the developer needs to pass styles in object instead of css strings. Which is not a preferred
+way for many developers.
+
+To make it less painful, `css` and `jsx` functions from `@emotion/core` can be used. Emotion is what I used for creating
+most of these components so ideally it shouldn't add to your bundle size. You can use it as described below.
+
+**Example**
+
+```jsx
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import { ActionButton } from "no-frills-ui";
+
+export function LargeButton(props) {
+    return (
+        <ActionButton
+            css={css`
+                height: 40px;
+                min-width: 200px;
+                font-size: 16px;
+                padding: 0 16px;
+            `}
+            {...props}
+        />
+    );
+}
+```
+
+[Check this example out on Code Sandbox](https://codesandbox.io/s/extending-styles-1zrbx)
+
+A lot is happening here that you should be aware of. The comment on the first line tells `babel-plugin-transform-react-jsx`
+to use `jsx` imported from emotion. This may not work out of the box for you. So you might need to refer
+[emotion's guide on css prop](https://emotion.sh/docs/css-prop#jsx-pragma).
+
+The `jsx` function looks for `css` prop and the styles supplied to the prop are evaluated and the computed class name
+is applied to the `className` prop.
+
+If configuring this proves to be too much trouble, then [raise an issue on GitHub](https://github.com/pushkar8723/no-frills-ui/issues/new)
+and let me know the use case too. I may decide to refactor the components and introduce css variables for it.

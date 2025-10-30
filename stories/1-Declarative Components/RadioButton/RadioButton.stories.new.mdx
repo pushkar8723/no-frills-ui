@@ -1,0 +1,32 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as RadioButtonStories from './RadioButton.stories';
+
+<Meta of={RadioButtonStories} />
+
+# RadioButton
+
+Wraps `HTMLInputElement` of type `radio` in a React component. There is also another component `RadioGroup` which
+can be used to wrap `RadioButton` component to give a rounded border and a better experience on focus.
+
+`RadioGroup` component is purely for esthetical purpose.
+
+## Example with `RadioGroup`
+
+<Canvas of={RadioButtonStories.WithRadioGroup} />
+
+## Example without `RadioGroup`
+
+<Canvas of={RadioButtonStories.WithoutRadioGroup} />
+
+### Props
+
+Following props are added on top of `HTMLInputElement` props.
+
+<Controls of={RadioButtonStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | Used for `color` and `border-color` and `background-color`. |
+| --primary-light | Used for `box-shadow`. |

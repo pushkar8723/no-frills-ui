@@ -1,0 +1,31 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as StepperStories from './Stepper.stories';
+
+<Meta of={StepperStories} />
+
+# Stepper
+
+A horizontal stepper component. Can be used for displaying progress in a multi-step form.
+
+> **Note:** Buttons in the footer have to be wired manually. `StepBody` and `StepFooter` are completely optional
+> and any other component can be used in their place. They are exported to help in maintaining style consistency.
+
+<Canvas of={StepperStories.Demo} />
+
+### Props for `Stepper`
+
+<Controls of={StepperStories.StepperProps} />
+
+### Props for `Step`
+
+<Controls of={StepperStories.StepProps} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --border-light-color | Used for `border-color` and `background-color` |
+| --light-grey | Used for `background-color` |
+| --background | Used for `background-color` |
+| --disabled-background | Used for `background-color` |
+| --primary-light | Used for `background-color` |

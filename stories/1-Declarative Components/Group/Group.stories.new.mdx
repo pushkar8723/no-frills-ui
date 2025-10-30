@@ -1,0 +1,42 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as GroupStories from './Group.stories';
+
+<Meta of={GroupStories} />
+
+# Group
+
+This component groups multiple `inputs` / `buttons` / `labels` together.
+
+I find this a better solution for grouping elements instead of having `prefix` and `suffix` props. Also, it
+solves the problem of grouping more than 2 components. Only demerit of going by this method is an extra `errorText`
+prop is needed to be exposed at group level and the individual component's `errorText` cannot be used.
+
+A `GroupLabel` component is available for prepending / appending label to the group.
+
+## Multiple components
+
+<Canvas of={GroupStories.MultipleComponents} />
+
+## Group Label at start
+
+<Canvas of={GroupStories.GroupLabelStart} />
+
+## Group Label at end
+
+<Canvas of={GroupStories.GroupLabelEnd} />
+
+## Error Text
+
+<Canvas of={GroupStories.WithErrorText} />
+
+### Props
+
+<Controls of={GroupStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --error | Used for `border-color`. |
+| --border-color | Used for `border-color`. |
+| --hover-shadow | Used for `box-shadow` |

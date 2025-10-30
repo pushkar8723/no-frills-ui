@@ -2,8 +2,7 @@ import React, { ReactNode, SyntheticEvent, useContext } from 'react';
 import styled from '@emotion/styled';
 import MenuContext from './MenuContext';
 import constants from '../../shared/constants';
-import { Checkbox } from '../Input';
-import { ReactElementLike } from 'prop-types';
+import Checkbox from '../Input/Checkbox';
 
 interface MenuItemProps<T> {
     /** Value of the element */

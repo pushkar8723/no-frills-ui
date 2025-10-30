@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import MenuContext from './MenuContext';
 interface MenuProps<T> {
     /** Multiple Menu Items can be selected */
-    multiSelect: boolean;
+    multiSelect?: boolean;
     /** Value(s) selected */
     value?: T | T[];
     /** Callback when the selected value changes */

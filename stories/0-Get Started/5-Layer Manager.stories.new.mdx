@@ -1,0 +1,29 @@
+import { Meta, Canvas } from '@storybook/blocks';
+import * as LayerManagerStories from './LayerManager.stories';
+
+<Meta of={LayerManagerStories} />
+
+# Layer Manager
+
+Inspired from `react-layer-manager`, I created a layer manager. But since I wanted there to be no boilerplate
+code, I didn't use react context. Instead created a Singleton class to manage layers. All no frills ui components
+that renders in a seperate DOM tree than application will get the layer from this service.
+
+This ensures that user will never have to worry about the `z-index` on which the component will render and can
+continue to nest components as per the requirement. For example, a user can keep opening dialogs one after another
+and each dialog will render in a seperate layer.
+
+This layer also takes care of managing stack and overlay and can close a layer on click of `esc` key. All these
+behaviour can be customized.
+
+**Example**
+
+<Canvas of={LayerManagerStories.Demo} />
+
+Following components use layer mananger
+
+- [Dialog](/?path=/docs/imperative-components-dialog--page)
+- [Modal](/?path=/docs/declarative-components-modal--page)
+- [Drawer](/?path=/docs/declarative-components-drawer--page)
+- [Notification](/?path=/docs/imperative-components-notification--page)
+- [Toast](/?path=/docs/imperative-components-toast--page)

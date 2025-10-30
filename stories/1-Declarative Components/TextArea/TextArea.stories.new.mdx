@@ -1,0 +1,29 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as TextAreaStories from './TextArea.stories';
+
+<Meta of={TextAreaStories} />
+
+# TextArea
+
+Wraps `HTMLTextAreaElement` in a React component to give additional `label` and `errorText` props.
+
+A `*` is added to the label if the field is required.
+
+<Canvas of={TextAreaStories.Demo} />
+
+### Props
+
+Following props are added on top of `HTMLTextAreaElement` props.
+
+<Controls of={TextAreaStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | Used for `color` and `border-color`. |
+| --primary-light | Used for `box-shadow`. |
+| --error | Used for `color` and `border-color`. |
+| --error-light | Used for `box-shadow`. |
+| --background | Used for `background-color`. |
+| --border-color | Used for `border-color`. |

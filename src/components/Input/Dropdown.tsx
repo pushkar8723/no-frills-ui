@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Menu } from '../Menu';
 import { Popover, POPOVER_POSITION } from '../Popover';

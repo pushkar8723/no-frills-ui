@@ -82,7 +82,7 @@ type TooltipProps = PropTypes.InferProps<typeof Tooltip.propTypes>;
 
 Tooltip.propTypes = {
     /** Text to show in the tooltip */
-    tooltipText: PropTypes.string.isRequired,
+    tooltipText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     /** Position of the tooltip */
     position: PropTypes.oneOf([
         TOOLTIP_POSITION.TOP,

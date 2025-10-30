@@ -120,7 +120,7 @@ const ErrorContainer = styled.div`
     margin-left: 3px;
 `;
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props, ref) => {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
 

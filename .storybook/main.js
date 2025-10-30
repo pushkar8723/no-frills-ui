@@ -1,20 +1,43 @@
-const path = require('path');
+import remarkGfm from 'remark-gfm';
 
-module.exports = {
-  stories: ['../stories/**/*.stories.mdx'],
-  presets: [
+/** @type { import('@storybook/react-webpack5').StorybookConfig } */
+const config = {
+  stories: [
+    '../stories/**/*.stories.tsx',
+    '../stories/**/*.stories.new.mdx',
+  ],
+
+  addons: [
+    "@storybook/addon-webpack5-compiler-babel",
+    "@storybook/addon-links",
     {
-      name: '@storybook/preset-typescript',
+      name: '@storybook/addon-docs',
       options: {
-        include: [
-          path.resolve(__dirname, '../src'),
-          path.resolve(__dirname, '../stories'),
-        ],
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
       },
     },
   ],
-  addons: [
-      '@storybook/addon-actions', '@storybook/addon-links', '@storybook/addon-docs',
-      '@storybook/addon-viewport/register',
-    ],
+
+  framework: {
+    name: "@storybook/react-webpack5",
+    options: {}
+  },
+
+  docs: {
+    autodocs: true
+  },
+  
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
+    },
+  },
 };
+
+export default config;

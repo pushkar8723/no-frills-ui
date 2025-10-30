@@ -1,5 +1,5 @@
 import React from 'react';
-import { NOTIFICATION_POSITION, NotificationOptions, NOTIFICATION_TYPE } from './Notification';
+import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './types';
 import { Close, Info, ReportProblem, ErrorOutline, CheckCircle } from '../../icons';
 import {
     Container, Notice, Title, IconContainer,

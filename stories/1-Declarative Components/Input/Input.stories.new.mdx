@@ -1,0 +1,29 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+Wraps `HTMLInputElement` in a React component to give additional `label` and `errorText` props.
+
+A `*` is added to the label if the field is required.
+
+<Canvas of={InputStories.Variants} />
+
+### Props
+
+Following props are added on top of `HTMLInputElement` props.
+
+<Controls of={InputStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | Used for `color` and `border-color`. |
+| --primary-light | Used for `box-shadow`. |
+| --error | Used for `color` and `border-color`. |
+| --error-light | Used for `box-shadow`. |
+| --background | Used for `background-color`. |
+| --border-color | Used for `border-color`. |

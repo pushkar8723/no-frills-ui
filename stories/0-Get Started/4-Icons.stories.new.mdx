@@ -1,0 +1,30 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Get Started/Icons" />
+
+# Icons
+
+To put it simply, icons are **not** included. 😅
+
+Creating a component library is a huge task in itself. I didn't want to add the complexity of creating an icon library
+on top of it. When there is already very rich set of Icons libraries present on the internet for free use. However, I
+haven't left you high and dry in this regard.
+
+You can choose your icon library as per your requirement. If you settle for a font based icon library, then no extra
+effort is required as the icons are just another text on DOM. But if you want to use an SVG icon, there are components that
+will override `height`, `width` and `fill` props of SVG to have a seemless experience of using the SVG icon.
+
+#### Example of `IconButton`
+
+```jsx
+import { IconButton } from 'no-frills-ui';
+import SVGIcon from '../path/to/svg/icon'; // your svg icon
+
+// render
+<IconButton><SVGIcon /></IconButton>
+```
+
+Following components support having an SVG component inside them.
+
+- [Buttons](/?path=/docs/declarative-components-button--page)
+- [GroupLabel](/?path=/docs/declarative-components-group--page)
