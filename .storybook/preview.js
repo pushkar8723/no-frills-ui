@@ -9,7 +9,10 @@ const preview = {
     },
     options: {
       storySort: {
-        order: ['Get Started', ['Introduction', 'Development', 'Theming', 'Extending Styles', 'Icons', 'Layer Manager'], 'Declarative Components', 'Imperative Components'],
+        order: [
+            'Get Started', ['Introduction', 'Development', 'Theming', 'Extending Styles', 'Icons', 'Layer Manager'], 
+            'Declarative Components', ['Accordion', 'Badge'], 
+            'Imperative Components', ['Toast']],
       },
     },
     // Set the initial page to the Introduction doc
