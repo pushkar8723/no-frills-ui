@@ -3,14 +3,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Drawer } from '../../../src/components';
 import DrawerDemo from '../../resources/DrawerDemo';
 
-const meta: Meta<typeof Drawer> = {
-  component: Drawer,
+const meta: Meta = {
+  component: Drawer as any,
   title: 'Declarative Components/Drawer',
   tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof Drawer>;
+type Story = StoryObj;
 
 export const Demo: Story = {
   render: () => (

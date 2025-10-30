@@ -16,7 +16,7 @@ const Container = styled.div`
     flex-direction: column;
 `;
 
-export default function Step(props: StepProps) {
+export default function Step(props: React.PropsWithChildren<StepProps>) {
     const { name, disabled, completed, ...rest } = props;
     return <Container {...rest} />;
 }

@@ -66,7 +66,7 @@ export const RadioGroup = styled.div`
     }
 `;
 
-function RadioButton(props: PropTypes.InferProps<typeof RadioButton.propTypes>) {
+function RadioButton(props: PropTypes.InferProps<React.AllHTMLAttributes<HTMLInputElement> & typeof RadioButton.propTypes>) {
     return (
         <Label>
             <Input {...props} type='radio' />

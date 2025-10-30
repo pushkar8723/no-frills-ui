@@ -4,14 +4,14 @@ import { Stepper, Step, StepBody, StepFooter } from '../../../src/components/Ste
 import { Card } from '../../../src/components/Card';
 import { Button, ActionButton } from '../../../src/components/Button';
 
-const meta: Meta<typeof Stepper> = {
-  component: Stepper,
+const meta: Meta = {
+  component: Stepper as any,
   title: 'Declarative Components/Stepper',
   tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof Stepper>;
+type Story = StoryObj;
 
 export const Demo: Story = {
   render: () => (

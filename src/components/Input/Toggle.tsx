@@ -76,7 +76,7 @@ const Input = styled.input`
 `;
 
 
-type ToggleProps = PropTypes.InferProps<typeof Toggle.propTypes>;
+type ToggleProps = PropTypes.InferProps<React.AllHTMLAttributes<HTMLInputElement> & typeof Toggle.propTypes>;
 
 function Toggle(props: ToggleProps) {
     return (

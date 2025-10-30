@@ -73,7 +73,7 @@ const Input = styled.input`
     }
 `;
 
-function Radio(props: PropTypes.InferProps<typeof Radio.propTypes>) {
+function Radio(props: PropTypes.InferProps<React.AllHTMLAttributes<HTMLInputElement> & typeof Radio.propTypes>) {
     return (
         <Label>
             <Input {...props} type='radio' />

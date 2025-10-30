@@ -3,14 +3,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Modal } from '../../../src/components';
 import ModalDemo from '../../resources/ModalDemo';
 
-const meta: Meta<typeof Modal> = {
-  component: Modal,
+const meta: Meta = {
+  component: Modal as any,
   title: 'Declarative Components/Modal',
   tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof Modal>;
+type Story = StoryObj;
 
 export const Demo: Story = {
   render: () => (
