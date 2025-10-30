@@ -10,9 +10,17 @@ const preview = {
     options: {
       storySort: {
         order: [
-            'Get Started', ['Introduction', 'Development', 'Theming', 'Extending Styles', 'Icons', 'Layer Manager'], 
-            'Declarative Components', ['Accordion', 'Badge', 'Spinner'], 
-            'Imperative Components', ['Toast']
+            'Get Started', [
+                'Introduction', 'Development', 'Theming', 'Extending Styles', 
+                'Icons', 'Layer Manager'
+            ], 
+            'Declarative Components', [
+                'Accordion', 'Badge', 'Button', 'Card', 'Checkbox', 'Chip', 
+                'DragAndDrop', 'Drawer', 'Dropdown', 'Group', 'Input', 'Menu', 
+                'Modal', 'Popover', 'Radio', 'RadioButton', 'Select', 'Spinner',
+                'Stepper', 'Tabs', 'TextArea', 'Toggle', 'Tooltip',
+            ], 
+            'Imperative Components', ['Dialog', 'Notification', 'Toast']
         ],
       },
     },
