@@ -1,0 +1,40 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+import * as BadgeStories from './Badge.stories';
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+A styled `div`. This component doesn't do much, but helps maintain consistent experience across other components.
+
+<Canvas of={BadgeStories.AllTypes} />
+
+**Overlay:**
+
+<Canvas of={BadgeStories.OverlayBadges} />
+
+**Inline:**
+
+<Canvas of={BadgeStories.InlineBadges} />
+
+```jsx
+import { Badge } from 'no-frills-ui';
+
+// Render
+<Badge />
+```
+
+### Props
+
+Following props are added on top of `HTMLSpanElement` props.
+
+<Controls of={BadgeStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description                  |
+|---------------|------------------------------|
+| `--primary`   | Used for `background-color`. |
+| `--success`   | Used for `background-color`. |
+| `--info`      | Used for `background-color`. |
+| `--danger`    | Used for `background-color`. |
