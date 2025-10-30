@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/blocks';
 import constants from '../../src/shared/constants';
 
 <Meta title="Get Started/Theming" />
@@ -10,6 +10,7 @@ component without any theming if you like the blue theme that I followed. Or you
 setting values to each of these variable in `:root` selector.
 
 **Example**
+
 ```css
 :root {
     --primary: darkorange;
@@ -20,6 +21,7 @@ setting values to each of these variable in `:root` selector.
 Further, these variables can also be overriden at a block level.
 
 **Example**
+
 ```css
 .block {
     --primary: darkgreen;
@@ -45,7 +47,10 @@ to do it for a lot of styles, your code quality may take a hit. For such cases r
 
 <table>
     <thead>
-        <th>Variable Name</th><th width="120">Default Value</th>
+        <tr>
+            <th>Variable Name</th>
+            <th width="120">Default Value</th>
+        </tr>
     </thead>
     <tbody>
         <tr>
@@ -139,7 +144,10 @@ to do it for a lot of styles, your code quality may take a hit. For such cases r
 
 <table>
     <thead>
-        <th>Variable Name</th><th>Default Value</th>
+        <tr>
+            <th>Variable Name</th>
+            <th>Default Value</th>
+        </tr>
     </thead>
     <tbody>
         <tr>

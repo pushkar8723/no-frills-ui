@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta } from '@storybook/blocks';
 
 <Meta title="Get Started/Extending Styles" />
 
@@ -17,8 +17,8 @@ way for many developers.
 To make it less painful, `css` and `jsx` functions from `@emotion/core` can be used. Emotion is what I used for creating
 most of these components so ideally it shouldn't add to your bundle size. You can use it as described below.
 
-
 **Example**
+
 ```jsx
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
@@ -38,6 +38,7 @@ export function LargeButton(props) {
     );
 }
 ```
+
 [Check this example out on Code Sandbox](https://codesandbox.io/s/extending-styles-1zrbx)
 
 A lot is happening here that you should be aware of. The comment on the first line tells `babel-plugin-transform-react-jsx`

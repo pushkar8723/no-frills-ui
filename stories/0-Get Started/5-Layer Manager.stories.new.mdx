@@ -1,8 +1,7 @@
-import { Meta, Preview } from '@storybook/addon-docs/blocks';
-import LayerDemo from '../resources/LayerDemo.tsx'
-import { Button } from '../../src/components/Button';
+import { Meta, Canvas } from '@storybook/blocks';
+import * as LayerManagerStories from './LayerManager.stories';
 
-<Meta title="Get Started/Layer Manager" />
+<Meta of={LayerManagerStories} />
 
 # Layer Manager
 
@@ -19,11 +18,10 @@ behaviour can be customized.
 
 **Example**
 
-<Preview withSource='none'>
-    <LayerDemo />
-</Preview>
+<Canvas of={LayerManagerStories.Demo} />
 
 Following components use layer mananger
+
 - [Dialog](/?path=/docs/imperative-components-dialog--page)
 - [Modal](/?path=/docs/declarative-components-modal--page)
 - [Drawer](/?path=/docs/declarative-components-drawer--page)
