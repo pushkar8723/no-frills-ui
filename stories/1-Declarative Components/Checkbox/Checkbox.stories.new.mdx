@@ -1,0 +1,26 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+Wraps `HTMLInputElement` of type `checkbox` in a React component to give additional `label`
+and `indeterminate` props.
+
+<Canvas of={CheckboxStories.Variants} />
+
+### Props
+
+Following props are added on top of `HTMLInputElement` props.
+
+<Controls of={CheckboxStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | Used for `color` and `border-color`. |
+| --primary-light | Used for `box-shadow`. |
+| --background | Used for `background-color`. |
+| --border-color | Used for `border-color`. |

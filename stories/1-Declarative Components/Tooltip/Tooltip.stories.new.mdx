@@ -1,0 +1,26 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+Higher order Component that adds a tooltip to the wrapped component. The default style for the div created by
+HOC is `display: inline-flex`. So it shouldn't interfere with the layout, but in case it does,
+style prop can be used to override this to `display: flex`.
+
+<Canvas of={TooltipStories.Positions} />
+
+It also supports rich tooltip but creating a rich tooltip is discouraged.
+
+<Canvas of={TooltipStories.RichTooltip} />
+
+### Props
+
+<Controls of={TooltipStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --tooltip-color | Used for `background-color`. |

@@ -1,0 +1,21 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as DrawerStories from './Drawer.stories';
+
+<Meta of={DrawerStories} />
+
+# Drawer
+
+This is similar to `Modal` component but it slides in from one of the three edges (left, right and bottom).
+
+<Canvas of={DrawerStories.Demo} />
+
+### Props
+
+<Controls of={DrawerStories.Primary} />
+
+### CSS Variables used
+
+| Variable Name | Description |
+| :- | :- |
+| --backdrop-color | Used for `background-color`. |
+| --modal-shadow | Used for `box-shadow` |

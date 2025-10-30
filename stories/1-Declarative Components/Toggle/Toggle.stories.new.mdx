@@ -1,0 +1,23 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as ToggleStories from './Toggle.stories';
+
+<Meta of={ToggleStories} />
+
+# Toggle
+
+Wraps `HTMLInputElement` of type `checkbox` in a React component to give additional `label` prop.
+
+<Canvas of={ToggleStories.Variants} />
+
+### Props
+
+Following props are added on top of `HTMLInputElement` props.
+
+<Controls of={ToggleStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | Used for `color` and `border-color`. |
+| --primary-light | Used for `box-shadow` and `background-color`. |

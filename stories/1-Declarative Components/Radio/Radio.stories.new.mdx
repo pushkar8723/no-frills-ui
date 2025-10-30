@@ -1,0 +1,25 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as RadioStories from './Radio.stories';
+
+<Meta of={RadioStories} />
+
+# Radio
+
+Wraps `HTMLInputElement` of type `radio` in a React component to give additional `label` prop.
+
+<Canvas of={RadioStories.Variants} />
+
+### Props
+
+Following props are added on top of `HTMLInputElement` props.
+
+<Controls of={RadioStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --primary | Used for `color` and `border-color` and `background-color`. |
+| --primary-light | Used for `box-shadow`. |
+| --background | Used for `background` and `box-shadow`. |
+| --border-color | Used for `border-color`. |

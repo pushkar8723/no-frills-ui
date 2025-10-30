@@ -1,0 +1,28 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as MenuStories from './Menu.stories';
+
+<Meta of={MenuStories} />
+
+# Menu
+
+A component to render a single or multi-select menu. The value is a string (in case of single select) or
+an array (in case of multi-select).
+
+In case there are too many items to be rendered inside a menu, the `Menu` component can contain a virtualizer
+like `react-window` which can then render `MenuItem` to ensure performance.
+
+<Canvas of={MenuStories.Variants} />
+
+### Props of `Menu`
+
+<Controls of={MenuStories.MenuProps} />
+
+### Props of `MenuItem`
+
+<Controls of={MenuStories.MenuItemProps} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| :- | :- |
+| --border-light-color | Used for `background-color`. |

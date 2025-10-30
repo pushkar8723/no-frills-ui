@@ -1,0 +1,44 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+Simple button component. The component itself is just a styled `<button>` element. Thus, its props are those
+of `HTMLButtonElement`. Since, this is the native button element, you might also need to pass a `type` prop
+if you are using this in a form or the form's submit event will get triggered on button click.
+
+#### Enabled State
+
+<Canvas of={ButtonStories.EnabledState} />
+
+#### Disabled State
+
+<Canvas of={ButtonStories.DisabledState} />
+
+```jsx
+import { Button, RaisedButton, LinkButton, ActionButton, IconButton } from 'no-frills-ui';
+
+// Render
+<Button>Normal Button</Button>
+<LinkButton>Link Button</LinkButton>
+<RaisedButton>Raised Button</RaisedButton>
+<ActionButton>Action Button</ActionButton>
+<IconButton><SVGIcon /></IconButton>
+```
+
+### Props
+
+Since this is just a native button element. You can use any `HTMLButtonElement` props.
+
+<Controls of={ButtonStories.Primary} />
+
+### CSS Variables Used
+
+| Variable Name | Description |
+| ------------- | ----------- |
+| `--primary` | Used for `color` and `border-color`. |
+| `--primary-light` | Used for `box-shadow`. |
+| `--background` | Used for `background-color`. |
+| `--border-color` | Used for `border-color`. |
