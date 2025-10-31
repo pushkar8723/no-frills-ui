@@ -10,7 +10,23 @@ dropdowns or menu. When the popover opens, it check if it can fit into the viewp
 adjust itself such that there is no overflow. It also automatically closes on click anywhere outside
 the container.
 
-<Canvas of={PopoverStories.Positions} />
+<div>{PopoverStories.Positions.render()}</div>
+
+```jsx
+import { useState } from 'react';
+import { Popover, POPOVER_POSITION } from 'no-frills-ui';
+
+const [open, setOpen] = useState(false);
+
+// render
+<Popover
+    open={open}
+    position={POPOVER_POSITION.TOP_RIGHT}
+    element={<button onClick={() => setOpen(true)}>Open Popover</button>}
+>
+    Popover Content goes here
+</Popover>
+```
 
 ### Props
 
