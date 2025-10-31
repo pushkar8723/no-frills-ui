@@ -94,6 +94,7 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
     const [closing, setClosing] = useState(false);
     const [translate, setTranslate] = useState<translate>({ x: 0, y: 0 });
     const popperRef = useRef<HTMLDivElement>();
+    const containerRef = useRef<HTMLDivElement>();
 
     const close = () => {
         setClosing(true);
@@ -113,6 +114,12 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
         }
     }
 
+    const clickOutsideHandler = (e: MouseEvent) => {
+        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+            close();
+        }
+    }
+
     /**
      * Get called on popover mount.
      */
@@ -121,14 +128,17 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
 
         return () => {
             document.removeEventListener('keyup', keyupEventHandler);
-            document.removeEventListener('click', close);
+            document.removeEventListener('click', clickOutsideHandler);
         }
     }, [])
 
     useEffect(() => {
         if (props.open) {
             setOpen(true);
-            document.addEventListener('click', close);
+            // Use requestAnimationFrame to add listener after current event loop
+            requestAnimationFrame(() => {
+                document.addEventListener('click', clickOutsideHandler);
+            });
         } else {
             if (open) {
                 close();
@@ -136,7 +146,7 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
         }
 
         return () => {
-            document.removeEventListener('click', close);
+            document.removeEventListener('click', clickOutsideHandler);
         }
     }, [props.open]);
 
@@ -189,7 +199,7 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
     }, [open]);
 
     return (
-        <PopoverDiv>
+        <PopoverDiv ref={containerRef}>
             <props.element />
             { open && (
                 <Popper

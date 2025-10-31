@@ -74,6 +74,11 @@ export default function Dropdown<T>(props: DropdownProps<T>) {
     const changeHandler = (val: T | T[]) => {
         setValue(val);
         onChange?.(val);
+        
+        // Close dropdown after selection if not multiSelect
+        if (!multiSelect) {
+            setOpen(false);
+        }
     }
 
     return (
