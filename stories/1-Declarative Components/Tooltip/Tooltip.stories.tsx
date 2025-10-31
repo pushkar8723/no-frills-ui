@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Tooltip, TOOLTIP_POSITION, Button, Input } from '../../../src/components';
 
 const meta: Meta<typeof Tooltip> = {

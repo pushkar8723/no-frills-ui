@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Chip } from '../../../src/components/Chip';
 
 const meta: Meta<typeof Chip> = {

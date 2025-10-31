@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Popover, POPOVER_POSITION, Card } from '../../../src/components';
 import PopoverDemo from '../../resources/PopoverDemo';
 

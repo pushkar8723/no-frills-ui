@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { DragAndDrop, ORIENTATION } from '../../../src/components';
 import DragAndDropDemo from '../../resources/DragAndDropDemo';
 

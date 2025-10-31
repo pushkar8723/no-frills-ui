@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Notification, NOTIFICATION_POSITION, NOTIFICATION_TYPE, Button } from '../../../src/components';
 import { StoryProps } from '../../../src/components/Notification/Notification';
 

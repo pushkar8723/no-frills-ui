@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Toast, TOAST_TYPE } from '../../../src/components/Toast';
 import { Button } from '../../../src/components/Button';
 import ToastStory from '../../../src/components/Toast/ToastStory';

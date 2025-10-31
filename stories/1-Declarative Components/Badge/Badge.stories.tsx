@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Badge, BADGE_TYPE } from '../../../src/components/Badge';
 import { Button } from '../../../src/components/Button';
  

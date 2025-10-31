@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Button, IconButton } from '../../../src/components/Button';
 import { Input, Select } from '../../../src/components/Input';
 import { Group, GroupLabel } from '../../../src/components/Groups';

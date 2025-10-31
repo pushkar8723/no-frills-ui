@@ -1,3 +1,5 @@
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
 import remarkGfm from 'remark-gfm';
 
 /** @type { import('@storybook/react-webpack5').StorybookConfig } */
@@ -8,10 +10,10 @@ const config = {
   ],
 
   addons: [
-    "@storybook/addon-webpack5-compiler-babel",
-    "@storybook/addon-links",
+    getAbsolutePath("@storybook/addon-webpack5-compiler-babel"),
+    getAbsolutePath("@storybook/addon-links"),
     {
-      name: '@storybook/addon-docs',
+      name: getAbsolutePath("@storybook/addon-docs"),
       options: {
         mdxPluginOptions: {
           mdxCompileOptions: {
@@ -23,21 +25,21 @@ const config = {
   ],
 
   framework: {
-    name: "@storybook/react-webpack5",
+    name: getAbsolutePath("@storybook/react-webpack5"),
     options: {}
   },
 
-  docs: {
-    autodocs: true
-  },
-  
   typescript: {
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
       propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
     },
-  },
+  }
 };
 
 export default config;
+
+function getAbsolutePath(value) {
+  return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+}

@@ -1,4 +1,4 @@
-/** @type { import('@storybook/react').Preview } */
+/** @type { import('@storybook/react-webpack5').Preview } */
 const preview = {
   parameters: {
     controls: {
@@ -30,10 +30,13 @@ const preview = {
       'storybook/docs/panel': { index: -1 },
     },
   },
+
   // Set initial story
   initialGlobals: {
     docsPage: 'get-started-introduction--docs',
   },
+
+  tags: ['autodocs']
 };
 
 export default preview;

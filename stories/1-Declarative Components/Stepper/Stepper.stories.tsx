@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Stepper, Step, StepBody, StepFooter } from '../../../src/components/Stepper';
 import { Card } from '../../../src/components/Card';
 import { Button, ActionButton } from '../../../src/components/Button';
