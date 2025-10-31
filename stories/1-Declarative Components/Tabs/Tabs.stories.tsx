@@ -28,17 +28,17 @@ export const Demo: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Tabs, Tab } from 'no-frills-ui';
-
-// Render
-<Tabs active={1}>
-    <Tab name="Tab 1">
+        code: `<Tabs active={1}>
+      <Tab name="Tab 1">
         This is tab 1 content.
-    </Tab>
-    <Tab name="Tab 2">
+      </Tab>
+      <Tab name="Tab 2">
         This is tab 2 content.
-    </Tab>
-</Tabs>`,
+      </Tab>
+      <Tab name="Tab 3" disabled>
+        This is tab 3 content.
+      </Tab>
+    </Tabs>`,
       },
     },
   },

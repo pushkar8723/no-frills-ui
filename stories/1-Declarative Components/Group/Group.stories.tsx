@@ -31,12 +31,16 @@ export const MultipleComponents: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Group, GroupLabel } from 'no-frills-ui';
-
-// Render
-<Group>
-    <Input required label='Discount' />
-    <GroupLabel>%</GroupLabel>
+        code: `<Group>
+  <GroupLabel><SearchIcon /></GroupLabel>
+  <Input label='Search Campaign' />
+  <Select label="Status" style={{ width: '100px' }}>
+    <option>Active</option>
+    <option>Inactive</option>
+    <option>Disabled</option>
+    <option>Deleted</option>
+  </Select>
+  <Button>Search</Button>
 </Group>`,
       },
     },
@@ -50,6 +54,16 @@ export const GroupLabelStart: Story = {
       <Input type='number' label='Budget' />
     </Group>
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: `Group>
+  <GroupLabel>$</GroupLabel>
+  <Input type='number' label='Budget' />
+</Group>`,
+      },
+    },
+  },
 };
 
 export const GroupLabelEnd: Story = {
@@ -59,6 +73,16 @@ export const GroupLabelEnd: Story = {
       <GroupLabel>%</GroupLabel>
     </Group>
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Group>
+  <Input required label='Discount' />
+  <GroupLabel>%</GroupLabel>
+</Group>`,
+      },
+    },
+  },
 };
 
 export const WithErrorText: Story = {
@@ -68,6 +92,16 @@ export const WithErrorText: Story = {
       <GroupLabel>%</GroupLabel>
     </Group>
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Group errorText='Invalid input'>
+  <Input label='Discount' />
+  <GroupLabel>%</GroupLabel>
+</Group>`,
+      },
+    },
+  },
 };
 
 export const Primary: Story = {

@@ -14,27 +14,12 @@ type Story = StoryObj;
 
 export const Demo: Story = {
   render: () => (
-    <div style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px', minHeight: '200px' }}>
-      <ModalDemo />
-    </div>
+    <ModalDemo />
   ),
   parameters: {
     docs: {
       source: {
-        code: `import { useState } from 'react';
-import { Modal, ModalBody, ModalFooter } from 'no-frills-ui';
-
-const [open, setOpen] = useState(false);
-
-// render
-<Modal open={open} onClose={() => setOpen(false)}>
-    <ModalBody>
-        This will always render on top.
-    </ModalBody>
-    <ModalFooter>
-        <button onClick={() => setOpen(false)}></button>
-    </ModalFooter>
-</Modal>`,
+        code: ``,
       },
     },
   },

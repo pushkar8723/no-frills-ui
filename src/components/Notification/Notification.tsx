@@ -5,8 +5,10 @@ import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import NotificationManager from './NotificationManager';
 import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './types';
 
+type NotificationProps = PropTypes.InferProps<typeof StoryProps.propTypes>;
+
 /** This component is only used for storybook documentation */
-export class StoryProps extends React.Component {
+export class StoryProps extends React.Component<NotificationProps> {
     static propTypes = {
         /** Title of the notification */
         title: PropTypes.string.isRequired,

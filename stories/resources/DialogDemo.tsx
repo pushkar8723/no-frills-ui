@@ -6,19 +6,19 @@ import {
 import { Button } from '../../src/components/Button';
 
 export default function DialogDemo() {
-    const alertDialog = useRef<AlertDialog>();
-    const confirmDialog = useRef<ConfirmDialog>();
-    const promptDialog = useRef<PromptDialog>();
-    const dialog = useRef<Dialog>();
+    const alertDialog = useRef<AlertDialog | null>(null);
+    const confirmDialog = useRef<ConfirmDialog | null>(null);
+    const promptDialog = useRef<PromptDialog | null>(null);
+    const dialog = useRef<Dialog | null>(null);
 
     const showAlert = async () => {
-        await alertDialog.current.show();
+        await alertDialog.current?.show();
         alert('Alert closed');
     }
 
     const confirm = async () => {
         try {
-            await confirmDialog.current.show();
+            await confirmDialog.current?.show();
             alert('Thanks! Glad you liked it.');
         } catch (e) {
             alert('Hmmm! Give it a try at least.');
@@ -27,7 +27,7 @@ export default function DialogDemo() {
 
     const show = async () => {
         try {
-            const resp = await promptDialog.current.show();
+            const resp = await promptDialog.current?.show();
             alert(`Order placed for ${resp} products.`);
         } catch (e) {
             alert('Transaction canceled');
@@ -35,16 +35,16 @@ export default function DialogDemo() {
     }
 
     const openDialog = () => {
-        dialog.current.open();
+        dialog.current?.open();
     }
 
     const closeDialog = () => {
-        dialog.current.close();
+        dialog.current?.close();
     }
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', flex: 1, justifyContent: 'space-between', flexWrap: 'wrap' }}>
                 <Button onClick={showAlert}>Alert Dialog</Button>
                 <Button onClick={confirm}>Confirm Dialog</Button>
                 <Button onClick={show}>Prompt Dialog</Button>

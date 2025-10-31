@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TOAST_TYPE } from './Toast';
 
+type ToastOptions = PropTypes.InferProps<typeof ToastStory.propTypes>;
+
 /** This component is only used for storybook documentation */
-export default class ToastStory extends React.Component {
+export default class ToastStory extends React.Component<ToastOptions> {
     static propTypes = {
         /** Text of the toast */
         text: PropTypes.string.isRequired,

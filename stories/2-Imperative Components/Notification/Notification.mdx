@@ -23,7 +23,7 @@ feedback and should not have context of the application in any way.
 I followed the standard for creating different types of notifications, i.e, `info`, `success`, `warning`,
 and `error`. They all function in the same fashion but have subtle colour differences.
 
-<Canvas of={NotificationStories.Types} />
+<Canvas of={NotificationStories.Types} className="canvas-background" />
 
 ## Position
 
@@ -31,7 +31,7 @@ Notification can be spawned in any four corner of the page and subsequent notifi
 are stacked. Once all the notification in that corner is dismissed, the addition `div` node is cleared from
 the DOM.
 
-<Canvas of={NotificationStories.Position} />
+<Canvas of={NotificationStories.Position} className="canvas-background" />
 
 ## Features
 
@@ -42,7 +42,27 @@ Using the `id` prop, the developer doesn't need to maintain state to check if th
 shown to the user. However, if the notification is dismissed, on subsequent call it will again be shown
 to the user.
 
-<Canvas of={NotificationStories.Features} />
+<Canvas of={NotificationStories.Features} className="canvas-background" />
+
+```jsx
+import { Notification, NOTIFICATION_POSITION, NOTIFICATION_TYPE } from 'no-frills-ui';
+
+// Add a notification
+// It returns an id which can be used to programmatically dismiss the notification.
+const id = Notification.add(
+    NOTIFICATION_POSITION.TOP_RIGHT, {
+        title: 'New message received',
+        description: 'Please share feedback if you like this approach.',
+        type: NOTIFICATION_TYPE.INFO
+    }
+);
+
+// Remove a notification
+Notification.remove(NOTIFICATION_POSITION.TOP_RIGHT, id);
+
+// Destroy stack of notification
+Notification.destroy(NOTIFICATION_POSITION.TOP_RIGHT);
+```
 
 ### `Notification` options
 

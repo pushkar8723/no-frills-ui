@@ -14,8 +14,29 @@ type Story = StoryObj<typeof Menu>;
 
 export const Variants: Story = {
   render: () => (
-    <div style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px', display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-      <Card>
+    <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+      <Card style={{ width: '200px' }}>
+        <Menu>
+          <MenuItem value='apple'>Apple</MenuItem>
+          <MenuItem value='orange'>Orange</MenuItem>
+          <MenuItem value='mango'>Mango</MenuItem>
+          <MenuItem value='Banana'>Banana</MenuItem>
+        </Menu>
+      </Card>
+      <Card style={{ width: '200px' }}>
+        <Menu multiSelect>
+          <MenuItem value='apple'>Apple</MenuItem>
+          <MenuItem value='orange'>Orange</MenuItem>
+          <MenuItem value='mango'>Mango</MenuItem>
+          <MenuItem value='Banana'>Banana</MenuItem>
+        </Menu>
+      </Card>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Card>
         <Menu>
           <MenuItem value='apple'>Apple</MenuItem>
           <MenuItem value='orange'>Orange</MenuItem>
@@ -30,21 +51,7 @@ export const Variants: Story = {
           <MenuItem value='mango'>Mango</MenuItem>
           <MenuItem value='Banana'>Banana</MenuItem>
         </Menu>
-      </Card>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `import { Menu, MenuItem } from 'no-frills-ui';
-
-//render
-<Menu>
-    <MenuItem value='apple'>Apple</MenuItem>
-    <MenuItem value='orange'>Orange</MenuItem>
-    <MenuItem value='mango'>Mango</MenuItem>
-    <MenuItem value='Banana'>Banana</MenuItem>
-</Menu>`,
+      </Card>`,
       },
     },
   },

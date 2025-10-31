@@ -37,10 +37,24 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Select } from 'no-frills-ui';
-
-// Render
-<Select />`,
+        code: `<Select
+        label='Gender'
+        required
+      >
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+        <option value="T">Transgender</option>
+        <option value="N">Don't want to specify</option>
+      </Select>
+      <Select
+        label='Country'
+        value='IN'
+        disabled
+      >
+        <option value="IN">India</option>
+        <option value="US">America</option>
+        <option value="UK">United Kingdom</option>
+      </Select>`,
       },
     },
   },

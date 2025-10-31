@@ -15,20 +15,20 @@ the first one is removed, the first one is automatically removed.
 
 A toast can be single or multiple with our without an actionable button.
 
-<Canvas of={ToastStories.Variations} />
+<Canvas of={ToastStories.Variations} className="canvas-background" />
 
 ### Types
 
 I followed the standard for creating different types of notifications, i.e, `info`, `success`, `warning`,
 and `error`. They all function in the same fashion but have colour differences.
 
-<Canvas of={ToastStories.Types} />
+<Canvas of={ToastStories.Types} className="canvas-background" />
 
 ```jsx
 import { Toast, TOAST_TYPE } from 'no-frills-ui';
 
 // Show a toast.
-Toast.add({ title: 'Email sent.' });
+Toast.add({ text: 'Email sent.' });
 
 // Remove any visible toast.
 Toast.remove();

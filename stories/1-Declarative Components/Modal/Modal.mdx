@@ -19,7 +19,24 @@ and then continue with our work. Having a declarative approach fragments the log
 didn't want to have a component that does both. Hence, the two component to power the same user experience.
 But at the same time enhancing the developer experience at the cost of one additional component.
 
-<Canvas of={ModalStories.Demo} />
+<Canvas of={ModalStories.Demo} className="canvas-background-alternate"/>
+
+```jsx
+import { useState } from 'react';
+import { Modal, ModalBody, ModalFooter } from 'no-frills-ui';
+
+const [open, setOpen] = useState(false);
+
+// render
+<Modal open={open} onClose={() => setOpen(false)}>
+    <ModalBody>
+        This will always render on top.
+    </ModalBody>
+    <ModalFooter>
+        <button onClick={() => setOpen(false)}></button>
+    </ModalFooter>
+</Modal>
+```
 
 ### `Modal` Props
 

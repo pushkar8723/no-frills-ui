@@ -15,6 +15,17 @@ It also supports rich tooltip but creating a rich tooltip is discouraged.
 
 <Canvas of={TooltipStories.RichTooltip} />
 
+```jsx
+import { Tooltip, TOOLTIP_POSITION, } from 'no-frills-ui';
+
+// Render
+<Tooltip tooltipText='Now you see me' position={TOOLTIP_POSITION.RIGHT}>
+    <button>
+        Hover over me
+    </button>
+</Tooltip>
+```
+
 ### Props
 
 <Controls of={TooltipStories.Primary} />

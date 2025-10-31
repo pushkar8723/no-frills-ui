@@ -10,7 +10,42 @@ A horizontal stepper component. Can be used for displaying progress in a multi-s
 > **Note:** Buttons in the footer have to be wired manually. `StepBody` and `StepFooter` are completely optional
 > and any other component can be used in their place. They are exported to help in maintaining style consistency.
 
-<Canvas of={StepperStories.Demo} />
+<Canvas of={StepperStories.Demo} className="canvas-background" />
+
+```jsx
+import { Stepper, Step, StepBody, StepFooter } from 'no-frills-ui';
+
+// render
+<Stepper active={1}>
+    <Step name='Welcome' completed>
+        <StepBody>
+            Welcome to this multi-step form.
+        </StepBody>
+        <StepFooter>
+            <ActionButton>Next</ActionButton>
+        </StepFooter>
+    </Step>
+    <Step name='Basic Details'>
+        <StepBody>
+            Enter your details here.
+        </StepBody>
+        <StepFooter>
+            <Button>Prev</Button>
+            <ActionButton>Next</ActionButton>
+        </StepFooter>
+    </Step>
+    <Step name='Personalisation' disabled>
+        <StepBody>
+            Personalize your view here.
+        </StepBody>
+    </Step>
+    <Step name='Verification'>
+        <StepBody>
+            Verify if you are human.
+        </StepBody>
+    </Step>
+</Stepper>
+```
 
 ### Props for `Stepper`
 

@@ -24,10 +24,13 @@ export const Demo: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { TextArea } from 'no-frills-ui';
-
-// Render
-<TextArea />`,
+        code: `<TextArea
+      label='Description'
+      minLength={100}
+      placeholder='Write anything here...'
+      required
+      style={{ width: '400px' }}
+    />`,
       },
     },
   },

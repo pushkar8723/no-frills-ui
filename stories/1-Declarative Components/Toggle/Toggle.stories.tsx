@@ -13,7 +13,7 @@ type Story = StoryObj<typeof Toggle>;
 
 export const Variants: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
       <Toggle label='Mobile' />
       <Toggle label='Electron'/>
       <Toggle label='Desktop' disabled checked />
@@ -22,10 +22,9 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Toggle } from 'no-frills-ui';
-
-// Render
-<Toggle />`,
+        code: `<Toggle label='Mobile' />
+      <Toggle label='Electron'/>
+      <Toggle label='Desktop' disabled checked />`,
       },
     },
   },

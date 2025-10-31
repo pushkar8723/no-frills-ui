@@ -18,6 +18,18 @@ can be used to wrap `RadioButton` component to give a rounded border and a bette
 
 <Canvas of={RadioButtonStories.WithoutRadioGroup} />
 
+```jsx
+import { RadioGroup, RadioButton } from 'no-frills-ui';
+
+// Render
+<RadioGroup>
+    <RadioButton name='type' label='D'/>
+    <RadioButton name='type' label='W'/>
+    <RadioButton name='type' label='M'/>
+    <RadioButton name='type' label='Y'/>
+</RadioGroup>
+```
+
 ### Props
 
 Following props are added on top of `HTMLInputElement` props.

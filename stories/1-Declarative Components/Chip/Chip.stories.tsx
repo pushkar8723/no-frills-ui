@@ -23,10 +23,10 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Chip } from 'no-frills-ui';
-
-// Render
-<Chip label='Chip 1' />`,
+        code: `<Chip label='Apple' />
+<Chip label='Banana' />
+<Chip label='Cherry' />
+<Chip label='Mango' />`,
       },
     },
   },

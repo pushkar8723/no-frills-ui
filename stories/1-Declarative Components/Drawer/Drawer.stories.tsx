@@ -2,6 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Drawer } from '../../../src/components';
 import DrawerDemo from '../../resources/DrawerDemo';
+import { Card } from '../../../src/components/Card';
 
 const meta: Meta = {
   component: Drawer as any,
@@ -14,30 +15,10 @@ type Story = StoryObj;
 
 export const Demo: Story = {
   render: () => (
-    <div style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px', minHeight: '200px' }}>
+    <Card style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px'}}>
       <DrawerDemo />
-    </div>
+    </Card>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `import { useState } from 'react';
-import { Drawer, DrawerHeader, DrawerBody, DrawerFooter, DRAWER_POSITION } from 'no-frills-ui';
-
-const [open, setOpen] = useState(false);
-
-<Drawer open={open} onClose={() => setOpen(false)} position={DRAWER_POSITION.LEFT}>
-    <DrawerHeader>Header goes here</DrawerHeader>
-    <DrawerBody>
-        Here goes body.
-    </DrawerBody>
-    <DrawerFooter>
-        And footer over here.
-    </DrawerFooter>
-</Drawer>`,
-      },
-    },
-  },
 };
 
 export const Primary: Story = {

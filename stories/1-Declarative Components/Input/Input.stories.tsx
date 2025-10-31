@@ -42,10 +42,29 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Input } from 'no-frills-ui';
-
-// Render
-<Input />`,
+        code: `<Input
+        label='Name'
+        type='text'
+        minLength={4}
+        style={{ width: '300px' }}
+        placeholder='Enter your full name'
+        required
+      />
+      <Input
+        label='Email'
+        type='email'
+        required
+      />
+      <Input
+        label='Website'
+        type='url'
+      />
+      <Input
+        label='Country'
+        type='text'
+        value='India'
+        disabled
+      />`,
       },
     },
   },

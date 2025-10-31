@@ -23,15 +23,12 @@ export const WithRadioGroup: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { RadioGroup, RadioButton } from 'no-frills-ui';
-
-// Render
-<RadioGroup>
-    <RadioButton name='type' label='D'/>
-    <RadioButton name='type' label='W'/>
-    <RadioButton name='type' label='M'/>
-    <RadioButton name='type' label='Y'/>
-</RadioGroup>`,
+        code: `<RadioGroup>
+      <RadioButton name='type' label='D'/>
+      <RadioButton name='type' label='W'/>
+      <RadioButton name='type' label='M' disabled />
+      <RadioButton name='type' label='Y'/>
+    </RadioGroup>`,
       },
     },
   },
@@ -46,6 +43,16 @@ export const WithoutRadioGroup: Story = {
       <RadioButton name='viewType' label='Y'/>
     </div>
   ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RadioButton name='viewType' label='D'/>
+      <RadioButton name='viewType' label='W'/>
+      <RadioButton name='viewType' label='M' disabled />
+      <RadioButton name='viewType' label='Y'/>`,
+      },
+    },
+  },
 };
 
 export const Primary: Story = {

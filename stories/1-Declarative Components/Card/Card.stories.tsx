@@ -14,7 +14,7 @@ type Story = StoryObj<typeof Card>;
 
 export const Variants: Story = {
   render: () => (
-    <div style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px', display: 'flex', gap: '16px' }}>
+    <div style={{ display: 'flex', gap: '16px' }}>
       <Card>
         <Dummy>Card 1</Dummy>
       </Card>
@@ -32,10 +32,18 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Card } from 'no-frills-ui';
-
-// Render
-<Card />`,
+        code: `<Card>
+  <Dummy>Card 1</Dummy>
+</Card>
+<Card elevated>
+  <Dummy>Card 2</Dummy>
+</Card>
+<Card>
+  <Dummy>Card 3</Dummy>
+</Card>
+<Card elevated>
+  <Dummy>Card 4</Dummy>
+</Card>`,
       },
     },
   },

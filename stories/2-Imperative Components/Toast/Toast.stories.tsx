@@ -5,8 +5,9 @@ import { Button } from '../../../src/components/Button';
 import ToastStory from '../../../src/components/Toast/ToastStory';
 
 const meta: Meta = {
-  title: 'Imperative Components/Toast',
-  tags: ['!dev', '!autodocs'],
+    component: ToastStory,
+    title: 'Imperative Components/Toast',
+    tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
@@ -15,7 +16,7 @@ type Story = StoryObj;
 // Variations story
 export const Variations: Story = {
     render: () => (
-        <div style={{ display: 'flex', gap: '8px', background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px', borderRadius: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
             <Button onClick={() => {
                 Toast.add({
                     text: 'I am a 🍞 bro.',
@@ -88,7 +89,7 @@ export const Variations: Story = {
 // Types story
 export const Types: Story = {
     render: () => (
-        <div style={{ display: 'flex', gap: '8px', background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px', borderRadius: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
             <Button onClick={() => {
                 Toast.add({
                     text: 'I am a 🍞 bro.',
@@ -153,9 +154,4 @@ export const Types: Story = {
 // Documentation story for props table
 export const Options: StoryObj<typeof ToastStory> = {
     render: () => <ToastStory text="I am a toast" />,
-    args: {
-        text: 'I am a toast',
-        duration: 2000,
-        type: TOAST_TYPE.NORMAL,
-    },
 };

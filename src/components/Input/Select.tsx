@@ -20,6 +20,7 @@ const Label = styled.label`
     position: relative;
     margin: 10px 5px;
     pointer-events: none;
+    max-width: 268px;
 
     & svg {
         fill: currentColor;

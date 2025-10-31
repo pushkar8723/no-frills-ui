@@ -29,6 +29,16 @@ A `GroupLabel` component is available for prepending / appending label to the gr
 
 <Canvas of={GroupStories.WithErrorText} />
 
+```jsx
+import { Group, GroupLabel } from 'no-frills-ui';
+
+// Render
+<Group>
+    <Input required label='Discount' />
+    <GroupLabel>%</GroupLabel>
+</Group>
+```
+
 ### Props
 
 <Controls of={GroupStories.Primary} />

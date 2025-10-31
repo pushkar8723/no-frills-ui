@@ -15,75 +15,70 @@ type Story = StoryObj;
 
 export const Demo: Story = {
   render: () => (
-    <div style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px' }}>
-      <Card>
-        <Stepper active={1}>
-          <Step name='Welcome' completed>
-            <StepBody>
-              Welcome to this multi-step form.
-            </StepBody>
-            <StepFooter>
-              <ActionButton>Next</ActionButton>
-            </StepFooter>
-          </Step>
-          <Step name='Basic Details'>
-            <StepBody>
-              Enter your details here.
-            </StepBody>
-            <StepFooter>
-              <Button>Prev</Button>
-              <ActionButton>Next</ActionButton>
-            </StepFooter>
-          </Step>
-          <Step name='Personalisation' disabled>
-            <StepBody>
-              Personalize your view here.
-            </StepBody>
-          </Step>
-          <Step name='Verification'>
-            <StepBody>
-              Verify if you are human.
-            </StepBody>
-          </Step>
-        </Stepper>
-      </Card>
-    </div>
+    <Card>
+      <Stepper active={1}>
+        <Step name='Welcome' completed>
+          <StepBody>
+            Welcome to this multi-step form.
+          </StepBody>
+          <StepFooter>
+            <ActionButton>Next</ActionButton>
+          </StepFooter>
+        </Step>
+        <Step name='Basic Details'>
+          <StepBody>
+            Enter your details here.
+          </StepBody>
+          <StepFooter>
+            <Button>Prev</Button>
+            <ActionButton>Next</ActionButton>
+          </StepFooter>
+        </Step>
+        <Step name='Personalisation' disabled>
+          <StepBody>
+            Personalize your view here.
+          </StepBody>
+        </Step>
+        <Step name='Verification'>
+          <StepBody>
+            Verify if you are human.
+          </StepBody>
+        </Step>
+      </Stepper>
+    </Card>
   ),
   parameters: {
     docs: {
       source: {
-        code: `import { Stepper, Step, StepBody, StepFooter } from 'no-frills-ui';
-
-// render
-<Stepper active={1}>
-    <Step name='Welcome' completed>
-        <StepBody>
+        code: `<Stepper active={1}>
+        <Step name='Welcome' completed>
+          <StepBody>
             Welcome to this multi-step form.
-        </StepBody>
-        <StepFooter>
+          </StepBody>
+          <StepFooter>
             <ActionButton>Next</ActionButton>
-        </StepFooter>
-    </Step>
-    <Step name='Basic Details'>
-        <StepBody>
+          </StepFooter>
+        </Step>
+        <Step name='Basic Details'>
+          <StepBody>
             Enter your details here.
-        </StepBody>
-        <StepFooter>
+          </StepBody>
+          <StepFooter>
             <Button>Prev</Button>
             <ActionButton>Next</ActionButton>
-        </StepFooter>
-    </Step>
-    <Step name='Personalisation' disabled>
-        <StepBody>
+          </StepFooter>
+        </Step>
+        <Step name='Personalisation' disabled>
+          <StepBody>
             Personalize your view here.
-        </StepBody>
-    </Step>
-    <Step name='Verification'>
-        <StepBody>
+          </StepBody>
+        </Step>
+        <Step name='Verification'>
+          <StepBody>
             Verify if you are human.
-        </StepBody>
-    </Step>
-</Stepper>`,
+          </StepBody>
+        </Step>
+      </Stepper>`,
       },
     },
   },

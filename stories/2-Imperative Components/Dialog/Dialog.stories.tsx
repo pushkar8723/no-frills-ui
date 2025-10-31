@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import { Dialog, AlertDialog, PromptDialog, ConfirmDialog } from '../../../src/components';
+import { Dialog, AlertDialog, PromptDialog, ConfirmDialog, Card } from '../../../src/components';
 import DialogDemo from '../../resources/DialogDemo';
 
 const meta: Meta<typeof Dialog> = {
@@ -10,34 +10,21 @@ const meta: Meta<typeof Dialog> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Dialog>;
+type DialogStory = StoryObj<typeof Dialog>;
 
-export const Demo: Story = {
-  render: () => <DialogDemo />,
-  parameters: {
-    docs: {
-      source: {
-        code: 'See documentation below for detailed examples',
-      },
-    },
-  },
+export const Demo: DialogStory = {
+  render: () => (
+    <Card style={{
+      display: 'flex', padding: '30px 20px',
+      background: 'linear-gradient(to right, #00b09b, #96c93d)',
+      overflow: 'visible'
+    }}>
+      <DialogDemo />,
+    </Card>
+  )
 };
 
-export const AlertDialogProps: Story = {
-  // @ts-ignore - This is for Controls only
-  render: (args) => <AlertDialog {...args} />,
-};
-
-export const ConfirmDialogProps: Story = {
-  // @ts-ignore - This is for Controls only
-  render: (args) => <ConfirmDialog {...args} />,
-};
-
-export const PromptDialogProps: Story = {
-  // @ts-ignore - This is for Controls only
-  render: (args) => <PromptDialog {...args} />,
-};
-
-export const DialogProps: Story = {
-  render: (args) => <Dialog {...args} />,
-};
+export const DialogProps = {
+  component: Dialog,
+  render: (args: any) => <Dialog {...args} />,
+} satisfies Meta<typeof Dialog>;

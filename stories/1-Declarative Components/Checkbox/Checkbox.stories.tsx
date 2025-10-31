@@ -13,7 +13,7 @@ type Story = StoryObj<typeof Checkbox>;
 
 export const Variants: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{ display: 'flex', flexDirection: 'row', gap: '8px' }}>
       <Checkbox label='Android' />
       <Checkbox label='iOS' />
       <Checkbox label='Desktop' indeterminate checked disabled />
@@ -22,10 +22,9 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: `import { Checkbox } from 'no-frills-ui';
-
-// Render
-<Checkbox />`,
+        code: `<Checkbox label='Android' />
+<Checkbox label='iOS' />
+<Checkbox label='Desktop' indeterminate checked disabled />`,
       },
     },
   },

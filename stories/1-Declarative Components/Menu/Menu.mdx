@@ -11,7 +11,19 @@ an array (in case of multi-select).
 In case there are too many items to be rendered inside a menu, the `Menu` component can contain a virtualizer
 like `react-window` which can then render `MenuItem` to ensure performance.
 
-<Canvas of={MenuStories.Variants} />
+<Canvas of={MenuStories.Variants} className="canvas-background" />
+
+```jsx
+import { Menu, MenuItem } from 'no-frills-ui';
+
+//render
+<Menu>
+    <MenuItem value='apple'>Apple</MenuItem>
+    <MenuItem value='orange'>Orange</MenuItem>
+    <MenuItem value='mango'>Mango</MenuItem>
+    <MenuItem value='Banana'>Banana</MenuItem>
+</Menu>
+```
 
 ### Props of `Menu`
 

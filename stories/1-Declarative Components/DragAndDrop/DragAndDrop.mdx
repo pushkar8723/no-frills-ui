@@ -16,15 +16,39 @@ has some mouse events of its own and we require an explicit user input for drag 
 
 ## Vertical Layout
 
-<Canvas of={DragAndDropStories.VerticalLayout} />
+<Canvas of={DragAndDropStories.VerticalLayout} className="canvas-background-alternate" />
 
 ## Horizontal Layout
 
-<Canvas of={DragAndDropStories.HorizontalLayout} />
+<Canvas of={DragAndDropStories.HorizontalLayout} className="canvas-background-alternate" />
 
 ## Horizontal Layout with indicators
 
-<Canvas of={DragAndDropStories.HorizontalWithIndicators} />
+<Canvas of={DragAndDropStories.HorizontalWithIndicators} className="canvas-background-alternate" />
+
+```jsx
+import React, { useState } from 'react';
+import { DragAndDrop, ORIENTATION } from 'no-frills-ui';
+
+export default function DragAndDropDemo(prop) {
+    const [items, setItems] = useState(['Item #1', 'Item #2', 'Item #3', 'Item #4', 'Item #5']);
+
+    const onDrop = (start, end) => {
+        // Clone existing elements
+        const newItems = [...items];
+        // Remove the element to be moved
+        const item = newItems.splice(start, 1);
+        // Add it back at the required position
+        newItems.splice(end, 0, item[0]);
+        // Update
+        setItems(newItems);
+    }
+
+    return (<DragAndDrop orientation={ORIENTATION.VERTICAL} onDrop={onDrop}>
+        {items.map(item => <div>{item}</div>)}
+    </DragAndDrop>)
+}
+```
 
 ### Props
 

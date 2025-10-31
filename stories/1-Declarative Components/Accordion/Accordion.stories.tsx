@@ -15,32 +15,30 @@ type Story = StoryObj;
 
 export const Default: Story = {
     render: () => (
-        <div style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px', borderRadius: '8px' }}>
-            <Accordion>
-                {/* @ts-ignore - Accordion injects onStepClick and open props */}
-                <AccordionStep header='Welcome' completed>
-                    <AccordionStepBody>
-                        <Dummy>Dummy content for Welcome step</Dummy>
-                    </AccordionStepBody>
-                    <AccordionStepFooter>
-                        <Button>Previous</Button>
-                        <ActionButton>Next</ActionButton>
-                    </AccordionStepFooter>
-                </AccordionStep>
-                {/* @ts-ignore */}
-                <AccordionStep header='Basic Details' completed>
-                    <Dummy>Dummy content for Basic Details step</Dummy>
-                </AccordionStep>
-                {/* @ts-ignore */}
-                <AccordionStep header='Personalisation' errorText='3 Errors' disabled>
-                    <Dummy>Dummy content for Personalisation step</Dummy>
-                </AccordionStep>
-                {/* @ts-ignore */}
-                <AccordionStep header='Verification'>
-                    <Dummy>Dummy content for Verification step</Dummy>
-                </AccordionStep>
-            </Accordion>
-        </div>
+        <Accordion>
+            {/* @ts-ignore - Accordion injects onStepClick and open props */}
+            <AccordionStep header='Welcome' completed>
+                <AccordionStepBody>
+                    <Dummy>Dummy content for Welcome step</Dummy>
+                </AccordionStepBody>
+                <AccordionStepFooter>
+                    <Button>Previous</Button>
+                    <ActionButton>Next</ActionButton>
+                </AccordionStepFooter>
+            </AccordionStep>
+            {/* @ts-ignore */}
+            <AccordionStep header='Basic Details' completed>
+                <Dummy>Dummy content for Basic Details step</Dummy>
+            </AccordionStep>
+            {/* @ts-ignore */}
+            <AccordionStep header='Personalisation' errorText='3 Errors' disabled>
+                <Dummy>Dummy content for Personalisation step</Dummy>
+            </AccordionStep>
+            {/* @ts-ignore */}
+            <AccordionStep header='Verification'>
+                <Dummy>Dummy content for Verification step</Dummy>
+            </AccordionStep>
+        </Accordion>
     ),
     parameters: {
         docs: {

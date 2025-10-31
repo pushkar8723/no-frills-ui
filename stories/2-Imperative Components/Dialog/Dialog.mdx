@@ -1,5 +1,8 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as DialogStories from './Dialog.stories';
+import * as AlertDialogStories from './AlertDialog.stories';
+import * as ConfirmDialogStories from './ConfirmDialog.stories';
+import * as PromptDialogStories from './PromptDialog.stories';
 
 <Meta of={DialogStories} />
 
@@ -23,7 +26,7 @@ I exploited this feature to create separate components for following common use 
 Apart from these component, `DialogHeader`, `DialogBody` and `DialogFooter` are the additional components that are exported
 from `no-frills-ui`. These only help with styling the dialog and have no other functional use cases.
 
-<Canvas of={DialogStories.Demo} />
+<div>{DialogStories.Demo.render()}</div>
 
 Let's look how these components can be used.
 
@@ -57,7 +60,7 @@ but when you have to do it several times in a application, things add up.
 
 ### `AlertDialog` Props
 
-<Controls of={DialogStories.AlertDialogProps} />
+<Controls of={AlertDialogStories.AlertDialogProps} />
 
 ## `ConfirmDialog`
 
@@ -99,7 +102,7 @@ dialog and 2 different callback functions, one for success and one for failure. 
 
 ### `ConfirmDialog` Props
 
-<Controls of={DialogStories.ConfirmDialogProps} />
+<Controls of={ConfirmDialogStories.ConfirmDialogProps} />
 
 ## `PromptDialog`
 
@@ -142,7 +145,7 @@ can be used here as demonstrated above.
 
 ### `PromptDialog` Props
 
-<Controls of={DialogStories.PromptDialogProps} />
+<Controls of={PromptDialogStories.PromptDialogProps} />
 
 ## `Dialog`
 

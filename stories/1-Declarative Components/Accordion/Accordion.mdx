@@ -1,5 +1,6 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as AccordionStories from './Accordion.stories';
+import * as AccordionStepStories from './AccordionStep.stories';
 
 <Meta of={AccordionStories} />
 
@@ -13,7 +14,7 @@ and `disabled` props. Each step is focusable and only one step can be opened at 
 `AccordionStepBody` and `AccordionStepFooter` are two components which helps in maintaining the design language of
 the components and are completely optional to use.
 
-<Canvas of={AccordionStories.Default} />
+<Canvas of={AccordionStories.Default} className="canvas-background"/>
 
 ```jsx
 import { Accordion, AccordionStep } from 'no-frills-ui';
@@ -41,7 +42,7 @@ import { Accordion, AccordionStep } from 'no-frills-ui';
 
 ### `AccordionStep` Props
 
-<Controls of={AccordionStories.AccordionStepProps} />
+<Controls of={AccordionStepStories.AccordionStepProps} />
 
 ### CSS Variables Used
 
