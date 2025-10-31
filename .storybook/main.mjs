@@ -10,7 +10,7 @@ const config = {
   ],
 
   addons: [
-    getAbsolutePath("@storybook/addon-webpack5-compiler-babel"),
+    getAbsolutePath("@storybook/addon-webpack5-compiler-swc"),
     getAbsolutePath("@storybook/addon-links"),
     {
       name: getAbsolutePath("@storybook/addon-docs"),
