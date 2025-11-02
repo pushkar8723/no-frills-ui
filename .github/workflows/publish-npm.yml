@@ -1,0 +1,129 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      - 'v*.*.*-alpha.*'
+      - 'v*.*.*-beta.*'
+      - 'v*.*.*-rc.*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from tag
+        id: version
+        run: |
+          # Get version from tag (remove 'v' prefix)
+          TAG_VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${TAG_VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag_version=$TAG_VERSION" >> $GITHUB_OUTPUT
+          
+          # Determine if it's a pre-release based on tag name
+          if [[ "$VERSION" =~ -(alpha|beta|rc) ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            echo "publish_flags=--tag alpha" >> $GITHUB_OUTPUT
+            echo "Detected pre-release version $VERSION"
+          else
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            echo "publish_flags=" >> $GITHUB_OUTPUT
+            echo "Detected stable version $VERSION"
+          fi
+
+      - name: Detect package manager
+        id: detect-pm
+        run: |
+          if [ -f "yarn.lock" ]; then
+            echo "pm=yarn" >> $GITHUB_OUTPUT
+            echo "Using yarn (yarn.lock found)"
+          elif [ -f "package-lock.json" ]; then
+            echo "pm=npm" >> $GITHUB_OUTPUT
+            echo "Using npm (package-lock.json found)"
+          else
+            echo "pm=npm" >> $GITHUB_OUTPUT
+            echo "No lock file found, defaulting to npm"
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: ${{ steps.detect-pm.outputs.pm }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Verify package.json version matches tag
+        run: |
+          TAG_VERSION="${{ steps.version.outputs.version }}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "❌ Error: package.json version ($PKG_VERSION) doesn't match tag ($TAG_VERSION)"
+            echo "Please update package.json version before creating the tag"
+            exit 1
+          fi
+          
+          echo "✅ Version verified: $PKG_VERSION matches tag"
+
+      - name: Install dependencies (npm)
+        if: steps.detect-pm.outputs.pm == 'npm'
+        run: npm ci
+
+      - name: Install dependencies (yarn)
+        if: steps.detect-pm.outputs.pm == 'yarn'
+        run: yarn install --frozen-lockfile
+
+      - name: Build package
+        run: |
+          if [ "${{ steps.detect-pm.outputs.pm }}" == "yarn" ]; then
+            yarn build
+          else
+            npm run build
+          fi
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          PUBLISH_FLAGS="${{ steps.version.outputs.publish_flags }}"
+          VERSION="${{ steps.version.outputs.version }}"
+          
+          echo "Publishing version $VERSION"
+          npm publish $PUBLISH_FLAGS --access public
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag_version }}
+          release_name: Release ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: ${{ steps.version.outputs.is_prerelease }}
+
+      - name: Summary
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          IS_PRERELEASE="${{ steps.version.outputs.is_prerelease }}"
+          
+          echo "✅ Successfully published no-frills-ui@$VERSION to npm"
+          echo "🎉 GitHub release created: ${{ steps.version.outputs.tag_version }}"
+          echo "📦 View on npm: https://www.npmjs.com/package/no-frills-ui"
+          
+          if [[ "$IS_PRERELEASE" == "true" ]]; then
+            echo "📦 Published with tag: alpha"
+            echo "📝 Install with: npm install no-frills-ui@alpha"
+            echo "📝 Or specific version: npm install no-frills-ui@$VERSION"
+          else
+            echo "📦 Published as latest"
+            echo "📝 Install with: npm install no-frills-ui"
+          fi

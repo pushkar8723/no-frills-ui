@@ -1,12 +1,8 @@
-name: Deploy Storybook for Specific Version (Manual)
+name: Deploy Versioned Storybook to GitHub Pages
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version tag to build (e.g., v0.0.13)'
-        required: true
-        type: string
+  release:
+    types: [released]
 
 permissions:
   contents: write
@@ -15,19 +11,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Validate version format
-        run: |
-          VERSION="${{ github.event.inputs.version }}"
-          if [[ ! "$VERSION" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+ ]]; then
-            echo "Error: Invalid version format. Expected format: v0.0.13 or 0.0.13"
-            exit 1
-          fi
-          echo "Version format is valid: $VERSION"
-
-      - name: Checkout repository at specific tag
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.version }}
           fetch-depth: 0
 
       - name: Detect package manager
@@ -66,7 +52,27 @@ jobs:
         if: steps.detect-pm.outputs.pm == 'yarn'
         run: yarn build-storybook
 
+      - name: Check if pre-release
+        id: check_prerelease
+        run: |
+          if [[ "${{ github.event.release.prerelease }}" == "true" ]]; then
+            echo "This is a pre-release. Skipping deployment."
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "This is a full release. Proceeding with deployment."
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get version from tag
+        if: steps.check_prerelease.outputs.is_prerelease == 'false'
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
       - name: Checkout gh-pages branch
+        if: steps.check_prerelease.outputs.is_prerelease == 'false'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -87,26 +93,22 @@ jobs:
           fi
 
       - name: Copy Storybook build to version directory
+        if: steps.check_prerelease.outputs.is_prerelease == 'false'
         run: |
-          VERSION="${{ github.event.inputs.version }}"
-          
-          # Remove existing version if it exists
-          if [ -d "$VERSION" ]; then
-            echo "Removing existing version directory: $VERSION"
-            rm -rf "$VERSION"
-          fi
+          VERSION=${{ steps.version.outputs.version }}
           
           # Create version directory and copy files
-          mkdir -p "$VERSION"
-          cp -r storybook-static/* "$VERSION/"
+          mkdir -p $VERSION
+          cp -r storybook-static/* $VERSION/
           
           # Add to git
-          git add "$VERSION"
-          git commit -m "Deploy Storybook for version $VERSION (manual deployment)"
+          git add $VERSION
+          git commit -m "Deploy Storybook for version $VERSION"
 
       - name: Update or create index.html
+        if: steps.check_prerelease.outputs.is_prerelease == 'false'
         run: |
-          VERSION="${{ github.event.inputs.version }}"
+          VERSION=${{ steps.version.outputs.version }}
           
           # Create a simple index page that lists all versions
           cat > index.html << 'EOF'
@@ -286,11 +288,6 @@ jobs:
           git commit -m "Update index page with version $VERSION" || echo "No changes to index.html"
 
       - name: Push to gh-pages
+        if: steps.check_prerelease.outputs.is_prerelease == 'false'
         run: |
           git push origin gh-pages
-
-      - name: Summary
-        run: |
-          VERSION="${{ github.event.inputs.version }}"
-          echo "✅ Successfully deployed Storybook for version $VERSION"
-          echo "📚 Documentation URL: https://pushkar8723.github.io/no-frills-ui/$VERSION/"
