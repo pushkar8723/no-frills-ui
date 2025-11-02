@@ -30,16 +30,40 @@ jobs:
           ref: ${{ github.event.inputs.version }}
           fetch-depth: 0
 
+      - name: Detect package manager
+        id: detect-pm
+        run: |
+          if [ -f "yarn.lock" ]; then
+            echo "pm=yarn" >> $GITHUB_OUTPUT
+            echo "Using yarn (yarn.lock found)"
+          elif [ -f "package-lock.json" ]; then
+            echo "pm=npm" >> $GITHUB_OUTPUT
+            echo "Using npm (package-lock.json found)"
+          else
+            echo "pm=npm" >> $GITHUB_OUTPUT
+            echo "No lock file found, defaulting to npm"
+          fi
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '14'
-          cache: 'yarn'
+          cache: ${{ steps.detect-pm.outputs.pm }}
 
-      - name: Install dependencies
+      - name: Install dependencies (npm)
+        if: steps.detect-pm.outputs.pm == 'npm'
+        run: npm ci
+
+      - name: Install dependencies (yarn)
+        if: steps.detect-pm.outputs.pm == 'yarn'
         run: yarn install --frozen-lockfile
 
-      - name: Build Storybook
+      - name: Build Storybook (npm)
+        if: steps.detect-pm.outputs.pm == 'npm'
+        run: npm run build-storybook
+
+      - name: Build Storybook (yarn)
+        if: steps.detect-pm.outputs.pm == 'yarn'
         run: yarn build-storybook
 
       - name: Checkout gh-pages branch
