@@ -71,8 +71,5 @@ export const Variants: Story = {
 };
 
 export const Primary: Story = {
-  args: {
-    label: 'Input Label',
-    placeholder: 'Enter text...',
-  },
+  args: {},
 };

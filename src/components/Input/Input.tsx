@@ -4,7 +4,9 @@ import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 
 type InputProps = React.AllHTMLAttributes<HTMLInputElement> & {
+    /** Label for the field */
     label?: string,
+    /** Error message for the field */
     errorText?: string,
 }
 
