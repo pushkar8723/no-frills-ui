@@ -270,12 +270,6 @@ jobs:
                           
                           document.getElementById('versions').innerHTML = '';
                           document.getElementById('versions').appendChild(versionsList);
-                          
-                          // Auto-redirect to latest version after 3 seconds
-                          setTimeout(() => {
-                              window.location.href = `./${versions[0]}/`;
-                          }, 3000);
-                          
                       } catch (error) {
                           console.error('Error loading versions:', error);
                           document.getElementById('versions').innerHTML = '<p class="loading">Error loading versions. Please check back later.</p>';
