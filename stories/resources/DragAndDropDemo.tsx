@@ -12,6 +12,6 @@ export default function DragAndDropDemo(props: any) {
     }
 
     return (<DragAndDrop orientation={props.orientation} onDrop={onDrop} showIndicator={props.showIndicator}>
-        {items.map(item => <Card><CardBody>{item}</CardBody></Card>)}
+        {items.map((item, index) => <Card key={item}><CardBody>{item}</CardBody></Card>)}
     </DragAndDrop>)
 }
