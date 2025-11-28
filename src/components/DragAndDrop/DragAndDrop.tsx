@@ -22,16 +22,19 @@ const Container = styled.div<{orientation: ORIENTATION}>`
 export default function DragAndDrop(props: DragAndDropProps) {
     const { orientation, children, onDrop, showIndicator } = props;
     const [startIndex, setStartIndex] = useState<number>(null);
+    const [isDragging, setIsDragging] = useState<boolean>(false);
+    const [dragOver, setDragOver] = useState<number>(null);
 
     const drop = (index: number) => {
         startIndex !== null && onDrop?.(startIndex, index);
         setStartIndex(null);
+        setIsDragging(false);
     }
 
-    return (<DragContext.Provider value={{ startIndex, setStartIndex, drop }}>
+    return (<DragContext.Provider value={{ startIndex, setStartIndex, drop, isDragging, setIsDragging, setDragOver }}>
         <Container orientation={orientation}>
             {React.Children.map(children, (child, index) => (
-                <DragItem index={index} orientation={orientation} showIndicator={showIndicator}>
+                <DragItem index={index} orientation={orientation} showIndicator={showIndicator} dragOver={dragOver}>
                     {child}
                 </DragItem>
             ))}
