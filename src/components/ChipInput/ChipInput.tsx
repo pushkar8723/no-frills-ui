@@ -5,8 +5,10 @@ import constants from '../../shared/constants';
 import Chip from '../Chip/Chip';
 import { DragAndDrop, ORIENTATION } from '../DragAndDrop';
 
+// Prop types definition
 type ChipInputProps = PropTypes.InferProps<typeof ChipInput.propTypes>;
 
+// Label component for the ChipInput
 const Label = styled.label`
     display: inline-flex;
     flex-direction: column;
@@ -15,6 +17,7 @@ const Label = styled.label`
     margin: 10px 5px;
 `;
 
+// Container component for the ChipInput
 const Container = styled.div<{
     text: string,
     touched?: boolean,
@@ -115,6 +118,7 @@ const Container = styled.div<{
     `: ''}
 `;
 
+// Error message container
 const ErrorContainer = styled.div`
     color: var(--error, ${constants.ERROR});
     padding-top: 3px;
@@ -123,17 +127,38 @@ const ErrorContainer = styled.div`
     margin-left: 3px;
 `;
 
+/**
+ * A chip input component that allows users to add and remove chips (tags) by typing and pressing Enter.
+ * @component
+ * @example
+ * ```tsx
+ * <ChipInput
+ *   value={['tag1', 'tag2']}
+ *   onChange={(newTags) => console.log(newTags)}
+ *   label="Add tags"
+ *   errorText="At least one tag is required"
+ * />
+ * ```
+ */
 export default function ChipInput(props: ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>) {
     const [text, setText] = useState('');
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState<string[]>(props.value);
     const InputRef = React.useRef<HTMLInputElement>(null);
 
+    /**
+     * Update the chip values and notify changes.
+     * @param newValue The new array of chip values
+     */
     const updateValue = (newValue: string[]) => {
         setValue(Array.from(new Set(newValue)));
         props.onChange?.(newValue);
     }
 
+    /**
+     * Marks the input as touched on focus.
+     * @param e React focus event
+     */
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         setTouched(true);
         if (props.onFocus) {
@@ -141,10 +166,18 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         }
     }
 
+    /**
+     * Change handler for the input field.
+     * @param e React change event
+     */
     const handleChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setText(e.target.value);
     }
 
+    /**
+     * Adds a new chip on Enter key press.
+     * @param e React keyboard event
+     */
     const handleKeyUp:React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === 'Enter' && text.trim() !== '') {
             const newValue = [...value, text.trim()];
@@ -153,11 +186,20 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         }
     }
 
+    /**
+     * Removes a chip from the list.
+     * @param chipToRemove The chip value to remove
+     */
     const removeChip = (chipToRemove: string) => {
         const newValue = value.filter(chip => chip !== chipToRemove);
         updateValue(newValue);
     }
 
+    /**
+     * Moves a chip from one position to another.
+     * @param start The starting index of the item to move
+     * @param end The ending index where the item should be placed
+     */
     const onDrop = (start: number, end: number) => {
         // Clone existing elements
         const newItems = [...value];
@@ -169,6 +211,7 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         setValue(newItems);
     }
 
+    // Render the component
     return (
         <Label>
             <Container
