@@ -21,7 +21,7 @@ const Container = styled.div`
     align-items: center;
 
     &:focus-within {
-        outline: 2px solid var(--primary-light  , ${constants.PRIMARY_LIGHT});
+        outline: 2px solid var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 `;
 

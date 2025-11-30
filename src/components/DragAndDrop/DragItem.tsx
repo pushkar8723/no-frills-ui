@@ -192,8 +192,9 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
     useEffect(() => {
         return () => {
             if (touchTimer) clearTimeout(touchTimer);
+            document.body.style.overflow = 'auto';
         };
-    }, [touchTimer]);
+    }, []);
 
     /** Update active state based on dragOver changes */
     useEffect(() => {

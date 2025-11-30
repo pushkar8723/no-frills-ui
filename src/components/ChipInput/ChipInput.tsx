@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
@@ -123,7 +123,7 @@ const ErrorContainer = styled.div`
     color: var(--error, ${constants.ERROR});
     padding-top: 3px;
     font-size: 12px;
-        line-height: 14px;
+    line-height: 14px;
     margin-left: 3px;
 `;
 
@@ -146,13 +146,19 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
     const [value, setValue] = useState<string[]>(props.value);
     const InputRef = React.useRef<HTMLInputElement>(null);
 
+    // Sync internal value with props.value
+    useEffect(() => {
+        setValue(props.value);
+    }, [props.value]);
+
     /**
      * Update the chip values and notify changes.
      * @param newValue The new array of chip values
      */
     const updateValue = (newValue: string[]) => {
-        setValue(Array.from(new Set(newValue)));
-        props.onChange?.(newValue);
+        const deduped = Array.from(new Set(newValue));
+        setValue(deduped);
+        props.onChange?.(deduped);
     }
 
     /**
@@ -208,7 +214,7 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         // Add it back at the required position
         newItems.splice(end, 0, item[0]);
         // Update
-        setValue(newItems);
+        updateValue(newItems);
     }
 
     // Render the component
@@ -258,5 +264,4 @@ ChipInput.propTypes = {
 
 ChipInput.defaultProps = {
     value: [],
-    minChips: 0,
 };
