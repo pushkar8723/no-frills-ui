@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 import Chip from '../Chip/Chip';
+import { DragAndDrop, ORIENTATION } from '../DragAndDrop';
 
 type ChipInputProps = PropTypes.InferProps<typeof ChipInput.propTypes>;
 
@@ -157,6 +158,17 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         updateValue(newValue);
     }
 
+    const onDrop = (start: number, end: number) => {
+        // Clone existing elements
+        const newItems = [...value];
+        // Remove the element to be moved
+        const item = newItems.splice(start, 1);
+        // Add it back at the required position
+        newItems.splice(end, 0, item[0]);
+        // Update
+        setValue(newItems);
+    }
+
     return (
         <Label>
             <Container
@@ -175,9 +187,12 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
                 />
                 <div>
                     {value?.length > 0 && (
-                        value.map((chip) => (
-                            <Chip key={chip} label={chip} onCloseClick={() => removeChip(chip)} />
-                        ))
+                        <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
+                            {value.map((chip) => (
+
+                                <Chip key={chip} label={chip} onCloseClick={() => removeChip(chip)} />
+                            ))}
+                        </DragAndDrop>
                     )}
                 </div>
             </Container>

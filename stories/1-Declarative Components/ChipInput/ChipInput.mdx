@@ -5,9 +5,18 @@ import * as ChipInputStories from './ChipInput.stories';
 
 # ChipInput
 
+A text input field that allows users to enter and manage multiple values as removable chips.
+Users can add new values by typing and pressing Enter, remove individual chips by clicking 
+their close button, and reorder chips via drag-and-drop. 
+
+The component automatically handles duplicate prevention and supports standard input features
+like labels, validation, error messages, required fields, and disabled states.
+
 <Canvas of={ChipInputStories.Variants} />
 
 ## Props
+
+Following props are added on top of `HTMLInputElement` props.
 
 <Controls of={ChipInputStories.Primary} />
 
@@ -15,3 +24,9 @@ import * as ChipInputStories from './ChipInput.stories';
 
 | Variable Name | Description |
 | :- | :- |
+| --primary | Used for `color` and `border-color`. |
+| --primary-light | Used for `box-shadow`. |
+| --error | Used for `color` and `border-color`. |
+| --error-light | Used for `box-shadow`. |
+| --background | Used for `background-color`. |
+| --border-color | Used for `border-color`. |

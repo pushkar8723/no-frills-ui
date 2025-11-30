@@ -17,6 +17,7 @@ const Container = styled.div<{orientation: ORIENTATION}>`
     flex: 1;
     display: flex;
     position: relative;
+    flex-wrap: wrap;
     flex-direction: ${props => props.orientation === ORIENTATION.HORIZONTAL ? 'row' : 'column'};
 `;
 
