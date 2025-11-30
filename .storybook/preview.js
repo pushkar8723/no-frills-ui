@@ -15,7 +15,7 @@ const preview = {
                 'Icons', 'Layer Manager'
             ], 
             'Declarative Components', [
-                'Accordion', 'Badge', 'Button', 'Card', 'Checkbox', 'Chip', 
+                'Accordion', 'Badge', 'Button', 'Card', 'Checkbox', 'Chip', 'ChipInput',
                 'DragAndDrop', 'Drawer', 'Dropdown', 'Group', 'Input', 'Menu', 
                 'Modal', 'Popover', 'Radio', 'RadioButton', 'Select', 'Spinner',
                 'Stepper', 'Tabs', 'TextArea', 'Toggle', 'Tooltip',

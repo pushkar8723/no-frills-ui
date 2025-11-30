@@ -4,7 +4,9 @@ import constants from '../../shared/constants';
 import { Close } from '../../icons';
 
 interface ChipProps {
+    /** Label for the chip */
     label: string;
+    /** Callback when the close button is clicked */
     onCloseClick?: () => void;
 }
 
