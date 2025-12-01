@@ -14,39 +14,25 @@ with custom styles on top of it in a wrapper component and use them instead. How
 developer experience as the developer needs to pass styles in object instead of css strings. Which is not a preferred
 way for many developers.
 
-To make it less painful, `css` and `jsx` functions from `@emotion/core` can be used. Emotion is what I used for creating
+To make it less painful, `styled` from `@emotion/styled` can be used. Emotion is what I used for creating
 most of these components so ideally it shouldn't add to your bundle size. You can use it as described below.
 
 **Example**
 
 ```jsx
-/** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import styled from "@emotion/styled";
 import { ActionButton } from "no-frills-ui";
 
+const LargeActionButton = styled(ActionButton)`
+  height: 40px;
+  min-width: 200px;
+  font-size: 16px;
+  padding: 0 16px;
+`;
+
 export function LargeButton(props) {
-    return (
-        <ActionButton
-            css={css`
-                height: 40px;
-                min-width: 200px;
-                font-size: 16px;
-                padding: 0 16px;
-            `}
-            {...props}
-        />
-    );
+  return <LargeActionButton {...props} />;
 }
 ```
 
 [Check this example out on Code Sandbox](https://codesandbox.io/s/extending-styles-1zrbx)
-
-A lot is happening here that you should be aware of. The comment on the first line tells `babel-plugin-transform-react-jsx`
-to use `jsx` imported from emotion. This may not work out of the box for you. So you might need to refer
-[emotion's guide on css prop](https://emotion.sh/docs/css-prop#jsx-pragma).
-
-The `jsx` function looks for `css` prop and the styles supplied to the prop are evaluated and the computed class name
-is applied to the `className` prop.
-
-If configuring this proves to be too much trouble, then [raise an issue on GitHub](https://github.com/pushkar8723/no-frills-ui/issues/new)
-and let me know the use case too. I may decide to refactor the components and introduce css variables for it.

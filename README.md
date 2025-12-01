@@ -9,33 +9,66 @@
 
 **Storybook / Documentation:** [https://no-frills-ui.netlify.app/](https://no-frills-ui.netlify.app/)
 
-Modern-day  component libraries make components out of divs with custom styles and abstractions for events.
-Often their focus is on touch-screen devices and so their event handlers are more focused on handling touch events.
-This means when we use these libraries, we often ship a lot of code for styles and touch event handlers. Most of
-which are available in native components out of the box. No Frills UI does not have these decorations, instead it
-relies on the native components' APIs.
+Most modern UI component libraries come as complete ecosystems—multiple npm packages,
+custom design systems, proprietary APIs, and extensive documentation to learn. 
+They rebuild everything from scratch using divs and spans, adding layers of abstraction 
+for events, accessibility, and styling. While this gives them complete control, it also 
+means shipping hundreds of kilobytes of JavaScript to recreate what browsers already provide.
 
-This helps in keeping our DOM much more cleaner as it is not a [div soup](https://www.hackterms.com/div%20soup) anymore.
-It also improves the semantic of the document and making it more SEO friendly. This also means that we are not adding extra
-code to support accessibility which comes out of the box with the platform itself.
+No Frills UI takes a different approach: **use what the browser already gives you**. 
+Instead of div soup with custom event handlers and accessibility bolt-ons, we build components 
+from actual `<button>`, `<input>`, `<select>`, and `<dialog>` elements. This means you get 
+native keyboard navigation, form behavior, and accessibility features out of the box—no extra code needed.
 
-Thus simplifying the API for the component. Now the developer doesn't need to go through a huge doc to know how to use
-the component, instead, he/she can directly use the native element's props. However, this is also not always possible, as we
-might want additional functionality on top of our native component. For which I will have to wrap it in divs and the native
-API won't be directly accessible. To solve this, I use prop spreading on each component and only add props for these
-extra features.
+## Why No Frills UI?
 
-### Limitations
+**Smaller bundles, cleaner DOM:** Our components are styled with Emotion, but the underlying 
+structure is real HTML. No div soup, no bloated abstractions. You're looking at kilobytes, 
+not hundreds of kilobytes.
 
-An obvious limitation of this approach is that certain components cannot be styled, like `<Option>` tag. Though we can
-style it to some degree, the user experience will still differ based on the platform the user is on.
+**Native APIs you already know:** Instead of learning proprietary component APIs across multiple 
+npm packages, you can use standard HTML props and browser features. A button is a button. An input 
+is an input. If you know HTML, you already know 90% of the API.
 
-### Should this be used in production?
+**Better semantics by default:** Real HTML elements mean better SEO, better accessibility baseline, 
+and a DOM that actually makes sense when you inspect it. Your screen reader users (and your future 
+self debugging in DevTools) will thank you.
 
-Well, this is the Achilles heel of this project. Currently, it is not production-ready. Nor it is battle-tested on any big
-project. I created this repository mostly after realizing that at the start of each project, I juggle a lot between
-different UI libraries and then settle to using `@emotion/styled` for half of the components. This is tailored to my needs
-and I may not even have time to work on it regularly. But you can freely use this in any POCs that you might be working on
-and then decide whether it fits your needs.
+**Simple theming:** Everything's themed through CSS variables. No complex theme providers, no 
+JavaScript runtime overhead. Just set your colors at the root and you're done.
 
-[MIT License](https://github.com/pushkar8723/no-frills-ui/blob/master/LICENSE)
+**Fast to get started:** No boilerplate, no configuration, no learning curve. Import a component 
+and use it. Perfect for POCs, hackathons, and small projects.
+
+## What's the Catch?
+
+Let's be real about what this library is and isn't:
+
+**This is a learning project, not a production library.** I built No Frills UI to experiment with 
+native-first component design and to sharpen my React/TypeScript skills. It's grown into a proper component 
+library with 20+ components, automated releases, and comprehensive Storybook documentation, but I work on 
+this in my spare time for learning—not as a production-grade library.
+
+## When Should You Use This?
+
+**Perfect for:**
+- Quick POCs and prototypes where you need UI fast
+- Hackathon projects and weekend hacks
+- Small personal projects and experiments
+- Learning how to build React component libraries
+- Bootstrapping an idea before investing in a full UI system
+
+**Not suitable for:**
+- Production applications
+- Enterprise projects requiring support
+- Projects with strict accessibility requirements (right now)
+- Teams that need stable, battle-tested components
+- Anything your business depends on
+
+If you need production-ready components, use established libraries with active maintenance and community support. 
+But if you're hacking on a side project, need components for a quick demo, or want to explore a simpler approach 
+to React UIs, give No Frills UI a try!
+
+And hey, if you're also learning and want to contribute to the roadmap in 
+[issue #19](https://github.com/pushkar8723/no-frills-ui/issues/19), pull requests 
+are welcome. We're all learning here! 🚀

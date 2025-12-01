@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import { Modal } from '../../../src/components';
+import { Card, Modal } from '../../../src/components';
 import ModalDemo from '../../resources/ModalDemo';
 
 const meta: Meta = {
@@ -14,7 +14,9 @@ type Story = StoryObj;
 
 export const Demo: Story = {
   render: () => (
-    <ModalDemo />
+    <Card style={{ background: 'linear-gradient(to right, #00b09b, #96c93d)', padding: '20px'}}>
+      <ModalDemo />
+    </Card>
   ),
   parameters: {
     docs: {
