@@ -6,7 +6,7 @@ import * as DragAndDropStories from './DragAndDrop.stories';
 # DragAndDrop
 
 `DragAndDrop` is a controlled component and will require `onDrop` prop to function properly.
-It can be used to create a rearrangeable list. It supports both vertical and horizontal orientation for the list.
+It can be used to create a re-arrangeable list. It supports both vertical and horizontal orientation for the list.
 
 Additionally, there is a `showIndicator` prop which shows an indicator against the component and the list item
 can only be dragged using this indicator when this prop is set to true. This can be used in case the item to be dragged
@@ -14,15 +14,15 @@ has some mouse events of its own and we require an explicit user input for drag 
 
 > **Limitation**: Currently drag across list is not supported.
 
-## Vertical Layout
+**Vertical Layout**
 
 <Canvas of={DragAndDropStories.VerticalLayout} className="canvas-background-alternate" />
 
-## Horizontal Layout
+**Horizontal Layout**
 
 <Canvas of={DragAndDropStories.HorizontalLayout} className="canvas-background-alternate" />
 
-## Horizontal Layout with indicators
+**Horizontal Layout with indicators**
 
 <Canvas of={DragAndDropStories.HorizontalWithIndicators} className="canvas-background-alternate" />
 
@@ -50,11 +50,11 @@ export default function DragAndDropDemo(prop) {
 }
 ```
 
-### Props
+## Props
 
 <Controls of={DragAndDropStories.Primary} />
 
-### CSS Variables used
+## CSS Variables used
 
 | Variable Name | Description |
 | :- | :- |

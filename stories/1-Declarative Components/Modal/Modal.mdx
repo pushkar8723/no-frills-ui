@@ -19,7 +19,7 @@ and then continue with our work. Having a declarative approach fragments the log
 didn't want to have a component that does both. Hence, the two component to power the same user experience.
 But at the same time enhancing the developer experience at the cost of one additional component.
 
-<Canvas of={ModalStories.Demo} className="canvas-background-alternate"/>
+<div>{ModalStories.Demo.render()}</div>
 
 ```jsx
 import { useState } from 'react';
@@ -38,11 +38,11 @@ const [open, setOpen] = useState(false);
 </Modal>
 ```
 
-### `Modal` Props
+## `Modal` Props
 
 <Controls of={ModalStories.Primary} />
 
-### CSS Variables used
+## CSS Variables used
 
 | Variable Name | Description |
 | :- | :- |

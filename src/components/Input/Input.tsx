@@ -23,7 +23,7 @@ const Label = styled.label`
 `;
 
 const TextField = styled.input<InputInternalProps>`
-    border: none;
+    outline: none;
     color: inherit;
     padding: 0 8px;
     line-height: 30px;

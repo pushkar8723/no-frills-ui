@@ -4,12 +4,15 @@ import constants from '../../shared/constants';
 import { Close } from '../../icons';
 
 interface ChipProps {
+    /** Label for the chip */
     label: string;
+    /** Callback when the close button is clicked */
     onCloseClick?: () => void;
 }
 
 const Container = styled.div`
     padding: 5px;
+    padding-left: 15px;
     border-radius: 16px;
     background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
     display: inline-flex;
@@ -18,7 +21,7 @@ const Container = styled.div`
     align-items: center;
 
     &:focus-within {
-        background-color: var(--light-grey, ${constants.LIGHT_GREY});
+        outline: 2px solid var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 `;
 
@@ -44,7 +47,9 @@ export default function Chip(props: ChipProps) {
     return (
         <Container {...rest} onKeyUp={keyUpHandler}>
             {label}
-            <Button onClick={onCloseClick}><Close height={20} width={20} /></Button>
+            <Button onClick={onCloseClick} aria-label={`Remove ${label}`}>
+                <Close height={20} width={20} />
+            </Button>
         </Container>
     );
 }

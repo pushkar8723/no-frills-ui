@@ -5,6 +5,9 @@ import * as ChipStories from './Chip.stories';
 
 # Chip
 
+Chip component is a `HTMLDivElement` with a remove button. It is intended to be used for inputs where user can enter
+multiple values, e.g. input for Languages, Skills, and Hobbies etc.
+
 <Canvas of={ChipStories.Variants} />
 
 ```jsx
@@ -14,11 +17,16 @@ import { Chip } from 'no-frills-ui';
 <Chip label='Chip 1' />
 ```
 
-### Props
+## Props
+
+Props of `Chip` component.
 
 <Controls of={ChipStories.Primary} />
 
-### CSS Variables Used
+## CSS Variables Used
 
 | Variable Name | Description |
 | :- | :- |
+| `--border-light-color` | Used for `background-color` |
+| `--primary-light` | Used for `outline` |
+| `--disabled-border` | Used for `background-color` |
