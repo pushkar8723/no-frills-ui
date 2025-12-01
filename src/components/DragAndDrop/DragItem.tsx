@@ -155,6 +155,8 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
         if (!touch) return;
 
         if (context.isDragging) {
+            e.preventDefault();
+
             // get the element under the touch point
             const el = document.elementFromPoint(touch.clientX, touch.clientY) as HTMLElement | null;
             const overAttr = el?.closest('[data-drag-index]')?.getAttribute('data-drag-index');
@@ -194,7 +196,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
             if (touchTimer) clearTimeout(touchTimer);
             document.body.style.overflow = 'auto';
         };
-    }, []);
+    }, [touchTimer]);
 
     /** Update active state based on dragOver changes */
     useEffect(() => {

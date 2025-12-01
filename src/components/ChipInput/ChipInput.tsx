@@ -9,28 +9,21 @@ import { DragAndDrop, ORIENTATION } from '../DragAndDrop';
 type ChipInputProps = PropTypes.InferProps<typeof ChipInput.propTypes>;
 
 // Label component for the ChipInput
-const Label = styled.label`
+const Label = styled.label<{
+    text: string,
+    touched?: boolean,
+    errorText?: string
+}>`
     display: inline-flex;
     flex-direction: column;
     flex: 1;
     position: relative;
     margin: 10px 5px;
-`;
-
-// Container component for the ChipInput
-const Container = styled.div<{
-    text: string,
-    touched?: boolean,
-    errorText?: string
-}>`
     color: inherit;
     padding: 0 8px;
-    line-height: 30px;
-    min-height: 30px;
     width: 250px;
     border-radius: 3px;
     border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
-    display: inline-block;
     background-color: var(--background, ${constants.BACKGROUND});
 
     /** Focused */
@@ -39,7 +32,7 @@ const Container = styled.div<{
         box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 
-    &:has(:focus) + span, &:has(:active) + span {
+    &:has(:focus) > span, &:has(:active) > span {
         color: var(--primary, ${constants.PRIMARY});
     }
 
@@ -49,7 +42,7 @@ const Container = styled.div<{
         background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
     }
     
-    &:has(:disabled) + span {
+    &:has(:disabled) > span {
         color: #777;
     }
 
@@ -64,7 +57,7 @@ const Container = styled.div<{
             border-color: var(--error, ${constants.ERROR});
         }
     
-        &:has(:invalid) + span {
+        &:has(:invalid) > span {
             color: var(--error, ${constants.ERROR});
         }
         ` : ''}
@@ -73,13 +66,13 @@ const Container = styled.div<{
     ${props => props.errorText ? `
         border-color: var(--error, ${constants.ERROR});
 
-        & + span {
+        & > span {
             color: var(--error, ${constants.ERROR});
         }
         ` : ''}
 
     /** Required */
-    &:has(:required) + span:after {
+    &:has(:required) > span:after {
         content: '*';
         margin-left: 2px;
         color: var(--error, ${constants.ERROR});
@@ -87,11 +80,14 @@ const Container = styled.div<{
 
     & > input {
         border: none;
+        outline: none;
         width: 100%;
+        line-height: 30px;
+        min-height: 30px;
     }
 
     /** Label Animation */
-    & + span {
+    & > span {
         position: absolute;
         padding: 0 5px;
         top: 0px;
@@ -101,7 +97,7 @@ const Container = styled.div<{
         transition: all 300ms ease;
     }
 
-    &:has(:focus) + span, &:has(:placeholder-shown) + span {
+    &:has(:focus) > span, &:has(:placeholder-shown) > span {
         top: -8px;
         background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
@@ -109,7 +105,7 @@ const Container = styled.div<{
     }
 
     ${props => props.text !== '' ? `
-    & + span {
+    & > span {
         top: -8px;
         background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
@@ -219,32 +215,31 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
 
     // Render the component
     return (
-        <Label>
-            <Container
-                text={text}
-                touched={touched}
-                errorText={props.errorText}
-            >
-                <input 
-                    {...props} 
-                    ref={InputRef}
-                    type="text"
-                    value={text}
-                    onChange={handleChange}
-                    onFocus={handleFocus}
-                    onKeyUp={handleKeyUp}
-                />
-                <div>
-                    {value?.length > 0 && (
-                        <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
-                            {value.map((chip) => (
+        <Label
+            text={text}
+            touched={touched}
+            errorText={props.errorText}
+        >
+            <input 
+                {...props} 
+                ref={InputRef}
+                type="text"
+                value={text}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onKeyUp={handleKeyUp}
+                required={props.required && value.length === 0}
+            />
+            <div>
+                {value?.length > 0 && (
+                    <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
+                        {value.map((chip) => (
 
-                                <Chip key={chip} label={chip} onCloseClick={() => removeChip(chip)} />
-                            ))}
-                        </DragAndDrop>
-                    )}
-                </div>
-            </Container>
+                            <Chip key={chip} label={chip} onCloseClick={() => removeChip(chip)} />
+                        ))}
+                    </DragAndDrop>
+                )}
+            </div>
             <span>{props.label}</span>
             { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
         </Label>

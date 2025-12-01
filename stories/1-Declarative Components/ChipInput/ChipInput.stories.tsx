@@ -20,7 +20,7 @@ export const Primary: Story = {
 export const Variants: Story = {
   render: () => (
     <div>
-      <ChipInput label="Enter your Skills" />
+      <ChipInput label="Enter your Skills" required />
     </div>
   ),
   parameters: {
