@@ -19,20 +19,20 @@ export default class ToastStory extends React.Component<ToastOptions> {
             TOAST_TYPE.SUCCESS,
             TOAST_TYPE.WARNING,
             TOAST_TYPE.DANGER,
-            TOAST_TYPE.NORMAL
+            TOAST_TYPE.NORMAL,
         ]),
         /** Action button text */
         buttonText: PropTypes.string,
         /** Action button click callback */
         buttonClick: PropTypes.func,
-    }
+    };
 
     static defaultProps = {
         duration: 2000,
         type: TOAST_TYPE.NORMAL,
-    }
+    };
 
-    render():React.ReactNode {
+    render(): React.ReactNode {
         return null;
     }
 }

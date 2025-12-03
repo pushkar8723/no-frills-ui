@@ -25,7 +25,7 @@ const Input = styled.input`
         text-align: center;
         line-height: 16px;
         background-color: var(--background, ${constants.BACKGROUND});
-        transition: background-color .3s ease;
+        transition: background-color 0.3s ease;
     }
 
     &::after {
@@ -36,7 +36,7 @@ const Input = styled.input`
         border-bottom: 2px solid #fff;
         transform: translate(-16px, 1px);
         opacity: 0;
-        transition: transform .3s ease;
+        transition: transform 0.3s ease;
         position: absolute;
     }
 
@@ -68,12 +68,14 @@ const Input = styled.input`
     }
 
     /** active and focus */
-    &:enabled:active::before, &:focus::before {
+    &:enabled:active::before,
+    &:focus::before {
         border-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT}); 
+        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT});
     }
 
-    &:enabled:active + span, &:focus + span {
+    &:enabled:active + span,
+    &:focus + span {
         color: var(--primary, ${constants.PRIMARY});
     }
 
@@ -95,12 +97,14 @@ const Input = styled.input`
         color: #aaa;
     }
 
-    &:checked:disabled::before, &:indeterminate:disabled::before {
+    &:checked:disabled::before,
+    &:indeterminate:disabled::before {
         background-color: #aaa;
     }
 `;
 
-type CheckboxProps = Omit<React.HTMLProps<HTMLInputElement>, 'as'> & PropTypes.InferProps<typeof Checkbox.propTypes>;
+type CheckboxProps = Omit<React.HTMLProps<HTMLInputElement>, 'as'> &
+    PropTypes.InferProps<typeof Checkbox.propTypes>;
 
 export default function Checkbox(props: CheckboxProps) {
     const ref = useCallback((node: any) => {
@@ -124,9 +128,9 @@ Checkbox.propTypes = {
     label: PropTypes.string,
     /** If the field is in indeterminate state */
     indeterminate: PropTypes.bool,
-}
+};
 
 Checkbox.defaultProps = {
     indeterminate: false,
-    label: ''
-}
+    label: '',
+};

@@ -10,7 +10,8 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     margin: 5px;
 
     /* overrides */
-    & button, & label {
+    & button,
+    & label {
         margin: 0;
         border: none;
         border-radius: 0;
@@ -23,16 +24,19 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
         border-left: none;
     }
 
-    & input, & select {
+    & input,
+    & select {
         border: none;
         height: 32px;
     }
 
-    & input, & select {
+    & input,
+    & select {
         border-radius: 0;
     }
 
-    & input:active, & select:active {
+    & input:active,
+    & select:active {
         box-shadow: none;
     }
 
@@ -41,35 +45,44 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     }
 
     /* Handling for first and last child */
-    & > *:first-child, & > label:first-child input,
-    & > label:first-child select, & > *:first-child label,
-    & > *:first-child input  {
+    & > *:first-child,
+    & > label:first-child input,
+    & > label:first-child select,
+    & > *:first-child label,
+    & > *:first-child input {
         border-left: none;
-        border-radius: 2px 0 0  2px;
+        border-radius: 2px 0 0 2px;
     }
 
-    & > *:last-child, & > label:last-child input,
-    & > label:last-child select, & > *:last-child label,
+    & > *:last-child,
+    & > label:last-child input,
+    & > label:last-child select,
+    & > *:last-child label,
     & > *:last-child input {
         border-radius: 0 2px 2px 0;
     }
 
     /* focus */
-    & *:focus, & *:focus + span {
+    & *:focus,
+    & *:focus + span {
         z-index: 1;
     }
 
-    &:focus-within, &:hover {
+    &:focus-within,
+    &:hover {
         box-shadow: var(--hover-shadow, ${constants.HOVER_SHADOW});
     }
 
-    ${props => props.errorText ? `
+    ${(props) =>
+        props.errorText
+            ? `
         border-color: var(--error, ${constants.ERROR});
 
         & > button, & > label {
             border-color: var(--error, ${constants.ERROR});
         }
-    `: ''}
+    `
+            : ''}
 `;
 
 const ErrorContainer = styled.div`
@@ -78,18 +91,18 @@ const ErrorContainer = styled.div`
     font-size: 12px;
 `;
 
-export default function Group(props: React.PropsWithChildren<PropTypes.InferProps<typeof Group.propTypes>>) {
+export default function Group(
+    props: React.PropsWithChildren<PropTypes.InferProps<typeof Group.propTypes>>,
+) {
     return (
         <>
-            <Container {...props}>
-                {props.children}
-            </Container>
-            { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
+            <Container {...props}>{props.children}</Container>
+            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
         </>
-    )
+    );
 }
 
 Group.propTypes = {
     /** Error Message for the group */
     errorText: PropTypes.string,
-}
+};

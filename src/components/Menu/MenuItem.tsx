@@ -1,16 +1,16 @@
 import React, { ReactNode, SyntheticEvent, useContext } from 'react';
 import styled from '@emotion/styled';
-import MenuContext from './MenuContext';
 import constants from '../../shared/constants';
 import Checkbox from '../Input/Checkbox';
+import MenuContext from './MenuContext';
 
 interface MenuItemProps<T> {
     /** Value of the element */
     value: T;
 }
 
-const Container = styled.button<{selected: boolean}>`
-    font-weight: ${props => props.selected ? 'bold' : 'normal'};
+const Container = styled.button<{ selected: boolean }>`
+    font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
     padding: 8px 6px;
     border: none;
     background-color: transparent;
@@ -22,7 +22,9 @@ const Container = styled.button<{selected: boolean}>`
     cursor: pointer;
     position: relative;
 
-    &:hover, &:focus, &:focus-within {
+    &:hover,
+    &:focus,
+    &:focus-within {
         background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
     }
 
@@ -42,12 +44,20 @@ export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChi
         context.updateValue(value);
     };
 
-    const selected = context.multiSelect ? context.value?.includes?.(value) : context.value === value;
+    const selected = context.multiSelect
+        ? context.value?.includes?.(value)
+        : context.value === value;
 
     return (
-        <Container {...rest} type='button' tabIndex={context.multiSelect ? -1 : 0} selected={selected} onClick={clickHandler}>
-            {context.multiSelect  && <Checkbox checked={selected} />}
+        <Container
+            {...rest}
+            type="button"
+            tabIndex={context.multiSelect ? -1 : 0}
+            selected={selected}
+            onClick={clickHandler}
+        >
+            {context.multiSelect && <Checkbox checked={selected} />}
             {props.children}
         </Container>
-    )
+    );
 }

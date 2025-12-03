@@ -1,6 +1,6 @@
 import React, { useState, Children, useEffect } from 'react';
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 
 const Button = styled.button<{ active: boolean }>`
@@ -9,13 +9,18 @@ const Button = styled.button<{ active: boolean }>`
     padding: 8px 12px;
     font-size: 14px;
     border-radius: 3px 3px 0 0;
-    border-bottom: ${(props) => (props.active ? `3px solid var(--primary, ${constants.PRIMARY})` : 'none')};
+    border-bottom: ${(props) =>
+        props.active ? `3px solid var(--primary, ${constants.PRIMARY})` : 'none'};
     color: ${(props) => (props.active ? `var(--primary, ${constants.PRIMARY})` : '#000')};
     cursor: pointer;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         background-color: var(--primary-lighter, #cfe9ff);
-        border-bottom: ${(props) => (props.active ? `3px solid var(--primary, ${constants.PRIMARY})` : `3px solid var(--primary, ${constants.PRIMARY})`)};
+        border-bottom: ${(props) =>
+            props.active
+                ? `3px solid var(--primary, ${constants.PRIMARY})`
+                : `3px solid var(--primary, ${constants.PRIMARY})`};
     }
 
     &[disabled] {
@@ -37,11 +42,11 @@ const TabBody = styled.div`
 
 interface ITabsProps {
     active?: number;
-    onChange?: (index: number) => void,
-    props?: any,
-    bodyProps?: any,
+    onChange?: (index: number) => void;
+    props?: any;
+    bodyProps?: any;
     children: any;
-};
+}
 
 export default function Tabs(props: ITabsProps) {
     const [active, setActive] = useState(props.active);
@@ -56,22 +61,18 @@ export default function Tabs(props: ITabsProps) {
     return (
         <>
             <ButtonContainer {...props.props}>
-                {
-                    Children.map(children, (child, index) => (
-                        <Button
-                            type="button"
-                            active={active === index}
-                            onClick={switchTab(index)}
-                            disabled={child.props.disabled}
-                        >
-                            {child.props.name}
-                        </Button>
-                    ))
-                }
+                {Children.map(children, (child, index) => (
+                    <Button
+                        type="button"
+                        active={active === index}
+                        onClick={switchTab(index)}
+                        disabled={child.props.disabled}
+                    >
+                        {child.props.name}
+                    </Button>
+                ))}
             </ButtonContainer>
-            <TabBody {...props.bodyProps}>
-                {children[active]}
-            </TabBody>
+            <TabBody {...props.bodyProps}>{children[active]}</TabBody>
         </>
     );
 }
@@ -85,9 +86,8 @@ Tabs.propTypes = {
     props: PropTypes.object,
     /** Props for div that contains tab body */
     bodyProps: PropTypes.object,
-}
+};
 
-
-Tabs.defaultProps ={
+Tabs.defaultProps = {
     active: 0,
-}
+};

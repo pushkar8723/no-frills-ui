@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from '@emotion/styled';
-import { Card } from '../Card';
-import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import constants from '../../shared/constants';
+import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
+import { Card } from '../Card';
 
 export interface ToastOptions {
     text: string;
@@ -14,15 +14,15 @@ export interface ToastOptions {
 }
 
 export enum TOAST_TYPE {
-    NORMAL='NORMAL',
-    INFO='INFO',
-    SUCCESS='SUCCESS',
-    WARNING='WARNING',
-    DANGER='DANGER',
+    NORMAL = 'NORMAL',
+    INFO = 'INFO',
+    SUCCESS = 'SUCCESS',
+    WARNING = 'WARNING',
+    DANGER = 'DANGER',
 }
 
 const getBackgroundColor = (type: TOAST_TYPE) => {
-    switch(type) {
+    switch (type) {
         case TOAST_TYPE.INFO:
             return `var(--info, ${constants.INFO})`;
         case TOAST_TYPE.SUCCESS:
@@ -34,19 +34,19 @@ const getBackgroundColor = (type: TOAST_TYPE) => {
         case TOAST_TYPE.NORMAL:
             return `var(--toast, ${constants.TOAST})`;
     }
-}
+};
 
 const ToastContainer = styled(Card)<{ type: TOAST_TYPE }>`
     box-sizing: border-box;
     border-radius: 3px;
     padding: 12px;
-    background-color: ${props => getBackgroundColor(props.type)};
+    background-color: ${(props) => getBackgroundColor(props.type)};
     color: #fff;
     margin: 20px;
     font-size: 14px;
     line-height: 20px;
     transform: translateY(100%);
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
     width: 344px;
     display: flex;
     align-items: center;
@@ -105,34 +105,34 @@ class Toast {
             clearTimeout(this.timeout);
             this.timeout = null;
         }
-        this.toast = null
+        this.toast = null;
 
         setTimeout(() => {
             if (!this.toast) {
                 ReactDOM.unmountComponentAtNode(this.element);
             }
         }, 300);
-    }
+    };
 
     /**
      * Pause toast when user is hovering over it.
-     * 
+     *
      * @param id
      */
     public pause = () => {
         clearTimeout(this.timeout);
-    }
+    };
 
     /**
      * Restart the removal of toast.
-     * 
+     *
      * @param id
      */
     public resume = (options: ToastOptions) => () => {
         this.timeout = setTimeout(() => {
             this.remove();
         }, options.duration || DEFAULT_DURATION);
-    }
+    };
 
     public add(options: ToastOptions) {
         const { text, buttonText, buttonClick, duration, type = TOAST_TYPE.NORMAL } = options;
@@ -153,12 +153,12 @@ class Toast {
                 >
                     <TextContainer>{text}</TextContainer>
                     {buttonText && (
-                        <CloseContainer onClick={buttonClick} type='button'>
+                        <CloseContainer onClick={buttonClick} type="button">
                             {buttonText}
                         </CloseContainer>
                     )}
                 </ToastContainer>
-            )
+            ),
         });
         const Component = this.toast[0];
         ReactDOM.render(<Component />, this.element);

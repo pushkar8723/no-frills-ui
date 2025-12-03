@@ -1,45 +1,54 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
 import PropTypes from 'prop-types';
-import { Card } from '../Card';
-import { Ellipsis } from '../../shared/styles';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { FiberManualRecord, ExpandMore } from '../../icons';
 import constants from '../../shared/constants';
+import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
+import { Card } from '../Card';
 
 const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
-    transition: all .6s ease;
+    transition: all 0.6s ease;
 
-    ${props => props.open && `
+    ${(props) =>
+        props.open &&
+        `
         margin: 20px 5px;
     `}
 
-    ${props => props.focused && `box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});`}
+    ${(props) =>
+        props.focused && `box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});`}
 `;
 
-const StepHeader = styled.div<{ open: boolean, disabled: boolean }>`
+const StepHeader = styled.div<{ open: boolean; disabled: boolean }>`
     padding: 20px 15px;
     display: flex;
     justify-content: space-between;
-    
+
     & input {
         appearance: none;
         margin: 0;
     }
 
-    ${props => props.open ? `
+    ${(props) =>
+        props.open
+            ? `
         border-bottom: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
-    ` : ''}
+    `
+            : ''}
 
-    ${props => props.disabled ? `
+    ${(props) =>
+        props.disabled
+            ? `
         color: ${constants.LIGHT_GREY};
-    ` : `
+    `
+            : `
         cursor: pointer;
     `}
 `;
 
-const HeaderContainer = styled.div<{ open: boolean, completed: boolean }>`
+const HeaderContainer = styled.div<{ open: boolean; completed: boolean }>`
     display: flex;
     align-items: center;
     min-width: 40px;
@@ -47,13 +56,14 @@ const HeaderContainer = styled.div<{ open: boolean, completed: boolean }>`
     & svg {
         vertical-align: top;
         margin-right: 10px;
-        fill: ${props => props.open
-            ? `var(--primary, ${constants.PRIMARY})`
-            : props.completed 
-                ? `var(--success, ${constants.SUCCESS})`
-                : constants.LIGHT_GREY};
-        transform: ${props => props.open ? 'scale(0.8)' : 'scale(0.6)'};
-        transition: all .3s ease;
+        fill: ${(props) =>
+            props.open
+                ? `var(--primary, ${constants.PRIMARY})`
+                : props.completed
+                  ? `var(--success, ${constants.SUCCESS})`
+                  : constants.LIGHT_GREY};
+        transform: ${(props) => (props.open ? 'scale(0.8)' : 'scale(0.6)')};
+        transition: all 0.3s ease;
         min-width: 24px;
     }
 `;
@@ -65,21 +75,24 @@ const ExpandContainer = styled.div<{ open: boolean }>`
     & svg {
         vertical-align: top;
         margin-right: 10px;
-        transition: all .6s ease;
+        transition: all 0.6s ease;
         fill: currentColor;
     }
 
-    ${props => props.open ? `
+    ${(props) =>
+        props.open
+            ? `
         & svg {
             transform: rotate(180deg);
         }
-    `: ''}
+    `
+            : ''}
 `;
 
 const StepBody = styled.div<{ height: number }>`
-    transition: all .6s ease;
+    transition: all 0.6s ease;
     overflow: hidden;
-    height: ${ props => props.height || 0}px;
+    height: ${(props) => props.height || 0}px;
 `;
 
 export const AccordionStepBody = styled.div`
@@ -101,15 +114,15 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
     const ref = (el?: HTMLDivElement) => setHeight(el?.scrollHeight || 0);
 
     const toggleFocus = () => {
-        setFocused(!focused)
-    }
+        setFocused(!focused);
+    };
 
-    return(
+    return (
         <Step {...props} focused={focused} elevated={props.open}>
             <StepHeader open={open} disabled={disabled} onClick={onStepClick}>
                 <HeaderContainer open={open} completed={completed}>
                     <input
-                        type='checkbox'
+                        type="checkbox"
                         checked={open}
                         disabled={disabled}
                         onFocus={toggleFocus}
@@ -119,7 +132,17 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                     <Ellipsis>{header}</Ellipsis>
                 </HeaderContainer>
                 <ExpandContainer open={open}>
-                    {errorText && <Badge css={css`margin-right: 15px;`} inline type={BADGE_TYPE.DANGER}>{errorText}</Badge>}
+                    {errorText && (
+                        <Badge
+                            css={css`
+                                margin-right: 15px;
+                            `}
+                            inline
+                            type={BADGE_TYPE.DANGER}
+                        >
+                            {errorText}
+                        </Badge>
+                    )}
                     <ExpandMore />
                 </ExpandContainer>
             </StepHeader>
@@ -127,7 +150,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                 {open && props.children}
             </StepBody>
         </Step>
-    )
+    );
 }
 
 AccordionStep.propTypes = {
@@ -139,15 +162,15 @@ AccordionStep.propTypes = {
     completed: PropTypes.bool,
     /** If the step is disabled */
     disabled: PropTypes.bool,
-}
+};
 
 AccordionStep.defaultProps = {
     completed: false,
-    disabled: false
-}
+    disabled: false,
+};
 
 type AccordionStepProps = PropTypes.InferProps<typeof AccordionStep.propTypes> & {
-    open: boolean,
-    completed: boolean,
-    onStepClick: () =>  void,
+    open: boolean;
+    completed: boolean;
+    onStepClick: () => void;
 };

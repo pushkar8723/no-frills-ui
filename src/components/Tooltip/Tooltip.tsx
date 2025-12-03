@@ -7,8 +7,8 @@ export enum TOOLTIP_POSITION {
     TOP = 'TOP',
     BOTTOM = 'BOTTOM',
     LEFT = 'LEFT',
-    RIGHT = 'RIGHT'
-};
+    RIGHT = 'RIGHT',
+}
 
 const positionStyle = {
     [TOOLTIP_POSITION.LEFT]: `
@@ -50,10 +50,10 @@ const TooltipDiv = styled.div<{ position: TOOLTIP_POSITION }>`
     padding: 5px;
     color: #fff;
     border-radius: 3px;
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
     font-size: 12px;
     z-index: 1;
-    ${props => positionStyle[props.position]}
+    ${(props) => positionStyle[props.position]}
 `;
 
 const TooltipContainer = styled.div<{ position: TOOLTIP_POSITION }>`
@@ -63,7 +63,7 @@ const TooltipContainer = styled.div<{ position: TOOLTIP_POSITION }>`
     align-items: center;
 
     &:hover ${TooltipDiv} {
-        ${props => positionHoverStyle[props.position]}
+        ${(props) => positionHoverStyle[props.position]}
     }
 `;
 
@@ -88,10 +88,10 @@ Tooltip.propTypes = {
         TOOLTIP_POSITION.TOP,
         TOOLTIP_POSITION.LEFT,
         TOOLTIP_POSITION.RIGHT,
-        TOOLTIP_POSITION.BOTTOM
+        TOOLTIP_POSITION.BOTTOM,
     ]),
-}
+};
 
 Tooltip.defaultProps = {
-    position: TOOLTIP_POSITION.BOTTOM
-}
+    position: TOOLTIP_POSITION.BOTTOM,
+};

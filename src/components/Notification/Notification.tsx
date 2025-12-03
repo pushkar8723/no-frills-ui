@@ -33,15 +33,15 @@ export class StoryProps extends React.Component<NotificationProps> {
         buttonClick: PropTypes.func,
         /** Notification close callback. */
         onClose: PropTypes.func,
-    }
+    };
 
     static defaultProps = {
         duration: 5000,
         sticky: false,
         type: NOTIFICATION_TYPE.INFO,
-    }
+    };
 
-    render():React.ReactNode {
+    render(): React.ReactNode {
         return null;
     }
 }
@@ -52,21 +52,24 @@ const positionMap = {
     [NOTIFICATION_POSITION.TOP_RIGHT]: LAYER_POSITION.TOP_RIGHT,
     [NOTIFICATION_POSITION.BOTTOM_LEFT]: LAYER_POSITION.BOTTOM_LEFT,
     [NOTIFICATION_POSITION.BOTTOM_RIGHT]: LAYER_POSITION.BOTTOM_RIGHT,
-}
+};
 
 /** Notification class */
 class Notification {
     /** Helps in maintaining single instance for different positions. */
-    private containers:Map<NOTIFICATION_POSITION, {
-        ref: React.RefObject<NotificationManager>,
-        element: HTMLDivElement,
-    }> = new Map();
-    
+    private containers: Map<
+        NOTIFICATION_POSITION,
+        {
+            ref: React.RefObject<NotificationManager>;
+            element: HTMLDivElement;
+        }
+    > = new Map();
+
     /**
      * Adds a notification
-     * 
-     * @param position 
-     * @param options 
+     *
+     * @param position
+     * @param options
      */
     public add = (position: NOTIFICATION_POSITION, options: NotificationOptions) => {
         let notification;
@@ -84,7 +87,7 @@ class Notification {
                         position={position}
                         onEmpty={() => this.destroy(position)}
                     />
-                )
+                ),
             });
             this.containers.set(position, {
                 ref,
@@ -96,30 +99,30 @@ class Notification {
             notification = this.containers.get(position).ref;
         }
         return notification.current.add(options);
-    }
+    };
 
     /**
      * Removes a notification
-     * 
-     * @param position 
-     * @param id 
+     *
+     * @param position
+     * @param id
      */
     public remove = (position: NOTIFICATION_POSITION, id: string) => {
         if (this.containers.has(position)) {
             this.containers.get(position).ref.current.remove(id);
         }
-    }
+    };
 
     /**
      * Destroys entire stack of notifications.
-     * 
-     * @param position 
+     *
+     * @param position
      */
     public destroy = (position: NOTIFICATION_POSITION) => {
         const notification = this.containers.get(position);
         ReactDOM.unmountComponentAtNode(notification.element);
         this.containers.delete(position);
-    }
+    };
 }
 
 /** Export a singleton instance */

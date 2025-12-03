@@ -11,13 +11,16 @@ import { DialogContainer as ModalContainer } from '../Dialog/Dialog';
 type ModalProps = PropTypes.InferProps<typeof Modal.propTypes>;
 
 interface ModalState {
-    open: boolean,
+    open: boolean;
 }
 
-export default class Modal extends React.Component<React.PropsWithChildren<ModalProps>, ModalState> {
+export default class Modal extends React.Component<
+    React.PropsWithChildren<ModalProps>,
+    ModalState
+> {
     state = {
         open: false,
-    }
+    };
 
     static propTypes = {
         /** Opens the modal */
@@ -28,18 +31,18 @@ export default class Modal extends React.Component<React.PropsWithChildren<Modal
         closeOnOverlayClick: PropTypes.bool,
         /** Call back function called when the modal closes. */
         onClose: PropTypes.func,
-    }
+    };
 
     static defaultProps = {
         closeOnEsc: true,
         closeOnOverlayClick: true,
-    }
+    };
 
     static getDerivedStateFromProps(props: ModalProps) {
         if (props.open) {
             return {
                 open: true,
-            }
+            };
         }
         return null;
     }
@@ -55,7 +58,7 @@ export default class Modal extends React.Component<React.PropsWithChildren<Modal
         this.props.onClose && this.props.onClose();
         this.closeCallback = null;
         this.layer = null;
-    }
+    };
 
     getSnapshotBeforeUpdate(prevProps: ModalProps) {
         const { open, closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
@@ -73,10 +76,10 @@ export default class Modal extends React.Component<React.PropsWithChildren<Modal
                 closeOnEsc: closeOnEsc,
                 closeOnOverlayClick: closeOnOverlayClick,
                 component: (
-                    <ModalContainer {...rest} onClick={e => e.stopPropagation()} elevated>
+                    <ModalContainer {...rest} onClick={(e) => e.stopPropagation()} elevated>
                         {children}
                     </ModalContainer>
-                )
+                ),
             });
             this.closeCallback = this.layer[1];
             this.forceUpdate();
@@ -88,7 +91,7 @@ export default class Modal extends React.Component<React.PropsWithChildren<Modal
             const [Component] = this.layer;
             return <Component />;
         }
-    
+
         return null;
     }
 }

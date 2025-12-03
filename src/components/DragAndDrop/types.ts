@@ -1,8 +1,8 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export enum ORIENTATION {
-    HORIZONTAL='horizontal',
-    VERTICAL='vertical',
+    HORIZONTAL = 'horizontal',
+    VERTICAL = 'vertical',
 }
 
 export const DragContext = createContext<{

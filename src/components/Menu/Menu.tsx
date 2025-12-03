@@ -31,7 +31,7 @@ const Menu = React.forwardRef(function <T>(props: MenuProps<T>, ref: ForwardedRe
         if (multiSelect) {
             if (Array.isArray(value)) {
                 if (value.includes(val)) {
-                    newVal = value.filter(item => item !== val);
+                    newVal = value.filter((item) => item !== val);
                 } else {
                     newVal = [...value, val];
                 }
@@ -41,23 +41,23 @@ const Menu = React.forwardRef(function <T>(props: MenuProps<T>, ref: ForwardedRe
         }
         setValue(newVal);
         onChange?.(newVal);
-    }
+    };
 
     return (
-        <MenuContext.Provider value={{
-            value,
-            multiSelect,
-            updateValue
-        }}>
-            <MenuContainer ref={ref}>
-                {props.children}
-            </MenuContainer>
+        <MenuContext.Provider
+            value={{
+                value,
+                multiSelect,
+                updateValue,
+            }}
+        >
+            <MenuContainer ref={ref}>{props.children}</MenuContainer>
         </MenuContext.Provider>
-    )
+    );
 });
 
 Menu.defaultProps = {
     multiSelect: false,
-} 
+};
 
 export default Menu;

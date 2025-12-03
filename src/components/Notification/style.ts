@@ -4,27 +4,27 @@ import { Card } from '../Card';
 import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './types';
 
 const getEntryAnimation = (position: NOTIFICATION_POSITION) => {
-    switch(position) {
+    switch (position) {
         case NOTIFICATION_POSITION.TOP_LEFT:
         case NOTIFICATION_POSITION.BOTTOM_LEFT:
             return 'in-left';
         default:
             return 'in-right';
     }
-}
+};
 
 const getExitAnimation = (position: NOTIFICATION_POSITION) => {
-    switch(position) {
+    switch (position) {
         case NOTIFICATION_POSITION.TOP_LEFT:
         case NOTIFICATION_POSITION.BOTTOM_LEFT:
             return 'out-left';
         default:
             return 'out-right';
     }
-}
+};
 
 const getBorderColor = (type: NOTIFICATION_TYPE) => {
-    switch(type) {
+    switch (type) {
         case NOTIFICATION_TYPE.SUCCESS:
             return `var(--success-light, ${constants.SUCCESS_LIGHT})`;
         case NOTIFICATION_TYPE.DANGER:
@@ -34,10 +34,10 @@ const getBorderColor = (type: NOTIFICATION_TYPE) => {
         default:
             return `var(--info-light, ${constants.INFO_LIGHT})`;
     }
-}
+};
 
 const getTitleColor = (type: NOTIFICATION_TYPE) => {
-    switch(type) {
+    switch (type) {
         case NOTIFICATION_TYPE.SUCCESS:
             return `var(--success, ${constants.SUCCESS})`;
         case NOTIFICATION_TYPE.DANGER:
@@ -47,10 +47,10 @@ const getTitleColor = (type: NOTIFICATION_TYPE) => {
         case NOTIFICATION_TYPE.INFO:
             return `var(--info, ${constants.INFO})`;
     }
-}
+};
 
 const getTypeStyle = (type: NOTIFICATION_TYPE) => {
-    switch(type) {
+    switch (type) {
         case NOTIFICATION_TYPE.INFO:
             return `color:  var(--info, ${constants.INFO})`;
         case NOTIFICATION_TYPE.SUCCESS:
@@ -60,30 +60,30 @@ const getTypeStyle = (type: NOTIFICATION_TYPE) => {
         case NOTIFICATION_TYPE.WARNING:
             return `color: var(--warning, ${constants.WARNING})`;
     }
-}
+};
 
 interface NoticeProp extends NotificationOptions {
-    position: NOTIFICATION_POSITION,
+    position: NOTIFICATION_POSITION;
 }
 
 export const Container = styled.div<{ position: NOTIFICATION_POSITION }>`
     display: flex;
-    flex-direction: ${props =>
-        (
-            props.position === NOTIFICATION_POSITION.TOP_LEFT ||
-            props.position === NOTIFICATION_POSITION.TOP_RIGHT
-        ) ? 'column' : 'column-reverse'};
+    flex-direction: ${(props) =>
+        props.position === NOTIFICATION_POSITION.TOP_LEFT ||
+        props.position === NOTIFICATION_POSITION.TOP_RIGHT
+            ? 'column'
+            : 'column-reverse'};
 `;
 
 export const Notice = styled(Card)<NoticeProp>`
     border-radius: 3px;
-    border-left: 4px solid ${props => getBorderColor(props.type)};
+    border-left: 4px solid ${(props) => getBorderColor(props.type)};
     width: 300px;
     display: flex;
     padding: 0 5px 5px 0;
     overflow: hidden;
-    animation: ${props => getEntryAnimation(props.position)} .6s ease;
-    
+    animation: ${(props) => getEntryAnimation(props.position)} 0.6s ease;
+
     & svg {
         fill: currentColor;
         vertical-align: middle;
@@ -92,7 +92,7 @@ export const Notice = styled(Card)<NoticeProp>`
     }
 
     &.leave {
-        animation: ${props => getExitAnimation(props.position)} .6s;
+        animation: ${(props) => getExitAnimation(props.position)} 0.6s;
     }
 
     @keyframes in-right {
@@ -155,7 +155,7 @@ export const Notice = styled(Card)<NoticeProp>`
 export const Title = styled.div<{ type: NOTIFICATION_TYPE }>`
     padding: 5px 0;
     font-size: 14px;
-    color: ${props => getTitleColor(props.type)};
+    color: ${(props) => getTitleColor(props.type)};
     display: flex;
     align-items: center;
 `;
@@ -183,7 +183,7 @@ export const Body = styled.div`
 
 export const IconContainer = styled.div<{ type: NOTIFICATION_TYPE }>`
     padding: 6px 10px;
-    ${props => getTypeStyle(props.type)};
+    ${(props) => getTypeStyle(props.type)};
 `;
 
 export const Footer = styled.div`

@@ -4,14 +4,16 @@ import styled from '@emotion/styled';
 import ExpandMore from '../../icons/ExpandMore';
 import constants from '../../shared/constants';
 
-interface SelectProps extends PropTypes.InferType<typeof Select.propTypes>,
-    React.InputHTMLAttributes<HTMLSelectElement> {
-        value?: string;
-    }
+interface SelectProps
+    extends
+        PropTypes.InferType<typeof Select.propTypes>,
+        React.InputHTMLAttributes<HTMLSelectElement> {
+    value?: string;
+}
 
 type SelectInternalProps = SelectProps & {
     touched: boolean;
-}
+};
 
 const Label = styled.label`
     display: inline-flex;
@@ -42,12 +44,14 @@ const SelectField = styled.select<SelectInternalProps>`
     appearance: none;
 
     /** Focused */
-    &:focus, &:active {
+    &:focus,
+    &:active {
         border-color: var(--primary, ${constants.PRIMARY});
         box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
     }
 
-    &:focus ~ span, &:active ~ span {
+    &:focus ~ span,
+    &:active ~ span {
         color: var(--primary, ${constants.PRIMARY});
     }
 
@@ -56,7 +60,7 @@ const SelectField = styled.select<SelectInternalProps>`
         border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
         background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
     }
-    
+
     &:disabled ~ span {
         color: var(--disabled, ${constants.DISABLED});
     }
@@ -67,7 +71,9 @@ const SelectField = styled.select<SelectInternalProps>`
         box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
     }
 
-    ${props => props.touched ? `
+    ${(props) =>
+        props.touched
+            ? `
     &:invalid {
         border-color: var(--error, ${constants.ERROR});
     }
@@ -75,16 +81,20 @@ const SelectField = styled.select<SelectInternalProps>`
     &:invalid ~ span {
         color: var(--error, ${constants.ERROR});
     }
-    ` : ''}
+    `
+            : ''}
 
     /** Error */
-    ${props => props.errorText ? `
+    ${(props) =>
+        props.errorText
+            ? `
     border-color: var(--error, ${constants.ERROR});
 
     & ~ span {
         color: var(--error, ${constants.ERROR});
     }
-    ` : ''}
+    `
+            : ''}
 
     /** Required */
     &:required + span:after {
@@ -104,14 +114,17 @@ const SelectField = styled.select<SelectInternalProps>`
         transition: all 300ms ease;
     }
 
-    ${props => props.value !== '' ? `
+    ${(props) =>
+        props.value !== ''
+            ? `
     & + span {
         top: -8px;
         background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
         line-height: 14px;
     }
-    `: ''}
+    `
+            : ''}
 
     &:focus + span, &:placeholder-shown + span {
         top: -8px;
@@ -144,7 +157,7 @@ export default function Select(props: SelectProps) {
         if (props.onFocus) {
             props.onFocus(e);
         }
-    }
+    };
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
         if (props.onChange) {
@@ -153,7 +166,7 @@ export default function Select(props: SelectProps) {
         } else {
             setValue(e.target.value);
         }
-    }
+    };
 
     return (
         <Label>
@@ -169,8 +182,10 @@ export default function Select(props: SelectProps) {
                 {props.children}
             </SelectField>
             <span>{props.label}</span>
-            <ArrowContainer><ExpandMore /></ArrowContainer>
-            { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
+            <ArrowContainer>
+                <ExpandMore />
+            </ArrowContainer>
+            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
         </Label>
     );
 }

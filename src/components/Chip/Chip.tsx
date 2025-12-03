@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
 import { Close } from '../../icons';
+import constants from '../../shared/constants';
 
 interface ChipProps {
     /** Label for the chip */
@@ -38,11 +38,11 @@ const Button = styled.button`
 export default function Chip(props: ChipProps) {
     const { label, onCloseClick, ...rest } = props;
 
-    const keyUpHandler:React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    const keyUpHandler: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
         if (e.keyCode === 8 || e.keyCode === 46) {
             onCloseClick?.();
         }
-    }
+    };
 
     return (
         <Container {...rest} onKeyUp={keyUpHandler}>
