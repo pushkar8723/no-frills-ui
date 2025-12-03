@@ -27,7 +27,7 @@ interface LayerConfig {
     /** Close layer overlay is clicked. */
     closeOnOverlayClick?: boolean;
     /** Callback called when modal closes */
-    closeCallback?: <T extends unknown>(resp: T) => void;
+    closeCallback?: <T>(resp: T) => void;
     /** Layer is created with max z-index */
     alwaysOnTop?: boolean;
 }
@@ -134,7 +134,7 @@ class LayerManager {
      *
      * @param layer
      */
-    private unmount = (layer: Layer, resp?: any) => {
+    private unmount = (layer: Layer, resp?: unknown) => {
         layer.element.setAttribute('class', 'nf-layer-exit');
         this.layers.splice(
             this.layers.findIndex((item) => item === layer),
@@ -155,7 +155,9 @@ class LayerManager {
      * Renders a layer.
      * @param config
      */
-    public renderLayer = (config: LayerConfig): [() => React.ReactPortal, (resp?: any) => void] => {
+    public renderLayer = (
+        config: LayerConfig,
+    ): [() => React.ReactPortal, (resp?: unknown) => void] => {
         // Merge default config with the provided config.
         const layerConfig = {
             ...defaultConfig,
@@ -216,7 +218,7 @@ class LayerManager {
                     // () => { setTimeout(() => divElement.setAttribute('class', 'nf-layer-enter'), 100) }
                 );
             },
-            (resp?: any) => {
+            (resp?: unknown) => {
                 this.unmount(currentLayer, resp);
             },
         ];

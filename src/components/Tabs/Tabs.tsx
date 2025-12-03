@@ -1,4 +1,4 @@
-import React, { useState, Children, useEffect } from 'react';
+import { useState, Children, useEffect, PropsWithChildren, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
@@ -40,13 +40,12 @@ const TabBody = styled.div`
     min-height: 150px;
 `;
 
-interface ITabsProps {
+type ITabsProps = PropsWithChildren<{
     active?: number;
     onChange?: (index: number) => void;
-    props?: any;
-    bodyProps?: any;
-    children: any;
-}
+    props?: object;
+    bodyProps?: object;
+}>;
 
 export default function Tabs(props: ITabsProps) {
     const [active, setActive] = useState(props.active);
@@ -56,7 +55,7 @@ export default function Tabs(props: ITabsProps) {
     useEffect(() => {
         setActive(props.active);
         props.onChange && props.onChange(props.active);
-    }, [props.active]);
+    }, [props]);
 
     return (
         <>
@@ -66,13 +65,13 @@ export default function Tabs(props: ITabsProps) {
                         type="button"
                         active={active === index}
                         onClick={switchTab(index)}
-                        disabled={child.props.disabled}
+                        disabled={isValidElement(child) ? child.props.disabled : false}
                     >
-                        {child.props.name}
+                        {isValidElement(child) ? child.props.name : ''}
                     </Button>
                 ))}
             </ButtonContainer>
-            <TabBody {...props.bodyProps}>{children[active]}</TabBody>
+            <TabBody {...props.bodyProps}>{Children.toArray(children)[active]}</TabBody>
         </>
     );
 }

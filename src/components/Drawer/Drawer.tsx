@@ -110,7 +110,7 @@ export default class Drawer extends React.Component<
 
     private layer: ReturnType<typeof LayerManager.renderLayer>;
 
-    private closeCallback: (resp?: any) => void;
+    private closeCallback: (resp?: unknown) => void;
 
     private onClose = () => {
         this.setState({

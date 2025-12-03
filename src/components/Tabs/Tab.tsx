@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 const Tab = (props: PropsWithChildren<{ name: string; disabled: boolean }>) => {

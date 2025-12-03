@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Popover } from '../../src/components';
+import { useState } from 'react';
+import { Button, Popover, POPOVER_POSITION } from '../../src/components';
 import { Dummy } from './Dummy';
 
-export default function PopoverDemo(props: any) {
+export default function PopoverDemo(props: { text: string; position: POPOVER_POSITION }) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -14,5 +14,5 @@ export default function PopoverDemo(props: any) {
         >
             <Dummy>Popover content goes here</Dummy>
         </Popover>
-    )
+    );
 }

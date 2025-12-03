@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default function ExpandMore(props: any) {
+export default function ExpandMore(props: object) {
     return (
         <svg viewBox="0 0 24 24" width="18px" height="18px" fill="currentColor" {...props}>
             <path d="M0 0h24v24H0z" fill="none" />

@@ -1,9 +1,16 @@
 import { createContext } from 'react';
 
-export interface MenuContext<T> {
-    value: T | T[];
-    multiSelect: boolean;
+type SingleSelect<T> = {
+    value: T;
+    multiSelect: false;
     updateValue: (newVal: T) => void;
-}
+};
 
-export default createContext<MenuContext<any>>(undefined);
+type MultiSelect<T> = {
+    value: T[];
+    multiSelect: true;
+    updateValue: (newVal: T[]) => void;
+};
+export type MenuContextType<T> = SingleSelect<T> | MultiSelect<T>;
+
+export default createContext<MenuContextType<object>>(undefined);

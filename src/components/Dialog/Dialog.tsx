@@ -47,8 +47,8 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
         closeOnOverlayClick: true,
     };
 
-    private closeDialog: (resp?: any) => void;
-    private onCloseFn: (resp?: any) => void;
+    private closeDialog: (resp?: unknown) => void;
+    private onCloseFn: (resp?: unknown) => void;
 
     state = {
         show: false,
@@ -58,18 +58,18 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
         return this.state.show !== nextState.show;
     }
 
-    public open = (closeCallback?: (resp: any) => void) => {
+    public open = (closeCallback?: (resp: unknown) => void) => {
         this.setState({
             show: true,
         });
         this.onCloseFn = closeCallback;
     };
 
-    public close = (resp?: any) => {
+    public close = (resp?: unknown) => {
         this.closeDialog && this.closeDialog(resp);
     };
 
-    private closeCallback = (resp?: any) => {
+    private closeCallback = (resp?: unknown) => {
         this.setState({
             show: false,
         });

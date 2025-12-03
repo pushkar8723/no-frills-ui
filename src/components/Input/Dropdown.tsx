@@ -20,7 +20,7 @@ type DropdownProps<T> = {
     required?: boolean;
     /** Disables the field */
     disabled?: boolean;
-} & React.PropsWithChildren<{}>;
+} & React.PropsWithChildren<unknown>;
 
 const ArrowContainer = styled.span`
     position: absolute;
@@ -34,28 +34,27 @@ export default function Dropdown<T>(props: DropdownProps<T>) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(props.value);
 
-    const focusHandler = (e: KeyboardEvent) => {
-        if (open && (e.keyCode === 38 || e.keyCode === 40)) {
-            e.preventDefault();
-            const current = document.querySelector(':focus');
-            if (current.tagName === 'DIV') {
-                const firstBtn = current.querySelector('button');
-                firstBtn?.focus();
-            } else {
-                const currentBtn = current.closest('button');
-                if (e.keyCode === 38) {
-                    const prev = currentBtn?.previousElementSibling?.closest('button');
-                    prev?.focus();
-                } else {
-                    const next = currentBtn?.nextElementSibling?.closest('button');
-                    next?.focus();
-                }
-            }
-            return false;
-        }
-    };
-
     useEffect(() => {
+        const focusHandler = (e: KeyboardEvent) => {
+            if (open && (e.keyCode === 38 || e.keyCode === 40)) {
+                e.preventDefault();
+                const current = document.querySelector(':focus');
+                if (current.tagName === 'DIV') {
+                    const firstBtn = current.querySelector('button');
+                    firstBtn?.focus();
+                } else {
+                    const currentBtn = current.closest('button');
+                    if (e.keyCode === 38) {
+                        const prev = currentBtn?.previousElementSibling?.closest('button');
+                        prev?.focus();
+                    } else {
+                        const next = currentBtn?.nextElementSibling?.closest('button');
+                        next?.focus();
+                    }
+                }
+                return false;
+            }
+        };
         document.addEventListener('keydown', focusHandler);
 
         return () => {

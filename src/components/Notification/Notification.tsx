@@ -1,6 +1,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import { flushSync } from 'react-dom';
+import { createRoot, type Root } from 'react-dom/client';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import NotificationManager from './NotificationManager';
 import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './types';
@@ -62,6 +63,7 @@ class Notification {
         {
             ref: React.RefObject<NotificationManager>;
             element: HTMLDivElement;
+            root: Root;
         }
     > = new Map();
 
@@ -92,8 +94,11 @@ class Notification {
             this.containers.set(position, {
                 ref,
                 element: div,
+                root: createRoot(div),
             });
-            ReactDOM.render(<Component />, div);
+            flushSync(() => {
+                this.containers.get(position).root.render(<Component />);
+            });
             notification = ref;
         } else {
             notification = this.containers.get(position).ref;
@@ -120,7 +125,7 @@ class Notification {
      */
     public destroy = (position: NOTIFICATION_POSITION) => {
         const notification = this.containers.get(position);
-        ReactDOM.unmountComponentAtNode(notification.element);
+        notification.root.unmount();
         this.containers.delete(position);
     };
 }

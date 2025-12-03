@@ -1,12 +1,12 @@
-import React, { ReactNode, SyntheticEvent, useContext } from 'react';
+import React, { SyntheticEvent, useContext } from 'react';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 import Checkbox from '../Input/Checkbox';
-import MenuContext from './MenuContext';
+import MenuContext, { MenuContextType } from './MenuContext';
 
 interface MenuItemProps<T> {
     /** Value of the element */
-    value: T;
+    value: T & T[];
 }
 
 const Container = styled.button<{ selected: boolean }>`
@@ -33,8 +33,8 @@ const Container = styled.button<{ selected: boolean }>`
     }
 `;
 
-export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChildren<{}>) {
-    const context = useContext(MenuContext);
+export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChildren<unknown>) {
+    const context = useContext(MenuContext) as MenuContextType<T>;
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
@@ -57,7 +57,7 @@ export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChi
             onClick={clickHandler}
         >
             {context.multiSelect && <Checkbox checked={selected} />}
-            {props.children}
+            {children}
         </Container>
     );
 }

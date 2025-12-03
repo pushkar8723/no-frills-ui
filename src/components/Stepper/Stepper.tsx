@@ -1,15 +1,14 @@
-import React, { Children, useState } from 'react';
+import { Children, PropsWithChildren, useState, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
 
-type StepperProps = {
+type StepperProps = PropsWithChildren<{
     active: number;
     onStepClick?: (index: number) => void;
-    children: any;
-};
+}>;
 
 const Container = styled.div`
     flex: 1;
@@ -94,6 +93,7 @@ const MobileHeader = styled.div`
 export default function Stepper(props: StepperProps) {
     const [active, setActive] = useState(props.active);
     const { children, onStepClick } = props;
+    const childrenArray = Children.toArray(children);
 
     const stepClickHandler = (index: number) => () => {
         setActive(index);
@@ -114,34 +114,41 @@ export default function Stepper(props: StepperProps) {
     return (
         <Container>
             <Header>
-                {Children.map(children, (child, index) => (
-                    <>
-                        <HeaderButton
-                            active={index === active}
-                            type="button"
-                            disabled={child.props.disabled}
-                            onClick={stepClickHandler(index)}
-                        >
-                            <Badge
-                                inline
-                                type={getBadgeType(
-                                    index,
-                                    child.props.completed,
-                                    child.props.disabled,
-                                )}
-                            />
-                            <Ellipsis>{child.props.name}</Ellipsis>
-                        </HeaderButton>
-                    </>
-                ))}
+                {Children.map(children, (child, index) => {
+                    if (!isValidElement(child)) return null;
+                    return (
+                        <>
+                            <HeaderButton
+                                active={index === active}
+                                type="button"
+                                disabled={child.props.disabled}
+                                onClick={stepClickHandler(index)}
+                            >
+                                <Badge
+                                    inline
+                                    type={getBadgeType(
+                                        index,
+                                        child.props.completed,
+                                        child.props.disabled,
+                                    )}
+                                />
+                                <Ellipsis>{child.props.name}</Ellipsis>
+                            </HeaderButton>
+                        </>
+                    );
+                })}
                 <MobileHeader>
-                    <span>{children[active].props.name}</span>
+                    <span>
+                        {isValidElement(childrenArray[active])
+                            ? childrenArray[active].props.name
+                            : ''}
+                    </span>
                     <Badge inline type={BADGE_TYPE.PRIMARY}>
-                        {active + 1} of {children.length}
+                        {active + 1} of {Children.count(children)}
                     </Badge>
                 </MobileHeader>
             </Header>
-            {children[active]}
+            {childrenArray[active]}
         </Container>
     );
 }

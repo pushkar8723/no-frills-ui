@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot, type Root } from 'react-dom/client';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
@@ -94,6 +93,7 @@ class Toast {
     private element: HTMLDivElement;
     private toast: ReturnType<typeof LayerManager.renderLayer>;
     private timeout: NodeJS.Timeout;
+    private root: Root;
 
     constructor() {
         this.element = document?.createElement('div');
@@ -109,7 +109,7 @@ class Toast {
 
         setTimeout(() => {
             if (!this.toast) {
-                ReactDOM.unmountComponentAtNode(this.element);
+                this.root.unmount();
             }
         }, 300);
     };
@@ -161,7 +161,8 @@ class Toast {
             ),
         });
         const Component = this.toast[0];
-        ReactDOM.render(<Component />, this.element);
+        this.root = createRoot(this.element);
+        this.root.render(<Component />);
 
         this.timeout = setTimeout(() => {
             this.remove();

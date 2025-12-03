@@ -1,4 +1,4 @@
-import React, {
+import {
     DragEventHandler,
     PropsWithChildren,
     useContext,
@@ -120,7 +120,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
      * Drag start event handler
      * @param e Event
      */
-    const dragStartHandler: DragEventHandler<HTMLDivElement> = (e) => {
+    const dragStartHandler: DragEventHandler<HTMLDivElement> = () => {
         context.setStartIndex(index);
         context.setIsDragging(true);
     };
@@ -157,7 +157,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
      * Touch start event handler
      * @param e Event
      */
-    const touchStartHandler: TouchEventHandler<HTMLDivElement> = (e) => {
+    const touchStartHandler: TouchEventHandler<HTMLDivElement> = () => {
         const timer = setTimeout(() => {
             context.setStartIndex(index);
             context.setIsDragging(true);
@@ -203,7 +203,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
      * Touch end event handler
      * @param e Event
      */
-    const touchEndHandler: TouchEventHandler<HTMLDivElement> = (e) => {
+    const touchEndHandler: TouchEventHandler<HTMLDivElement> = () => {
         if (touchTimer) {
             clearTimeout(touchTimer);
             setTouchTimer(null);

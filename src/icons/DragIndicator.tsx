@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default function CheckCircle(props: any) {
+export default function CheckCircle(props: object) {
     return (
         <svg height="24" viewBox="0 0 24 24" width="24" fill="currentColor" {...props}>
             <path d="M0 0h24v24H0V0z" fill="none" />

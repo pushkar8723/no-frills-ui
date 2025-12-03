@@ -92,7 +92,6 @@ export default class PromptDialog extends React.Component<PromptOption, { value:
                                 style={{ width: 'auto', flex: '1' }}
                                 value={this.state.value}
                                 onChange={this.valueChange}
-                                autoFocus
                                 {...inputProps}
                             />
                         </div>

@@ -170,7 +170,7 @@ AccordionStep.defaultProps = {
 };
 
 type AccordionStepProps = PropTypes.InferProps<typeof AccordionStep.propTypes> & {
-    open: boolean;
+    open?: boolean;
     completed: boolean;
-    onStepClick: () => void;
+    onStepClick?: () => void;
 };

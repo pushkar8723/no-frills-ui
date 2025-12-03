@@ -10,7 +10,7 @@ type DragAndDropProps = {
     onDrop: (start: number, end: number) => void;
     /** Shows drag indicator against each list item */
     showIndicator: boolean;
-} & PropsWithChildren<{}>;
+} & PropsWithChildren<unknown>;
 
 /** Container Component */
 const Container = styled.div<{ orientation: ORIENTATION }>`

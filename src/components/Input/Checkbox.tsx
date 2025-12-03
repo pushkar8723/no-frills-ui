@@ -107,13 +107,16 @@ type CheckboxProps = Omit<React.HTMLProps<HTMLInputElement>, 'as'> &
     PropTypes.InferProps<typeof Checkbox.propTypes>;
 
 export default function Checkbox(props: CheckboxProps) {
-    const ref = useCallback((node: any) => {
-        if (node !== null) {
-            if (props.indeterminate) {
-                node.indeterminate = true;
+    const ref = useCallback(
+        (node: unknown) => {
+            if (node !== null) {
+                if (props.indeterminate) {
+                    (node as HTMLInputElement).indeterminate = true;
+                }
             }
-        }
-    }, []);
+        },
+        [props.indeterminate],
+    );
 
     return (
         <Label>

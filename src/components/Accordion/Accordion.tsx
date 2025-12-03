@@ -1,7 +1,7 @@
-import React, { useState, Children, cloneElement } from 'react';
+import { useState, Children, cloneElement, PropsWithChildren, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 
-function Accordion(props: AccordionProps & { children: any }) {
+function Accordion(props: PropsWithChildren<AccordionProps>) {
     const [active, setActive] = useState(props.active);
 
     const onStepClick = (index: number, disabled: boolean) => () => {
@@ -20,6 +20,9 @@ function Accordion(props: AccordionProps & { children: any }) {
     return (
         <>
             {Children.map(props.children, (child, index) => {
+                if (!isValidElement(child)) {
+                    return child;
+                }
                 return cloneElement(child, {
                     open: active === index,
                     onStepClick: onStepClick(index, child.props.disabled),

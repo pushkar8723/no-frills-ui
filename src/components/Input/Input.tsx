@@ -169,6 +169,8 @@ const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props,
     );
 });
 
+Input.displayName = 'Input';
+
 export default Input;
 
 Input.propTypes = {

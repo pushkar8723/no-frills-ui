@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Card } from '../Card';
@@ -97,7 +97,7 @@ export default function Popover(
     const popperRef = useRef<HTMLDivElement>();
     const containerRef = useRef<HTMLDivElement>();
 
-    const close = () => {
+    const close = useCallback(() => {
         setClosing(true);
         setTimeout(() => {
             setOpen(false);
@@ -107,19 +107,25 @@ export default function Popover(
             }
             setClosing(false);
         }, 280);
-    };
+    }, [props]);
 
-    const keyupEventHandler = (e: KeyboardEvent) => {
-        if (props.closeOnEsc && e.keyCode === KEY_CODES.ESC) {
-            close();
-        }
-    };
+    const keyupEventHandler = useCallback(
+        (e: KeyboardEvent) => {
+            if (props.closeOnEsc && e.keyCode === KEY_CODES.ESC) {
+                close();
+            }
+        },
+        [close, props.closeOnEsc],
+    );
 
-    const clickOutsideHandler = (e: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-            close();
-        }
-    };
+    const clickOutsideHandler = useCallback(
+        (e: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                close();
+            }
+        },
+        [close],
+    );
 
     /**
      * Get called on popover mount.
@@ -131,7 +137,7 @@ export default function Popover(
             document.removeEventListener('keyup', keyupEventHandler);
             document.removeEventListener('click', clickOutsideHandler);
         };
-    }, []);
+    }, [clickOutsideHandler, close, keyupEventHandler]);
 
     useEffect(() => {
         if (props.open) {
@@ -149,7 +155,7 @@ export default function Popover(
         return () => {
             document.removeEventListener('click', clickOutsideHandler);
         };
-    }, [props.open]);
+    }, [props.open, open, clickOutsideHandler, close]);
 
     useEffect(() => {
         if (open) {
@@ -197,7 +203,7 @@ export default function Popover(
             setTranslate(translation);
             popperRef.current.focus();
         }
-    }, [open]);
+    }, [open, props.position]);
 
     return (
         <PopoverDiv ref={containerRef}>

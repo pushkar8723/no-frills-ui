@@ -1,11 +1,10 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Spinner } from '../../../src/components/Spinner';
 
 const meta: Meta<typeof Spinner> = {
-  component: Spinner,
-  title: 'Declarative Components/Spinner',
-  tags: ['!dev', '!autodocs'],
+    component: Spinner,
+    title: 'Declarative Components/Spinner',
+    tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
@@ -26,10 +25,10 @@ export const Sizes: Story = {
                 code: `<Spinner size={40} />
 <Spinner />
 <Spinner size={20} />
-<Spinner size={10} />`
-            }
-        }
-    }
+<Spinner size={10} />`,
+            },
+        },
+    },
 };
 
 // Props documentation story
