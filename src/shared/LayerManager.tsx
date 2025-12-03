@@ -143,7 +143,7 @@ class LayerManager {
 
         setTimeout(() => {
             try {
-                layer.config.closeCallback && layer.config.closeCallback(resp);
+                layer.config.closeCallback?.(resp);
             } catch (e) {
                 // Error in callback function. Ignore and proceed.
                 console.warn(e.message);
@@ -181,7 +181,9 @@ class LayerManager {
         this.layers.push(currentLayer);
 
         const overlayClickHandler = (layer: Layer) => () => {
-            layer.config.closeOnOverlayClick !== false && this.unmount(layer);
+            if (layer.config.closeOnOverlayClick !== false) {
+                this.unmount(layer);
+            }
         };
 
         // Return callback which will trigger the un-mount.

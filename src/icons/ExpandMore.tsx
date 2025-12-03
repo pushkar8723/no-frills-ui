@@ -1,4 +1,4 @@
-export default function ExpandMore(props: object) {
+export default function ExpandMore(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg viewBox="0 0 24 24" width="18px" height="18px" fill="currentColor" {...props}>
             <path d="M0 0h24v24H0z" fill="none" />

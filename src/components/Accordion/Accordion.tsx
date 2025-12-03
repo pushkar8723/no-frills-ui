@@ -26,7 +26,7 @@ function Accordion(props: PropsWithChildren<AccordionProps>) {
                 return cloneElement(child, {
                     open: active === index,
                     onStepClick: onStepClick(index, child.props.disabled),
-                });
+                } as Partial<typeof child.props>);
             })}
         </>
     );

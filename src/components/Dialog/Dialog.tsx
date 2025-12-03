@@ -66,14 +66,14 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
     };
 
     public close = (resp?: unknown) => {
-        this.closeDialog && this.closeDialog(resp);
+        this.closeDialog?.(resp);
     };
 
     private closeCallback = (resp?: unknown) => {
         this.setState({
             show: false,
         });
-        this.onCloseFn && this.onCloseFn(resp);
+        this.onCloseFn?.(resp);
     };
 
     render() {

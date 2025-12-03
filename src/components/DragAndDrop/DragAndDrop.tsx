@@ -57,7 +57,9 @@ export default function DragAndDrop(props: DragAndDropProps) {
      * @param index
      */
     const drop = (index: number) => {
-        startIndex !== null && onDrop?.(startIndex, index);
+        if (startIndex !== null) {
+            onDrop?.(startIndex, index);
+        }
         setStartIndex(null);
         setIsDragging(false);
     };

@@ -116,7 +116,7 @@ export default class Drawer extends React.Component<
         this.setState({
             open: false,
         });
-        this.props.onClose && this.props.onClose();
+        this.props.onClose?.();
         this.closeCallback = null;
         this.layer = null;
     };
@@ -134,7 +134,7 @@ export default class Drawer extends React.Component<
         } = this.props;
 
         if (prevProps.open && !open) {
-            this.closeCallback && this.closeCallback();
+            this.closeCallback?.();
         }
 
         if (!prevProps.open && open) {

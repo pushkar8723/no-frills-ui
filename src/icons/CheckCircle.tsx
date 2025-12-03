@@ -1,4 +1,4 @@
-export default function CheckCircle(props: object) {
+export default function CheckCircle(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg height="24" viewBox="0 0 24 24" width="24" fill="currentColor" {...props}>
             <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />

@@ -55,7 +55,7 @@ export default class Modal extends React.Component<
         this.setState({
             open: false,
         });
-        this.props.onClose && this.props.onClose();
+        this.props.onClose?.();
         this.closeCallback = null;
         this.layer = null;
     };
@@ -64,7 +64,7 @@ export default class Modal extends React.Component<
         const { open, closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
 
         if (prevProps.open && !open) {
-            this.closeCallback && this.closeCallback();
+            this.closeCallback?.();
         }
 
         if (!prevProps.open && open) {

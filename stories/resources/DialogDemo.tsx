@@ -25,6 +25,7 @@ export default function DialogDemo() {
         try {
             await confirmDialog.current?.show();
             alert('Thanks! Glad you liked it.');
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             alert('Hmmm! Give it a try at least.');
         }
@@ -34,6 +35,7 @@ export default function DialogDemo() {
         try {
             const resp = await promptDialog.current?.show();
             alert(`Order placed for ${resp} products.`);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             alert('Transaction canceled');
         }

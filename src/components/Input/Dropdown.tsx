@@ -29,7 +29,7 @@ const ArrowContainer = styled.span`
     pointer-events: none;
 `;
 
-export default function Dropdown<T>(props: DropdownProps<T>) {
+export default function Dropdown<T extends object>(props: DropdownProps<T>) {
     const { multiSelect, onChange } = props;
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(props.value);

@@ -54,7 +54,7 @@ export default function Tabs(props: ITabsProps) {
 
     useEffect(() => {
         setActive(props.active);
-        props.onChange && props.onChange(props.active);
+        props.onChange?.(props.active);
     }, [props]);
 
     return (
