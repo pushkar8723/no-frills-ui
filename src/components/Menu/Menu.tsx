@@ -22,7 +22,10 @@ const MenuContainer = styled.div`
     }
 `;
 
-const Menu = React.forwardRef(function <T>(props: MenuProps<T>, ref: ForwardedRef<HTMLDivElement>) {
+const Menu = React.forwardRef(function <T extends object>(
+    props: MenuProps<T>,
+    ref: ForwardedRef<HTMLDivElement>,
+) {
     const { multiSelect, onChange } = props;
     const [value, setValue] = useState(props.value || (multiSelect ? [] : ''));
 
@@ -31,7 +34,7 @@ const Menu = React.forwardRef(function <T>(props: MenuProps<T>, ref: ForwardedRe
         if (multiSelect) {
             if (Array.isArray(value)) {
                 if (value.includes(val)) {
-                    newVal = value.filter(item => item !== val);
+                    newVal = value.filter((item) => item !== val);
                 } else {
                     newVal = [...value, val];
                 }
@@ -41,23 +44,27 @@ const Menu = React.forwardRef(function <T>(props: MenuProps<T>, ref: ForwardedRe
         }
         setValue(newVal);
         onChange?.(newVal);
-    }
+    };
 
     return (
-        <MenuContext.Provider value={{
-            value,
-            multiSelect,
-            updateValue
-        }}>
-            <MenuContainer ref={ref}>
-                {props.children}
-            </MenuContainer>
+        <MenuContext.Provider
+            value={
+                {
+                    value,
+                    multiSelect,
+                    updateValue,
+                } as unknown as React.ContextType<typeof MenuContext>
+            }
+        >
+            <MenuContainer ref={ref}>{props.children}</MenuContainer>
         </MenuContext.Provider>
-    )
+    );
 });
+
+Menu.displayName = 'Menu';
 
 Menu.defaultProps = {
     multiSelect: false,
-} 
+};
 
 export default Menu;

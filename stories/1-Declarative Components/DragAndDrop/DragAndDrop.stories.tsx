@@ -1,25 +1,22 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { DragAndDrop, ORIENTATION } from '../../../src/components';
 import DragAndDropDemo from '../../resources/DragAndDropDemo';
 
 const meta: Meta<typeof DragAndDrop> = {
-  component: DragAndDrop,
-  title: 'Declarative Components/DragAndDrop',
-  tags: ['!dev', '!autodocs'],
+    component: DragAndDrop,
+    title: 'Declarative Components/DragAndDrop',
+    tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
 type Story = StoryObj<typeof DragAndDrop>;
 
 export const VerticalLayout: Story = {
-  render: () => (
-    <DragAndDropDemo orientation={ORIENTATION.VERTICAL} />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `import React, { useState } from 'react';
+    render: () => <DragAndDropDemo orientation={ORIENTATION.VERTICAL} />,
+    parameters: {
+        docs: {
+            source: {
+                code: `import React, { useState } from 'react';
 import { DragAndDrop, ORIENTATION } from 'no-frills-ui';
 
 export default function DragAndDropDemo(prop) {
@@ -40,19 +37,17 @@ export default function DragAndDropDemo(prop) {
         {items.map(item => <div>{item}</div>)}
     </DragAndDrop>)
 }`,
-      },
+            },
+        },
     },
-  },
 };
 
 export const HorizontalLayout: Story = {
-  render: () => (
-    <DragAndDropDemo orientation={ORIENTATION.HORIZONTAL} />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `import React, { useState } from 'react';
+    render: () => <DragAndDropDemo orientation={ORIENTATION.HORIZONTAL} />,
+    parameters: {
+        docs: {
+            source: {
+                code: `import React, { useState } from 'react';
 import { DragAndDrop, ORIENTATION } from 'no-frills-ui';
 
 export default function DragAndDropDemo(prop) {
@@ -73,19 +68,17 @@ export default function DragAndDropDemo(prop) {
         {items.map(item => <div>{item}</div>)}
     </DragAndDrop>)
 }`,
-      },
+            },
+        },
     },
-  },
 };
 
 export const HorizontalWithIndicators: Story = {
-  render: () => (
-    <DragAndDropDemo showIndicator orientation={ORIENTATION.HORIZONTAL} />
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `import React, { useState } from 'react';
+    render: () => <DragAndDropDemo showIndicator orientation={ORIENTATION.HORIZONTAL} />,
+    parameters: {
+        docs: {
+            source: {
+                code: `import React, { useState } from 'react';
 import { DragAndDrop, ORIENTATION } from 'no-frills-ui';
 
 export default function DragAndDropDemo(prop) {
@@ -106,12 +99,11 @@ export default function DragAndDropDemo(prop) {
         {items.map(item => <div>{item}</div>)}
     </DragAndDrop>)
 }`,
-      },
+            },
+        },
     },
-  },
 };
 
 export const Primary: Story = {
-  // @ts-ignore - This is for Controls only
-  render: (args) => <DragAndDrop {...args} />,
+    render: (args) => <DragAndDrop {...args} />,
 };

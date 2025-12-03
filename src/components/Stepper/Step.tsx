@@ -17,6 +17,7 @@ const Container = styled.div`
 `;
 
 export default function Step(props: React.PropsWithChildren<StepProps>) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { name, disabled, completed, ...rest } = props;
     return <Container {...rest} />;
 }
@@ -24,4 +25,4 @@ export default function Step(props: React.PropsWithChildren<StepProps>) {
 Step.defaultProps = {
     disabled: false,
     completed: false,
-}
+};

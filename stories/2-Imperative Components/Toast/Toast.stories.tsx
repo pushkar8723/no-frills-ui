@@ -1,7 +1,6 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import { Toast, TOAST_TYPE } from '../../../src/components/Toast';
 import { Button } from '../../../src/components/Button';
+import { Toast, TOAST_TYPE } from '../../../src/components/Toast';
 import ToastStory from '../../../src/components/Toast/ToastStory';
 
 const meta: Meta = {
@@ -17,36 +16,52 @@ type Story = StoryObj;
 export const Variations: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '8px' }}>
-            <Button onClick={() => {
-                Toast.add({
-                    text: 'I am a 🍞 bro.',
-                })
-            }}>Simple Toast</Button>
-            <Button onClick={() => {
-                Toast.add({
-                    text: 'I am a 🍞 bro.',
-                    buttonText: 'Action',
-                    buttonClick: () => alert('Action button on toast was clicked.')
-                })
-            }}>Action Toast</Button>
-            <Button onClick={() => {
-                Toast.add({
-                    text: `
-                        When a toast contains a very large string, the excess
-                        string is wrapped and showed on the next line.
-                    `
-                })
-            }}>Multiline Toast</Button>
-            <Button onClick={() => {
-                Toast.add({
-                    text: `
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: 'I am a 🍞 bro.',
+                    });
+                }}
+            >
+                Simple Toast
+            </Button>
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: 'I am a 🍞 bro.',
+                        buttonText: 'Action',
+                        buttonClick: () => alert('Action button on toast was clicked.'),
+                    });
+                }}
+            >
+                Action Toast
+            </Button>
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: `
                         When a toast contains a very large string, the excess
                         string is wrapped and showed on the next line.
                     `,
-                    buttonText: 'Action',
-                    buttonClick: () => alert('Action button on toast was clicked.'),
-                })
-            }}>Multiline Action Toast</Button>
+                    });
+                }}
+            >
+                Multiline Toast
+            </Button>
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: `
+                        When a toast contains a very large string, the excess
+                        string is wrapped and showed on the next line.
+                    `,
+                        buttonText: 'Action',
+                        buttonClick: () => alert('Action button on toast was clicked.'),
+                    });
+                }}
+            >
+                Multiline Action Toast
+            </Button>
         </div>
     ),
     parameters: {
@@ -80,40 +95,56 @@ export const Variations: Story = {
         buttonText: 'Action',
         buttonClick: () => alert('Action button on toast was clicked.'),
     })
-}}>Multiline Action Toast</Button>`
-            }
-        }
-    }
+}}>Multiline Action Toast</Button>`,
+            },
+        },
+    },
 };
 
 // Types story
 export const Types: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '8px' }}>
-            <Button onClick={() => {
-                Toast.add({
-                    text: 'I am a 🍞 bro.',
-                    type: TOAST_TYPE.INFO
-                })
-            }}>Information Toast</Button>
-            <Button onClick={() => {
-                Toast.add({
-                    text: 'I am a 🍞 bro.',
-                    type: TOAST_TYPE.SUCCESS
-                })
-            }}>Success Toast</Button>
-            <Button onClick={() => {
-                Toast.add({
-                    text: 'I am a 🍞 bro.',
-                    type: TOAST_TYPE.WARNING
-                })
-            }}>Warning Toast</Button>
-            <Button onClick={() => {
-                Toast.add({
-                    text: 'I am a 🍞 bro.',
-                    type: TOAST_TYPE.DANGER
-                })
-            }}>Danger Toast</Button>
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: 'I am a 🍞 bro.',
+                        type: TOAST_TYPE.INFO,
+                    });
+                }}
+            >
+                Information Toast
+            </Button>
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: 'I am a 🍞 bro.',
+                        type: TOAST_TYPE.SUCCESS,
+                    });
+                }}
+            >
+                Success Toast
+            </Button>
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: 'I am a 🍞 bro.',
+                        type: TOAST_TYPE.WARNING,
+                    });
+                }}
+            >
+                Warning Toast
+            </Button>
+            <Button
+                onClick={() => {
+                    Toast.add({
+                        text: 'I am a 🍞 bro.',
+                        type: TOAST_TYPE.DANGER,
+                    });
+                }}
+            >
+                Danger Toast
+            </Button>
         </div>
     ),
     parameters: {
@@ -145,10 +176,10 @@ export const Types: Story = {
         text: 'I am a 🍞 bro.',
         type: TOAST_TYPE.DANGER
     })
-}}>Danger Toast</Button>`
-            }
-        }
-    }
+}}>Danger Toast</Button>`,
+            },
+        },
+    },
 };
 
 // Documentation story for props table

@@ -5,14 +5,14 @@ import constants from '../../shared/constants';
 
 type InputProps = React.AllHTMLAttributes<HTMLInputElement> & {
     /** Label for the field */
-    label?: string,
+    label?: string;
     /** Error message for the field */
-    errorText?: string,
-}
+    errorText?: string;
+};
 
 type InputInternalProps = InputProps & {
     touched: boolean;
-}
+};
 
 const Label = styled.label`
     display: inline-flex;
@@ -35,12 +35,14 @@ const TextField = styled.input<InputInternalProps>`
     background-color: var(--background, ${constants.BACKGROUND});
 
     /** Focused */
-    &:focus, &:active {
+    &:focus,
+    &:active {
         border-color: var(--primary, ${constants.PRIMARY});
         box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 
-    &:focus + span, &:active + span {
+    &:focus + span,
+    &:active + span {
         color: var(--primary, ${constants.PRIMARY});
     }
 
@@ -49,7 +51,7 @@ const TextField = styled.input<InputInternalProps>`
         border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
         background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
     }
-    
+
     &:disabled + span {
         color: #777;
     }
@@ -60,7 +62,9 @@ const TextField = styled.input<InputInternalProps>`
         box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
     }
 
-    ${props => props.touched ? `
+    ${(props) =>
+        props.touched
+            ? `
     &:invalid {
         border-color: var(--error, ${constants.ERROR});
     }
@@ -68,16 +72,20 @@ const TextField = styled.input<InputInternalProps>`
     &:invalid + span {
         color: var(--error, ${constants.ERROR});
     }
-    ` : ''}
+    `
+            : ''}
 
     /** Error */
-    ${props => props.errorText ? `
+    ${(props) =>
+        props.errorText
+            ? `
     border-color: var(--error, ${constants.ERROR});
 
     & + span {
         color: var(--error, ${constants.ERROR});
     }
-    ` : ''}
+    `
+            : ''}
 
     /** Required */
     &:required + span:after {
@@ -97,14 +105,17 @@ const TextField = styled.input<InputInternalProps>`
         transition: all 300ms ease;
     }
 
-    ${props => props.value !== '' ? `
+    ${(props) =>
+        props.value !== ''
+            ? `
     & + span {
         top: -8px;
         background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
         line-height: 14px;
     }
-    `: ''}
+    `
+            : ''}
 
     &:focus + span, &:placeholder-shown + span {
         top: -8px;
@@ -118,7 +129,7 @@ const ErrorContainer = styled.div`
     color: var(--error, ${constants.ERROR});
     padding-top: 3px;
     font-size: 12px;
-        line-height: 14px;
+    line-height: 14px;
     margin-left: 3px;
 `;
 
@@ -131,7 +142,7 @@ const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props,
         if (props.onFocus) {
             props.onFocus(e);
         }
-    }
+    };
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (props.onChange) {
@@ -140,7 +151,7 @@ const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props,
         } else {
             setValue(e.target.value);
         }
-    }
+    };
 
     return (
         <Label>
@@ -153,10 +164,12 @@ const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props,
                 touched={touched}
             />
             <span>{props.label}</span>
-            { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
+            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
         </Label>
     );
 });
+
+Input.displayName = 'Input';
 
 export default Input;
 

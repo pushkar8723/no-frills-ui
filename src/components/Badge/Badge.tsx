@@ -1,21 +1,21 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 
 export enum BADGE_TYPE {
-    PRIMARY='primary',
-    SUCCESS='success',
-    WARNING='warning',
-    DANGER='danger',
-    DISABLED='disabled',
+    PRIMARY = 'primary',
+    SUCCESS = 'success',
+    WARNING = 'warning',
+    DANGER = 'danger',
+    DISABLED = 'disabled',
 }
 
 type BadgeProps = React.PropsWithChildren<PropTypes.InferProps<typeof Badge.propTypes>>;
 
 const BadgeSpan = styled.span<BadgeProps>`
-    background-color: ${props => {
-        switch(props.type) {
+    background-color: ${(props) => {
+        switch (props.type) {
             case BADGE_TYPE.SUCCESS:
                 return `var(--success, ${constants.SUCCESS})`;
 
@@ -34,19 +34,20 @@ const BadgeSpan = styled.span<BadgeProps>`
     }};
     color: #fff;
     border-radius: 10px;
-    padding: ${props => props.children ? '3px 10px' : '4px'};
+    padding: ${(props) => (props.children ? '3px 10px' : '4px')};
     display: inline-block;
     min-height: 4px;
     min-width: 4px;
     font-size: 12px;
-    margin: ${props => props.inline ? '0 5px' : '0'};
+    margin: ${(props) => (props.inline ? '0 5px' : '0')};
 
-    ${props => !props.inline && 'position: absolute; top: 0; right: 0; transform: translate(50%, -50%);'};
+    ${(props) =>
+        !props.inline && 'position: absolute; top: 0; right: 0; transform: translate(50%, -50%);'};
 `;
 
 export default function Badge(props: BadgeProps) {
     return <BadgeSpan {...props} />;
-};
+}
 
 Badge.propTypes = {
     /** Display badge inline or overlay on parent component */
@@ -60,9 +61,9 @@ Badge.propTypes = {
         BADGE_TYPE.DISABLED,
     ]),
     css: PropTypes.any,
-}
+};
 
 Badge.defaultProps = {
     inline: false,
     type: BADGE_TYPE.PRIMARY,
-}
+};

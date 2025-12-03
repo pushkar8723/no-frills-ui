@@ -1,6 +1,5 @@
-import React from "react";
 import type { Meta, StoryObj } from '@storybook/react';
-import { ConfirmDialog } from "../../../src/components";
+import { ConfirmDialog } from '../../../src/components';
 
 const meta: Meta<typeof ConfirmDialog> = {
     component: ConfirmDialog,
@@ -13,5 +12,6 @@ type Story = StoryObj<typeof ConfirmDialog>;
 
 // Props documentation story for ConfirmDialog
 export const ConfirmDialogProps: Story = {
-    render: (args: any) => <ConfirmDialog {...args} />,
+    // @ts-expect-error - This is for Controls only
+    render: (args: object) => <ConfirmDialog {...args} />,
 };

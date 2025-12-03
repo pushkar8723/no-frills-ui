@@ -1,17 +1,17 @@
 /** Position for Notification */
 export enum NOTIFICATION_POSITION {
-    TOP_LEFT='TOP_LEFT',
-    TOP_RIGHT='TOP_RIGHT',
-    BOTTOM_LEFT='BOTTOM_LEFT',
-    BOTTOM_RIGHT='BOTTOM_RIGHT',
-};
+    TOP_LEFT = 'TOP_LEFT',
+    TOP_RIGHT = 'TOP_RIGHT',
+    BOTTOM_LEFT = 'BOTTOM_LEFT',
+    BOTTOM_RIGHT = 'BOTTOM_RIGHT',
+}
 
 /** Type of Notifications */
 export enum NOTIFICATION_TYPE {
-    INFO='INFO',
-    SUCCESS='SUCCESS',
-    DANGER='DANGER',
-    WARNING='WARNING',
+    INFO = 'INFO',
+    SUCCESS = 'SUCCESS',
+    DANGER = 'DANGER',
+    WARNING = 'WARNING',
 }
 
 export interface NotificationOptions {

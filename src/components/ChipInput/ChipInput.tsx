@@ -10,9 +10,9 @@ type ChipInputProps = PropTypes.InferProps<typeof ChipInput.propTypes>;
 
 // Label component for the ChipInput
 const Label = styled.label<{
-    text: string,
-    touched?: boolean,
-    errorText?: string
+    text: string;
+    touched?: boolean;
+    errorText?: string;
 }>`
     display: inline-flex;
     flex-direction: column;
@@ -27,12 +27,14 @@ const Label = styled.label<{
     background-color: var(--background, ${constants.BACKGROUND});
 
     /** Focused */
-    &:has(:focus), &:has(:active) {
+    &:has(:focus),
+    &:has(:active) {
         border-color: var(--primary, ${constants.PRIMARY});
         box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
     }
 
-    &:has(:focus) > span, &:has(:active) > span {
+    &:has(:focus) > span,
+    &:has(:active) > span {
         color: var(--primary, ${constants.PRIMARY});
     }
 
@@ -41,7 +43,7 @@ const Label = styled.label<{
         border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
         background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
     }
-    
+
     &:has(:disabled) > span {
         color: #777;
     }
@@ -52,7 +54,9 @@ const Label = styled.label<{
         box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
     }
 
-    ${props => props.touched ? `
+    ${(props) =>
+        props.touched
+            ? `
         &:has(:invalid) {
             border-color: var(--error, ${constants.ERROR});
         }
@@ -60,16 +64,20 @@ const Label = styled.label<{
         &:has(:invalid) > span {
             color: var(--error, ${constants.ERROR});
         }
-        ` : ''}
-    
+        `
+            : ''}
+
     /** Error */
-    ${props => props.errorText ? `
+    ${(props) =>
+        props.errorText
+            ? `
         border-color: var(--error, ${constants.ERROR});
 
         & > span {
             color: var(--error, ${constants.ERROR});
         }
-        ` : ''}
+        `
+            : ''}
 
     /** Required */
     &:has(:required) > span:after {
@@ -97,21 +105,25 @@ const Label = styled.label<{
         transition: all 300ms ease;
     }
 
-    &:has(:focus) > span, &:has(:placeholder-shown) > span {
+    &:has(:focus) > span,
+    &:has(:placeholder-shown) > span {
         top: -8px;
         background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
         line-height: 14px;
     }
 
-    ${props => props.text !== '' ? `
+    ${(props) =>
+        props.text !== ''
+            ? `
     & > span {
         top: -8px;
         background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
         line-height: 14px;
     }
-    `: ''}
+    `
+            : ''}
 `;
 
 // Error message container
@@ -136,7 +148,9 @@ const ErrorContainer = styled.div`
  * />
  * ```
  */
-export default function ChipInput(props: ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>) {
+export default function ChipInput(
+    props: ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>,
+) {
     const [text, setText] = useState('');
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState<string[]>(props.value);
@@ -155,7 +169,7 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         const deduped = Array.from(new Set(newValue));
         setValue(deduped);
         props.onChange?.(deduped);
-    }
+    };
 
     /**
      * Marks the input as touched on focus.
@@ -166,36 +180,36 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         if (props.onFocus) {
             props.onFocus(e);
         }
-    }
+    };
 
     /**
      * Change handler for the input field.
      * @param e React change event
      */
-    const handleChange:React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setText(e.target.value);
-    }
+    };
 
     /**
      * Adds a new chip on Enter key press.
      * @param e React keyboard event
      */
-    const handleKeyUp:React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    const handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === 'Enter' && text.trim() !== '') {
             const newValue = [...value, text.trim()];
             updateValue(newValue);
             setText('');
         }
-    }
+    };
 
     /**
      * Removes a chip from the list.
      * @param chipToRemove The chip value to remove
      */
     const removeChip = (chipToRemove: string) => {
-        const newValue = value.filter(chip => chip !== chipToRemove);
+        const newValue = value.filter((chip) => chip !== chipToRemove);
         updateValue(newValue);
-    }
+    };
 
     /**
      * Moves a chip from one position to another.
@@ -211,17 +225,13 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
         newItems.splice(end, 0, item[0]);
         // Update
         updateValue(newItems);
-    }
+    };
 
     // Render the component
     return (
-        <Label
-            text={text}
-            touched={touched}
-            errorText={props.errorText}
-        >
-            <input 
-                {...props} 
+        <Label text={text} touched={touched} errorText={props.errorText}>
+            <input
+                {...props}
                 ref={InputRef}
                 type="text"
                 value={text}
@@ -234,14 +244,13 @@ export default function ChipInput(props: ChipInputProps & React.AllHTMLAttribute
                 {value?.length > 0 && (
                     <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
                         {value.map((chip) => (
-
                             <Chip key={chip} label={chip} onCloseClick={() => removeChip(chip)} />
                         ))}
                     </DragAndDrop>
                 )}
             </div>
             <span>{props.label}</span>
-            { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
+            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
         </Label>
     );
 }
@@ -255,7 +264,7 @@ ChipInput.propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
     /** Callback when chips change */
     onChange: PropTypes.func,
-}
+};
 
 ChipInput.defaultProps = {
     value: [],

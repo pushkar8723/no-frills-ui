@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 
-interface TextAreaProps extends PropTypes.InferType<typeof TextArea.propTypes>,
-    React.InputHTMLAttributes<HTMLTextAreaElement> {
-        value?: string;
-    }
+interface TextAreaProps
+    extends
+        PropTypes.InferType<typeof TextArea.propTypes>,
+        React.InputHTMLAttributes<HTMLTextAreaElement> {
+    value?: string;
+}
 
 type TextAreaInternalProps = TextAreaProps & {
     touched: boolean;
-}
+};
 
 const Label = styled.label`
     display: inline-flex;
@@ -32,12 +34,14 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     background-color: var(--background, ${constants.BACKGROUND});
 
     /** Focused */
-    &:focus, &:active {
+    &:focus,
+    &:active {
         border-color: var(--primary, ${constants.PRIMARY});
         box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
     }
 
-    &:focus + span, &:active + span {
+    &:focus + span,
+    &:active + span {
         color: var(--primary, ${constants.PRIMARY});
     }
 
@@ -46,7 +50,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
         border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
         background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
     }
-    
+
     &:disabled + span {
         color: var(--disabled, ${constants.DISABLED});
     }
@@ -57,7 +61,9 @@ const TextField = styled.textarea<TextAreaInternalProps>`
         box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
     }
 
-    ${props => props.touched ? `
+    ${(props) =>
+        props.touched
+            ? `
     &:invalid {
         border-color: var(--error, ${constants.ERROR});
     }
@@ -65,16 +71,20 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     &:invalid + span {
         color: var(--error, ${constants.ERROR});
     }
-    ` : ''}
+    `
+            : ''}
 
     /** Error */
-    ${props => props.errorText ? `
+    ${(props) =>
+        props.errorText
+            ? `
     border-color: var(--error, ${constants.ERROR});
 
     & + span {
         color: var(--error, ${constants.ERROR});
     }
-    ` : ''}
+    `
+            : ''}
 
     /** Required */
     &:required + span:after {
@@ -94,14 +104,17 @@ const TextField = styled.textarea<TextAreaInternalProps>`
         transition: all 300ms ease;
     }
 
-    ${props => props.value !== '' ? `
+    ${(props) =>
+        props.value !== ''
+            ? `
     & + span {
         top: -8px;
         background: var(--background, ${constants.BACKGROUND});
         font-size: 12px;
         line-height: 14px;
     }
-    `: ''}
+    `
+            : ''}
 
     &:focus + span, &:placeholder-shown + span {
         top: -8px;
@@ -128,7 +141,7 @@ export default function TextArea(props: TextAreaProps) {
         if (props.onFocus) {
             props.onFocus(e);
         }
-    }
+    };
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (props.onChange) {
@@ -137,7 +150,7 @@ export default function TextArea(props: TextAreaProps) {
         } else {
             setValue(e.target.value);
         }
-    }
+    };
 
     return (
         <Label>
@@ -149,7 +162,7 @@ export default function TextArea(props: TextAreaProps) {
                 touched={touched}
             />
             <span>{props.label}</span>
-            { props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer> }
+            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
         </Label>
     );
 }

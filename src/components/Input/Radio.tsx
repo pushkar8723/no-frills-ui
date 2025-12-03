@@ -21,7 +21,7 @@ const Input = styled.input`
         border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
         border-radius: 50%;
         display: block;
-        transition: background-color .3s ease;
+        transition: background-color 0.3s ease;
     }
 
     /* checked */
@@ -40,7 +40,8 @@ const Input = styled.input`
 
     &:enabled:checked:focus::before {
         border: 1px solid var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT}),
+        box-shadow:
+            0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT}),
             inset 0 0 0 3px var(--background, ${constants.BACKGROUND});
         cursor: pointer;
     }
@@ -73,10 +74,12 @@ const Input = styled.input`
     }
 `;
 
-function Radio(props: PropTypes.InferProps<React.AllHTMLAttributes<HTMLInputElement> & typeof Radio.propTypes>) {
+function Radio(
+    props: PropTypes.InferProps<React.AllHTMLAttributes<HTMLInputElement> & typeof Radio.propTypes>,
+) {
     return (
         <Label>
-            <Input {...props} type='radio' />
+            <Input {...props} type="radio" />
             <span>{props.label}</span>
         </Label>
     );
@@ -85,6 +88,6 @@ function Radio(props: PropTypes.InferProps<React.AllHTMLAttributes<HTMLInputElem
 Radio.propTypes = {
     /** Label for the field */
     label: PropTypes.string,
-}
+};
 
 export default Radio;

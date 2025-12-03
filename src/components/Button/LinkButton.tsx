@@ -24,7 +24,8 @@ export default styled.button`
         margin-left: -6px;
     }
 
-    &:enabled:hover, &:focus {
+    &:enabled:hover,
+    &:focus {
         text-decoration: underline;
     }
 

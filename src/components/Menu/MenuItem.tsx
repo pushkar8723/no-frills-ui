@@ -1,16 +1,16 @@
-import React, { ReactNode, SyntheticEvent, useContext } from 'react';
+import React, { SyntheticEvent, useContext } from 'react';
 import styled from '@emotion/styled';
-import MenuContext from './MenuContext';
 import constants from '../../shared/constants';
 import Checkbox from '../Input/Checkbox';
+import MenuContext, { MenuContextType } from './MenuContext';
 
 interface MenuItemProps<T> {
     /** Value of the element */
-    value: T;
+    value: T & T[];
 }
 
-const Container = styled.button<{selected: boolean}>`
-    font-weight: ${props => props.selected ? 'bold' : 'normal'};
+const Container = styled.button<{ selected: boolean }>`
+    font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
     padding: 8px 6px;
     border: none;
     background-color: transparent;
@@ -22,7 +22,9 @@ const Container = styled.button<{selected: boolean}>`
     cursor: pointer;
     position: relative;
 
-    &:hover, &:focus, &:focus-within {
+    &:hover,
+    &:focus,
+    &:focus-within {
         background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
     }
 
@@ -31,8 +33,8 @@ const Container = styled.button<{selected: boolean}>`
     }
 `;
 
-export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChildren<{}>) {
-    const context = useContext(MenuContext);
+export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChildren<unknown>) {
+    const context = useContext(MenuContext) as MenuContextType<T>;
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
@@ -42,12 +44,20 @@ export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChi
         context.updateValue(value);
     };
 
-    const selected = context.multiSelect ? context.value?.includes?.(value) : context.value === value;
+    const selected = context.multiSelect
+        ? context.value?.includes?.(value)
+        : context.value === value;
 
     return (
-        <Container {...rest} type='button' tabIndex={context.multiSelect ? -1 : 0} selected={selected} onClick={clickHandler}>
-            {context.multiSelect  && <Checkbox checked={selected} />}
-            {props.children}
+        <Container
+            {...rest}
+            type="button"
+            tabIndex={context.multiSelect ? -1 : 0}
+            selected={selected}
+            onClick={clickHandler}
+        >
+            {context.multiSelect && <Checkbox checked={selected} />}
+            {children}
         </Container>
-    )
+    );
 }

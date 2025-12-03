@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import Dialog, { DialogBody, DialogFooter, DialogHeader } from './Dialog';
 import { Button, ActionButton } from '../Button';
+import Dialog, { DialogBody, DialogFooter, DialogHeader } from './Dialog';
 
 type ConfirmOption = PropTypes.InferProps<typeof ConfirmDialog.propTypes>;
 
@@ -19,21 +19,25 @@ export default class ConfirmDialog extends React.Component<ConfirmOption> {
         noText: PropTypes.string,
         /** Props for the dialog */
         dialogProps: PropTypes.object,
-    }
+    };
 
     static defaultProps = {
         yesText: 'Yes',
-        noText: 'No'
-    }
+        noText: 'No',
+    };
 
     public show = () => {
         return new Promise((resolve, reject) => {
             const onClose = (resp: boolean) => {
-                resp ? resolve(null) : reject();
-            }
+                if (resp) {
+                    resolve(null);
+                } else {
+                    reject();
+                }
+            };
             this.dialog.current.open(onClose);
-        })
-    }
+        });
+    };
 
     private cancel = () => this.dialog.current.close(false);
     private confirm = () => this.dialog.current.close(true);
@@ -41,7 +45,12 @@ export default class ConfirmDialog extends React.Component<ConfirmOption> {
     render() {
         const { header, body, yesText, noText, dialogProps } = this.props;
         return (
-            <Dialog {...dialogProps} ref={this.dialog} closeOnEsc={false} closeOnOverlayClick={false}>
+            <Dialog
+                {...dialogProps}
+                ref={this.dialog}
+                closeOnEsc={false}
+                closeOnOverlayClick={false}
+            >
                 {header && <DialogHeader>{header}</DialogHeader>}
                 <DialogBody>{body}</DialogBody>
                 <DialogFooter>
@@ -49,6 +58,6 @@ export default class ConfirmDialog extends React.Component<ConfirmOption> {
                     <ActionButton onClick={this.confirm}>{yesText}</ActionButton>
                 </DialogFooter>
             </Dialog>
-        )
+        );
     }
 }

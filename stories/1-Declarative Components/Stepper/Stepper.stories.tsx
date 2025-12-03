@@ -1,56 +1,47 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import { Stepper, Step, StepBody, StepFooter } from '../../../src/components/Stepper';
-import { Card } from '../../../src/components/Card';
 import { Button, ActionButton } from '../../../src/components/Button';
+import { Card } from '../../../src/components/Card';
+import { Stepper, Step, StepBody, StepFooter } from '../../../src/components/Stepper';
 
 const meta: Meta = {
-  component: Stepper as any,
-  title: 'Declarative Components/Stepper',
-  tags: ['!dev', '!autodocs'],
+    component: Stepper as never,
+    title: 'Declarative Components/Stepper',
+    tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Demo: Story = {
-  render: () => (
-    <Card>
-      <Stepper active={1}>
-        <Step name='Welcome' completed>
-          <StepBody>
-            Welcome to this multi-step form.
-          </StepBody>
-          <StepFooter>
-            <ActionButton>Next</ActionButton>
-          </StepFooter>
-        </Step>
-        <Step name='Basic Details'>
-          <StepBody>
-            Enter your details here.
-          </StepBody>
-          <StepFooter>
-            <Button>Prev</Button>
-            <ActionButton>Next</ActionButton>
-          </StepFooter>
-        </Step>
-        <Step name='Personalisation' disabled>
-          <StepBody>
-            Personalize your view here.
-          </StepBody>
-        </Step>
-        <Step name='Verification'>
-          <StepBody>
-            Verify if you are human.
-          </StepBody>
-        </Step>
-      </Stepper>
-    </Card>
-  ),
-  parameters: {
-    docs: {
-      source: {
-        code: `<Stepper active={1}>
+    render: () => (
+        <Card>
+            <Stepper active={1}>
+                <Step name="Welcome" completed>
+                    <StepBody>Welcome to this multi-step form.</StepBody>
+                    <StepFooter>
+                        <ActionButton>Next</ActionButton>
+                    </StepFooter>
+                </Step>
+                <Step name="Basic Details">
+                    <StepBody>Enter your details here.</StepBody>
+                    <StepFooter>
+                        <Button>Prev</Button>
+                        <ActionButton>Next</ActionButton>
+                    </StepFooter>
+                </Step>
+                <Step name="Personalisation" disabled>
+                    <StepBody>Personalize your view here.</StepBody>
+                </Step>
+                <Step name="Verification">
+                    <StepBody>Verify if you are human.</StepBody>
+                </Step>
+            </Stepper>
+        </Card>
+    ),
+    parameters: {
+        docs: {
+            source: {
+                code: `<Stepper active={1}>
         <Step name='Welcome' completed>
           <StepBody>
             Welcome to this multi-step form.
@@ -79,17 +70,16 @@ export const Demo: Story = {
           </StepBody>
         </Step>
       </Stepper>`,
-      },
+            },
+        },
     },
-  },
 };
 
 export const StepperProps: Story = {
-  // @ts-ignore - This is for Controls only
-  render: (args) => <Stepper {...args} />,
+    render: (args) => <Stepper {...args} />,
 };
 
 export const StepProps: Story = {
-  // @ts-ignore - This is for Controls only
-  render: (args) => <Step {...args} />,
+    // @ts-expect-error - This is for Controls only
+    render: (args) => <Step {...args} />,
 };

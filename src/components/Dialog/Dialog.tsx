@@ -9,7 +9,7 @@ export const DialogContainer = styled(Card)`
     max-height: 80vh;
     transform: scale(0);
     opacity: 0;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
 
     .nf-layer-enter & {
         opacity: 1;
@@ -30,7 +30,9 @@ export {
 
 type DialogOptions = PropTypes.InferProps<typeof Dialog.propTypes>;
 
-interface DialogState { show: boolean }
+interface DialogState {
+    show: boolean;
+}
 
 class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, DialogState> {
     static propTypes = {
@@ -38,47 +40,47 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
         closeOnEsc: PropTypes.bool,
         /** Close layer overlay is clicked. Default value is true. */
         closeOnOverlayClick: PropTypes.bool,
-    }
+    };
 
     static defaultProps = {
         closeOnEsc: true,
         closeOnOverlayClick: true,
-    }
+    };
 
-    private closeDialog: (resp?: any) => void;
-    private onCloseFn: (resp?: any) => void;
+    private closeDialog: (resp?: unknown) => void;
+    private onCloseFn: (resp?: unknown) => void;
 
     state = {
         show: false,
-    }
+    };
 
     shouldComponentUpdate(nextProps: DialogOptions, nextState: DialogState) {
         return this.state.show !== nextState.show;
     }
 
-    public open = (closeCallback?: (resp: any) => void) => {
+    public open = (closeCallback?: (resp: unknown) => void) => {
         this.setState({
             show: true,
         });
-        this.onCloseFn = closeCallback ;
-    }
+        this.onCloseFn = closeCallback;
+    };
 
-    public close = (resp?: any) => {
-        this.closeDialog && this.closeDialog(resp);
-    }
+    public close = (resp?: unknown) => {
+        this.closeDialog?.(resp);
+    };
 
-    private closeCallback = (resp?: any) => {
+    private closeCallback = (resp?: unknown) => {
         this.setState({
             show: false,
         });
-        this.onCloseFn && this.onCloseFn(resp);
-    }
+        this.onCloseFn?.(resp);
+    };
 
-    render () {
-        const { closeOnEsc, closeOnOverlayClick, children, ...rest} = this.props;
+    render() {
+        const { closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
 
         if (this.state.show) {
-            const [Component, closeFn ] = LayerManager.renderLayer({
+            const [Component, closeFn] = LayerManager.renderLayer({
                 exitDelay: 300,
                 overlay: true,
                 closeOnEsc,
@@ -86,10 +88,10 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
                 closeOnOverlayClick,
                 position: LAYER_POSITION.DIALOG,
                 component: (
-                    <DialogContainer {...rest} onClick={e => e.stopPropagation()} elevated>
+                    <DialogContainer {...rest} onClick={(e) => e.stopPropagation()} elevated>
                         {children}
                     </DialogContainer>
-                )
+                ),
             });
             this.closeDialog = closeFn;
             return <Component />;

@@ -1,19 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Card } from '../Card';
 
 export enum POPOVER_POSITION {
-    TOP_LEFT='TOP_LEFT',
-    TOP_RIGHT='TOP_RIGHT',
-    BOTTOM_LEFT='BOTTOM_LEFT',
-    BOTTOM_RIGHT='BOTTOM_RIGHT',
-
+    TOP_LEFT = 'TOP_LEFT',
+    TOP_RIGHT = 'TOP_RIGHT',
+    BOTTOM_LEFT = 'BOTTOM_LEFT',
+    BOTTOM_RIGHT = 'BOTTOM_RIGHT',
 }
 
 interface translate {
-    x: number,
-    y: number,
+    x: number;
+    y: number;
 }
 
 const positionMap = {
@@ -32,30 +31,30 @@ const positionMap = {
     [POPOVER_POSITION.BOTTOM_LEFT]: `
         top: calc(100% - 10px);
         left: 0;
-    `
-}
+    `,
+};
 
 const PopoverDiv = styled.div`
     position: relative;
     display: inline-flex;
 `;
 
-const Popper = styled(Card)<{ position: POPOVER_POSITION, translateX: number, translateY: number }>`
+const Popper = styled(Card)<{ position: POPOVER_POSITION; translateX: number; translateY: number }>`
     position: absolute;
     width: 100%;
     min-width: 200px;
     overflow: auto;
-    animation: enter .3s linear;
+    animation: enter 0.3s linear;
     border-radius: 3px;
     z-index: 1;
-    transform: translate(${props => props.translateX}px, ${props => props.translateY}px);
-    ${props => positionMap[props.position]}
+    transform: translate(${(props) => props.translateX}px, ${(props) => props.translateY}px);
+    ${(props) => positionMap[props.position]}
 
     &.closing {
         /* max-height: 0px;
         opacity: 0;
         overflow: hidden; */
-        animation: exit .3s linear;
+        animation: exit 0.3s linear;
     }
 
     @keyframes enter {
@@ -86,39 +85,47 @@ const Popper = styled(Card)<{ position: POPOVER_POSITION, translateX: number, tr
 `;
 
 const KEY_CODES = {
-    ESC: 27
-}
+    ESC: 27,
+};
 
-export default function Popover(props: React.PropsWithChildren<PropTypes.InferProps<typeof Popover.propTypes>>) {
+export default function Popover(
+    props: React.PropsWithChildren<PropTypes.InferProps<typeof Popover.propTypes>>,
+) {
     const [open, setOpen] = useState(props.open);
     const [closing, setClosing] = useState(false);
     const [translate, setTranslate] = useState<translate>({ x: 0, y: 0 });
     const popperRef = useRef<HTMLDivElement>();
     const containerRef = useRef<HTMLDivElement>();
 
-    const close = () => {
+    const close = useCallback(() => {
         setClosing(true);
         setTimeout(() => {
             setOpen(false);
-            setTranslate({ x: 0, y: 0 })
+            setTranslate({ x: 0, y: 0 });
             if (props.onClose) {
                 props.onClose();
             }
             setClosing(false);
         }, 280);
-    }
+    }, [props]);
 
-    const keyupEventHandler = (e: KeyboardEvent) => {
-        if (props.closeOnEsc && e.keyCode === KEY_CODES.ESC) {
-            close();
-        }
-    }
+    const keyupEventHandler = useCallback(
+        (e: KeyboardEvent) => {
+            if (props.closeOnEsc && e.keyCode === KEY_CODES.ESC) {
+                close();
+            }
+        },
+        [close, props.closeOnEsc],
+    );
 
-    const clickOutsideHandler = (e: MouseEvent) => {
-        if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-            close();
-        }
-    }
+    const clickOutsideHandler = useCallback(
+        (e: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                close();
+            }
+        },
+        [close],
+    );
 
     /**
      * Get called on popover mount.
@@ -129,8 +136,8 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
         return () => {
             document.removeEventListener('keyup', keyupEventHandler);
             document.removeEventListener('click', clickOutsideHandler);
-        }
-    }, [])
+        };
+    }, [clickOutsideHandler, close, keyupEventHandler]);
 
     useEffect(() => {
         if (props.open) {
@@ -147,8 +154,8 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
 
         return () => {
             document.removeEventListener('click', clickOutsideHandler);
-        }
-    }, [props.open]);
+        };
+    }, [props.open, open, clickOutsideHandler, close]);
 
     useEffect(() => {
         if (open) {
@@ -196,12 +203,12 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
             setTranslate(translation);
             popperRef.current.focus();
         }
-    }, [open]);
+    }, [open, props.position]);
 
     return (
         <PopoverDiv ref={containerRef}>
             <props.element />
-            { open && (
+            {open && (
                 <Popper
                     elevated
                     tabIndex={0}
@@ -210,13 +217,16 @@ export default function Popover(props: React.PropsWithChildren<PropTypes.InferPr
                     translateY={translate.y}
                     className={closing && 'closing'}
                     ref={popperRef}
-                    onClick={e => { e.stopPropagation(); e.nativeEvent.stopImmediatePropagation(); }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        e.nativeEvent.stopImmediatePropagation();
+                    }}
                 >
                     {props.children}
                 </Popper>
             )}
         </PopoverDiv>
-    )
+    );
 }
 
 Popover.propTypes = {
@@ -235,9 +245,9 @@ Popover.propTypes = {
     closeOnEsc: PropTypes.bool,
     /** Popover close callback */
     onClose: PropTypes.func,
-}
+};
 
 Popover.defaultProps = {
     closeOnEsc: true,
     position: POPOVER_POSITION.BOTTOM_LEFT,
-}
+};
