@@ -42,11 +42,15 @@ export default function DragAndDropDemo(prop) {
         newItems.splice(end, 0, item[0]);
         // Update
         setItems(newItems);
-    }
+    };
 
-    return (<DragAndDrop orientation={ORIENTATION.VERTICAL} onDrop={onDrop}>
-        {items.map(item => <div>{item}</div>)}
-    </DragAndDrop>)
+    return (
+        <DragAndDrop orientation={ORIENTATION.VERTICAL} onDrop={onDrop}>
+            {items.map((item) => (
+                <div>{item}</div>
+            ))}
+        </DragAndDrop>
+    );
 }
 ```
 
@@ -56,6 +60,6 @@ export default function DragAndDropDemo(prop) {
 
 ## CSS Variables used
 
-| Variable Name | Description |
-| :- | :- |
-| --disabled | Used for `color`. |
+| Variable Name | Description       |
+| :------------ | :---------------- |
+| --disabled    | Used for `color`. |

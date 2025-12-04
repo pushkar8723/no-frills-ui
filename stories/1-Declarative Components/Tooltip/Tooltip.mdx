@@ -16,14 +16,12 @@ It also supports rich tooltip but creating a rich tooltip is discouraged.
 <Canvas of={TooltipStories.RichTooltip} />
 
 ```jsx
-import { Tooltip, TOOLTIP_POSITION, } from 'no-frills-ui';
+import { Tooltip, TOOLTIP_POSITION } from 'no-frills-ui';
 
 // Render
-<Tooltip tooltipText='Now you see me' position={TOOLTIP_POSITION.RIGHT}>
-    <button>
-        Hover over me
-    </button>
-</Tooltip>
+<Tooltip tooltipText="Now you see me" position={TOOLTIP_POSITION.RIGHT}>
+    <button>Hover over me</button>
+</Tooltip>;
 ```
 
 ## Props
@@ -32,6 +30,6 @@ import { Tooltip, TOOLTIP_POSITION, } from 'no-frills-ui';
 
 ## CSS Variables Used
 
-| Variable Name | Description |
-| :- | :- |
+| Variable Name   | Description                  |
+| :-------------- | :--------------------------- |
 | --tooltip-color | Used for `background-color`. |

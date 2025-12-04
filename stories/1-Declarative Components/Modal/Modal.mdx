@@ -29,13 +29,11 @@ const [open, setOpen] = useState(false);
 
 // render
 <Modal open={open} onClose={() => setOpen(false)}>
-    <ModalBody>
-        This will always render on top.
-    </ModalBody>
+    <ModalBody>This will always render on top.</ModalBody>
     <ModalFooter>
         <button onClick={() => setOpen(false)}></button>
     </ModalFooter>
-</Modal>
+</Modal>;
 ```
 
 ## `Modal` Props
@@ -44,7 +42,7 @@ const [open, setOpen] = useState(false);
 
 ## CSS Variables used
 
-| Variable Name | Description |
-| :- | :- |
+| Variable Name    | Description                  |
+| :--------------- | :--------------------------- |
 | --backdrop-color | Used for `background-color`. |
-| --modal-shadow | Used for `box-shadow` |
+| --modal-shadow   | Used for `box-shadow`        |

@@ -49,13 +49,11 @@ import { Notification, NOTIFICATION_POSITION, NOTIFICATION_TYPE } from 'no-frill
 
 // Add a notification
 // It returns an id which can be used to programmatically dismiss the notification.
-const id = Notification.add(
-    NOTIFICATION_POSITION.TOP_RIGHT, {
-        title: 'New message received',
-        description: 'Please share feedback if you like this approach.',
-        type: NOTIFICATION_TYPE.INFO
-    }
-);
+const id = Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+    title: 'New message received',
+    description: 'Please share feedback if you like this approach.',
+    type: NOTIFICATION_TYPE.INFO,
+});
 
 // Remove a notification
 Notification.remove(NOTIFICATION_POSITION.TOP_RIGHT, id);
@@ -70,15 +68,15 @@ Notification.destroy(NOTIFICATION_POSITION.TOP_RIGHT);
 
 ## CSS Variables used
 
-| Variable Name | Description |
-| :- | :- |
-| --background | Used for `background-color`. |
-| --shadow | Used for `box-shadow` |
-| --info | Used for `color` |
-| --info-light | Used for `border-color` |
-| --success | Used for `color` |
-| --success-light | Used for `border-color` |
-| --warn | Used for `color` |
-| --warn-light | Used for `border-color` |
-| --error | Used for `color` |
-| --error-light | Used for `border-color` |
+| Variable Name   | Description                  |
+| :-------------- | :--------------------------- |
+| --background    | Used for `background-color`. |
+| --shadow        | Used for `box-shadow`        |
+| --info          | Used for `color`             |
+| --info-light    | Used for `border-color`      |
+| --success       | Used for `color`             |
+| --success-light | Used for `border-color`      |
+| --warn          | Used for `color`             |
+| --warn-light    | Used for `border-color`      |
+| --error         | Used for `color`             |
+| --error-light   | Used for `border-color`      |
