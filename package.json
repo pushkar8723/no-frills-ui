@@ -14,7 +14,7 @@
     "scripts": {
         "clean": "shx rm -rf dist lib-esm",
         "build": "tsc && rollup -c",
-        "test": "echo \"No test specified\"",
+        "test": "echo \"Warning: No tests implemented yet\" && exit 0",
         "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
         "lint:fix": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx --fix",
         "format": "prettier --write \"**/*.{js,jsx,mjs,ts,tsx,html,json,md,mdx,yml,yaml}\"",
