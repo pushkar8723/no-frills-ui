@@ -9,7 +9,7 @@ Wraps `HTMLSelectElement` in a React component to give additional `label` and `e
 
 A `*` is added to the label if the field is required.
 
-Though `HTMLSelectElement` supports `multiple` parameter, I override it in this component to `false`. Because I 
+Though `HTMLSelectElement` supports `multiple` parameter, I override it in this component to `false`. Because I
 personally feel that the interaction is not intuitive for the user. So, this elements works only as a
 single select input.
 
@@ -19,7 +19,7 @@ single select input.
 import { Select } from 'no-frills-ui';
 
 // Render
-<Select />
+<Select />;
 ```
 
 ## Props
@@ -30,11 +30,11 @@ Following props are added on top of `HTMLSelectElement` props.
 
 ## CSS Variables Used
 
-| Variable Name | Description |
-| :- | :- |
-| --primary | Used for `color` and `border-color`. |
-| --primary-light | Used for `box-shadow`. |
-| --error | Used for `color` and `border-color`. |
-| --error-light | Used for `box-shadow`. |
-| --background | Used for `background-color`. |
-| --border-color | Used for `border-color`. |
+| Variable Name   | Description                          |
+| :-------------- | :----------------------------------- |
+| --primary       | Used for `color` and `border-color`. |
+| --primary-light | Used for `box-shadow`.               |
+| --error         | Used for `color` and `border-color`. |
+| --error-light   | Used for `box-shadow`.               |
+| --background    | Used for `background-color`.         |
+| --border-color  | Used for `border-color`.             |

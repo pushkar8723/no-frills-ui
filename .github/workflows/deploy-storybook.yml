@@ -1,293 +1,293 @@
 name: Deploy Versioned Storybook to GitHub Pages
 
 on:
-  release:
-    types: [released]
+    release:
+        types: [released]
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
-      - name: Detect package manager
-        id: detect-pm
-        run: |
-          if [ -f "yarn.lock" ]; then
-            echo "pm=yarn" >> $GITHUB_OUTPUT
-            echo "Using yarn (yarn.lock found)"
-          elif [ -f "package-lock.json" ]; then
-            echo "pm=npm" >> $GITHUB_OUTPUT
-            echo "Using npm (package-lock.json found)"
-          else
-            echo "pm=npm" >> $GITHUB_OUTPUT
-            echo "No lock file found, defaulting to npm"
-          fi
+            - name: Detect package manager
+              id: detect-pm
+              run: |
+                  if [ -f "yarn.lock" ]; then
+                    echo "pm=yarn" >> $GITHUB_OUTPUT
+                    echo "Using yarn (yarn.lock found)"
+                  elif [ -f "package-lock.json" ]; then
+                    echo "pm=npm" >> $GITHUB_OUTPUT
+                    echo "Using npm (package-lock.json found)"
+                  else
+                    echo "pm=npm" >> $GITHUB_OUTPUT
+                    echo "No lock file found, defaulting to npm"
+                  fi
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: ${{ steps.detect-pm.outputs.pm }}
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20'
+                  cache: ${{ steps.detect-pm.outputs.pm }}
 
-      - name: Install dependencies (npm)
-        if: steps.detect-pm.outputs.pm == 'npm'
-        run: npm ci
+            - name: Install dependencies (npm)
+              if: steps.detect-pm.outputs.pm == 'npm'
+              run: npm ci
 
-      - name: Install dependencies (yarn)
-        if: steps.detect-pm.outputs.pm == 'yarn'
-        run: yarn install --frozen-lockfile
+            - name: Install dependencies (yarn)
+              if: steps.detect-pm.outputs.pm == 'yarn'
+              run: yarn install --frozen-lockfile
 
-      - name: Build Storybook (npm)
-        if: steps.detect-pm.outputs.pm == 'npm'
-        run: npm run build-storybook
+            - name: Build Storybook (npm)
+              if: steps.detect-pm.outputs.pm == 'npm'
+              run: npm run build-storybook
 
-      - name: Build Storybook (yarn)
-        if: steps.detect-pm.outputs.pm == 'yarn'
-        run: yarn build-storybook
+            - name: Build Storybook (yarn)
+              if: steps.detect-pm.outputs.pm == 'yarn'
+              run: yarn build-storybook
 
-      - name: Check if pre-release
-        id: check_prerelease
-        run: |
-          if [[ "${{ github.event.release.prerelease }}" == "true" ]]; then
-            echo "This is a pre-release. Skipping deployment."
-            echo "is_prerelease=true" >> $GITHUB_OUTPUT
-          else
-            echo "This is a full release. Proceeding with deployment."
-            echo "is_prerelease=false" >> $GITHUB_OUTPUT
-          fi
+            - name: Check if pre-release
+              id: check_prerelease
+              run: |
+                  if [[ "${{ github.event.release.prerelease }}" == "true" ]]; then
+                    echo "This is a pre-release. Skipping deployment."
+                    echo "is_prerelease=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "This is a full release. Proceeding with deployment."
+                    echo "is_prerelease=false" >> $GITHUB_OUTPUT
+                  fi
 
-      - name: Get version from tag
-        if: steps.check_prerelease.outputs.is_prerelease == 'false'
-        id: version
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Building version: $VERSION"
+            - name: Get version from tag
+              if: steps.check_prerelease.outputs.is_prerelease == 'false'
+              id: version
+              run: |
+                  VERSION=${GITHUB_REF#refs/tags/}
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "Building version: $VERSION"
 
-      - name: Checkout gh-pages branch
-        if: steps.check_prerelease.outputs.is_prerelease == 'false'
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Check if gh-pages branch exists on remote
-          if git ls-remote --heads origin gh-pages | grep gh-pages; then
-            echo "gh-pages branch exists, checking it out"
-            git fetch origin gh-pages
-            git checkout gh-pages
-          else
-            echo "gh-pages branch doesn't exist, creating orphan branch"
-            git checkout --orphan gh-pages
-            git rm -rf .
-            echo "# Storybook Documentation" > README.md
-            git add README.md
-            git commit -m "Initialize gh-pages branch"
-            git push origin gh-pages
-          fi
+            - name: Checkout gh-pages branch
+              if: steps.check_prerelease.outputs.is_prerelease == 'false'
+              run: |
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Copy Storybook build to version directory
-        if: steps.check_prerelease.outputs.is_prerelease == 'false'
-        run: |
-          VERSION=${{ steps.version.outputs.version }}
-          
-          # Create version directory and copy files
-          mkdir -p $VERSION
-          cp -r storybook-static/* $VERSION/
-          
-          # Add to git
-          git add $VERSION
-          git commit -m "Deploy Storybook for version $VERSION"
+                  # Check if gh-pages branch exists on remote
+                  if git ls-remote --heads origin gh-pages | grep gh-pages; then
+                    echo "gh-pages branch exists, checking it out"
+                    git fetch origin gh-pages
+                    git checkout gh-pages
+                  else
+                    echo "gh-pages branch doesn't exist, creating orphan branch"
+                    git checkout --orphan gh-pages
+                    git rm -rf .
+                    echo "# Storybook Documentation" > README.md
+                    git add README.md
+                    git commit -m "Initialize gh-pages branch"
+                    git push origin gh-pages
+                  fi
 
-      - name: Update or create index.html
-        if: steps.check_prerelease.outputs.is_prerelease == 'false'
-        run: |
-          VERSION=${{ steps.version.outputs.version }}
-          
-          # Create a simple index page that lists all versions
-          cat > index.html << 'EOF'
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>No Frills UI - Documentation</title>
-              <style>
-                  * {
-                      margin: 0;
-                      padding: 0;
-                      box-sizing: border-box;
-                  }
-                  body {
-                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                      min-height: 100vh;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      padding: 20px;
-                  }
-                  .container {
-                      background: white;
-                      border-radius: 12px;
-                      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                      padding: 40px;
-                      max-width: 600px;
-                      width: 100%;
-                  }
-                  h1 {
-                      color: #333;
-                      margin-bottom: 10px;
-                      font-size: 2.5em;
-                  }
-                  .subtitle {
-                      color: #666;
-                      margin-bottom: 30px;
-                      font-size: 1.1em;
-                  }
-                  .versions {
-                      list-style: none;
-                  }
-                  .version-item {
-                      margin: 10px 0;
-                  }
-                  .version-link {
-                      display: block;
-                      padding: 15px 20px;
-                      background: #f7f7f7;
-                      border-radius: 8px;
-                      text-decoration: none;
-                      color: #667eea;
-                      font-weight: 500;
-                      transition: all 0.3s ease;
-                      border: 2px solid transparent;
-                  }
-                  .version-link:hover {
-                      background: #667eea;
-                      color: white;
-                      transform: translateX(5px);
-                      border-color: #667eea;
-                  }
-                  .version-link.latest {
-                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                      color: white;
-                      font-weight: 600;
-                  }
-                  .version-link.latest:hover {
-                      transform: scale(1.02);
-                  }
-                  .badge {
-                      display: inline-block;
-                      padding: 4px 8px;
-                      background: rgba(255, 255, 255, 0.3);
-                      border-radius: 4px;
-                      font-size: 0.8em;
-                      margin-left: 10px;
-                  }
-                  .loading {
-                      text-align: center;
-                      color: #666;
-                      padding: 20px;
-                  }
-                  .footer {
-                      margin-top: 30px;
-                      text-align: center;
-                      color: #999;
-                      font-size: 0.9em;
-                  }
-                  .footer a {
-                      color: #667eea;
-                      text-decoration: none;
-                  }
-                  .footer a:hover {
-                      text-decoration: underline;
-                  }
-              </style>
-          </head>
-          <body>
-              <div class="container">
-                  <h1>📚 No Frills UI</h1>
-                  <p class="subtitle">Component Documentation</p>
-                  <div id="versions" class="loading">Loading versions...</div>
-                  <div class="footer">
-                      View on <a href="https://github.com/pushkar8723/no-frills-ui" target="_blank">GitHub</a>
-                  </div>
-              </div>
-              <script>
-                  async function loadVersions() {
-                      try {
-                          // Fetch the list of directories (versions) from GitHub API
-                          const response = await fetch('https://api.github.com/repos/pushkar8723/no-frills-ui/contents/?ref=gh-pages');
-                          const files = await response.json();
-                          
-                          // Filter for directories that look like version numbers
-                          const versions = files
-                              .filter(file => file.type === 'dir' && /^v?\d+\.\d+\.\d+/.test(file.name))
-                              .map(file => file.name)
-                              .sort((a, b) => {
-                                  // Sort by semantic version (descending)
-                                  const parseVersion = v => v.replace(/^v/, '').split('.').map(Number);
-                                  const [aMajor, aMinor, aPatch] = parseVersion(a);
-                                  const [bMajor, bMinor, bPatch] = parseVersion(b);
+            - name: Copy Storybook build to version directory
+              if: steps.check_prerelease.outputs.is_prerelease == 'false'
+              run: |
+                  VERSION=${{ steps.version.outputs.version }}
+
+                  # Create version directory and copy files
+                  mkdir -p $VERSION
+                  cp -r storybook-static/* $VERSION/
+
+                  # Add to git
+                  git add $VERSION
+                  git commit -m "Deploy Storybook for version $VERSION"
+
+            - name: Update or create index.html
+              if: steps.check_prerelease.outputs.is_prerelease == 'false'
+              run: |
+                  VERSION=${{ steps.version.outputs.version }}
+
+                  # Create a simple index page that lists all versions
+                  cat > index.html << 'EOF'
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>No Frills UI - Documentation</title>
+                      <style>
+                          * {
+                              margin: 0;
+                              padding: 0;
+                              box-sizing: border-box;
+                          }
+                          body {
+                              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                              min-height: 100vh;
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                              padding: 20px;
+                          }
+                          .container {
+                              background: white;
+                              border-radius: 12px;
+                              box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                              padding: 40px;
+                              max-width: 600px;
+                              width: 100%;
+                          }
+                          h1 {
+                              color: #333;
+                              margin-bottom: 10px;
+                              font-size: 2.5em;
+                          }
+                          .subtitle {
+                              color: #666;
+                              margin-bottom: 30px;
+                              font-size: 1.1em;
+                          }
+                          .versions {
+                              list-style: none;
+                          }
+                          .version-item {
+                              margin: 10px 0;
+                          }
+                          .version-link {
+                              display: block;
+                              padding: 15px 20px;
+                              background: #f7f7f7;
+                              border-radius: 8px;
+                              text-decoration: none;
+                              color: #667eea;
+                              font-weight: 500;
+                              transition: all 0.3s ease;
+                              border: 2px solid transparent;
+                          }
+                          .version-link:hover {
+                              background: #667eea;
+                              color: white;
+                              transform: translateX(5px);
+                              border-color: #667eea;
+                          }
+                          .version-link.latest {
+                              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                              color: white;
+                              font-weight: 600;
+                          }
+                          .version-link.latest:hover {
+                              transform: scale(1.02);
+                          }
+                          .badge {
+                              display: inline-block;
+                              padding: 4px 8px;
+                              background: rgba(255, 255, 255, 0.3);
+                              border-radius: 4px;
+                              font-size: 0.8em;
+                              margin-left: 10px;
+                          }
+                          .loading {
+                              text-align: center;
+                              color: #666;
+                              padding: 20px;
+                          }
+                          .footer {
+                              margin-top: 30px;
+                              text-align: center;
+                              color: #999;
+                              font-size: 0.9em;
+                          }
+                          .footer a {
+                              color: #667eea;
+                              text-decoration: none;
+                          }
+                          .footer a:hover {
+                              text-decoration: underline;
+                          }
+                      </style>
+                  </head>
+                  <body>
+                      <div class="container">
+                          <h1>📚 No Frills UI</h1>
+                          <p class="subtitle">Component Documentation</p>
+                          <div id="versions" class="loading">Loading versions...</div>
+                          <div class="footer">
+                              View on <a href="https://github.com/pushkar8723/no-frills-ui" target="_blank">GitHub</a>
+                          </div>
+                      </div>
+                      <script>
+                          async function loadVersions() {
+                              try {
+                                  // Fetch the list of directories (versions) from GitHub API
+                                  const response = await fetch('https://api.github.com/repos/pushkar8723/no-frills-ui/contents/?ref=gh-pages');
+                                  const files = await response.json();
                                   
-                                  if (bMajor !== aMajor) return bMajor - aMajor;
-                                  if (bMinor !== aMinor) return bMinor - aMinor;
-                                  return bPatch - aPatch;
-                              });
-                          
-                          if (versions.length === 0) {
-                              document.getElementById('versions').innerHTML = '<p class="loading">No versions available yet.</p>';
-                              return;
+                                  // Filter for directories that look like version numbers
+                                  const versions = files
+                                      .filter(file => file.type === 'dir' && /^v?\d+\.\d+\.\d+/.test(file.name))
+                                      .map(file => file.name)
+                                      .sort((a, b) => {
+                                          // Sort by semantic version (descending)
+                                          const parseVersion = v => v.replace(/^v/, '').split('.').map(Number);
+                                          const [aMajor, aMinor, aPatch] = parseVersion(a);
+                                          const [bMajor, bMinor, bPatch] = parseVersion(b);
+                                          
+                                          if (bMajor !== aMajor) return bMajor - aMajor;
+                                          if (bMinor !== aMinor) return bMinor - aMinor;
+                                          return bPatch - aPatch;
+                                      });
+                                  
+                                  if (versions.length === 0) {
+                                      document.getElementById('versions').innerHTML = '<p class="loading">No versions available yet.</p>';
+                                      return;
+                                  }
+                                  
+                                  // Create version list
+                                  const versionsList = document.createElement('ul');
+                                  versionsList.className = 'versions';
+                                  
+                                  versions.forEach((version, index) => {
+                                      const li = document.createElement('li');
+                                      li.className = 'version-item';
+                                      
+                                      const a = document.createElement('a');
+                                      a.href = `./${version}/`;
+                                      a.className = index === 0 ? 'version-link latest' : 'version-link';
+                                      a.textContent = version;
+                                      
+                                      if (index === 0) {
+                                          const badge = document.createElement('span');
+                                          badge.className = 'badge';
+                                          badge.textContent = 'Latest';
+                                          a.appendChild(badge);
+                                      }
+                                      
+                                      li.appendChild(a);
+                                      versionsList.appendChild(li);
+                                  });
+                                  
+                                  document.getElementById('versions').innerHTML = '';
+                                  document.getElementById('versions').appendChild(versionsList);
+                              } catch (error) {
+                                  console.error('Error loading versions:', error);
+                                  document.getElementById('versions').innerHTML = '<p class="loading">Error loading versions. Please check back later.</p>';
+                              }
                           }
                           
-                          // Create version list
-                          const versionsList = document.createElement('ul');
-                          versionsList.className = 'versions';
-                          
-                          versions.forEach((version, index) => {
-                              const li = document.createElement('li');
-                              li.className = 'version-item';
-                              
-                              const a = document.createElement('a');
-                              a.href = `./${version}/`;
-                              a.className = index === 0 ? 'version-link latest' : 'version-link';
-                              a.textContent = version;
-                              
-                              if (index === 0) {
-                                  const badge = document.createElement('span');
-                                  badge.className = 'badge';
-                                  badge.textContent = 'Latest';
-                                  a.appendChild(badge);
-                              }
-                              
-                              li.appendChild(a);
-                              versionsList.appendChild(li);
-                          });
-                          
-                          document.getElementById('versions').innerHTML = '';
-                          document.getElementById('versions').appendChild(versionsList);
-                      } catch (error) {
-                          console.error('Error loading versions:', error);
-                          document.getElementById('versions').innerHTML = '<p class="loading">Error loading versions. Please check back later.</p>';
-                      }
-                  }
-                  
-                  loadVersions();
-              </script>
-          </body>
-          </html>
-          EOF
-          
-          git add index.html
-          git commit -m "Update index page with version $VERSION" || echo "No changes to index.html"
+                          loadVersions();
+                      </script>
+                  </body>
+                  </html>
+                  EOF
 
-      - name: Push to gh-pages
-        if: steps.check_prerelease.outputs.is_prerelease == 'false'
-        run: |
-          git push origin gh-pages
+                  git add index.html
+                  git commit -m "Update index page with version $VERSION" || echo "No changes to index.html"
+
+            - name: Push to gh-pages
+              if: steps.check_prerelease.outputs.is_prerelease == 'false'
+              run: |
+                  git push origin gh-pages

@@ -39,6 +39,7 @@ to do it for a lot of styles, your code quality may take a hit. For such cases r
 > URL: [https://codesandbox.io/s/theming-etdbq?file=/src/ItemCard.js](https://codesandbox.io/s/theming-etdbq?file=/src/ItemCard.js)
 >
 > It showcases following features:
+>
 > - How easy it is to apply custom theme to the components at various levels.
 > - Each component plays nicely with one another and can be customized easily.
 > - The DOM is also comparitively clean as only required nodes are mounted.
@@ -54,88 +55,184 @@ to do it for a lot of styles, your code quality may take a hit. For such cases r
     </thead>
     <tbody>
         <tr>
-            <td><pre>--primary</pre></td>
-            <td style={{ backgroundColor: constants.PRIMARY, color: '#fff', textAlign: 'center' }}>{constants.PRIMARY}</td>
+            <td>
+                <pre>--primary</pre>
+            </td>
+            <td style={{ backgroundColor: constants.PRIMARY, color: '#fff', textAlign: 'center' }}>
+                {constants.PRIMARY}
+            </td>
         </tr>
         <tr>
-            <td><pre>--primary-light</pre></td>
-            <td style={{ backgroundColor: constants.PRIMARY_LIGHT, textAlign: 'center' }}>{constants.PRIMARY_LIGHT}</td>
+            <td>
+                <pre>--primary-light</pre>
+            </td>
+            <td style={{ backgroundColor: constants.PRIMARY_LIGHT, textAlign: 'center' }}>
+                {constants.PRIMARY_LIGHT}
+            </td>
         </tr>
         <tr>
-            <td><pre>--primary-lighter</pre></td>
-            <td style={{ backgroundColor: constants.PRIMARY_LIGHTER, textAlign: 'center' }}>{constants.PRIMARY_LIGHTER}</td>
+            <td>
+                <pre>--primary-lighter</pre>
+            </td>
+            <td style={{ backgroundColor: constants.PRIMARY_LIGHTER, textAlign: 'center' }}>
+                {constants.PRIMARY_LIGHTER}
+            </td>
         </tr>
         <tr>
-            <td><pre>--backdrop-color</pre></td>
-            <td style={{ backgroundColor: constants.BACKDROP_COLOR, textAlign: 'center' }}>{constants.BACKDROP_COLOR}</td>
+            <td>
+                <pre>--backdrop-color</pre>
+            </td>
+            <td style={{ backgroundColor: constants.BACKDROP_COLOR, textAlign: 'center' }}>
+                {constants.BACKDROP_COLOR}
+            </td>
         </tr>
         <tr>
-            <td><pre>--info</pre></td>
-            <td style={{ backgroundColor: constants.INFO, color: '#fff', textAlign: 'center' }}>{constants.INFO}</td>
+            <td>
+                <pre>--info</pre>
+            </td>
+            <td style={{ backgroundColor: constants.INFO, color: '#fff', textAlign: 'center' }}>
+                {constants.INFO}
+            </td>
         </tr>
         <tr>
-            <td><pre>--info-light</pre></td>
-            <td style={{ backgroundColor: constants.INFO_LIGHT, textAlign: 'center' }}>{constants.INFO_LIGHT}</td>
+            <td>
+                <pre>--info-light</pre>
+            </td>
+            <td style={{ backgroundColor: constants.INFO_LIGHT, textAlign: 'center' }}>
+                {constants.INFO_LIGHT}
+            </td>
         </tr>
         <tr>
-            <td><pre>--success</pre></td>
-            <td style={{ backgroundColor: constants.SUCCESS, textAlign: 'center' }}>{constants.SUCCESS}</td>
+            <td>
+                <pre>--success</pre>
+            </td>
+            <td style={{ backgroundColor: constants.SUCCESS, textAlign: 'center' }}>
+                {constants.SUCCESS}
+            </td>
         </tr>
         <tr>
-            <td><pre>--success-light</pre></td>
-            <td style={{ backgroundColor: constants.SUCCESS_LIGHT, textAlign: 'center' }}>{constants.SUCCESS_LIGHT}</td>
+            <td>
+                <pre>--success-light</pre>
+            </td>
+            <td style={{ backgroundColor: constants.SUCCESS_LIGHT, textAlign: 'center' }}>
+                {constants.SUCCESS_LIGHT}
+            </td>
         </tr>
         <tr>
-            <td><pre>--warning</pre></td>
-            <td style={{ backgroundColor: constants.WARNING, color: '#fff', textAlign: 'center' }}>{constants.WARNING}</td>
+            <td>
+                <pre>--warning</pre>
+            </td>
+            <td style={{ backgroundColor: constants.WARNING, color: '#fff', textAlign: 'center' }}>
+                {constants.WARNING}
+            </td>
         </tr>
         <tr>
-            <td><pre>--warning-light</pre></td>
-            <td style={{ backgroundColor: constants.WARNING_LIGHT, textAlign: 'center' }}>{constants.WARNING_LIGHT}</td>
+            <td>
+                <pre>--warning-light</pre>
+            </td>
+            <td style={{ backgroundColor: constants.WARNING_LIGHT, textAlign: 'center' }}>
+                {constants.WARNING_LIGHT}
+            </td>
         </tr>
         <tr>
-            <td><pre>--error</pre></td>
-            <td style={{ backgroundColor: constants.ERROR, color: '#fff', textAlign: 'center' }}>{constants.ERROR}</td>
+            <td>
+                <pre>--error</pre>
+            </td>
+            <td style={{ backgroundColor: constants.ERROR, color: '#fff', textAlign: 'center' }}>
+                {constants.ERROR}
+            </td>
         </tr>
         <tr>
-            <td><pre>--error-light</pre></td>
-            <td style={{ backgroundColor: constants.ERROR_LIGHT, textAlign: 'center' }}>{constants.ERROR_LIGHT}</td>
+            <td>
+                <pre>--error-light</pre>
+            </td>
+            <td style={{ backgroundColor: constants.ERROR_LIGHT, textAlign: 'center' }}>
+                {constants.ERROR_LIGHT}
+            </td>
         </tr>
         <tr>
-            <td><pre>--border-color</pre></td>
-            <td style={{ backgroundColor: constants.BORDER_COLOR, color: '#fff', textAlign: 'center' }}>{constants.BORDER_COLOR}</td>
+            <td>
+                <pre>--border-color</pre>
+            </td>
+            <td
+                style={{
+                    backgroundColor: constants.BORDER_COLOR,
+                    color: '#fff',
+                    textAlign: 'center',
+                }}
+            >
+                {constants.BORDER_COLOR}
+            </td>
         </tr>
         <tr>
-            <td><pre>--toast</pre></td>
-            <td style={{ backgroundColor: constants.TOAST, color: '#fff', textAlign: 'center' }}>{constants.TOAST}</td>
+            <td>
+                <pre>--toast</pre>
+            </td>
+            <td style={{ backgroundColor: constants.TOAST, color: '#fff', textAlign: 'center' }}>
+                {constants.TOAST}
+            </td>
         </tr>
         <tr>
-            <td><pre>--disabled</pre></td>
-            <td style={{ backgroundColor: constants.DISABLED, color : '#fff', textAlign: 'center' }}>{constants.DISABLED}</td>
+            <td>
+                <pre>--disabled</pre>
+            </td>
+            <td style={{ backgroundColor: constants.DISABLED, color: '#fff', textAlign: 'center' }}>
+                {constants.DISABLED}
+            </td>
         </tr>
         <tr>
-            <td><pre>--tooltip-color</pre></td>
-            <td style={{ backgroundColor: constants.TOOLTIP_COLOR, color : '#fff', textAlign: 'center' }}>{constants.TOOLTIP_COLOR}</td>
+            <td>
+                <pre>--tooltip-color</pre>
+            </td>
+            <td
+                style={{
+                    backgroundColor: constants.TOOLTIP_COLOR,
+                    color: '#fff',
+                    textAlign: 'center',
+                }}
+            >
+                {constants.TOOLTIP_COLOR}
+            </td>
         </tr>
         <tr>
-            <td><pre>--disabled-border</pre></td>
-            <td style={{ backgroundColor: constants.DISABLED_BORDER, textAlign: 'center' }}>{constants.DISABLED_BORDER}</td>
+            <td>
+                <pre>--disabled-border</pre>
+            </td>
+            <td style={{ backgroundColor: constants.DISABLED_BORDER, textAlign: 'center' }}>
+                {constants.DISABLED_BORDER}
+            </td>
         </tr>
         <tr>
-            <td><pre>--light-grey</pre></td>
-            <td style={{ backgroundColor: constants.LIGHT_GREY, textAlign: 'center' }}>{constants.LIGHT_GREY}</td>
+            <td>
+                <pre>--light-grey</pre>
+            </td>
+            <td style={{ backgroundColor: constants.LIGHT_GREY, textAlign: 'center' }}>
+                {constants.LIGHT_GREY}
+            </td>
         </tr>
         <tr>
-            <td><pre>--border-light-color</pre></td>
-            <td style={{ backgroundColor: constants.BORDER_LIGHT_COLOR, textAlign: 'center' }}>{constants.BORDER_LIGHT_COLOR}</td>
+            <td>
+                <pre>--border-light-color</pre>
+            </td>
+            <td style={{ backgroundColor: constants.BORDER_LIGHT_COLOR, textAlign: 'center' }}>
+                {constants.BORDER_LIGHT_COLOR}
+            </td>
         </tr>
         <tr>
-            <td><pre>--disabled-background</pre></td>
-            <td style={{ backgroundColor: constants.DISABLED_BACKGROUND, textAlign: 'center' }}>{constants.DISABLED_BACKGROUND}</td>
+            <td>
+                <pre>--disabled-background</pre>
+            </td>
+            <td style={{ backgroundColor: constants.DISABLED_BACKGROUND, textAlign: 'center' }}>
+                {constants.DISABLED_BACKGROUND}
+            </td>
         </tr>
         <tr>
-            <td><pre>--background</pre></td>
-            <td style={{ backgroundColor: constants.BACKGROUND, textAlign: 'center' }}>{constants.BACKGROUND}</td>
+            <td>
+                <pre>--background</pre>
+            </td>
+            <td style={{ backgroundColor: constants.BACKGROUND, textAlign: 'center' }}>
+                {constants.BACKGROUND}
+            </td>
         </tr>
     </tbody>
 </table>
@@ -151,15 +248,21 @@ to do it for a lot of styles, your code quality may take a hit. For such cases r
     </thead>
     <tbody>
         <tr>
-            <td><pre>--shadow</pre></td>
+            <td>
+                <pre>--shadow</pre>
+            </td>
             <td>{constants.SHADOW}</td>
         </tr>
         <tr>
-            <td><pre>--hover-shadow</pre></td>
+            <td>
+                <pre>--hover-shadow</pre>
+            </td>
             <td>{constants.HOVER_SHADOW}</td>
         </tr>
         <tr>
-            <td><pre>--modal-shadow</pre></td>
+            <td>
+                <pre>--modal-shadow</pre>
+            </td>
             <td>{constants.MODAL_SHADOW}</td>
         </tr>
     </tbody>

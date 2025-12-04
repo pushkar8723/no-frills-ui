@@ -17,34 +17,26 @@ import { Stepper, Step, StepBody, StepFooter } from 'no-frills-ui';
 
 // render
 <Stepper active={1}>
-    <Step name='Welcome' completed>
-        <StepBody>
-            Welcome to this multi-step form.
-        </StepBody>
+    <Step name="Welcome" completed>
+        <StepBody>Welcome to this multi-step form.</StepBody>
         <StepFooter>
             <ActionButton>Next</ActionButton>
         </StepFooter>
     </Step>
-    <Step name='Basic Details'>
-        <StepBody>
-            Enter your details here.
-        </StepBody>
+    <Step name="Basic Details">
+        <StepBody>Enter your details here.</StepBody>
         <StepFooter>
             <Button>Prev</Button>
             <ActionButton>Next</ActionButton>
         </StepFooter>
     </Step>
-    <Step name='Personalisation' disabled>
-        <StepBody>
-            Personalize your view here.
-        </StepBody>
+    <Step name="Personalisation" disabled>
+        <StepBody>Personalize your view here.</StepBody>
     </Step>
-    <Step name='Verification'>
-        <StepBody>
-            Verify if you are human.
-        </StepBody>
+    <Step name="Verification">
+        <StepBody>Verify if you are human.</StepBody>
     </Step>
-</Stepper>
+</Stepper>;
 ```
 
 ## Props for `Stepper`
@@ -57,10 +49,10 @@ import { Stepper, Step, StepBody, StepFooter } from 'no-frills-ui';
 
 ## CSS Variables used
 
-| Variable Name | Description |
-| :- | :- |
-| --border-light-color | Used for `border-color` and `background-color` |
-| --light-grey | Used for `background-color` |
-| --background | Used for `background-color` |
-| --disabled-background | Used for `background-color` |
-| --primary-light | Used for `background-color` |
+| Variable Name         | Description                                    |
+| :-------------------- | :--------------------------------------------- |
+| --border-light-color  | Used for `border-color` and `background-color` |
+| --light-grey          | Used for `background-color`                    |
+| --background          | Used for `background-color`                    |
+| --disabled-background | Used for `background-color`                    |
+| --primary-light       | Used for `background-color`                    |

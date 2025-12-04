@@ -19,6 +19,7 @@ Thus the Dialog component has no prop called `open`. Instead it exposes `open` a
 Exposing `open` and `close` methods, enables the developer to quickly wrap the dialog state in a `Promise` and thus the
 developer need not worry about the dialog state at all and can get the result without having to jump between multiple functions.
 I exploited this feature to create separate components for following common use cases to use a dialog.
+
 - `AlertDialog` to show some static information to the user.
 - `ConfirmDialog` to confirm if the user wants to proceed with certain action.
 - `PromptDialog` to prompt a user for a small information.
@@ -187,7 +188,7 @@ const openDialog = () => dialog.current.open();
 
 ## CSS Variables used
 
-| Variable Name | Description |
-| :- | :- |
+| Variable Name    | Description                  |
+| :--------------- | :--------------------------- |
 | --backdrop-color | Used for `background-color`. |
-| --modal-shadow | Used for `box-shadow` |
+| --modal-shadow   | Used for `box-shadow`        |

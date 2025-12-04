@@ -17,13 +17,9 @@ const [open, setOpen] = useState(false);
 
 <Drawer open={open} onClose={() => setOpen(false)} position={DRAWER_POSITION.LEFT}>
     <DrawerHeader>Header goes here</DrawerHeader>
-    <DrawerBody>
-        Here goes body.
-    </DrawerBody>
-    <DrawerFooter>
-        And footer over here.
-    </DrawerFooter>
-</Drawer>
+    <DrawerBody>Here goes body.</DrawerBody>
+    <DrawerFooter>And footer over here.</DrawerFooter>
+</Drawer>;
 ```
 
 ## Props
@@ -32,7 +28,7 @@ const [open, setOpen] = useState(false);
 
 ## CSS Variables used
 
-| Variable Name | Description |
-| :- | :- |
+| Variable Name    | Description                  |
+| :--------------- | :--------------------------- |
 | --backdrop-color | Used for `background-color`. |
-| --modal-shadow | Used for `box-shadow` |
+| --modal-shadow   | Used for `box-shadow`        |

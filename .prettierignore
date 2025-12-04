@@ -2,9 +2,4 @@ node_modules
 dist
 lib-esm
 storybook-static
-*.config.mjs
-.storybook
-rollup.config.mjs
-package.json
 yarn.lock
-tsconfig.json

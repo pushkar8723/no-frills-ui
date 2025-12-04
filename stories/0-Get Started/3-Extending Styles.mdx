@@ -20,18 +20,18 @@ most of these components so ideally it shouldn't add to your bundle size. You ca
 **Example**
 
 ```jsx
-import styled from "@emotion/styled";
-import { ActionButton } from "no-frills-ui";
+import styled from '@emotion/styled';
+import { ActionButton } from 'no-frills-ui';
 
 const LargeActionButton = styled(ActionButton)`
-  height: 40px;
-  min-width: 200px;
-  font-size: 16px;
-  padding: 0 16px;
+    height: 40px;
+    min-width: 200px;
+    font-size: 16px;
+    padding: 0 16px;
 `;
 
 export function LargeButton(props) {
-  return <LargeActionButton {...props} />;
+    return <LargeActionButton {...props} />;
 }
 ```
 

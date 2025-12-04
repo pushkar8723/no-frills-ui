@@ -23,14 +23,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": [
-        "@typescript-eslint",
-        "react",
-        "react-hooks",
-        "jsx-a11y",
-        "import",
-        "prettier"
-    ],
+    "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y", "import", "prettier"],
     "settings": {
         "react": {
             "version": "detect"
@@ -49,12 +42,7 @@
         "import/order": [
             "error",
             {
-                "groups": [
-                    "builtin",
-                    "external",
-                    ["internal", "parent"],
-                    ["sibling", "index"]
-                ],
+                "groups": ["builtin", "external", ["internal", "parent"], ["sibling", "index"]],
                 "pathGroups": [
                     {
                         "pattern": "react",

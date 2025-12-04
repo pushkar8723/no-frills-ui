@@ -1,93 +1,93 @@
 {
-  "name": "no-frills-ui",
-  "version": "0.0.14-alpha.1",
-  "description": "React components that are made of styled native components. Mostly!",
-  "main": "dist/index.js",
-  "module": "lib-esm/index.js",
-  "jsnext:main": "lib-esm/index.js",
-  "types": "lib-esm/index.d.ts",
-  "sideEffects": false,
-  "files": [
-    "dist",
-    "lib-esm"
-  ],
-  "scripts": {
-    "clean": "shx rm -rf dist lib-esm",
-    "build": "tsc && rollup -c",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
-    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\"",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prepare": "husky && npm run clean && npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/pushkar8723/no-frills-ui.git"
-  },
-  "keywords": [
-    "React"
-  ],
-  "author": "pushkar8723@gmail.com",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/pushkar8723/no-frills-ui/issues"
-  },
-  "homepage": "https://github.com/pushkar8723/no-frills-ui#readme",
-  "peerDependencies": {
-    "@emotion/react": "^11.0.0",
-    "@emotion/styled": "^11.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-node-resolve": "^8.0.1",
-    "@storybook/addon-docs": "^10.0.2",
-    "@storybook/addon-links": "^10.0.2",
-    "@storybook/addon-webpack5-compiler-swc": "^4.0.1",
-    "@storybook/cli": "^10.0.2",
-    "@storybook/react-webpack5": "^10.0.2",
-    "@swc/plugin-emotion": "^12.0.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@typescript-eslint/eslint-plugin": "^8",
-    "@typescript-eslint/parser": "^8",
-    "eslint": "^8",
-    "eslint-config-prettier": "^9",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-jsx-a11y": "^6",
-    "eslint-plugin-prettier": "^5",
-    "eslint-plugin-react": "^7",
-    "eslint-plugin-react-hooks": "^4",
-    "husky": "^9",
-    "lint-staged": "^15",
-    "prettier": "^3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "remark-gfm": "^4.0.1",
-    "rollup": "^4.52.5",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-typescript2": "^0.36.0",
-    "shx": "^0.3.2",
-    "storybook": "^10.0.2",
-    "tslib": "^2.0.0",
-    "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "@emotion/react": "^11.13.5",
-    "@emotion/styled": "^11.13.5",
-    "prop-types": "^15.7.2"
-  },
-  "bit": {
-    "env": {
-      "compiler": "bit.envs/compilers/react-typescript@3.1.53"
+    "name": "no-frills-ui",
+    "version": "0.0.14-alpha.1",
+    "description": "React components that are made of styled native components. Mostly!",
+    "main": "dist/index.js",
+    "module": "lib-esm/index.js",
+    "jsnext:main": "lib-esm/index.js",
+    "types": "lib-esm/index.d.ts",
+    "sideEffects": false,
+    "files": [
+        "dist",
+        "lib-esm"
+    ],
+    "scripts": {
+        "clean": "shx rm -rf dist lib-esm",
+        "build": "tsc && rollup -c",
+        "test": "echo \"No test specified\"",
+        "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
+        "lint:fix": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx --fix",
+        "format": "prettier --write \"**/*.{js,jsx,mjs,ts,tsx,html,json,md,mdx,yml,yaml}\"",
+        "format:check": "prettier --check \"**/*.{js,jsx,mjs,ts,tsx,html,json,md,mdx,yml,yaml}\"",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build",
+        "prepare": "husky && npm run clean && npm run build"
     },
-    "componentsDefaultDirectory": "components/{name}",
-    "packageManager": "npm"
-  },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pushkar8723/no-frills-ui.git"
+    },
+    "keywords": [
+        "React"
+    ],
+    "author": "pushkar8723@gmail.com",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/pushkar8723/no-frills-ui/issues"
+    },
+    "homepage": "https://github.com/pushkar8723/no-frills-ui#readme",
+    "peerDependencies": {
+        "@emotion/react": "^11.0.0",
+        "@emotion/styled": "^11.0.0",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    },
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^8.0.1",
+        "@storybook/addon-docs": "^10.0.2",
+        "@storybook/addon-links": "^10.0.2",
+        "@storybook/addon-webpack5-compiler-swc": "^4.0.1",
+        "@storybook/cli": "^10.0.2",
+        "@storybook/react-webpack5": "^10.0.2",
+        "@swc/plugin-emotion": "^12.0.0",
+        "@types/react": "^18.3.12",
+        "@types/react-dom": "^18.3.1",
+        "@typescript-eslint/eslint-plugin": "^8",
+        "@typescript-eslint/parser": "^8",
+        "eslint": "^8",
+        "eslint-config-prettier": "^9",
+        "eslint-plugin-import": "^2",
+        "eslint-plugin-jsx-a11y": "^6",
+        "eslint-plugin-prettier": "^5",
+        "eslint-plugin-react": "^7",
+        "eslint-plugin-react-hooks": "^4",
+        "husky": "^9",
+        "lint-staged": "^15",
+        "prettier": "^3",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "remark-gfm": "^4.0.1",
+        "rollup": "^4.52.5",
+        "rollup-plugin-commonjs": "^10.1.0",
+        "rollup-plugin-node-resolve": "^5.2.0",
+        "rollup-plugin-peer-deps-external": "^2.2.4",
+        "rollup-plugin-typescript2": "^0.36.0",
+        "shx": "^0.3.2",
+        "storybook": "^10.0.2",
+        "tslib": "^2.0.0",
+        "typescript": "^5.7.2"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.13.5",
+        "@emotion/styled": "^11.13.5",
+        "prop-types": "^15.7.2"
+    },
+    "bit": {
+        "env": {
+            "compiler": "bit.envs/compilers/react-typescript@3.1.53"
+        },
+        "componentsDefaultDirectory": "components/{name}",
+        "packageManager": "npm"
+    },
+    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

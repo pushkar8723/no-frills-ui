@@ -6,7 +6,7 @@ import * as PopoverStories from './Popover.stories';
 # Popover
 
 A component that renders as a card relative to a given element. This can be used to implement custom
-dropdowns or menu. When the popover opens, it check if it can fit into the viewport and tries to 
+dropdowns or menu. When the popover opens, it check if it can fit into the viewport and tries to
 adjust itself such that there is no overflow. It also automatically closes on click anywhere outside
 the container.
 
@@ -25,7 +25,7 @@ const [open, setOpen] = useState(false);
     element={<button onClick={() => setOpen(true)}>Open Popover</button>}
 >
     Popover Content goes here
-</Popover>
+</Popover>;
 ```
 
 ## Props
@@ -34,8 +34,8 @@ const [open, setOpen] = useState(false);
 
 ## CSS Variables Used
 
-| Variable Name | Description |
-| :- | :- |
-| --background | Used for `background-color`. |
-| --shadow | Used for `box-shadow`. |
-| --modal-shadow | Used for `box-shadow`. |
+| Variable Name  | Description                  |
+| :------------- | :--------------------------- |
+| --background   | Used for `background-color`. |
+| --shadow       | Used for `box-shadow`.       |
+| --modal-shadow | Used for `box-shadow`.       |
