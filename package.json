@@ -36,6 +36,9 @@
         "url": "https://github.com/pushkar8723/no-frills-ui/issues"
     },
     "homepage": "https://github.com/pushkar8723/no-frills-ui#readme",
+    "engines": {
+        "node": ">=20.0.0"
+    },
     "peerDependencies": {
         "@emotion/react": "^11.0.0",
         "@emotion/styled": "^11.0.0",
