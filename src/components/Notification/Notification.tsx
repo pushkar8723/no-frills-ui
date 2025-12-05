@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React, { type RefCallback } from 'react';
 import PropTypes from 'prop-types';
 import { flushSync } from 'react-dom';
 import { createRoot, type Root } from 'react-dom/client';
@@ -61,23 +61,31 @@ class Notification {
     private containers: Map<
         NOTIFICATION_POSITION,
         {
-            ref: React.RefObject<NotificationManager>;
-            element: HTMLDivElement;
+            manager: NotificationManager | null;
             root: Root;
+            div: HTMLDivElement;
         }
     > = new Map();
 
     /**
      * Adds a notification
      *
-     * @param position
-     * @param options
+     * @param position - The position where the notification should appear
+     * @param options - Configuration options for the notification
+     * @returns The notification ID or a promise that resolves to the notification ID
      */
     public add = (position: NOTIFICATION_POSITION, options: NotificationOptions) => {
-        let notification;
         if (!this.containers.has(position)) {
-            const div = document?.createElement('div');
-            const ref = createRef<NotificationManager>();
+            /** Callback ref to capture the NotificationManager instance when it mounts */
+            const refCallback: RefCallback<NotificationManager> = (instance) => {
+                if (instance) {
+                    const container = this.containers.get(position);
+                    if (container) {
+                        container.manager = instance;
+                    }
+                }
+            };
+
             const [Component] = LayerManager.renderLayer({
                 closeOnEsc: false,
                 closeOnOverlayClick: false,
@@ -85,48 +93,74 @@ class Notification {
                 alwaysOnTop: true,
                 component: (
                     <NotificationManager
-                        ref={ref}
+                        ref={refCallback}
                         position={position}
                         onEmpty={() => this.destroy(position)}
                     />
                 ),
             });
+
+            // Create a div to mount the Component
+            const div = document.createElement('div');
+            document.body.appendChild(div);
+            const root = createRoot(div);
+
             this.containers.set(position, {
-                ref,
-                element: div,
-                root: createRoot(div),
+                manager: null,
+                root,
+                div,
             });
+
+            // Render the Component which will trigger the LayerManager's useEffect
             flushSync(() => {
-                this.containers.get(position).root.render(<Component />);
+                root.render(<Component />);
             });
-            notification = ref;
-        } else {
-            notification = this.containers.get(position).ref;
         }
-        return notification.current.add(options);
+
+        const container = this.containers.get(position);
+        if (container && container.manager) {
+            return container.manager.add(options);
+        }
+
+        // If manager is not ready yet, wait a bit and retry
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const container = this.containers.get(position);
+                if (container && container.manager) {
+                    resolve(container.manager.add(options));
+                }
+            }, 10);
+        });
     };
 
     /**
      * Removes a notification
      *
-     * @param position
-     * @param id
+     * @param position - The position of the notification container
+     * @param id - The unique ID of the notification to remove
      */
     public remove = (position: NOTIFICATION_POSITION, id: string) => {
-        if (this.containers.has(position)) {
-            this.containers.get(position).ref.current.remove(id);
+        const container = this.containers.get(position);
+        if (container && container.manager) {
+            container.manager.remove(id);
         }
     };
 
     /**
-     * Destroys entire stack of notifications.
+     * Destroys entire stack of notifications at a position.
+     * Unmounts the React root and cleans up DOM elements.
      *
-     * @param position
+     * @param position - The position of the notification container to destroy
      */
     public destroy = (position: NOTIFICATION_POSITION) => {
-        const notification = this.containers.get(position);
-        notification.root.unmount();
-        this.containers.delete(position);
+        const container = this.containers.get(position);
+        if (container) {
+            container.root.unmount();
+            if (document.body.contains(container.div)) {
+                document.body.removeChild(container.div);
+            }
+            this.containers.delete(position);
+        }
     };
 }
 
