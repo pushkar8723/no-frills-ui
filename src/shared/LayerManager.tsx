@@ -103,6 +103,32 @@ const KEY_CODES = {
  * This way we need not worry about the z-index and can freely keep on creating
  * new layers. The staring layer z-index is 10000. Leaving enough z-index for the
  * user if they desires so.
+ *
+ * @important Usage Pattern
+ * To avoid creating duplicate layers (especially in React Strict Mode or Next.js),
+ * always call `renderLayer` only once - either in a lifecycle method (like `componentDidUpdate`)
+ * or in an imperative method (like `open()`).
+ *
+ * @example
+ * // ❌ Don't call renderLayer in render() method
+ * render() {
+ *   if (this.state.show) {
+ *     const [Component, closeFn] = LayerManager.renderLayer({ ... }); // Creates new layer on every render
+ *     return <Component />;
+ *   }
+ * }
+ *
+ * @example
+ * // ✅ Do call renderLayer once in a method and store the component
+ * open() {
+ *   const [Component, closeFn] = LayerManager.renderLayer({ ... });
+ *   this.setState({ LayerComponent: Component });
+ * }
+ *
+ * render() {
+ *   const { LayerComponent } = this.state;
+ *   return LayerComponent ? <LayerComponent /> : null;
+ * }
  */
 class LayerManager {
     /** Layer stack */
@@ -115,14 +141,16 @@ class LayerManager {
      * react to esc key press.
      */
     constructor() {
-        document?.body.addEventListener('keyup', (e) => {
-            if (this.layers.length && e.keyCode === KEY_CODES.ESC) {
-                const lastLayer = this.layers.slice(-1)[0];
-                if (lastLayer.config.closeOnEsc !== false) {
-                    this.unmount(lastLayer);
+        if (typeof document !== 'undefined') {
+            document.body.addEventListener('keyup', (e) => {
+                if (this.layers.length && e.keyCode === KEY_CODES.ESC) {
+                    const lastLayer = this.layers.slice(-1)[0];
+                    if (lastLayer.config.closeOnEsc !== false) {
+                        this.unmount(lastLayer);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -157,7 +185,12 @@ class LayerManager {
      */
     public renderLayer = (
         config: LayerConfig,
-    ): [() => React.ReactPortal, (resp?: unknown) => void] => {
+    ): [() => React.ReactPortal | null, (resp?: unknown) => void] => {
+        // SSR guard
+        if (typeof document === 'undefined') {
+            return [() => null, () => {}];
+        }
+
         // Merge default config with the provided config.
         const layerConfig = {
             ...defaultConfig,
@@ -167,62 +200,73 @@ class LayerManager {
         // Get the z-index for the new layer
         const currentIndex = layerConfig.alwaysOnTop ? 2147483647 : this.nextIndex++;
 
-        // Prepare the div on DOM where the new layer will be mounted.
-        const divElement = document.createElement('div');
-        divElement.setAttribute('id', `nf-layer-manager-${currentIndex}`);
-        document.body.appendChild(divElement);
+        // Create a unique ID for tracking this layer
+        const layerId = `nf-layer-manager-${currentIndex}`;
 
-        // Add layer to stack.
-        const currentLayer = {
-            id: `nf-layer-manager-${currentIndex}`,
-            config: layerConfig,
-            element: divElement,
-        };
-        this.layers.push(currentLayer);
-
-        const overlayClickHandler = (layer: Layer) => () => {
-            if (layer.config.closeOnOverlayClick !== false) {
+        const overlayClickHandler = () => {
+            const layer = this.layers.find((l) => l.id === layerId);
+            if (layer && layer.config.closeOnOverlayClick !== false) {
                 this.unmount(layer);
+            }
+        };
+
+        const closeFn = (resp?: unknown) => {
+            const layer = this.layers.find((l) => l.id === layerId);
+            if (layer) {
+                this.unmount(layer, resp);
             }
         };
 
         // Return callback which will trigger the un-mount.
         return [
-            // Render the layer and then add `nf-layer-enter` class to
-            // the div created above.
-            // This class will help component in triggering the entry animation.
-            function TestLayer(): ReactPortal {
+            (): ReactPortal | null => {
+                const [divElement, setDivElement] = React.useState<HTMLDivElement | null>(null);
+
                 useEffect(() => {
-                    // The delay is introduced to enable entry animation on Firefox.
-                    // Somehow on Firefox, useEffect is triggered before the component
-                    // is rendered it seems.
+                    // Create the div element only once when component mounts
+                    const div = document.createElement('div');
+                    div.setAttribute('id', layerId);
+                    document.body.appendChild(div);
+
+                    // Add layer to stack
+                    const currentLayer = {
+                        id: layerId,
+                        config: layerConfig,
+                        element: div,
+                    };
+                    this.layers.push(currentLayer);
+
+                    setDivElement(div);
+                    // Add entry animation class after a short delay
                     setTimeout(() => {
-                        divElement.setAttribute('class', 'nf-layer-enter');
+                        div.setAttribute('class', 'nf-layer-enter');
                     }, 10);
 
-                    // Cleanup function
+                    // Cleanup function - remove div when component unmounts
                     return () => {
-                        document.body.removeChild(divElement);
+                        if (document.body.contains(div)) {
+                            document.body.removeChild(div);
+                        }
+                        // Remove from layers array
+                        const index = this.layers.findIndex((layer) => layer.id === layerId);
+                        if (index !== -1) {
+                            this.layers.splice(index, 1);
+                        }
                     };
-                }, []);
+                }, []); // Empty dependency array - run only once
+
+                if (!divElement) {
+                    return null;
+                }
 
                 return ReactDOM.createPortal(
-                    <Container
-                        onClick={overlayClickHandler(currentLayer)}
-                        zIndex={currentIndex}
-                        {...layerConfig}
-                    >
+                    <Container onClick={overlayClickHandler} zIndex={currentIndex} {...layerConfig}>
                         {layerConfig.component}
                     </Container>,
                     divElement,
-                    // Used setTimeout so that the attribute is added only after
-                    // the component is completely mounted.
-                    // () => { setTimeout(() => divElement.setAttribute('class', 'nf-layer-enter'), 100) }
                 );
             },
-            (resp?: unknown) => {
-                this.unmount(currentLayer, resp);
-            },
+            closeFn,
         ];
     };
 }
