@@ -32,6 +32,7 @@ type DialogOptions = PropTypes.InferProps<typeof Dialog.propTypes>;
 
 interface DialogState {
     show: boolean;
+    LayerComponent?: () => React.ReactPortal | null;
 }
 
 class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, DialogState> {
@@ -50,8 +51,9 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
     private closeDialog: (resp?: unknown) => void;
     private onCloseFn: (resp?: unknown) => void;
 
-    state = {
+    state: DialogState = {
         show: false,
+        LayerComponent: undefined,
     };
 
     shouldComponentUpdate(nextProps: DialogOptions, nextState: DialogState) {
@@ -59,8 +61,27 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
     }
 
     public open = (closeCallback?: (resp: unknown) => void) => {
+        const { closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
+
+        const [Component, closeFn] = LayerManager.renderLayer({
+            exitDelay: 300,
+            overlay: true,
+            closeOnEsc,
+            closeCallback: this.closeCallback,
+            closeOnOverlayClick,
+            position: LAYER_POSITION.DIALOG,
+            component: (
+                <DialogContainer {...rest} onClick={(e) => e.stopPropagation()} elevated>
+                    {children}
+                </DialogContainer>
+            ),
+        });
+
+        this.closeDialog = closeFn;
+
         this.setState({
             show: true,
+            LayerComponent: Component,
         });
         this.onCloseFn = closeCallback;
     };
@@ -72,29 +93,16 @@ class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, Dia
     private closeCallback = (resp?: unknown) => {
         this.setState({
             show: false,
+            LayerComponent: undefined,
         });
         this.onCloseFn?.(resp);
     };
 
     render() {
-        const { closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
+        const { LayerComponent } = this.state;
 
-        if (this.state.show) {
-            const [Component, closeFn] = LayerManager.renderLayer({
-                exitDelay: 300,
-                overlay: true,
-                closeOnEsc,
-                closeCallback: this.closeCallback,
-                closeOnOverlayClick,
-                position: LAYER_POSITION.DIALOG,
-                component: (
-                    <DialogContainer {...rest} onClick={(e) => e.stopPropagation()} elevated>
-                        {children}
-                    </DialogContainer>
-                ),
-            });
-            this.closeDialog = closeFn;
-            return <Component />;
+        if (this.state.show && LayerComponent) {
+            return <LayerComponent />;
         } else {
             return null;
         }

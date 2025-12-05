@@ -38,7 +38,7 @@ export default class AlertDialog extends React.Component<AlertOption> {
                 {...this.props.dialogProps}
                 ref={this.dialog}
                 closeOnEsc={false}
-                closeOnOverlayClick={false}
+                closeOnOverlayClick={true}
             >
                 {this.props.header && <DialogHeader>{this.props.header}</DialogHeader>}
                 <DialogBody>{this.props.body}</DialogBody>

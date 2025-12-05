@@ -12,7 +12,9 @@
         "skipLibCheck": true,
         "esModuleInterop": true,
         "declaration": true,
-        "outDir": "lib-esm"
+        "outDir": "lib-esm",
+        "declarationMap": true,
+        "inlineSources": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist"]

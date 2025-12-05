@@ -12,6 +12,10 @@ export default {
             format: 'cjs',
             exports: 'named',
             sourcemap: true,
+            sourcemapPathTransform: (relativeSourcePath) => {
+                // Transform paths to point to the correct source location
+                return relativeSourcePath.replace(/^\.\.\//, '');
+            },
         },
     ],
     external: ['react', 'react-dom', 'prop-types', '@emotion/styled'],
@@ -19,11 +23,11 @@ export default {
         external(),
         resolve(),
         typescript({
-            rollupCommonJSResolveHack: true,
             clean: true,
             tsconfigOverride: {
                 compilerOptions: {
                     declaration: false,
+                    declarationMap: false,
                 },
             },
         }),
