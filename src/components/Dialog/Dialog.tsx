@@ -28,7 +28,12 @@ export {
     Footer as DialogFooter,
 } from '../../shared/styles';
 
-type DialogOptions = PropTypes.InferProps<typeof Dialog.propTypes>;
+interface DialogOptions {
+    /** Flag to close dialog on `esc` click. Default value is true. */
+    closeOnEsc?: boolean;
+    /** Close layer overlay is clicked. Default value is true. */
+    closeOnOverlayClick?: boolean;
+}
 
 interface DialogState {
     show: boolean;
