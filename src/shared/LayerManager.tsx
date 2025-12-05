@@ -115,7 +115,7 @@ class LayerManager {
      * react to esc key press.
      */
     constructor() {
-        document.body.addEventListener('keyup', (e) => {
+        document?.body.addEventListener('keyup', (e) => {
             if (this.layers.length && e.keyCode === KEY_CODES.ESC) {
                 const lastLayer = this.layers.slice(-1)[0];
                 if (lastLayer.config.closeOnEsc !== false) {
