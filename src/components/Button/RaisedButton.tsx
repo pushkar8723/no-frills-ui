@@ -37,7 +37,7 @@ export default styled.button`
     }
 
     &:disabled {
-        background-color: ${constants.BORDER_LIGHT_COLOR};
+        background-color: ${constants.DISABLED_BACKGROUND};
         border-color: ${constants.LIGHT_GREY};
         color: ${constants.DISABLED};
     }

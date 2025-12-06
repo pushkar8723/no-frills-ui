@@ -6,7 +6,7 @@ import {
     AccordionStepFooter,
 } from '../../../src/components/Accordion';
 import { Button, ActionButton } from '../../../src/components/Button';
-import { Dummy } from '../../resources/Dummy';
+import { AccordionDummy } from '../../resources/Dummy';
 
 const meta: Meta<typeof Accordion> = {
     component: Accordion,
@@ -22,7 +22,7 @@ export const Default: Story = {
         <Accordion>
             <AccordionStep header="Welcome" completed>
                 <AccordionStepBody>
-                    <Dummy>Dummy content for Welcome step</Dummy>
+                    <AccordionDummy>Dummy content for Welcome step</AccordionDummy>
                 </AccordionStepBody>
                 <AccordionStepFooter>
                     <Button>Previous</Button>
@@ -30,13 +30,13 @@ export const Default: Story = {
                 </AccordionStepFooter>
             </AccordionStep>
             <AccordionStep header="Basic Details" completed>
-                <Dummy>Dummy content for Basic Details step</Dummy>
+                <AccordionDummy>Dummy content for Basic Details step</AccordionDummy>
             </AccordionStep>
             <AccordionStep header="Personalisation" errorText="3 Errors" disabled>
-                <Dummy>Dummy content for Personalisation step</Dummy>
+                <AccordionDummy>Dummy content for Personalisation step</AccordionDummy>
             </AccordionStep>
             <AccordionStep header="Verification">
-                <Dummy>Dummy content for Verification step</Dummy>
+                <AccordionDummy>Dummy content for Verification step</AccordionDummy>
             </AccordionStep>
         </Accordion>
     ),

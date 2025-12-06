@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -8,23 +8,30 @@ import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
 import { Card } from '../Card';
 
-const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
+const Step = styled(Card)<AccordionStepProps>`
     transition: all 0.6s ease;
+    overflow: visible;
 
     ${(props) =>
         props.open &&
         `
         margin: 20px 5px;
     `}
-
-    ${(props) =>
-        props.focused && `box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});`}
 `;
 
-const StepHeader = styled.div<{ open: boolean; disabled: boolean }>`
+const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
     padding: 20px 15px;
     display: flex;
     justify-content: space-between;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    font-size: inherit;
+
+    &:focus-visible {
+        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
+    }
 
     & input {
         appearance: none;
@@ -41,7 +48,7 @@ const StepHeader = styled.div<{ open: boolean; disabled: boolean }>`
     ${(props) =>
         props.disabled
             ? `
-        color: ${constants.LIGHT_GREY};
+        color: ${constants.DISABLED};
     `
             : `
         cursor: pointer;
@@ -108,27 +115,26 @@ export const AccordionStepFooter = styled.div`
 
 export default function AccordionStep(props: React.PropsWithChildren<AccordionStepProps>) {
     const [height, setHeight] = useState(0);
-    const [focused, setFocused] = useState(false);
     const { open, disabled, header, errorText, completed, onStepClick } = props;
+
+    // Generate unique IDs for ARIA relationships
+    const headerId = useId();
+    const regionId = useId();
 
     const ref = (el?: HTMLDivElement) => setHeight(el?.scrollHeight || 0);
 
-    const toggleFocus = () => {
-        setFocused(!focused);
-    };
-
     return (
-        <Step {...props} focused={focused} elevated={props.open}>
-            <StepHeader open={open} disabled={disabled} onClick={onStepClick}>
+        <Step {...props} elevated={props.open}>
+            <StepHeader
+                open={open}
+                disabled={disabled}
+                onClick={onStepClick}
+                aria-expanded={open ? 'true' : 'false'}
+                aria-controls={regionId}
+                id={headerId}
+            >
                 <HeaderContainer open={open} completed={completed}>
-                    <input
-                        type="checkbox"
-                        checked={open}
-                        disabled={disabled}
-                        onFocus={toggleFocus}
-                        onBlur={toggleFocus}
-                    />
-                    <FiberManualRecord />
+                    <FiberManualRecord aria-hidden="true" />
                     <Ellipsis>{header}</Ellipsis>
                 </HeaderContainer>
                 <ExpandContainer open={open}>
@@ -143,10 +149,17 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                             {errorText}
                         </Badge>
                     )}
-                    <ExpandMore />
+                    <ExpandMore aria-hidden="true" />
                 </ExpandContainer>
             </StepHeader>
-            <StepBody ref={ref} height={open ? height : 0}>
+            <StepBody
+                ref={ref}
+                height={open ? height : 0}
+                role="region"
+                id={regionId}
+                aria-labelledby={headerId}
+                aria-hidden={open ? 'false' : 'true'}
+            >
                 {open && props.children}
             </StepBody>
         </Step>

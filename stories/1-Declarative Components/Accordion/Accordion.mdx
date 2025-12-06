@@ -51,3 +51,33 @@ import { Accordion, AccordionStep } from 'no-frills-ui';
 | `--border-light-color` | Used for `border-color`.     |
 | `--shadow`             | Used for `box-shadow`        |
 | `--modal-shadow`       | Used for `box-shadow`        |
+
+## Accessibility
+
+This component follows WCAG 2.1 AA guidelines:
+
+### Keyboard Navigation
+
+- **Tab**: Navigate between accordion step buttons
+- **Enter/Space**: Toggle the focused accordion step open/closed
+
+### Screen Reader Support
+
+- Each accordion button has `aria-expanded` to indicate its state (expanded/collapsed)
+- Each accordion button has `aria-controls` linking it to its content region
+- Content regions have `role="region"` with `aria-labelledby` connecting to their header
+- Decorative icons are marked with `aria-hidden="true"` to prevent screen reader announcement
+- Disabled steps are properly announced and cannot be activated
+
+### Visual Indicators
+
+- Clear focus indicator (blue outline) on keyboard navigation
+- Visual state indicators for open, completed, and error states
+- Sufficient color contrast for text and interactive elements (meets 4.5:1 ratio)
+
+### Best Practices
+
+- Use descriptive `header` text for each step
+- Provide meaningful `errorText` when validation fails
+- Only one step can be open at a time, reducing cognitive load
+- Content is progressively disclosed to improve focus and comprehension

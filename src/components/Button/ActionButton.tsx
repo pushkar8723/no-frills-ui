@@ -34,8 +34,8 @@ export default styled.button`
     }
 
     &:disabled {
-        border: 1px solid ${constants.LIGHT_GREY};
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        border: 1px solid ${constants.BORDER_LIGHT_COLOR};
+        background-color: var(--border-light-color, ${constants.DISABLED_BACKGROUND});
         color: var(--disabled, ${constants.DISABLED});
     }
 `;

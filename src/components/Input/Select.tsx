@@ -18,7 +18,6 @@ type SelectInternalProps = SelectProps & {
 const Label = styled.label`
     display: inline-flex;
     flex-direction: column;
-    flex: 1;
     position: relative;
     margin: 10px 5px;
     pointer-events: none;

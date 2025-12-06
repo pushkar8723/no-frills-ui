@@ -31,6 +31,6 @@ export default styled.button`
 
     &:disabled {
         border-color: ${constants.BORDER_COLOR};
-        color: ${constants.DISABLED_BORDER};
+        color: ${constants.DISABLED};
     }
 `;

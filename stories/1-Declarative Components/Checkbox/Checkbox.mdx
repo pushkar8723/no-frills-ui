@@ -31,3 +31,20 @@ Following props are added on top of `HTMLInputElement` props.
 | --primary-light | Used for `box-shadow`.               |
 | --background    | Used for `background-color`.         |
 | --border-color  | Used for `border-color`.             |
+
+## Accessibility
+
+The Checkbox component follows WCAG 2.1 AA guidelines:
+
+- **Semantic HTML**: Uses native `<input type="checkbox">` for proper accessibility support.
+- **Keyboard support**: Full keyboard interaction (Space to toggle, Tab to navigate).
+- **Label association**: The wrapping `<label>` element provides implicit association with the input.
+- **Indeterminate state**: Communicates the indeterminate state to screen readers via `aria-checked="mixed"`.
+- **ARIA support**: All standard HTML and ARIA attributes can be passed through props.
+
+### Recommendations
+
+- **Provide labels**: Always provide a label using either the `label` prop or `aria-label`/`aria-labelledby` attributes. Checkboxes without accessible names fail WCAG 4.1.2 (Name, Role, Value).
+- **Focus indicator contrast**: The default focus indicator uses `--primary-light`. Ensure this color meets the 3:1 contrast ratio against your background (WCAG 1.4.11). Customize via CSS variables if needed.
+- **Group related checkboxes**: Use `<fieldset>` and `<legend>` elements to group related checkboxes with a descriptive legend.
+- **Error states**: When validation fails, use `aria-invalid="true"` and `aria-describedby` to reference error messages.

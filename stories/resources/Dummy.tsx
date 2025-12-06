@@ -11,3 +11,13 @@ export const Dummy = styled.div`
     justify-content: center;
     flex-direction: column;
 `;
+
+export const AccordionDummy = styled.div`
+    height: 200px;
+    display: flex;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+`;
