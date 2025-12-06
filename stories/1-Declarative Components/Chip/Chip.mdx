@@ -5,7 +5,7 @@ import * as ChipStories from './Chip.stories';
 
 # Chip
 
-Chip component is a `HTMLDivElement` with a remove button. It is intended to be used for inputs where user can enter
+Chip component is a `HTMLSpanElement` with a remove button. It is intended to be used for inputs where user can enter
 multiple values, e.g. input for Languages, Skills, and Hobbies etc.
 
 <Canvas of={ChipStories.Variants} />
@@ -25,8 +25,23 @@ Props of `Chip` component.
 
 ## CSS Variables Used
 
-| Variable Name          | Description                 |
-| :--------------------- | :-------------------------- |
-| `--border-light-color` | Used for `background-color` |
-| `--primary-light`      | Used for `outline`          |
-| `--disabled-border`    | Used for `background-color` |
+| Variable Name          | Description                                                         |
+| :--------------------- | :------------------------------------------------------------------ |
+| `--border-light-color` | Used for Chip `background-color` button                             |
+| `--primary-light`      | Used for `outline` focus ring                                       |
+| `--border-color`       | Used for close button `background-color` (fallback matches WCAG AA) |
+
+## Accessibility
+
+This component meets **WCAG 2.1 Level AA** standards.
+
+### Keyboard Navigation
+
+- **Focus**: The chip contains a nested button which is focusable. The chip itself is not focusable to prevent double-tab stops, but deletion is supported via event bubbling.
+- **Delete**: Pressing `Backspace` or `Delete` while the close button is focused will trigger the `onCloseClick` callback.
+- **Enter/Space**: Pressing `Enter` or `Space` on the close button will also trigger removal.
+
+### Visual
+
+- **Contrast**: The close button uses a darker background color (`#737373` default) to ensure a contrast ratio > 3:1 against the white icon, meeting WCAG 2.1 AA requirements.
+- **Focus Ring**: Standard browser focus outline (or custom styled via `--primary-light`) serves as the focus indicator.

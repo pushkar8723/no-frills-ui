@@ -25,7 +25,7 @@ export const Variants: Story = {
     parameters: {
         docs: {
             source: {
-                code: `<ChipInput label="Enter your Skills" />`,
+                code: `<ChipInput label="Enter your Skills" required />`,
             },
         },
     },
