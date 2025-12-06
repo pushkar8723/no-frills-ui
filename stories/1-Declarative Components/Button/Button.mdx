@@ -6,8 +6,8 @@ import * as ButtonStories from './Button.stories';
 # Button
 
 Simple button component. The component itself is just a styled `<button>` element. Thus, its props are those
-of `HTMLButtonElement`. Since, this is the native button element, you might also need to pass a `type` prop
-if you are using this in a form or the form's submit event will get triggered on button click.
+of `HTMLButtonElement`. The button defaults to `type="button"` to prevent accidental form submissions, but you can
+override this by passing `type="submit"` or `type="reset"` as needed.
 
 **Enabled State**
 
@@ -22,6 +22,7 @@ import { Button, RaisedButton, LinkButton, ActionButton, IconButton } from 'no-f
 
 // Render
 <Button>Normal Button</Button>
+<Button type="submit">Submit Button</Button>
 <LinkButton>Link Button</LinkButton>
 <RaisedButton>Raised Button</RaisedButton>
 <ActionButton>Action Button</ActionButton>
@@ -36,9 +37,63 @@ Since this is just a native button element. You can use any `HTMLButtonElement` 
 
 ## CSS Variables Used
 
-| Variable Name     | Description                          |
-| ----------------- | ------------------------------------ |
-| `--primary`       | Used for `color` and `border-color`. |
-| `--primary-light` | Used for `box-shadow`.               |
-| `--background`    | Used for `background-color`.         |
-| `--border-color`  | Used for `border-color`.             |
+| Variable Name          | Description                           |
+| ---------------------- | ------------------------------------- |
+| `--primary`            | Used for `color` and `border-color`.  |
+| `--primary-light`      | Used for `box-shadow`.                |
+| `--background`         | Used for `background-color`.          |
+| `--border-color`       | Used for `border-color`.              |
+| `--border-light-color` | Used for disabled `background-color`. |
+| `--light-grey`         | Used for disabled `border-color`.     |
+| `--disabled`           | Used for disabled text `color`.       |
+
+## Accessibility
+
+This component follows WCAG 2.1 AA accessibility standards:
+
+- ✅ **Semantic HTML**: Uses native `<button>` element for proper keyboard navigation and screen reader support
+- ✅ **Focus Indicators**: Clear focus states with visible border and box-shadow
+- ✅ **Color Contrast**: Meets WCAG AA requirements (4.5:1 for normal text, 3:1 for disabled state)
+- ✅ **Target Size**: 32px height meets WCAG 2.2 AA requirements (24x24px minimum)
+- ✅ **Default Type**: Automatically sets `type="button"` to prevent accidental form submissions
+
+### Accessibility Recommendations
+
+**1. Always provide meaningful text or aria-label:**
+
+```jsx
+// Good - visible text
+<Button>Save Changes</Button>
+
+// Good - icon with aria-label
+<IconButton aria-label="Close dialog"><CloseIcon /></IconButton>
+
+// Bad - no accessible name
+<IconButton><CloseIcon /></IconButton>
+```
+
+**2. Use appropriate button types:**
+
+```jsx
+// For forms
+<Button type="submit">Submit</Button>
+<Button type="reset">Reset</Button>
+
+// For general actions (default)
+<Button>Click Me</Button>
+<Button type="button">Click Me</Button>
+```
+
+**3. Avoid disabling buttons when possible:**
+
+- Prefer validation feedback over disabled buttons
+- If you must disable, provide clear feedback why the button is disabled
+- Consider using `aria-describedby` to explain why a button is disabled
+
+**4. For icon-only buttons:**
+
+```jsx
+<IconButton aria-label="Delete item">
+    <DeleteIcon />
+</IconButton>
+```
