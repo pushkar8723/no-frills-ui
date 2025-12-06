@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
 
-export default styled.button`
+const StyledButton = styled.button`
     border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
     border-radius: 5px;
     height: 32px;
@@ -36,8 +36,14 @@ export default styled.button`
     }
 
     &:disabled {
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        background-color: var(--border-light-color, ${constants.DISABLED_BACKGROUND});
         border-color: var(--light-grey, ${constants.LIGHT_GREY});
         color: var(--disabled, ${constants.DISABLED});
     }
 `;
+
+StyledButton.defaultProps = {
+    type: 'button',
+};
+
+export default StyledButton;
