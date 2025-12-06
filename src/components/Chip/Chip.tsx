@@ -8,9 +8,11 @@ interface ChipProps {
     label: string;
     /** Callback when the close button is clicked */
     onCloseClick?: () => void;
+    /** Aria label for the close button. Defaults to "Remove {label}" */
+    closeButtonAriaLabel?: string;
 }
 
-const Container = styled.div`
+const Container = styled.span`
     padding: 5px;
     padding-left: 15px;
     border-radius: 16px;
@@ -26,20 +28,20 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
-    color: #fff;
-    background-color: var(--disabled-border, ${constants.DISABLED_BORDER});
+    color: var(--background-color, ${constants.BACKGROUND});
+    background-color: var(--border-color, ${constants.DISABLED});
     border-radius: 50%;
     border: none;
-    padding: 0;
+    padding: 4px;
     display: inline-flex;
     margin-left: 5px;
 `;
 
 export default function Chip(props: ChipProps) {
-    const { label, onCloseClick, ...rest } = props;
+    const { label, onCloseClick, closeButtonAriaLabel, ...rest } = props;
 
     const keyUpHandler: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
-        if (e.keyCode === 8 || e.keyCode === 46) {
+        if (e.key === 'Backspace' || e.key === 'Delete') {
             onCloseClick?.();
         }
     };
@@ -47,8 +49,8 @@ export default function Chip(props: ChipProps) {
     return (
         <Container {...rest} onKeyUp={keyUpHandler}>
             {label}
-            <Button onClick={onCloseClick} aria-label={`Remove ${label}`}>
-                <Close height={20} width={20} />
+            <Button onClick={onCloseClick} aria-label={closeButtonAriaLabel ?? `Remove ${label}`}>
+                <Close height={16} width={16} />
             </Button>
         </Container>
     );
