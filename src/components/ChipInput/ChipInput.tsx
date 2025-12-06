@@ -277,7 +277,7 @@ export default function ChipInput(
                     aria-invalid={!!props.errorText}
                     aria-describedby={props.errorText ? errorId : undefined}
                 />
-                <div aria-hidden="true">
+                <div>
                     {value?.length > 0 && (
                         <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
                             {value.map((chip) => (
