@@ -120,7 +120,12 @@ export default function Checkbox(props: CheckboxProps) {
 
     return (
         <Label>
-            <Input {...props} ref={ref} type="checkbox" />
+            <Input
+                {...props}
+                ref={ref}
+                type="checkbox"
+                aria-checked={props.indeterminate ? 'mixed' : props.checked}
+            />
             <span>{props.label}</span>
         </Label>
     );
