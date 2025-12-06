@@ -37,10 +37,10 @@ const Button = styled.button`
     margin-left: 5px;
 `;
 
-export default function Chip(props: ChipProps) {
+export default function Chip(props: ChipProps & React.HTMLAttributes<HTMLSpanElement>) {
     const { label, onCloseClick, closeButtonAriaLabel, ...rest } = props;
 
-    const keyUpHandler: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    const keyUpHandler: React.KeyboardEventHandler<HTMLSpanElement> = (e) => {
         if (e.key === 'Backspace' || e.key === 'Delete') {
             onCloseClick?.();
         }

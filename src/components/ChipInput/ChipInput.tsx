@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import constants from '../../shared/constants';
@@ -135,6 +135,23 @@ const ErrorContainer = styled.div`
     margin-left: 3px;
 `;
 
+// Visually hidden but accessible to screen readers
+const VisuallyHidden = styled.ul`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+
+    & li {
+        list-style: none;
+    }
+`;
+
 /**
  * A chip input component that allows users to add and remove chips (tags) by typing and pressing Enter.
  * @component
@@ -155,6 +172,19 @@ export default function ChipInput(
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState<string[]>(props.value);
     const InputRef = React.useRef<HTMLInputElement>(null);
+    const [announcement, setAnnouncement] = useState('');
+    const errorId = useId();
+
+    /**
+     * Replace {:label} placeholder in template string
+     */
+    const replacePlaceholder = (
+        template: string | undefined,
+        label: string,
+    ): string | undefined => {
+        if (!template) return undefined;
+        return template.replace(/\{:label\}/g, label);
+    };
 
     // Sync internal value with props.value
     useEffect(() => {
@@ -201,6 +231,7 @@ export default function ChipInput(
             const newValue = [...value, text.trim()];
             updateValue(newValue);
             setText('');
+            setAnnouncement(replacePlaceholder(props.addedAnnouncementTemplate, text.trim())!);
         }
     };
 
@@ -211,6 +242,7 @@ export default function ChipInput(
     const removeChip = (chipToRemove: string) => {
         const newValue = value.filter((chip) => chip !== chipToRemove);
         updateValue(newValue);
+        setAnnouncement(replacePlaceholder(props.removedAnnouncementTemplate, chipToRemove)!);
     };
 
     /**
@@ -231,28 +263,44 @@ export default function ChipInput(
 
     // Render the component
     return (
-        <Label text={text} touched={touched} errorText={props.errorText}>
-            <input
-                {...props}
-                ref={InputRef}
-                value={text}
-                onChange={handleChange}
-                onFocus={handleFocus}
-                onKeyUp={handleKeyUp}
-                required={props.required && value.length === 0}
-            />
-            <div>
-                {value?.length > 0 && (
-                    <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
-                        {value.map((chip) => (
-                            <Chip key={chip} label={chip} onCloseClick={() => removeChip(chip)} />
-                        ))}
-                    </DragAndDrop>
-                )}
-            </div>
-            <span>{props.label}</span>
-            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
-        </Label>
+        <>
+            <Label text={text} touched={touched} errorText={props.errorText}>
+                <input
+                    {...props}
+                    ref={InputRef}
+                    value={text}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    onKeyUp={handleKeyUp}
+                    required={props.required && value.length === 0}
+                    aria-required={props.required}
+                    aria-invalid={!!props.errorText}
+                    aria-describedby={props.errorText ? errorId : undefined}
+                />
+                <div aria-hidden="true">
+                    {value?.length > 0 && (
+                        <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
+                            {value.map((chip) => (
+                                <Chip
+                                    key={chip}
+                                    label={chip}
+                                    onCloseClick={() => removeChip(chip)}
+                                    closeButtonAriaLabel={replacePlaceholder(
+                                        props.closeButtonAriaLabel,
+                                        chip,
+                                    )}
+                                />
+                            ))}
+                        </DragAndDrop>
+                    )}
+                </div>
+                <span>{props.label}</span>
+                {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
+            </Label>
+            <VisuallyHidden aria-live="polite" aria-atomic="true">
+                {announcement}
+            </VisuallyHidden>
+        </>
     );
 }
 
@@ -265,8 +313,17 @@ ChipInput.propTypes = {
     value: PropTypes.arrayOf(PropTypes.string),
     /** Callback when chips change */
     onChange: PropTypes.func,
+    /** Aria label for the close button on chip. Defaults to "Remove {label}" */
+    closeButtonAriaLabel: PropTypes.string,
+    /** Announcement text when a chip is added. Defaults to "{label} was added" */
+    addedAnnouncementTemplate: PropTypes.string,
+    /** Announcement text when a chip is removed. Defaults to "{label} was removed" */
+    removedAnnouncementTemplate: PropTypes.string,
 };
 
 ChipInput.defaultProps = {
     value: [],
+    closeButtonAriaLabel: 'Remove {:label}',
+    addedAnnouncementTemplate: '{:label} was added',
+    removedAnnouncementTemplate: '{:label} was removed',
 };
