@@ -7,7 +7,7 @@ interface ChipProps {
     /** Label for the chip */
     label: string;
     /** Callback when the close button is clicked */
-    onCloseClick?: () => void;
+    onCloseClick?: (e: React.KeyboardEvent | React.MouseEvent) => void;
     /** Aria label for the close button. Defaults to "Remove {label}" */
     closeButtonAriaLabel?: string;
 }
@@ -42,14 +42,25 @@ export default function Chip(props: ChipProps & React.HTMLAttributes<HTMLSpanEle
 
     const keyUpHandler: React.KeyboardEventHandler<HTMLSpanElement> = (e) => {
         if (e.key === 'Backspace' || e.key === 'Delete') {
-            onCloseClick?.();
+            onCloseClick?.(e);
+        }
+    };
+
+    const buttonKeyDownHandler: React.KeyboardEventHandler<HTMLButtonElement> = (e) => {
+        // Stop propagation to prevent DragAndDrop from capturing Space/Enter
+        if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter') {
+            e.stopPropagation();
         }
     };
 
     return (
         <Container {...rest} onKeyUp={keyUpHandler}>
             {label}
-            <Button onClick={onCloseClick} aria-label={closeButtonAriaLabel ?? `Remove ${label}`}>
+            <Button
+                onClick={onCloseClick}
+                onKeyDown={buttonKeyDownHandler}
+                aria-label={closeButtonAriaLabel ?? `Remove ${label}`}
+            >
                 <Close height={16} width={16} />
             </Button>
         </Container>
