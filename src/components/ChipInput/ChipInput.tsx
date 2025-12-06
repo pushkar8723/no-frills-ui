@@ -158,7 +158,9 @@ export default function ChipInput(
 
     // Sync internal value with props.value
     useEffect(() => {
-        setValue(props.value);
+        if (Array.isArray(props.value)) {
+            setValue(props.value);
+        }
     }, [props.value]);
 
     /**
@@ -233,7 +235,6 @@ export default function ChipInput(
             <input
                 {...props}
                 ref={InputRef}
-                type="text"
                 value={text}
                 onChange={handleChange}
                 onFocus={handleFocus}
