@@ -30,3 +30,49 @@ Following props are added on top of `HTMLInputElement` props.
 | --error-light   | Used for `box-shadow`.               |
 | --background    | Used for `background-color`.         |
 | --border-color  | Used for `border-color`.             |
+
+## Accessibility
+
+This component meets **WCAG 2.1 Level AA** standards.
+
+### Keyboard Navigation
+
+- **Text Input**: Standard keyboard input with Enter to add chips
+- **Tab Navigation**: Tab through input field and chip close buttons
+- **Chip Removal**: Click close button or press Backspace/Delete while focused on button
+- **Drag & Drop**: Visual reordering & keyboard reordering.
+
+### Screen Reader Support
+
+- **Live Announcements**: Chip additions and removals are announced via `aria-live` regions
+- **Chip List**: Chips are presented as a semantic list with proper `role="listitem"`
+- **Custom Labels**: Each chip's close button has descriptive `aria-label` (e.g., "Remove JavaScript")
+- **Error Association**: Error messages are programmatically linked to the input via `aria-describedby`
+- **Invalid State**: Input exposes `aria-invalid="true"` when errors are present
+
+### Error Handling
+
+- **Visual**: Errors displayed below input with error color and styling
+- **Programmatic**: Errors linked to input via unique ID and `aria-describedby`
+- **State Indication**: `aria-invalid` attribute indicates validation state
+
+### Internationalization (i18n)
+
+The component supports custom messages for screen reader announcements:
+
+- **`closeButtonAriaLabel`**: Customize close button label.
+- **`addedAnnouncementTemplate`**: Customize add announcement.
+- **`removedAnnouncementTemplate`**: Customize remove announcement.
+
+All templates support `{:label}` placeholder syntax for the chip value.
+
+Example with i18n:
+
+```tsx
+<ChipInput
+    label="Ingrese sus habilidades"
+    closeButtonAriaLabel="Eliminar {:label}"
+    addedAnnouncementTemplate="Se agregó {:label}"
+    removedAnnouncementTemplate="Se eliminó {:label}"
+/>
+```
