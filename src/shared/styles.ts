@@ -7,7 +7,7 @@ export const Ellipsis = styled.span`
     overflow: hidden;
 `;
 
-export const Header = styled.div`
+export const Header = styled.h1`
     padding: 10px 15px;
     line-height: 26px;
     border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
