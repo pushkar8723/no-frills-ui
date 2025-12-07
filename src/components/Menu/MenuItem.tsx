@@ -35,9 +35,9 @@ const Container = styled.button<{ selected: boolean }>`
 
 const MenuItem = React.forwardRef<
     HTMLButtonElement,
-    MenuItemProps<any> & React.PropsWithChildren<unknown>
+    MenuItemProps<unknown> & React.PropsWithChildren<unknown>
 >((props, ref) => {
-    const context = useContext(MenuContext) as MenuContextType<any>;
+    const context = useContext(MenuContext) as MenuContextType<unknown>;
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
