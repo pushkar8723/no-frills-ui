@@ -2,6 +2,10 @@ import React, { useState, ReactNode, ForwardedRef } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import MenuContext from './MenuContext';
+/**
+ * Props for the Menu component.
+ * @template T - The type of value(s) in the menu.
+ */
 interface MenuProps<T> {
     /** Multiple Menu Items can be selected */
     multiSelect?: boolean;
@@ -27,6 +31,14 @@ const MenuContainer = styled.div`
     }
 `;
 
+/**
+ * Menu component that allows selection of items from a list.
+ * Supports single and multi-select modes and keyboard navigation.
+ *
+ * @template T - The type of value(s) in the menu.
+ * @param {MenuProps<T> & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>} props - The menu properties.
+ * @param {ForwardedRef<HTMLDivElement>} ref - The ref forwarded to the menu container.
+ */
 const Menu = React.forwardRef(function <T extends object>(
     props: MenuProps<T> & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
     ref: ForwardedRef<HTMLDivElement>,
@@ -34,6 +46,12 @@ const Menu = React.forwardRef(function <T extends object>(
     const { multiSelect, onChange, value: propValue, ...rest } = props;
     const [value, setValue] = useState(propValue || (multiSelect ? [] : ''));
 
+    /**
+     * Updates the selected value(s).
+     * Handles both single and multi-select logic.
+     *
+     * @param {T} val - The value to select or deselect.
+     */
     const updateValue = (val: T) => {
         let newVal;
         if (multiSelect) {
@@ -51,6 +69,12 @@ const Menu = React.forwardRef(function <T extends object>(
         onChange?.(newVal);
     };
 
+    /**
+     * Handles keyboard navigation within the menu.
+     * Supports Arrow keys for navigation, and Enter/Space for selection.
+     *
+     * @param {React.KeyboardEvent} e - The keyboard event.
+     */
     const handleKeyDown = (e: React.KeyboardEvent) => {
         const target = e.target as HTMLElement;
         const container = e.currentTarget as HTMLElement;
@@ -90,6 +114,12 @@ const Menu = React.forwardRef(function <T extends object>(
         }
     };
 
+    /**
+     * Handles focus events on the menu container.
+     * Delegates focus to the first item if the container itself receives focus.
+     *
+     * @param {React.FocusEvent} e - The focus event.
+     */
     const focusHandler = (e: React.FocusEvent) => {
         // Prevent trap: If focus came from inside (Shift+Tab), do NOT auto-focus again.
         // This allows focus to land on the container, and the next Shift+Tab will exit.
