@@ -47,3 +47,25 @@ const [open, setOpen] = useState(false);
 | `--nfui-backdrop-color` | Used for `background-color`. |
 | `--nfui-modal-shadow`   | Used for `box-shadow`.       |
 | `--nfui-background`     | Used for `background-color`. |
+
+## Accessibility
+
+The Modal component is designed to be **WCAG 2.1 AA compliant**. It follows the [WAI-ARIA Dialog (Modal)](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) pattern.
+
+### ARIA Attributes
+
+- **Role**: The modal is identified as a dialog using `role="dialog"`.
+- **Modal**: The `aria-modal="true"` attribute is used to indicate that the modal traps focus.
+
+### Focus Management
+
+- **Focus Trap**: When the modal is open, focus is constrained within the modal to prevent users from interacting with the background content.
+- **Initial Focus**: Focus is automatically set to the first focusable element inside the modal (or the modal header) when it opens.
+- **Focus Restoration**: When the modal is closed, focus is restored to the element that triggered the modal.
+
+### Keyboard Support
+
+| Key   | Action                                     |
+| :---- | :----------------------------------------- |
+| `Esc` | Closes the modal and restores focus.       |
+| `Tab` | Moves focus to the next focusable element. |
