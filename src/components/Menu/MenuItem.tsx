@@ -33,8 +33,11 @@ const Container = styled.button<{ selected: boolean }>`
     }
 `;
 
-export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChildren<unknown>) {
-    const context = useContext(MenuContext) as MenuContextType<T>;
+const MenuItem = React.forwardRef<
+    HTMLButtonElement,
+    MenuItemProps<any> & React.PropsWithChildren<unknown>
+>((props, ref) => {
+    const context = useContext(MenuContext) as MenuContextType<any>;
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
@@ -51,13 +54,20 @@ export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChi
     return (
         <Container
             {...rest}
+            ref={ref}
             type="button"
-            tabIndex={context.multiSelect ? -1 : 0}
+            role="option"
+            aria-selected={selected}
+            tabIndex={-1}
             selected={selected}
             onClick={clickHandler}
         >
-            {context.multiSelect && <Checkbox checked={selected} />}
+            {context.multiSelect && <Checkbox checked={selected} tabIndex={-1} />}
             {children}
         </Container>
     );
-}
+});
+
+MenuItem.displayName = 'MenuItem';
+
+export default MenuItem;

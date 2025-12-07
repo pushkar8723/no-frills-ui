@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import { Card } from '../../../src/components/Card';
 import { Menu, MenuItem } from '../../../src/components/Menu';
 
 const meta: Meta<typeof Menu> = {
@@ -14,22 +13,33 @@ type Story = StoryObj<typeof Menu>;
 export const Variants: Story = {
     render: () => (
         <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-            <Card style={{ width: '200px' }}>
-                <Menu>
-                    <MenuItem value="apple">Apple</MenuItem>
-                    <MenuItem value="orange">Orange</MenuItem>
-                    <MenuItem value="mango">Mango</MenuItem>
-                    <MenuItem value="Banana">Banana</MenuItem>
-                </Menu>
-            </Card>
-            <Card style={{ width: '200px' }}>
-                <Menu multiSelect>
-                    <MenuItem value="apple">Apple</MenuItem>
-                    <MenuItem value="orange">Orange</MenuItem>
-                    <MenuItem value="mango">Mango</MenuItem>
-                    <MenuItem value="Banana">Banana</MenuItem>
-                </Menu>
-            </Card>
+            <Menu
+                style={{
+                    maxWidth: '200px',
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                }}
+            >
+                <MenuItem value="apple">Apple</MenuItem>
+                <MenuItem value="orange">Orange</MenuItem>
+                <MenuItem value="mango">Mango</MenuItem>
+                <MenuItem value="Banana">Banana</MenuItem>
+            </Menu>
+            <Menu
+                multiSelect
+                style={{
+                    maxWidth: '200px',
+                    backgroundColor: 'white',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                }}
+            >
+                <MenuItem value="apple">Apple</MenuItem>
+                <MenuItem value="orange">Orange</MenuItem>
+                <MenuItem value="mango">Mango</MenuItem>
+                <MenuItem value="Banana">Banana</MenuItem>
+            </Menu>
         </div>
     ),
     parameters: {

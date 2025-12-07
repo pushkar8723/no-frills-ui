@@ -34,32 +34,16 @@ export default function Dropdown<T extends object>(props: DropdownProps<T>) {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(props.value);
 
+    // Focus menu when opened
     useEffect(() => {
-        const focusHandler = (e: KeyboardEvent) => {
-            if (open && (e.keyCode === 38 || e.keyCode === 40)) {
-                e.preventDefault();
-                const current = document.querySelector(':focus');
-                if (current.tagName === 'DIV') {
-                    const firstBtn = current.querySelector('button');
-                    firstBtn?.focus();
-                } else {
-                    const currentBtn = current.closest('button');
-                    if (e.keyCode === 38) {
-                        const prev = currentBtn?.previousElementSibling?.closest('button');
-                        prev?.focus();
-                    } else {
-                        const next = currentBtn?.nextElementSibling?.closest('button');
-                        next?.focus();
-                    }
-                }
-                return false;
-            }
-        };
-        document.addEventListener('keydown', focusHandler);
-
-        return () => {
-            document.removeEventListener('keydown', focusHandler);
-        };
+        if (open) {
+            // Find the listbox and focus it
+            // We use a timeout to ensure popover is rendered
+            setTimeout(() => {
+                const listbox = document.querySelector('[role="listbox"]') as HTMLElement;
+                listbox?.focus();
+            }, 0);
+        }
     }, [open]);
 
     const clickHandler = () => setOpen(true);
