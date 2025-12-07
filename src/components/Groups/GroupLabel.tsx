@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 export default styled.label`
     height: 32px;
-    background-color: ${constants.DISABLED_BACKGROUND};
+    background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
     padding: 0 4px;
     line-height: 32px;
     min-width: 24px;
     text-align: center;
-    color: ${constants.BORDER_COLOR};
+    color: ${getThemeValue(THEME_NAME.BORDER_COLOR)};
 
     & > svg {
         height: 24px;

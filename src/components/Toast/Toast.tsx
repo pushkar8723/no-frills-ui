@@ -1,6 +1,6 @@
 import { createRoot, type Root } from 'react-dom/client';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import { Card } from '../Card';
 
@@ -23,15 +23,15 @@ export enum TOAST_TYPE {
 const getBackgroundColor = (type: TOAST_TYPE) => {
     switch (type) {
         case TOAST_TYPE.INFO:
-            return `var(--info, ${constants.INFO})`;
+            return getThemeValue(THEME_NAME.INFO);
         case TOAST_TYPE.SUCCESS:
-            return `var(--success, ${constants.SUCCESS})`;
+            return getThemeValue(THEME_NAME.SUCCESS);
         case TOAST_TYPE.WARNING:
-            return `var(--warning, ${constants.WARNING})`;
+            return getThemeValue(THEME_NAME.WARNING);
         case TOAST_TYPE.DANGER:
-            return `var(--error, ${constants.ERROR})`;
+            return getThemeValue(THEME_NAME.ERROR);
         case TOAST_TYPE.NORMAL:
-            return `var(--toast, ${constants.TOAST})`;
+            return getThemeValue(THEME_NAME.TOAST);
     }
 };
 
@@ -40,7 +40,7 @@ const ToastContainer = styled(Card)<{ type: TOAST_TYPE }>`
     border-radius: 3px;
     padding: 12px;
     background-color: ${(props) => getBackgroundColor(props.type)};
-    color: #fff;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     margin: 20px;
     font-size: 14px;
     line-height: 20px;
@@ -75,7 +75,7 @@ const TextContainer = styled.div`
 
 const CloseContainer = styled.button`
     background-color: transparent;
-    color: var(--primary, ${constants.PRIMARY_LIGHT});
+    color: ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     padding: 6px 10px;
     border: none;
     border-radius: 3px;

@@ -1,7 +1,7 @@
 import React, { useEffect, useId, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import Chip from '../Chip/Chip';
 import { DragAndDrop, ORIENTATION } from '../DragAndDrop';
 
@@ -23,46 +23,46 @@ const Label = styled.label<{
     padding: 0 8px;
     width: 250px;
     border-radius: 3px;
-    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
-    background-color: var(--background, ${constants.BACKGROUND});
+    border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
+    background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
 
     /** Focused */
     &:has(:focus),
     &:has(:active) {
-        border-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:has(:focus) > span,
     &:has(:active) > span {
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /** Disabled */
     &:has(:disabled) {
-        border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
-        background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
+        border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
     }
 
     &:has(:disabled) > span {
-        color: #777;
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 
     /** Invalid */
     &:has(:focus:invalid) {
-        border-color: var(--error, ${constants.ERROR});
-        box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.ERROR)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.ERROR_LIGHT)};
     }
 
     ${(props) =>
         props.touched
             ? `
         &:has(:invalid) {
-            border-color: var(--error, ${constants.ERROR});
+            border-color: ${getThemeValue(THEME_NAME.ERROR)};
         }
     
         &:has(:invalid) > span {
-            color: var(--error, ${constants.ERROR});
+            color: ${getThemeValue(THEME_NAME.ERROR)};
         }
         `
             : ''}
@@ -71,10 +71,10 @@ const Label = styled.label<{
     ${(props) =>
         props.errorText
             ? `
-        border-color: var(--error, ${constants.ERROR});
+        border-color: ${getThemeValue(THEME_NAME.ERROR)};
 
         & > span {
-            color: var(--error, ${constants.ERROR});
+            color: ${getThemeValue(THEME_NAME.ERROR)};
         }
         `
             : ''}
@@ -83,7 +83,7 @@ const Label = styled.label<{
     &:has(:required) > span:after {
         content: '*';
         margin-left: 2px;
-        color: var(--error, ${constants.ERROR});
+        color: ${getThemeValue(THEME_NAME.ERROR)};
     }
 
     & > input {
@@ -108,7 +108,7 @@ const Label = styled.label<{
     &:has(:focus) > span,
     &:has(:placeholder-shown) > span {
         top: -8px;
-        background: var(--background, ${constants.BACKGROUND});
+        background: ${getThemeValue(THEME_NAME.BACKGROUND)};
         font-size: 12px;
         line-height: 14px;
     }
@@ -118,7 +118,7 @@ const Label = styled.label<{
             ? `
     & > span {
         top: -8px;
-        background: var(--background, ${constants.BACKGROUND});
+        background: ${getThemeValue(THEME_NAME.BACKGROUND)};
         font-size: 12px;
         line-height: 14px;
     }
@@ -128,7 +128,7 @@ const Label = styled.label<{
 
 // Error message container
 const ErrorContainer = styled.div`
-    color: var(--error, ${constants.ERROR});
+    color: ${getThemeValue(THEME_NAME.ERROR)};
     padding-top: 3px;
     font-size: 12px;
     line-height: 14px;

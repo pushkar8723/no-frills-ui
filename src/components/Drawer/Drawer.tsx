@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 
 export {
@@ -41,9 +41,9 @@ const positionStyle = (size: string) => ({
 const DrawerDiv = styled.div<{ position: DRAWER_POSITION; size: string }>`
     display: flex;
     flex-direction: column;
-    background-color: #fff;
+    background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     transition: transform 0.3s ease;
-    box-shadow: var(--modal-shadow, ${constants.MODAL_SHADOW});
+    box-shadow: ${getThemeValue(THEME_NAME.MODAL_SHADOW)};
     ${(props) => positionStyle(props.size)[props.position].before}
 
     .nf-layer-enter & {

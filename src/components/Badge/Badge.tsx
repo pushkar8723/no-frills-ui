@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { THEME_NAME, getThemeValue } from '../../shared/constants';
 
 export enum BADGE_TYPE {
     PRIMARY = 'primary',
@@ -17,22 +17,22 @@ const BadgeSpan = styled.span<BadgeProps>`
     background-color: ${(props) => {
         switch (props.type) {
             case BADGE_TYPE.SUCCESS:
-                return `var(--success, ${constants.SUCCESS})`;
+                return getThemeValue(THEME_NAME.SUCCESS);
 
             case BADGE_TYPE.WARNING:
-                return `var(--info, ${constants.WARNING})`;
+                return getThemeValue(THEME_NAME.WARNING);
 
             case BADGE_TYPE.DANGER:
-                return `var(--error, ${constants.ERROR})`;
+                return getThemeValue(THEME_NAME.ERROR);
 
             case BADGE_TYPE.DISABLED:
-                return `var(--disabled, ${constants.DISABLED})`;
+                return getThemeValue(THEME_NAME.DISABLED);
 
             default:
-                return `var(--primary, ${constants.PRIMARY})`;
+                return getThemeValue(THEME_NAME.PRIMARY);
         }
     }};
-    color: #fff;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     border-radius: 10px;
     padding: ${(props) => (props.children ? '3px 10px' : '4px')};
     display: inline-block;

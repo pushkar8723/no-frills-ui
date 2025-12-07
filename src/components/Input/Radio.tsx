@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const Label = styled.label`
     display: inline-flex;
@@ -18,7 +18,7 @@ const Input = styled.input`
         width: 16px;
         height: 16px;
         margin: 0 5px;
-        border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+        border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
         border-radius: 50%;
         display: block;
         transition: background-color 0.3s ease;
@@ -26,51 +26,51 @@ const Input = styled.input`
 
     /* checked */
     &:checked::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
-        background-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: inset 0 0 0 3px var(--background, ${constants.BACKGROUND});
+        border: 1px solid ${getThemeValue(THEME_NAME.PRIMARY)};
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: inset 0 0 0 3px ${getThemeValue(THEME_NAME.BACKGROUND)};
     }
 
     /* focus */
     &:enabled:focus::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT});
+        border: 1px solid ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 3px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
         cursor: pointer;
     }
 
     &:enabled:checked:focus::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
+        border: 1px solid ${getThemeValue(THEME_NAME.PRIMARY)};
         box-shadow:
-            0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT}),
-            inset 0 0 0 3px var(--background, ${constants.BACKGROUND});
+            0 0 0 3px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)},
+            inset 0 0 0 3px ${getThemeValue(THEME_NAME.BACKGROUND)};
         cursor: pointer;
     }
 
     /* hover */
     &:enabled:hover::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
+        border: 1px solid ${getThemeValue(THEME_NAME.PRIMARY)};
         cursor: pointer;
     }
 
     &:enabled:hover + span {
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
         cursor: pointer;
     }
 
     /* disabled */
     &:disabled::before {
-        border: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
-        background-color: var(--light-grey, ${constants.LIGHT_GREY});
+        border: 1px solid ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        background-color: ${getThemeValue(THEME_NAME.LIGHT_GREY)};
     }
 
     &:disabled:checked::before {
-        border: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
-        background-color: var(--disabled-border, ${constants.DISABLED_BORDER});
-        box-shadow: inset 0 0 0 3px var(--background, ${constants.BACKGROUND});
+        border: 1px solid ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        box-shadow: inset 0 0 0 3px ${getThemeValue(THEME_NAME.BACKGROUND)};
     }
 
     &:disabled + span {
-        color: var(--disabled-border, ${constants.DISABLED_BORDER});
+        color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     }
 `;
 

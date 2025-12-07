@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useContext } from 'react';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import Checkbox from '../Input/Checkbox';
 import MenuContext, { MenuContextType } from './MenuContext';
 
@@ -15,7 +15,7 @@ const Container = styled.button<{ selected: boolean }>`
     border: none;
     background-color: transparent;
     font-size: 16px;
-    border-bottom: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+    border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
     min-height: 41px;
     display: flex;
     align-items: center;
@@ -25,7 +25,7 @@ const Container = styled.button<{ selected: boolean }>`
     &:hover,
     &:focus,
     &:focus-within {
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        background-color: ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
     }
 
     & > label {

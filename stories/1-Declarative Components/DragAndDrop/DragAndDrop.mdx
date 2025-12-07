@@ -58,6 +58,14 @@ export default function DragAndDropDemo(prop) {
 
 <Controls of={DragAndDropStories.Primary} />
 
+## CSS Variables used
+
+| Variable Name   | Description                                        |
+| :-------------- | :------------------------------------------------- |
+| --disabled      | Used for `color`.                                  |
+| --primary       | Used for focus `box-shadow` and drop zone borders. |
+| --primary-light | Used for focus `box-shadow`.                       |
+
 ## Accessibility
 
 This component meets **WCAG 2.1 Level AA** standards.
@@ -113,11 +121,3 @@ Example with Spanish:
     movedAnnouncementTemplate="Elemento movido a posición {:position}"
 />
 ```
-
-## CSS Variables used
-
-| Variable Name   | Description                                        |
-| :-------------- | :------------------------------------------------- |
-| --disabled      | Used for `color`.                                  |
-| --primary       | Used for focus `box-shadow` and drop zone borders. |
-| --primary-light | Used for focus `box-shadow`.                       |

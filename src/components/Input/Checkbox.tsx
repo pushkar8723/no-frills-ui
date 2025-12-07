@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const Label = styled.label`
     margin: 5px 0;
@@ -17,14 +17,14 @@ const Input = styled.input`
         content: '';
         width: 16px;
         height: 16px;
-        border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+        border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
         display: inline-block;
         border-radius: 3px;
         vertical-align: bottom;
         margin: 0 5px;
         text-align: center;
         line-height: 16px;
-        background-color: var(--background, ${constants.BACKGROUND});
+        background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
         transition: background-color 0.3s ease;
     }
 
@@ -32,8 +32,8 @@ const Input = styled.input`
         content: '';
         width: 3px;
         height: 10px;
-        border-right: 2px solid #fff;
-        border-bottom: 2px solid #fff;
+        border-right: 2px solid ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
+        border-bottom: 2px solid ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
         transform: translate(-16px, 1px);
         opacity: 0;
         transition: transform 0.3s ease;
@@ -43,9 +43,9 @@ const Input = styled.input`
     /** checked */
     &:checked::before {
         content: '';
-        background-color: var(--primary, ${constants.PRIMARY});
-        border-color: var(--primary, ${constants.PRIMARY});
-        color: #fff;
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     }
 
     &:checked::after {
@@ -56,9 +56,9 @@ const Input = styled.input`
     /** indeterminate */
     &:indeterminate::before {
         content: '';
-        background-color: var(--primary, ${constants.PRIMARY});
-        border-color: var(--primary, ${constants});
-        color: #fff;
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     }
 
     &:indeterminate::after {
@@ -70,36 +70,36 @@ const Input = styled.input`
     /** active and focus */
     &:enabled:active::before,
     &:focus::before {
-        border-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 3px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:enabled:active + span,
     &:focus + span {
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /** hover */
     &:enabled:hover::before {
-        border-color: var(--primary, ${constants.PRIMARY});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     &:enabled:hover + span {
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /** disabled */
     &:disabled::before {
-        border-color: #aaa;
+        border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     }
 
     &:disabled + span {
-        color: #aaa;
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 
     &:checked:disabled::before,
     &:indeterminate:disabled::before {
-        background-color: #aaa;
+        background-color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 `;
 

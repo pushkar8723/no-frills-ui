@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FiberManualRecord, ExpandMore } from '../../icons';
-import constants from '../../shared/constants';
+import { THEME_NAME, getThemeValue } from '../../shared/constants';
 import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
 import { Card } from '../Card';
@@ -12,11 +12,7 @@ const Step = styled(Card)<AccordionStepProps>`
     transition: all 0.6s ease;
     overflow: visible;
 
-    ${(props) =>
-        props.open &&
-        `
-        margin: 20px 5px;
-    `}
+    ${(props) => props.open && `margin: 20px 5px;`}
 `;
 
 const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
@@ -30,7 +26,7 @@ const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
     font-size: inherit;
 
     &:focus-visible {
-        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     & input {
@@ -39,20 +35,9 @@ const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
     }
 
     ${(props) =>
-        props.open
-            ? `
-        border-bottom: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
-    `
-            : ''}
+        props.open && `border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};`}
 
-    ${(props) =>
-        props.disabled
-            ? `
-        color: ${constants.DISABLED};
-    `
-            : `
-        cursor: pointer;
-    `}
+    ${(props) => props.disabled && `color: ${getThemeValue(THEME_NAME.DISABLED)};`}
 `;
 
 const HeaderContainer = styled.div<{ open: boolean; completed: boolean }>`
@@ -65,10 +50,10 @@ const HeaderContainer = styled.div<{ open: boolean; completed: boolean }>`
         margin-right: 10px;
         fill: ${(props) =>
             props.open
-                ? `var(--primary, ${constants.PRIMARY})`
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : props.completed
-                  ? `var(--success, ${constants.SUCCESS})`
-                  : constants.LIGHT_GREY};
+                  ? getThemeValue(THEME_NAME.SUCCESS)
+                  : getThemeValue(THEME_NAME.LIGHT_GREY)};
         transform: ${(props) => (props.open ? 'scale(0.8)' : 'scale(0.6)')};
         transition: all 0.3s ease;
         min-width: 24px;
@@ -86,14 +71,7 @@ const ExpandContainer = styled.div<{ open: boolean }>`
         fill: currentColor;
     }
 
-    ${(props) =>
-        props.open
-            ? `
-        & svg {
-            transform: rotate(180deg);
-        }
-    `
-            : ''}
+    ${(props) => (props.open ? `& svg { transform: rotate(180deg); }` : '')}
 `;
 
 const StepBody = styled.div<{ height: number }>`
@@ -110,7 +88,7 @@ export const AccordionStepFooter = styled.div`
     display: flex;
     justify-content: flex-end;
     padding: 10px 15px;
-    border-top: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+    border-top: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
 `;
 
 export default function AccordionStep(props: React.PropsWithChildren<AccordionStepProps>) {

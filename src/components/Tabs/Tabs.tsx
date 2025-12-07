@@ -1,7 +1,7 @@
 import { useState, Children, useEffect, PropsWithChildren, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const Button = styled.button<{ active: boolean }>`
     background-color: transparent;
@@ -10,28 +10,31 @@ const Button = styled.button<{ active: boolean }>`
     font-size: 14px;
     border-radius: 3px 3px 0 0;
     border-bottom: ${(props) =>
-        props.active ? `3px solid var(--primary, ${constants.PRIMARY})` : 'none'};
-    color: ${(props) => (props.active ? `var(--primary, ${constants.PRIMARY})` : '#000')};
+        props.active ? `3px solid ${getThemeValue(THEME_NAME.PRIMARY)}` : 'none'};
+    color: ${(props) =>
+        props.active
+            ? getThemeValue(THEME_NAME.PRIMARY)
+            : getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
     cursor: pointer;
 
     &:hover,
     &:focus {
-        background-color: var(--primary-lighter, #cfe9ff);
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY_LIGHTER)};
         border-bottom: ${(props) =>
             props.active
-                ? `3px solid var(--primary, ${constants.PRIMARY})`
-                : `3px solid var(--primary, ${constants.PRIMARY})`};
+                ? `3px solid ${getThemeValue(THEME_NAME.PRIMARY)}`
+                : `3px solid ${getThemeValue(THEME_NAME.PRIMARY)}`};
     }
 
     &[disabled] {
-        background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
-        color: var(--disabled, ${constants.DISABLED});
-        border-bottom: 3px solid var(--disabled-border, ${constants.DISABLED_BORDER});
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
+        border-bottom: 3px solid ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     }
 `;
 
 const ButtonContainer = styled.div`
-    border-bottom: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
+    border-bottom: 1px solid ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     margin-bottom: 5px;
     position: relative;
 `;

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { THEME_NAME, getThemeValue } from '../../shared/constants';
 
 export interface CardExtraProps {
     elevated?: boolean;
@@ -7,11 +7,11 @@ export interface CardExtraProps {
 
 const Card = styled.div<CardExtraProps>`
     border-radius: 10px;
-    background-color: var(--background, ${constants.BACKGROUND});
+    background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     ${(props) =>
         props.elevated
-            ? `box-shadow: var(--modal-shadow, ${constants.MODAL_SHADOW});`
-            : `box-shadow: var(--shadow, ${constants.SHADOW});`}
+            ? `box-shadow: ${getThemeValue(THEME_NAME.MODAL_SHADOW)};`
+            : `box-shadow: ${getThemeValue(THEME_NAME.SHADOW)};`}
     margin: 5px;
     overflow: auto;
     position: relative;

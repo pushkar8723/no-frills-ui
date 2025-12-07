@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const Switch = styled.label`
     position: relative;
@@ -18,7 +18,7 @@ const Input = styled.input`
         cursor: pointer;
         width: 30px;
         height: 18px;
-        background-color: ${constants.LIGHT_GREY};
+        background-color: ${getThemeValue(THEME_NAME.LIGHT_GREY)};
         transition: 0.4s;
         border-radius: 10px;
         padding: 0 3px;
@@ -31,47 +31,47 @@ const Input = styled.input`
         width: 14px;
         left: 1px;
         top: 1px;
-        border: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
+        border: 1px solid ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
         border-radius: 50%;
-        background-color: var(--background, ${constants.BACKGROUND});
+        background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
         transition: 0.4s;
     }
 
     /* checked */
     &:checked + span {
-        background-color: var(--primary, ${constants.PRIMARY_LIGHT});
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:checked + span:before {
         transform: translateX(18px);
-        border-color: var(--primary, ${constants.PRIMARY});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /* focus */
     &:enabled:focus + span:before {
-        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT});
-        border-color: var(--primary, ${constants.PRIMARY});
+        box-shadow: 0 0 0 3px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /* hover */
     &:enabled:hover ~ span {
         cursor: pointer;
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /* disabled */
     &:disabled ~ span {
-        color: var(--disabled-border, ${constants.DISABLED_BORDER});
+        color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     }
 
     &:disabled + span {
-        background-color: ${constants.LIGHT_GREY};
+        background-color: ${getThemeValue(THEME_NAME.LIGHT_GREY)};
         cursor: not-allowed;
     }
 
     &:disabled + span:before {
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
-        border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
+        background-color: ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
+        border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     }
 `;
 

@@ -8,7 +8,7 @@ import {
 } from 'react';
 import styled from '@emotion/styled';
 import { DragIndicator } from '../../icons';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import { ORIENTATION, DragContext } from './types';
 
 interface DragItemProps {
@@ -39,28 +39,28 @@ const Item = styled.div<{
     border-top: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.VERTICAL && props.active > 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
     border-bottom: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.VERTICAL && props.active < 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
     border-left: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.HORIZONTAL && props.active > 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
     border-right: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.HORIZONTAL && props.active < 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
     opacity: ${(props) => (props.dragging ? 0.5 : 1)};
     border-radius: 10px;
 
     &:focus {
-        box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:focus:not(:focus-visible) {
@@ -68,7 +68,7 @@ const Item = styled.div<{
     }
 
     &:focus-visible {
-        box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 `;
 
@@ -77,7 +77,7 @@ const DragKnob = styled.div`
     padding-top: 8px;
     cursor: move;
     touch-action: none;
-    color: var(--disabled, ${constants.DISABLED});
+    color: ${getThemeValue(THEME_NAME.DISABLED)};
 `;
 
 /** Container for the children */

@@ -1,7 +1,7 @@
 import { Children, PropsWithChildren, useState, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
 
@@ -21,7 +21,7 @@ const Header = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+    border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
 
     @media (min-width: 601px) {
         &::before {
@@ -30,7 +30,7 @@ const Header = styled.div`
             left: 0;
             right: 0;
             height: 2px;
-            background-color: var(--light-grey, ${constants.LIGHT_GREY});
+            background-color: ${getThemeValue(THEME_NAME.LIGHT_GREY)};
             content: ' ';
             z-index: 0;
         }
@@ -48,8 +48,8 @@ const HeaderButton = styled.button<{ active: boolean }>`
     cursor: pointer;
     background-color: ${(props) =>
         props.active
-            ? `var(--border-light-color, ${constants.BORDER_LIGHT_COLOR})`
-            : `var(--background, ${constants.BACKGROUND})`};
+            ? getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)
+            : getThemeValue(THEME_NAME.BACKGROUND)};
     font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
     overflow: hidden;
     display: flex;
@@ -57,12 +57,12 @@ const HeaderButton = styled.button<{ active: boolean }>`
 
     &:disabled {
         cursor: not-allowed;
-        background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
     }
 
     &:enabled:hover,
     &:focus {
-        background-color: var(--primary-light, ${constants.PRIMARY_LIGHTER});
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY_LIGHTER)};
     }
 
     @media (max-width: 600px) {

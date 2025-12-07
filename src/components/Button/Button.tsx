@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const StyledButton = styled.button`
-    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+    border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     border-radius: 5px;
     height: 32px;
     min-width: 100px;
@@ -11,7 +11,7 @@ const StyledButton = styled.button`
     padding: 0 12px;
     cursor: pointer;
     color: inherit;
-    background-color: var(--background, ${constants.BACKGROUND});
+    background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 5px;
@@ -26,19 +26,19 @@ const StyledButton = styled.button`
     }
 
     &:enabled:hover {
-        border-color: var(--primary, ${constants.PRIMARY});
-        color: var(--primary, ${constants.PRIMARY});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     &:focus {
-        border-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:disabled {
-        background-color: var(--border-light-color, ${constants.DISABLED_BACKGROUND});
-        border-color: var(--light-grey, ${constants.LIGHT_GREY});
-        color: var(--disabled, ${constants.DISABLED});
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
+        border-color: ${getThemeValue(THEME_NAME.LIGHT_GREY)};
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 `;
 

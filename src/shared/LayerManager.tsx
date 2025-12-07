@@ -1,6 +1,7 @@
 import React, { ReactPortal, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from '@emotion/styled';
+import { getThemeValue, THEME_NAME } from './constants';
 
 /** Enums for layer position on screen. */
 export enum LAYER_POSITION {
@@ -73,7 +74,7 @@ const Container = styled.div<LayerConfig & { zIndex: number }>`
         `
         width: 100%;
         height: 100vh;
-        background-color: var(--backdrop-color, #2681da80);
+        background-color: ${getThemeValue(THEME_NAME.BACKDROP_COLOR)};
         backdrop-filter: blur(0px);
         pointer-events: all;
     `}

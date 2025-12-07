@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const Input = styled.input`
     appearance: none;
@@ -9,37 +9,37 @@ const Input = styled.input`
     width: 0;
 
     & + span {
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
         padding: 6px 12px;
         border: none;
-        border: 1px solid var(--primary, ${constants.PRIMARY});
+        border: 1px solid ${getThemeValue(THEME_NAME.PRIMARY)};
         cursor: pointer;
         margin-right: -1px;
         line-height: 18px;
     }
 
     &:enabled:focus + span {
-        box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:enabled:hover + span {
-        background-color: var(--primary, ${constants.PRIMARY_LIGHT});
-        color: #fff;
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
+        color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     }
 
     &:enabled:checked + span {
-        background-color: var(--primary, ${constants.PRIMARY});
-        color: #fff;
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     }
 
     &:disabled + span {
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
-        color: var(--disabled-border, ${constants.DISABLED_BORDER});
+        background-color: ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
+        color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     }
 
     &:disabled:checked + span {
-        background-color: var(--disabled-border, ${constants.DISABLED_BORDER});
-        color: #fff;
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     }
 `;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Close } from '../../icons';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 interface ChipProps {
     /** Label for the chip */
@@ -16,25 +16,25 @@ const Container = styled.span`
     padding: 5px;
     padding-left: 15px;
     border-radius: 16px;
-    background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+    background-color: ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
     display: inline-flex;
     margin: 5px;
     line-height: 20px;
     align-items: center;
-
-    &:focus-within {
-        outline: 2px solid var(--primary-light, ${constants.PRIMARY_LIGHT});
-    }
 `;
 
 const Button = styled.button`
-    color: var(--background-color, ${constants.BACKGROUND});
-    background-color: var(--border-color, ${constants.DISABLED});
+    color: ${getThemeValue(THEME_NAME.BACKGROUND)};
+    background-color: ${getThemeValue(THEME_NAME.DISABLED)};
     border-radius: 50%;
     border: none;
     padding: 4px;
     display: inline-flex;
     margin-left: 5px;
+
+    &:focus-within {
+        outline: 4px solid ${getThemeValue(THEME_NAME.ERROR_LIGHT)};
+    }
 `;
 
 export default function Chip(props: ChipProps & React.HTMLAttributes<HTMLSpanElement>) {

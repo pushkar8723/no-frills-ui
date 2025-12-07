@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import ExpandMore from '../../icons/ExpandMore';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 interface SelectProps
     extends
@@ -36,49 +36,49 @@ const SelectField = styled.select<SelectInternalProps>`
     min-height: 32px;
     width: 268px;
     border-radius: 3px;
-    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+    border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     display: inline-block;
-    background-color: var(--background, ${constants.BACKGROUND});
+    background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     pointer-events: auto;
     appearance: none;
 
     /** Focused */
     &:focus,
     &:active {
-        border-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:focus ~ span,
     &:active ~ span {
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /** Disabled */
     &:disabled {
-        border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
-        background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
+        border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
     }
 
     &:disabled ~ span {
-        color: var(--disabled, ${constants.DISABLED});
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 
     /** Invalid */
     &:focus:invalid {
-        border-color: var(--error, ${constants.ERROR});
-        box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.ERROR)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.ERROR_LIGHT)};
     }
 
     ${(props) =>
         props.touched
             ? `
     &:invalid {
-        border-color: var(--error, ${constants.ERROR});
+        border-color: ${getThemeValue(THEME_NAME.ERROR)};
     }
 
     &:invalid ~ span {
-        color: var(--error, ${constants.ERROR});
+        color: ${getThemeValue(THEME_NAME.ERROR)};
     }
     `
             : ''}
@@ -87,10 +87,10 @@ const SelectField = styled.select<SelectInternalProps>`
     ${(props) =>
         props.errorText
             ? `
-    border-color: var(--error, ${constants.ERROR});
+    border-color: ${getThemeValue(THEME_NAME.ERROR)};
 
     & ~ span {
-        color: var(--error, ${constants.ERROR});
+        color: ${getThemeValue(THEME_NAME.ERROR)};
     }
     `
             : ''}
@@ -99,7 +99,7 @@ const SelectField = styled.select<SelectInternalProps>`
     &:required + span:after {
         content: '*';
         margin-left: 2px;
-        color: var(--error, ${constants.ERROR});
+        color: ${getThemeValue(THEME_NAME.ERROR)};
     }
 
     /** Label Animation */
@@ -118,7 +118,7 @@ const SelectField = styled.select<SelectInternalProps>`
             ? `
     & + span {
         top: -8px;
-        background: var(--background, ${constants.BACKGROUND});
+        background: ${getThemeValue(THEME_NAME.BACKGROUND)};
         font-size: 12px;
         line-height: 14px;
     }
@@ -127,14 +127,14 @@ const SelectField = styled.select<SelectInternalProps>`
 
     &:focus + span, &:placeholder-shown + span {
         top: -8px;
-        background: var(--background, ${constants.BACKGROUND});
+        background: ${getThemeValue(THEME_NAME.BACKGROUND)};
         font-size: 12px;
         line-height: 14px;
     }
 `;
 
 const ErrorContainer = styled.div`
-    color: var(--error, ${constants.ERROR});
+    color: ${getThemeValue(THEME_NAME.ERROR)};
     padding-top: 3px;
     font-size: 12px;
     line-height: 14px;
