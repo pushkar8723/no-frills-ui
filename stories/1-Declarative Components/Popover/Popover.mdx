@@ -13,16 +13,24 @@ the container.
 <div>{PopoverStories.Positions.render()}</div>
 
 ```jsx
-import { useState } from 'react';
-import { Popover, POPOVER_POSITION } from 'no-frills-ui';
+import { useState, forwardRef } from 'react';
+import { Popover, POPOVER_POSITION, Button } from 'no-frills-ui';
 
 const [open, setOpen] = useState(false);
+
+// IMPORTANT: The trigger element must forward refs for focus restoration to work
+const TriggerButton = forwardRef((props, ref) => (
+    <Button ref={ref} onClick={() => setOpen(!open)} {...props}>
+        Open Popover
+    </Button>
+));
 
 // render
 <Popover
     open={open}
     position={POPOVER_POSITION.TOP_RIGHT}
-    element={<button onClick={() => setOpen(true)}>Open Popover</button>}
+    element={TriggerButton}
+    onClose={() => setOpen(false)}
 >
     Popover Content goes here
 </Popover>;
@@ -39,3 +47,22 @@ const [open, setOpen] = useState(false);
 | `--nfui-background`   | Used for `background-color`. |
 | `--nfui-shadow`       | Used for `box-shadow`.       |
 | `--nfui-modal-shadow` | Used for `box-shadow`.       |
+
+## Accessibility
+
+The Popover component is fully compliant with WCAG 2.1 AA guidelines:
+
+- **Semantic Role**: Uses `role="dialog"` to properly identify the popover as a dialog container for assistive technologies.
+- **ARIA Relationships**: The trigger element is associated with the popover via unique `aria-controls` and `aria-labelledby` attributes, ensuring screen readers can navigate the relationship.
+- **State Announcement**: The `aria-expanded` attribute announces the open/closed state of the popover to screen readers.
+- **Popup Type**: Uses `aria-haspopup="dialog"` to inform users that activating the trigger will open a dialog.
+- **Keyboard Support**:
+    - **ESC key** closes the popover (configurable via `closeOnEsc` prop)
+    - **Tab/Shift+Tab** navigation is trapped within the popover to prevent focus from escaping to background content
+    - Focus automatically moves to the popover when it opens
+- **Focus Management**:
+    - Implements a focus trap that keeps keyboard navigation contained within the popover while open
+    - **Focus Restoration**: Automatically returns focus to the trigger element when the popover closes
+    - **IMPORTANT**: The `element` prop must use `React.forwardRef()` to properly forward the ref for focus restoration to work correctly
+- **Click Outside**: Automatically closes when clicking outside the popover container.
+- **Viewport Awareness**: Automatically adjusts position to prevent overflow and ensure content remains visible.

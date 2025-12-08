@@ -49,20 +49,15 @@ export default function Dropdown<T extends object>(props: DropdownProps<T>) {
     // Focus menu when opened
     useEffect(() => {
         if (open) {
-            // Find the listbox and focus it
-            // We use a timeout to ensure popover is rendered
-            setTimeout(() => {
-                menuRef.current?.focus();
-            }, 0);
-        } else {
-            // Return focus to trigger when closed, but only if it was previously open
-            // and we are not unmounting (implied by effect dependency)
-            // check if focus is currently in the body or on the menu (don't steal focus if user clicked elsewhere)
-            // Ideally we check document.activeElement, but simple return is usually safe for this component's behavior
-            // We'll skip complex check for now as per plan focus restoration
-            if (document.activeElement && menuRef.current?.contains(document.activeElement)) {
-                triggerRef.current?.focus();
-            }
+            // Wait for Popover to fully open and focus itself first
+            // Then move focus to the first menu item
+            const timer = setTimeout(() => {
+                const firstItem = menuRef.current?.querySelector('[role="option"]') as HTMLElement;
+                if (firstItem) {
+                    firstItem.focus();
+                }
+            }, 100); // Wait after Popover has set initial focus
+            return () => clearTimeout(timer);
         }
     }, [open]);
 
@@ -102,33 +97,37 @@ export default function Dropdown<T extends object>(props: DropdownProps<T>) {
      */
     const clickHandler = () => setOpen(true);
 
+    const TriggerElement = React.forwardRef<HTMLInputElement>((passedProps, ref) => (
+        <>
+            <Input
+                {...passedProps}
+                ref={ref}
+                type="text"
+                value={value && String(value)}
+                label={props.label}
+                errorText={props.errorText}
+                onClick={clickHandler}
+                onKeyDown={onKeyDown}
+                required={props.required}
+                disabled={props.disabled}
+                readOnly
+                role="combobox"
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                aria-controls={menuId}
+            />
+            <ArrowContainer aria-hidden="true">
+                <ExpandMore />
+            </ArrowContainer>
+        </>
+    ));
+    TriggerElement.displayName = 'DropdownTrigger';
+
     return (
         <Popover
             position={POPOVER_POSITION.BOTTOM_LEFT}
             open={open}
-            element={() => (
-                <>
-                    <Input
-                        ref={triggerRef}
-                        type="text"
-                        value={value && String(value)}
-                        label={props.label}
-                        errorText={props.errorText}
-                        onClick={clickHandler}
-                        onKeyDown={onKeyDown}
-                        required={props.required}
-                        disabled={props.disabled}
-                        readOnly
-                        role="combobox"
-                        aria-haspopup="listbox"
-                        aria-expanded={open}
-                        aria-controls={menuId}
-                    />
-                    <ArrowContainer>
-                        <ExpandMore />
-                    </ArrowContainer>
-                </>
-            )}
+            element={TriggerElement}
             onClose={() => {
                 setOpen(false);
                 triggerRef.current?.focus();

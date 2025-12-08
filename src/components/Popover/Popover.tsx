@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Card } from '../Card';
@@ -96,16 +96,27 @@ export default function Popover(
     const [translate, setTranslate] = useState<translate>({ x: 0, y: 0 });
     const popperRef = useRef<HTMLDivElement>();
     const containerRef = useRef<HTMLDivElement>();
+    const triggerRef = useRef<HTMLElement | null>(null);
+    const popperId = useId();
+    const triggerId = useId();
 
     const close = useCallback(() => {
         setClosing(true);
         setTimeout(() => {
             setOpen(false);
             setTranslate({ x: 0, y: 0 });
+
             if (props.onClose) {
                 props.onClose();
             }
             setClosing(false);
+
+            // Restore focus to the trigger element after animation completes
+            setTimeout(() => {
+                if (triggerRef.current) {
+                    triggerRef.current.focus();
+                }
+            }, 50);
         }, 280);
     }, [props]);
 
@@ -207,11 +218,20 @@ export default function Popover(
 
     return (
         <PopoverDiv ref={containerRef}>
-            <props.element />
+            {React.createElement(props.element, {
+                ref: triggerRef,
+                id: triggerId,
+                'aria-expanded': open,
+                'aria-haspopup': 'dialog',
+                'aria-controls': popperId,
+            })}
             {open && (
                 <Popper
                     elevated
                     tabIndex={0}
+                    role="dialog"
+                    aria-labelledby={triggerId}
+                    id={popperId}
                     position={props.position}
                     translateX={translate.x}
                     translateY={translate.y}
