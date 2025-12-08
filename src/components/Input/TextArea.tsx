@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
@@ -134,6 +134,13 @@ const ErrorContainer = styled.div`
 export default function TextArea(props: TextAreaProps) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
+    const errorId = useId();
+
+    useEffect(() => {
+        if (props.value !== undefined) {
+            setValue(props.value);
+        }
+    }, [props.value]);
 
     const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         setTouched(true);
@@ -159,9 +166,12 @@ export default function TextArea(props: TextAreaProps) {
                 onChange={onChangeHandler}
                 onFocus={handleFocus}
                 touched={touched}
+                aria-invalid={!!props.errorText}
+                aria-required={props.required}
+                aria-describedby={props.errorText ? errorId : undefined}
             />
             <span>{props.label}</span>
-            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
+            {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
         </Label>
     );
 }
