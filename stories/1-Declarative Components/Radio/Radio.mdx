@@ -32,3 +32,13 @@ Following props are added on top of `HTMLInputElement` props.
 | `--nfui-border-color`    | Used for `border-color`.                                 |
 | `--nfui-disabled-border` | Used for disabled `border-color`.                        |
 | `--nfui-light-grey`      | Used for disabled `background-color`.                    |
+
+## Accessibility
+
+The Radio component is fully compliant with WCAG 2.1 AA guidelines:
+
+- **Label Association**: The label is implicitly associated with the radio input through nesting within the `<label>` element.
+- **Semantic HTML**: Uses native `<input type="radio">` which provides built-in ARIA semantics and behavior.
+- **Keyboard Navigation**: Full keyboard support through native radio button behavior (arrow keys for navigation within a group, Space to select).
+- **Focus Indication**: Clear focus styles are provided for keyboard navigation using the `:focus` pseudo-class.
+- **Disabled State**: Properly handles disabled state with appropriate visual styling and prevents interaction.
