@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import ExpandMore from '../../icons/ExpandMore';
@@ -150,6 +150,13 @@ const ArrowContainer = styled.span`
 export default function Select(props: SelectProps) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
+    const errorId = useId();
+
+    useEffect(() => {
+        if (props.value !== undefined) {
+            setValue(props.value);
+        }
+    }, [props.value]);
 
     const handleFocus = (e: React.FocusEvent<HTMLSelectElement>) => {
         setTouched(true);
@@ -176,15 +183,18 @@ export default function Select(props: SelectProps) {
                 onChange={onChangeHandler}
                 onFocus={handleFocus}
                 touched={touched}
+                aria-invalid={!!props.errorText}
+                aria-required={props.required}
+                aria-describedby={props.errorText ? errorId : undefined}
             >
                 <option />
                 {props.children}
             </SelectField>
             <span>{props.label}</span>
-            <ArrowContainer>
+            <ArrowContainer aria-hidden="true">
                 <ExpandMore />
             </ArrowContainer>
-            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
+            {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
         </Label>
     );
 }

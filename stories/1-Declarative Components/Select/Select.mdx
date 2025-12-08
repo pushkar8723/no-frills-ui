@@ -41,3 +41,14 @@ Following props are added on top of `HTMLSelectElement` props.
 | `--nfui-disabled-border`     | Used for disabled `border-color`.     |
 | `--nfui-disabled-background` | Used for disabled `background-color`. |
 | `--nfui-disabled`            | Used for disabled `color`.            |
+
+## Accessibility
+
+The Select component is fully compliant with WCAG 2.1 AA guidelines:
+
+- **Label Association**: The label is implicitly associated with the select element through nesting within the `<label>` element.
+- **Error Messaging**: Error text is programmatically linked to the select via `aria-describedby`, ensuring screen readers announce validation messages.
+- **Invalid State**: The `aria-invalid` attribute is automatically set when `errorText` is provided, alerting assistive technologies to validation errors.
+- **Required Fields**: The `aria-required` attribute is added when the select is marked as required, providing semantic indication beyond visual asterisks.
+- **Keyboard Navigation**: Full keyboard support is maintained through native select element behavior.
+- **Decorative Icon**: The dropdown arrow icon is properly hidden from screen readers using `aria-hidden="true"`.
