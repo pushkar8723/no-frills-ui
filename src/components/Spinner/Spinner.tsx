@@ -22,7 +22,16 @@ const SpinnerDiv = styled.div<SpinnerProp>`
 `;
 
 function Spinner(props: SpinnerProp) {
-    return <SpinnerDiv {...props} />;
+    const { label, ...rest } = props;
+    return (
+        <SpinnerDiv
+            {...rest}
+            role="status"
+            aria-label={label}
+            aria-live="polite"
+            aria-busy="true"
+        />
+    );
 }
 
 type SpinnerProp = PropTypes.InferProps<typeof Spinner.propTypes>;
@@ -30,10 +39,13 @@ type SpinnerProp = PropTypes.InferProps<typeof Spinner.propTypes>;
 Spinner.propTypes = {
     /** Spinner's size */
     size: PropTypes.number,
+    /** Accessible label for screen readers */
+    label: PropTypes.string,
 };
 
 Spinner.defaultProps = {
     size: 30,
+    label: 'Loading',
 };
 
 export default Spinner;

@@ -26,3 +26,15 @@ import { Spinner } from 'no-frills-ui';
 | :-------------------------- | :----------------------- |
 | `--nfui-primary`            | Used for `border-color`. |
 | `--nfui-border-light-color` | Used for `border-color`. |
+
+## Accessibility
+
+The Spinner component is fully compliant with WCAG 2.1 AA guidelines:
+
+- **Semantic Role**: Uses `role="status"` to identify the spinner as a status indicator for assistive technologies.
+- **Screen Reader Announcement**: The `aria-label` prop (default: "Loading") provides descriptive text that screen readers announce to users.
+- **Live Region**: Uses `aria-live="polite"` to announce status changes without interrupting the user's current task.
+- **Busy State**: The `aria-busy="true"` attribute indicates that content is currently loading.
+- **Customizable Label**: The `label` prop allows you to provide context-specific loading messages (e.g., "Loading users", "Saving changes").
+
+**Note**: When using the Spinner within a container to indicate that specific content is loading, consider adding `aria-busy="true"` to the parent container for additional context.
