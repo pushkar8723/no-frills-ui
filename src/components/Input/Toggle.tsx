@@ -82,7 +82,7 @@ type ToggleProps = PropTypes.InferProps<
 function Toggle(props: ToggleProps) {
     return (
         <Switch>
-            <Input {...props} type="checkbox" />
+            <Input {...props} type="checkbox" role="switch" aria-checked={props.checked} />
             <span></span>
             <span>{props.label}</span>
         </Switch>
