@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
@@ -94,10 +94,14 @@ const ErrorContainer = styled.div`
 export default function Group(
     props: React.PropsWithChildren<PropTypes.InferProps<typeof Group.propTypes>>,
 ) {
+    const errorId = useId();
+
     return (
         <>
-            <Container {...props}>{props.children}</Container>
-            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
+            <Container {...props} aria-describedby={props.errorText ? errorId : undefined}>
+                {props.children}
+            </Container>
+            {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
         </>
     );
 }

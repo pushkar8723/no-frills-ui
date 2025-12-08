@@ -51,3 +51,13 @@ import { Group, GroupLabel } from 'no-frills-ui';
 | `--nfui-border-color`        | Used for `border-color` and `color`.      |
 | `--nfui-hover-shadow`        | Used for `box-shadow`.                    |
 | `--nfui-disabled-background` | Used for `background-color` (GroupLabel). |
+
+## Accessibility
+
+The Group component is fully compliant with WCAG 2.1 AA guidelines:
+
+- **Error Messaging**: Group-level error text is programmatically linked to the container via `aria-describedby`, ensuring screen readers announce validation messages when users interact with any control within the group.
+- **Focus Management**: Proper z-index management ensures focused elements are visible and not obscured by adjacent controls.
+- **Visual Error Indication**: Border color changes provide clear visual feedback when errors are present.
+- **Keyboard Navigation**: All grouped form controls maintain their native keyboard behavior and accessibility features.
+- **Semantic Grouping**: While the component provides visual grouping, consider using `<fieldset>` and `<legend>` at the form level when semantic grouping with a descriptive label is needed for related form controls.
