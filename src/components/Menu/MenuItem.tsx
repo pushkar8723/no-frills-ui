@@ -6,7 +6,7 @@ import MenuContext, { MenuContextType } from './MenuContext';
 
 interface MenuItemProps<T> {
     /** Value of the element */
-    value: T & T[];
+    value: T;
 }
 
 const Container = styled.button<{ selected: boolean }>`
@@ -21,6 +21,7 @@ const Container = styled.button<{ selected: boolean }>`
     align-items: center;
     cursor: pointer;
     position: relative;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
 
     &:hover,
     &:focus,
@@ -33,18 +34,18 @@ const Container = styled.button<{ selected: boolean }>`
     }
 `;
 
-const MenuItem = React.forwardRef<
-    HTMLButtonElement,
-    MenuItemProps<unknown> & React.PropsWithChildren<unknown>
->((props, ref) => {
-    const context = useContext(MenuContext) as MenuContextType<unknown>;
+const MenuItemInner = <T,>(
+    props: MenuItemProps<T> & React.PropsWithChildren,
+    ref: React.Ref<HTMLButtonElement>,
+) => {
+    const context = useContext(MenuContext) as MenuContextType<T>;
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
         if (context.multiSelect) {
             e.nativeEvent.stopImmediatePropagation();
         }
-        context.updateValue(value);
+        context.updateValue(value as T & T[]);
     };
 
     const selected = context.multiSelect
@@ -58,16 +59,17 @@ const MenuItem = React.forwardRef<
             type="button"
             role="option"
             aria-selected={selected}
-            tabIndex={-1}
             selected={selected}
             onClick={clickHandler}
         >
-            {context.multiSelect && <Checkbox checked={selected} tabIndex={-1} />}
+            {context.multiSelect && <Checkbox checked={selected} readOnly />}
             {children}
         </Container>
     );
-});
+};
 
-MenuItem.displayName = 'MenuItem';
+const MenuItem = React.forwardRef(MenuItemInner) as <T>(
+    props: MenuItemProps<T> & React.PropsWithChildren & { ref?: React.Ref<HTMLButtonElement> },
+) => ReturnType<typeof MenuItemInner>;
 
 export default MenuItem;
