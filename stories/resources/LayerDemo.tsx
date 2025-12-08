@@ -2,8 +2,8 @@ import { useRef } from 'react';
 import { Dialog, AlertDialog, DialogHeader, DialogBody, Button } from '../../src/components';
 
 export default function LayerDemo() {
-    const dialog = useRef<Dialog>();
-    const alertDialog = useRef<AlertDialog>();
+    const dialog = useRef<Dialog>(null);
+    const alertDialog = useRef<AlertDialog>(null);
     return (
         <>
             <Button onClick={() => dialog.current?.open()}>Open Dialog</Button>
