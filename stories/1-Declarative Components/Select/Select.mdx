@@ -19,7 +19,12 @@ single select input.
 import { Select } from 'no-frills-ui';
 
 // Render
-<Select />;
+<Select label="Gender" required>
+    <option value="M">Male</option>
+    <option value="F">Female</option>
+    <option value="T">Transgender</option>
+    <option value="N">Don&apos;t want to specify</option>
+</Select>;
 ```
 
 ## Props
