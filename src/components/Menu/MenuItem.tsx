@@ -42,9 +42,6 @@ const MenuItemInner = <T,>(
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
-        if (context.multiSelect) {
-            e.nativeEvent.stopImmediatePropagation();
-        }
         context.updateValue(value as T & T[]);
     };
 
@@ -62,7 +59,14 @@ const MenuItemInner = <T,>(
             selected={selected}
             onClick={clickHandler}
         >
-            {context.multiSelect && <Checkbox checked={selected} readOnly />}
+            {context.multiSelect && (
+                <Checkbox
+                    checked={selected}
+                    readOnly
+                    tabIndex={-1}
+                    onClick={(e) => e.stopPropagation()}
+                />
+            )}
             {children}
         </Container>
     );
