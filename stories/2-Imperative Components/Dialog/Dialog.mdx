@@ -193,3 +193,22 @@ const openDialog = () => dialog.current.open();
 | `--nfui-backdrop-color` | Used for `background-color`. |
 | `--nfui-modal-shadow`   | Used for `box-shadow`.       |
 | `--nfui-background`     | Used for `background-color`. |
+
+## Accessibility
+
+The Dialog component is designed to meet WCAG 2.1 AA accessibility requirements:
+
+- **ARIA Roles & Attributes:**
+    - Dialog uses `role="dialog"` and `aria-modal="true"`.
+    - Properly announced to assistive technologies as a modal dialog.
+- **Focus Management:**
+    - Focus is trapped within the dialog while open (Tab and Shift+Tab cycle through focusable elements).
+    - Focus is automatically set to the first focusable element (or header) when dialog opens.
+    - Focus is restored to the triggering element when dialog closes.
+- **Keyboard Navigation:**
+    - <kbd>Esc</kbd> key closes the dialog (configurable via `closeOnEsc` prop).
+    - <kbd>Tab</kbd> and <kbd>Shift+Tab</kbd> navigate between focusable elements within the dialog.
+- **Developer Responsibilities:**
+    - Ensure dialog content includes focusable elements (buttons, links, inputs).
+    - Use descriptive headers and labels for screen reader users.
+    - Confirm color contrast for custom themes meets accessibility standards.
