@@ -50,3 +50,34 @@ Toast.remove();
 | `--nfui-toast`            | Used for `background-color`.     |
 | `--nfui-text-color-light` | Used for `color`.                |
 | `--nfui-primary-light`    | Used for `color` (Close button). |
+
+## Accessibility
+
+The Toast component follows WCAG 2.1 AA guidelines:
+
+### ARIA Live Regions
+
+- **Status messages** (`NORMAL`, `INFO`, `SUCCESS`): Use `role="log"` with `aria-live="polite"` for non-critical notifications
+- **Alert messages** (`WARNING`, `DANGER`): Use `role="alert"` with `aria-live="assertive"` for important notifications that require immediate attention
+- **Screen reader announcements**: Toast content is announced to screen readers while the visual container is hidden from assistive technologies to prevent duplicate announcements
+- **Atomic announcements**: `aria-atomic="true"` ensures the entire message is read as a single unit
+
+### Keyboard Accessibility
+
+- **Escape key**: Dismisses the toast immediately
+- **Space key**: Pauses/resumes auto-dismiss timer, allowing keyboard users to read the content without time pressure
+- **Mouse hover**: Pauses auto-dismiss when hovering over the toast (same as keyboard pause)
+- **Action button**: Fully keyboard accessible with enhanced `aria-label` describing available keyboard shortcuts
+
+### Focus Management
+
+- Toast does not steal focus when it appears, allowing users to continue their current task
+- If the toast contains an action button, it can be accessed via keyboard navigation
+- The auto-dismiss timer respects user interaction, pausing when the user engages with the toast
+
+### Best Practices
+
+- Keep toast messages concise and clear
+- Use appropriate toast types to convey urgency (`DANGER`/`WARNING` for critical messages)
+- Provide sufficient duration for users to read and interact with the message (default: 2000ms)
+- Action buttons should have clear, descriptive text
