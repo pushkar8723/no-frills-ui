@@ -5,9 +5,12 @@ import * as TabsStories from './Tabs.stories';
 
 # Tabs
 
-This is a slightly complex component. Since there is no native tab component. It uses `HTMLButtonElement` to
-create tabs. The content of the button is derived from `name` prop of children. Anything can be a child element.
-However, for better readability and to not add an unnecessary `div` to the DOM. We also export a `Tab` component.
+This is a slightly complex component. Since there is no native tab component, it uses `HTMLButtonElement` to
+create tabs. The content of the button is derived from the `name` prop of children. Anything can be a child element.
+However, for better readability and to not add an unnecessary `div` to the DOM, we also export a `Tab` component.
+
+**Note:** Tab names are used to generate keys and ARIA IDs for each tab. If you have multiple Tabs components on the same page,
+you must ensure that tab names are unique across all instances to avoid accessibility and React key conflicts.
 
 <Canvas of={TabsStories.Demo} />
 
@@ -39,3 +42,22 @@ import { Tabs, Tab } from 'no-frills-ui';
 | `--nfui-disabled-background` | Used for `background-color`.         |
 | `--nfui-disabled`            | Used for `color`.                    |
 | `--nfui-disabled-border`     | Used for `border-color`.             |
+
+## Accessibility
+
+The Tabs component is designed to meet WCAG 2.1 AA accessibility requirements:
+
+- **Keyboard Navigation:**
+    - Tabs are rendered as accessible buttons with `role="tab"`.
+    - Use <kbd>ArrowLeft</kbd>/<kbd>ArrowUp</kbd> and <kbd>ArrowRight</kbd>/<kbd>ArrowDown</kbd> to move focus between tabs.
+    - <kbd>Tab</kbd> focuses the active tab only.
+- **ARIA Roles & Attributes:**
+    - The tab list uses `role="tablist"`.
+    - Each tab button uses `role="tab"`, `aria-selected`, `aria-disabled`, and `aria-controls` as appropriate.
+    - The tab panel uses `role="tabpanel"` and is associated with the active tab via `aria-labelledby`.
+- **Focus Management:**
+    - When a tab is activated, focus moves to its button for clear navigation.
+- **Developer Responsibilities:**
+    - Ensure tab names are unique across all Tabs components on the page.
+    - Tab names should be descriptive for screen readers.
+    - Confirm color contrast for custom themes meets accessibility standards.
