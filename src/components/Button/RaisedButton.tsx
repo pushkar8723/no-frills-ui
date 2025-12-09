@@ -16,6 +16,7 @@ export default styled.button`
     box-shadow: ${getThemeValue(THEME_NAME.HOVER_SHADOW)};
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
     margin: 5px;
     position: relative;
 

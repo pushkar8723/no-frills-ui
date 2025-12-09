@@ -13,6 +13,7 @@ const StyledButton = styled.button`
     color: inherit;
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     text-overflow: ellipsis;
+    overflow: hidden;
     white-space: nowrap;
     margin: 5px;
     position: relative;

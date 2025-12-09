@@ -14,6 +14,7 @@ export default styled.button`
     cursor: pointer;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
     margin: 5px;
     position: relative;
 
