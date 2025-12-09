@@ -76,6 +76,7 @@ export const Container = styled.div<{ position: NOTIFICATION_POSITION }>`
 `;
 
 export const Notice = styled(Card)<NoticeProp>`
+    position: relative;
     border-radius: 3px;
     border-left: 4px solid ${(props) => getBorderColor(props.type)};
     width: 300px;
@@ -165,9 +166,12 @@ export const FillParent = styled.div`
 `;
 
 export const CloseButton = styled.button`
+    position: absolute;
     background-color: transparent;
     border: none;
-    padding: none;
+    padding: 0;
+    top: 4px;
+    right: 4px;
     cursor: pointer;
 
     &:focus {
@@ -190,4 +194,16 @@ export const Footer = styled.div`
     display: flex;
     justify-content: flex-end;
     padding: 0 5px;
+`;
+
+export const VisuallyHidden = styled.span`
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 `;

@@ -34,6 +34,8 @@ export class StoryProps extends React.Component<NotificationProps> {
         buttonClick: PropTypes.func,
         /** Notification close callback. */
         onClose: PropTypes.func,
+        /** Aria label for the close button on the notification. Defaults to "Close notification" */
+        closeButtonAriaLabel: PropTypes.string,
     };
 
     static defaultProps = {
@@ -74,7 +76,11 @@ class Notification {
      * @param options - Configuration options for the notification
      * @returns The notification ID or a promise that resolves to the notification ID
      */
-    public add = (position: NOTIFICATION_POSITION, options: NotificationOptions) => {
+    public add = (
+        position: NOTIFICATION_POSITION,
+        options: NotificationOptions,
+        ariaLabel: string = 'Notifications',
+    ) => {
         if (!this.containers.has(position)) {
             /** Callback ref to capture the NotificationManager instance when it mounts */
             const refCallback: RefCallback<NotificationManager> = (instance) => {
@@ -96,6 +102,7 @@ class Notification {
                         ref={refCallback}
                         position={position}
                         onEmpty={() => this.destroy(position)}
+                        ariaLabel={ariaLabel}
                     />
                 ),
             });
@@ -123,7 +130,7 @@ class Notification {
         }
 
         // If manager is not ready yet, wait a bit and retry
-        return new Promise((resolve) => {
+        return new Promise<string>((resolve) => {
             setTimeout(() => {
                 const container = this.containers.get(position);
                 if (container && container.manager) {
