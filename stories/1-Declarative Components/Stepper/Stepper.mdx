@@ -56,3 +56,22 @@ import { Stepper, Step, StepBody, StepFooter } from 'no-frills-ui';
 | `--nfui-background`          | Used for `background-color`.                    |
 | `--nfui-disabled-background` | Used for `background-color`.                    |
 | `--nfui-primary-lighter`     | Used for `background-color`.                    |
+
+## Accessibility
+
+The Stepper component is designed to meet WCAG 2.1 AA accessibility requirements:
+
+- **Keyboard Navigation:**
+    - Steps are rendered as accessible buttons with `role="tab"`.
+    - Use <kbd>ArrowLeft</kbd>/<kbd>ArrowUp</kbd> and <kbd>ArrowRight</kbd>/<kbd>ArrowDown</kbd> to move focus between steps.
+    - <kbd>Tab</kbd> focuses the active step only.
+- **ARIA Roles & Attributes:**
+    - The stepper header uses `role="tablist"`.
+    - Each step button uses `role="tab"`, `aria-selected`, and `aria-disabled` as appropriate.
+    - The active step is announced to assistive technologies.
+- **Focus Management:**
+    - When a step is activated, focus moves to its button for clear navigation.
+- **Developer Responsibilities:**
+    - Ensure step names are descriptive for screen readers.
+    - Avoid disabling all steps; at least one should be focusable.
+    - Confirm color contrast for custom themes meets accessibility standards.

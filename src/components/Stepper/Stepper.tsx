@@ -94,10 +94,13 @@ export default function Stepper(props: StepperProps) {
     const [active, setActive] = useState(props.active);
     const { children, onStepClick } = props;
     const childrenArray = Children.toArray(children);
+    const stepRefs = [] as Array<HTMLButtonElement | null>;
 
     const stepClickHandler = (index: number) => () => {
         setActive(index);
         onStepClick?.(index);
+        // Move focus to the active step
+        stepRefs[index]?.focus();
     };
 
     const getBadgeType = (index: number, completed: boolean, disabled: boolean) => {
@@ -111,30 +114,47 @@ export default function Stepper(props: StepperProps) {
         return BADGE_TYPE.DISABLED;
     };
 
+    // Keyboard navigation for step buttons
+    const onStepKeyDown = (index: number) => (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const next = (index + 1) % childrenArray.length;
+            stepRefs[next]?.focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const prev = (index - 1 + childrenArray.length) % childrenArray.length;
+            stepRefs[prev]?.focus();
+        }
+    };
+
     return (
         <Container>
-            <Header>
+            <Header role="tablist" aria-label="Stepper Steps">
                 {Children.map(children, (child, index) => {
                     if (!isValidElement(child)) return null;
                     return (
-                        <>
-                            <HeaderButton
-                                active={index === active}
-                                type="button"
-                                disabled={child.props.disabled}
-                                onClick={stepClickHandler(index)}
-                            >
-                                <Badge
-                                    inline
-                                    type={getBadgeType(
-                                        index,
-                                        child.props.completed,
-                                        child.props.disabled,
-                                    )}
-                                />
-                                <Ellipsis>{child.props.name}</Ellipsis>
-                            </HeaderButton>
-                        </>
+                        <HeaderButton
+                            ref={(el) => (stepRefs[index] = el)}
+                            active={index === active}
+                            type="button"
+                            role="tab"
+                            aria-selected={index === active}
+                            aria-disabled={!!child.props.disabled}
+                            tabIndex={index === active ? 0 : -1}
+                            disabled={child.props.disabled}
+                            onClick={stepClickHandler(index)}
+                            onKeyDown={onStepKeyDown(index)}
+                        >
+                            <Badge
+                                inline
+                                type={getBadgeType(
+                                    index,
+                                    child.props.completed,
+                                    child.props.disabled,
+                                )}
+                            />
+                            <Ellipsis>{child.props.name}</Ellipsis>
+                        </HeaderButton>
                     );
                 })}
                 <MobileHeader>
