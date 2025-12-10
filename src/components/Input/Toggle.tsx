@@ -10,6 +10,9 @@ const Switch = styled.label`
 `;
 
 const Input = styled.input`
+    position: absolute;
+    width: 0;
+    height: 0;
     appearance: none;
     margin: 0;
 
