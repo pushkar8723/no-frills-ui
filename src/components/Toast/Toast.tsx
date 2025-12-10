@@ -1,22 +1,8 @@
-import { createRef, type RefObject } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import { Card } from '../Card';
-
-// Visually hidden component for screen reader announcements
-const VisuallyHidden = styled.div`
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-`;
 
 export interface ToastOptions {
     text: string;
@@ -104,20 +90,48 @@ const CloseContainer = styled.button`
 
 const DEFAULT_DURATION = 2000;
 
+const createAriaLiveRegion = (id: string, ariaLive: 'polite' | 'assertive') => {
+    const region = document.createElement('div');
+    region.id = id;
+    region.style.position = 'absolute';
+    region.style.width = '1px';
+    region.style.height = '1px';
+    region.style.padding = '0';
+    region.style.margin = '-1px';
+    region.style.overflow = 'hidden';
+    region.style.clip = 'rect(0, 0, 0, 0)';
+    region.style.whiteSpace = 'nowrap';
+    region.style.borderWidth = '0';
+    region.setAttribute('role', ariaLive === 'assertive' ? 'alert' : 'log');
+    region.setAttribute('aria-live', ariaLive);
+    region.setAttribute('aria-atomic', 'true');
+    return region;
+};
+
 class Toast {
     private element: HTMLDivElement;
+    private ariaLiveContainer: HTMLDivElement;
     private toast: ReturnType<typeof LayerManager.renderLayer>;
     private timeout: NodeJS.Timeout;
     private root: Root;
-    private politeRegionRef: RefObject<HTMLDivElement>;
-    private assertiveRegionRef: RefObject<HTMLDivElement>;
+    private politeRegion: HTMLDivElement;
+    private assertiveRegion: HTMLDivElement;
     private isPaused: boolean = false;
     private currentOptions: ToastOptions | null = null;
 
     constructor() {
+        if (typeof document === 'undefined') return;
+
         this.element = document?.createElement('div');
-        this.politeRegionRef = createRef();
-        this.assertiveRegionRef = createRef();
+        this.ariaLiveContainer = document?.createElement('div');
+        this.ariaLiveContainer.id = 'nf-toast-container';
+        document.body.appendChild(this.ariaLiveContainer);
+
+        this.politeRegion = createAriaLiveRegion('nf-toast-polite-region', 'polite');
+        this.assertiveRegion = createAriaLiveRegion('nf-toast-assertive-region', 'assertive');
+        this.ariaLiveContainer.appendChild(this.politeRegion);
+        this.ariaLiveContainer.appendChild(this.assertiveRegion);
+
         this.setupKeyboardListeners();
     }
 
@@ -155,7 +169,8 @@ class Toast {
      * Update the appropriate live region with toast content
      */
     private updateLiveRegion = (content: string, isAssertive: boolean) => {
-        const region = isAssertive ? this.assertiveRegionRef.current : this.politeRegionRef.current;
+        const region = isAssertive ? this.assertiveRegion : this.politeRegion;
+        region.textContent = '';
 
         if (region) {
             // Add content after delay
@@ -163,7 +178,7 @@ class Toast {
                 if (region) {
                     region.textContent = content;
                 }
-            }, 150);
+            }, 200);
         }
     };
 
@@ -240,19 +255,6 @@ class Toast {
             position: LAYER_POSITION.BOTTOM_LEFT,
             component: (
                 <>
-                    {/* Persistent live regions for screen reader announcements */}
-                    <VisuallyHidden
-                        ref={this.politeRegionRef}
-                        role="log"
-                        aria-live="polite"
-                        aria-atomic="true"
-                    />
-                    <VisuallyHidden
-                        ref={this.assertiveRegionRef}
-                        role="alert"
-                        aria-live="assertive"
-                        aria-atomic="true"
-                    />
                     {/* Visual toast (hidden from screen readers) */}
                     <ToastContainer
                         {...options}

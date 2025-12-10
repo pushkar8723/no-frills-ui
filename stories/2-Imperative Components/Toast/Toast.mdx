@@ -59,8 +59,13 @@ The Toast component follows WCAG 2.1 AA guidelines:
 
 - **Status messages** (`NORMAL`, `INFO`, `SUCCESS`): Use `role="log"` with `aria-live="polite"` for non-critical notifications
 - **Alert messages** (`WARNING`, `DANGER`): Use `role="alert"` with `aria-live="assertive"` for important notifications that require immediate attention
-- **Screen reader announcements**: Toast content is announced to screen readers while the visual container is hidden from assistive technologies to prevent duplicate announcements
+- **Screen reader announcements**: Toast content is announced to screen readers via dedicated ARIA live regions while the visual container is hidden from assistive technologies (`aria-hidden="true"`) to prevent duplicate announcements
 - **Atomic announcements**: `aria-atomic="true"` ensures the entire message is read as a single unit
+- **Announcement delay**: A 200ms delay is applied before content is added to the live region to ensure reliable screen reader detection
+- **Button announcements**: If a toast includes an action button, the announcement includes the button text (e.g., "Message text Button text button available")
+
+> **Note:** At a time only one toast is rendered. If multiple toasts are added with the same text,
+> the voiceover may ignore some of the duplicate toasts.
 
 ### Keyboard Accessibility
 

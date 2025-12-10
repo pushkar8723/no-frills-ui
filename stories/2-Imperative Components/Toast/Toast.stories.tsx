@@ -20,7 +20,7 @@ export const Variations: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a simple toast.',
                     });
                 }}
             >
@@ -29,7 +29,7 @@ export const Variations: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is an action toast.',
                         buttonText: 'Action',
                         buttonClick: () => alert('Action button on toast was clicked.'),
                     });
@@ -53,7 +53,7 @@ export const Variations: Story = {
                 onClick={() => {
                     Toast.add({
                         text: `
-                        When a toast contains a very large string, the excess
+                        This is multiline toast with an action. When a toast contains a very large string, the excess
                         string is wrapped and showed on the next line.
                     `,
                         buttonText: 'Action',
@@ -109,7 +109,7 @@ export const Types: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is an information toast.',
                         type: TOAST_TYPE.INFO,
                     });
                 }}
@@ -119,7 +119,7 @@ export const Types: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a success toast.',
                         type: TOAST_TYPE.SUCCESS,
                     });
                 }}
@@ -129,7 +129,7 @@ export const Types: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a warning toast.',
                         type: TOAST_TYPE.WARNING,
                     });
                 }}
@@ -139,7 +139,7 @@ export const Types: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a danger toast.',
                         type: TOAST_TYPE.DANGER,
                     });
                 }}
