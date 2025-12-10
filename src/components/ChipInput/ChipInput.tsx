@@ -89,9 +89,9 @@ const Label = styled.label<{
     & > input {
         border: none;
         outline: none;
-        width: 100%;
         line-height: 30px;
         min-height: 30px;
+        max-width: 95%;
     }
 
     /** Label Animation */
