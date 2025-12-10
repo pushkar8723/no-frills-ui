@@ -16,6 +16,7 @@ export default styled.button`
     position: relative;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
 
     & svg {
         vertical-align: middle;
