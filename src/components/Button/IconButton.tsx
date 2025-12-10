@@ -13,6 +13,8 @@ export default styled.button`
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     margin: 5px;
     position: relative;
+    display: inline-flex;
+    align-items: center;
 
     & svg {
         vertical-align: middle;

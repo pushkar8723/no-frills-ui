@@ -14,6 +14,8 @@ export default styled.button`
     cursor: pointer;
     margin: 5px;
     position: relative;
+    display: inline-flex;
+    align-items: center;
 
     & svg {
         vertical-align: middle;

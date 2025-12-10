@@ -5,6 +5,7 @@ export const Ellipsis = styled.span`
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    flex: 1;
 `;
 
 export const Header = styled.h1`

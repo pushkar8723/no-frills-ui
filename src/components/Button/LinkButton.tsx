@@ -13,6 +13,8 @@ export default styled.button`
     padding: 0 12px;
     margin: 5px;
     position: relative;
+    display: inline-flex;
+    align-items: center;
 
     & svg {
         vertical-align: middle;

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Button } from '../../../src/components/Button';
 import { Toast, TOAST_TYPE } from '../../../src/components/Toast';
 import ToastStory from '../../../src/components/Toast/ToastStory';
+import { Ellipsis } from '../../../src/shared/styles';
 
 const meta: Meta = {
     component: ToastStory,
@@ -23,7 +24,7 @@ export const Variations: Story = {
                     });
                 }}
             >
-                Simple Toast
+                <Ellipsis>Simple Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
@@ -34,7 +35,7 @@ export const Variations: Story = {
                     });
                 }}
             >
-                Action Toast
+                <Ellipsis>Action Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
@@ -46,7 +47,7 @@ export const Variations: Story = {
                     });
                 }}
             >
-                Multiline Toast
+                <Ellipsis>Multiline Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
@@ -60,7 +61,7 @@ export const Variations: Story = {
                     });
                 }}
             >
-                Multiline Action Toast
+                <Ellipsis>Multiline Action Toast</Ellipsis>
             </Button>
         </div>
     ),
@@ -113,7 +114,7 @@ export const Types: Story = {
                     });
                 }}
             >
-                Information Toast
+                <Ellipsis>Information Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
@@ -123,7 +124,7 @@ export const Types: Story = {
                     });
                 }}
             >
-                Success Toast
+                <Ellipsis>Success Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
@@ -133,7 +134,7 @@ export const Types: Story = {
                     });
                 }}
             >
-                Warning Toast
+                <Ellipsis>Warning Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
@@ -143,7 +144,7 @@ export const Types: Story = {
                     });
                 }}
             >
-                Danger Toast
+                <Ellipsis>Danger Toast</Ellipsis>
             </Button>
         </div>
     ),
