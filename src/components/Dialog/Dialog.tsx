@@ -40,7 +40,10 @@ interface DialogState {
     LayerComponent?: () => React.ReactPortal | null;
 }
 
-class Dialog extends React.Component<React.PropsWithChildren<DialogOptions>, DialogState> {
+class Dialog extends React.Component<
+    React.PropsWithChildren<DialogOptions> & Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'>,
+    DialogState
+> {
     static propTypes = {
         /** Flag to close dialog on `esc` click. Default value is true. */
         closeOnEsc: PropTypes.bool,

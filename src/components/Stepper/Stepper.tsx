@@ -54,6 +54,7 @@ const HeaderButton = styled.button<{ active: boolean }>`
     overflow: hidden;
     display: flex;
     align-items: center;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
 
     &:disabled {
         cursor: not-allowed;

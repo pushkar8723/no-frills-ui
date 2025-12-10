@@ -5,6 +5,8 @@ import Dialog, { DialogBody, DialogFooter, DialogHeader } from './Dialog';
 
 type AlertOption = PropTypes.InferProps<typeof AlertDialog.propTypes>;
 
+let dialogCounter = 0;
+
 export default class AlertDialog extends React.Component<AlertOption> {
     private dialog = createRef<Dialog>();
 
@@ -33,15 +35,21 @@ export default class AlertDialog extends React.Component<AlertOption> {
     private close = () => this.dialog.current.close();
 
     render() {
+        const titleId = `nfui-alert-dialog-${dialogCounter++}-title`;
+        const descriptionId = `nfui-alert-dialog-${dialogCounter++}-description`;
+
         return (
             <Dialog
                 {...this.props.dialogProps}
+                role="alertdialog"
+                aria-labelledby={titleId}
+                aria-describedby={descriptionId}
                 ref={this.dialog}
                 closeOnEsc={false}
                 closeOnOverlayClick={false}
             >
-                {this.props.header && <DialogHeader>{this.props.header}</DialogHeader>}
-                <DialogBody>{this.props.body}</DialogBody>
+                {this.props.header && <DialogHeader id={titleId}>{this.props.header}</DialogHeader>}
+                <DialogBody id={descriptionId}>{this.props.body}</DialogBody>
                 <DialogFooter>
                     <Button onClick={this.close}>{this.props.buttonText}</Button>
                 </DialogFooter>
