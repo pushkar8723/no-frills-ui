@@ -10,11 +10,8 @@ const StyledButton = styled.button`
     text-align: center;
     padding: 0 12px;
     cursor: pointer;
-    color: inherit;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
     margin: 5px;
     position: relative;
 

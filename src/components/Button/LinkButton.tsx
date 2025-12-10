@@ -11,9 +11,6 @@ export default styled.button`
     border: none;
     color: ${getThemeValue(THEME_NAME.PRIMARY)};
     padding: 0 12px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     margin: 5px;
     position: relative;
 

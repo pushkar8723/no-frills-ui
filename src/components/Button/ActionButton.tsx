@@ -12,9 +12,6 @@ export default styled.button`
     text-align: center;
     padding: 0 12px;
     cursor: pointer;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     margin: 5px;
     position: relative;
 

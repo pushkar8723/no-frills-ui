@@ -9,14 +9,11 @@ export default styled.button`
     font-size: 14px;
     text-align: center;
     padding: 0 12px;
-    cursor: pointer;
+    cursor: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
     color: inherit;
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     transform: translateY(-2px);
     box-shadow: ${getThemeValue(THEME_NAME.HOVER_SHADOW)};
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     margin: 5px;
     position: relative;
 

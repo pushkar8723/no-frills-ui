@@ -9,11 +9,8 @@ export default styled.button`
     text-align: center;
     padding: 0 3px;
     cursor: pointer;
-    color: inherit;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     margin: 5px;
     position: relative;
 
