@@ -24,6 +24,7 @@ const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
     border-radius: 10px;
     width: 100%;
     font-size: inherit;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
 
     &:focus-visible {
         box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
