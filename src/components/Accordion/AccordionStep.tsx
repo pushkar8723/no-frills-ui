@@ -94,7 +94,8 @@ export const AccordionStepFooter = styled.div`
 
 export default function AccordionStep(props: React.PropsWithChildren<AccordionStepProps>) {
     const [height, setHeight] = useState(0);
-    const { open, disabled, header, errorText, completed, onStepClick } = props;
+    const { open, disabled, header, errorText, completed, onStepClick, children, ...restProps } =
+        props;
 
     // Generate unique IDs for ARIA relationships
     const headerId = useId();
@@ -103,7 +104,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
     const ref = (el?: HTMLDivElement) => setHeight(el?.scrollHeight || 0);
 
     return (
-        <Step {...props} elevated={props.open}>
+        <Step {...restProps} open={open} elevated={open} completed={completed}>
             <StepHeader
                 open={open}
                 disabled={disabled}
@@ -139,7 +140,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                 aria-labelledby={headerId}
                 aria-hidden={open ? 'false' : 'true'}
             >
-                {open && props.children}
+                {open && children}
             </StepBody>
         </Step>
     );

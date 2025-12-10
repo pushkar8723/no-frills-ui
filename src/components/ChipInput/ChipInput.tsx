@@ -170,7 +170,7 @@ export default function ChipInput(
 ) {
     const [text, setText] = useState('');
     const [touched, setTouched] = useState(false);
-    const [value, setValue] = useState<string[]>(props.value);
+    const [value, setValue] = useState<string[]>(props.value || []);
     const InputRef = React.useRef<HTMLInputElement>(null);
     const [announcement, setAnnouncement] = useState('');
     const errorId = useId();
@@ -227,7 +227,7 @@ export default function ChipInput(
      * @param e React keyboard event
      */
     const handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-        if (e.key === 'Enter' && text.trim() !== '') {
+        if (e.key === 'Enter' && text.trim() !== '' && InputRef.current.validity.valid) {
             const newValue = [...value, text.trim()];
             updateValue(newValue);
             setText('');

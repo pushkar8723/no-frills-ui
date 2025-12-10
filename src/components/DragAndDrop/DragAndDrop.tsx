@@ -121,12 +121,19 @@ export default function DragAndDrop(props: DragAndDropProps) {
 
     // i18n configuration object
     const i18n = {
-        itemAriaLabelTemplate: itemAriaLabelTemplate!,
-        dragHandleAriaLabel: dragHandleAriaLabel!,
-        grabbedAnnouncementTemplate: grabbedAnnouncementTemplate!,
-        movedAnnouncementTemplate: movedAnnouncementTemplate!,
-        droppedAnnouncementTemplate: droppedAnnouncementTemplate!,
-        cancelledAnnouncementTemplate: cancelledAnnouncementTemplate!,
+        itemAriaLabelTemplate:
+            itemAriaLabelTemplate ??
+            'Item {:position}. Press {:grabKey} to grab, {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop',
+        dragHandleAriaLabel: dragHandleAriaLabel ?? 'Drag to reorder',
+        grabbedAnnouncementTemplate:
+            grabbedAnnouncementTemplate ??
+            'Item {:position} grabbed. Use {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop, {:cancelKey} to cancel',
+        movedAnnouncementTemplate:
+            movedAnnouncementTemplate ?? 'Item moved to position {:position}',
+        droppedAnnouncementTemplate:
+            droppedAnnouncementTemplate ?? 'Item dropped at position {:position}',
+        cancelledAnnouncementTemplate:
+            cancelledAnnouncementTemplate ?? 'Drag cancelled, item restored to original position',
         replacePlaceholders,
     };
 
