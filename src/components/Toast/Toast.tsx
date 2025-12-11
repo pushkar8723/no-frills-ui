@@ -136,6 +136,23 @@ class Toast {
     }
 
     /**
+     * Clean up event listeners and DOM elements
+     * Call this when the app is tearing down (useful for tests)
+     */
+    public destroy = () => {
+        if (typeof document !== 'undefined') {
+            document.removeEventListener('keydown', this.handleKeyDown);
+        }
+        this.remove();
+        if (this.ariaLiveContainer && document.body.contains(this.ariaLiveContainer)) {
+            document.body.removeChild(this.ariaLiveContainer);
+        }
+        this.politeRegion = null;
+        this.assertiveRegion = null;
+        this.ariaLiveContainer = null;
+    };
+
+    /**
      * Set up keyboard listener for dismissing toast with Escape key
      */
     private setupKeyboardListeners = () => {
@@ -185,14 +202,19 @@ class Toast {
     public remove = () => {
         if (this.toast) {
             this.toast[1]();
-            clearTimeout(this.timeout);
-            this.timeout = null;
+            if (this.timeout) {
+                clearTimeout(this.timeout);
+                this.timeout = null;
+            }
         }
         this.toast = null;
+        this.currentOptions = null;
+        this.isPaused = false;
 
         setTimeout(() => {
-            if (!this.toast) {
+            if (!this.toast && this.root) {
                 this.root.unmount();
+                this.root = null;
             }
         }, 300);
     };

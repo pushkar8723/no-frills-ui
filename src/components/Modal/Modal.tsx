@@ -139,6 +139,12 @@ export default class Modal extends React.Component<
         if (this.props.open) {
             this.restoreFocus();
         }
+        // Clean up layer references
+        if (this.closeCallback) {
+            this.closeCallback();
+            this.closeCallback = null;
+        }
+        this.layer = null;
     }
 
     /**

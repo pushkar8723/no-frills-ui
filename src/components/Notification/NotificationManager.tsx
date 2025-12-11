@@ -202,6 +202,18 @@ class NotificationManager extends React.Component<
         }
     };
 
+    /**
+     * Clean up all pending timeouts when component unmounts
+     */
+    componentWillUnmount() {
+        // Clear all pending timeouts
+        Object.keys(this.timeouts).forEach((id) => {
+            clearTimeout(this.timeouts[id]);
+        });
+        this.timeouts = {};
+        this.set.clear();
+    }
+
     render() {
         return (
             <Container position={this.props.position}>

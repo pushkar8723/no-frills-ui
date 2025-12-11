@@ -136,6 +136,8 @@ class LayerManager {
     private layers: Layer[] = [];
     /** z-index of the next layer */
     private nextIndex = 10000;
+    private keyupHandler: (e: KeyboardEvent) => void;
+    private timeoutIds = new Map<string, number>(); // Track timeouts
 
     /**
      * Constructor simply registers a event listener on body to
@@ -143,16 +145,35 @@ class LayerManager {
      */
     constructor() {
         if (typeof document !== 'undefined') {
-            document.body.addEventListener('keyup', (e) => {
+            // Store handler reference for cleanup
+            this.keyupHandler = (e) => {
                 if (this.layers.length && e.keyCode === KEY_CODES.ESC) {
                     const lastLayer = this.layers.slice(-1)[0];
                     if (lastLayer.config.closeOnEsc !== false) {
                         this.unmount(lastLayer);
                     }
                 }
-            });
+            };
+            document.body.addEventListener('keyup', this.keyupHandler);
         }
     }
+
+    // Add cleanup method
+    public destroy = () => {
+        if (typeof document !== 'undefined' && this.keyupHandler) {
+            document.body.removeEventListener('keyup', this.keyupHandler);
+        }
+        // Clear all pending timeouts
+        this.timeoutIds.forEach((id) => clearTimeout(id));
+        this.timeoutIds.clear();
+        // Clean up remaining layers
+        this.layers.forEach((layer) => {
+            if (document.body.contains(layer.element)) {
+                document.body.removeChild(layer.element);
+            }
+        });
+        this.layers = [];
+    };
 
     /**
      * Un-mounts a layer.
@@ -165,19 +186,23 @@ class LayerManager {
      */
     private unmount = (layer: Layer, resp?: unknown) => {
         layer.element.setAttribute('class', 'nf-layer-exit');
-        this.layers.splice(
-            this.layers.findIndex((item) => item === layer),
-            1,
-        );
+        const index = this.layers.findIndex((item) => item === layer);
+        if (index !== -1) {
+            this.layers.splice(index, 1);
+        }
 
-        setTimeout(() => {
+        const timeoutId = window.setTimeout(() => {
+            this.timeoutIds.delete(layer.id);
             try {
                 layer.config.closeCallback?.(resp);
             } catch (e) {
-                // Error in callback function. Ignore and proceed.
                 console.warn(e.message);
             }
+            // Clear reference to help GC
+            layer.config.component = null;
         }, layer.config.exitDelay);
+
+        this.timeoutIds.set(layer.id, timeoutId);
     };
 
     /**

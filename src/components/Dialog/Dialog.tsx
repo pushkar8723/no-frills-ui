@@ -157,6 +157,16 @@ class Dialog extends React.Component<
         return this.state.show !== nextState.show;
     }
 
+    componentWillUnmount() {
+        // Clean up if component unmounts while dialog is open
+        if (this.state.show && this.closeDialog) {
+            this.closeDialog();
+        }
+        this.restoreFocus();
+        this.closeDialog = null;
+        this.onCloseFn = null;
+    }
+
     public open = (closeCallback?: (resp: unknown) => void) => {
         const { closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
 
