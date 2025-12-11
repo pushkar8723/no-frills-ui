@@ -5,6 +5,7 @@ import {
     useState,
     useEffect,
     TouchEventHandler,
+    useRef,
 } from 'react';
 import styled from '@emotion/styled';
 import { DragIndicator } from '../../icons';
@@ -121,7 +122,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
     const { index, orientation, children, showIndicator, dragOver, totalItems, setAnnouncement } =
         props;
     const [active, setActive] = useState(0);
-    const [touchTimer, setTouchTimer] = useState<NodeJS.Timeout | null>(null);
+    const touchTimerRef = useRef<NodeJS.Timeout | null>(null);
     const context = useContext(DragContext);
 
     /**
@@ -176,15 +177,18 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
      * @param e Event
      */
     const touchStartHandler: TouchEventHandler<HTMLDivElement> = () => {
-        const timer = setTimeout(() => {
+        // Clear any existing timer first
+        if (touchTimerRef.current) {
+            clearTimeout(touchTimerRef.current);
+        }
+
+        touchTimerRef.current = setTimeout(() => {
             context.setStartIndex(index);
             context.setIsDragging(true);
             context.setDragOver(index);
             document.body.style.overflow = 'hidden';
             vibrate(50);
         }, 200);
-
-        setTouchTimer(timer);
     };
 
     /**
@@ -211,9 +215,9 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
             if (overIndex !== null) {
                 context.setDragOver(overIndex);
             }
-        } else if (touchTimer) {
-            clearTimeout(touchTimer);
-            setTouchTimer(null);
+        } else if (touchTimerRef.current) {
+            clearTimeout(touchTimerRef.current);
+            touchTimerRef.current = null;
         }
     };
 
@@ -222,9 +226,9 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
      * @param e Event
      */
     const touchEndHandler: TouchEventHandler<HTMLDivElement> = () => {
-        if (touchTimer) {
-            clearTimeout(touchTimer);
-            setTouchTimer(null);
+        if (touchTimerRef.current) {
+            clearTimeout(touchTimerRef.current);
+            touchTimerRef.current = null;
         }
 
         if (context.isDragging) {
@@ -311,13 +315,16 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
         }
     };
 
-    /** Cleanup touch timer on unmount */
+    /** Cleanup touch timer and body overflow on unmount */
     useEffect(() => {
         return () => {
-            if (touchTimer) clearTimeout(touchTimer);
+            if (touchTimerRef.current) {
+                clearTimeout(touchTimerRef.current);
+                touchTimerRef.current = null;
+            }
             document.body.style.overflow = 'auto';
         };
-    }, [touchTimer]);
+    }, []);
 
     /** Update active state based on dragOver changes */
     useEffect(() => {
