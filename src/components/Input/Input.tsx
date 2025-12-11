@@ -49,6 +49,7 @@ const TextField = styled.input<InputInternalProps>`
     &:disabled {
         border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
         background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
+        padding: 0 8px;
     }
 
     &:disabled + span {

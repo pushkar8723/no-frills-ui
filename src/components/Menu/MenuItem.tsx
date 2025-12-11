@@ -9,10 +9,15 @@ interface MenuItemProps<T> {
     value: T;
 }
 
-const Container = styled.button<{ selected: boolean }>`
+const Container = styled.button<{ selected: boolean; multiselect?: boolean }>`
     font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
-    padding: 8px 6px;
+    padding: 8px;
     border: none;
+    border-left: 4px solid
+        ${(props) =>
+            props.selected && !props.multiselect
+                ? getThemeValue(THEME_NAME.TEXT_COLOR_DARK)
+                : 'transparent'};
     background-color: transparent;
     font-size: 16px;
     border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
@@ -58,6 +63,7 @@ const MenuItemInner = <T,>(
             aria-selected={selected}
             selected={selected}
             onClick={clickHandler}
+            multiselect={context.multiSelect ? true : undefined}
         >
             {context.multiSelect && (
                 <Checkbox
