@@ -20,7 +20,8 @@
     ],
     "scripts": {
         "clean": "shx rm -rf dist lib-esm",
-        "build": "tsc --emitDeclarationOnly && rollup -c",
+        "build": "NODE_ENV=production tsc --emitDeclarationOnly && rollup -c",
+        "build:dev": "NODE_ENV=development tsc --emitDeclarationOnly && rollup -c",
         "test": "echo \"Warning: No tests implemented yet\" && exit 0",
         "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
         "lint:fix": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx --fix",
@@ -55,6 +56,7 @@
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^8.0.1",
         "@rollup/plugin-swc": "^0.4.0",
+        "@rollup/plugin-terser": "^0.4.4",
         "@storybook/addon-docs": "^10.0.2",
         "@storybook/addon-links": "^10.0.2",
         "@storybook/addon-webpack5-compiler-swc": "^4.0.1",

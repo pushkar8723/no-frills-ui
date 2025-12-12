@@ -1,8 +1,11 @@
 import swc from '@rollup/plugin-swc';
+import terser from '@rollup/plugin-terser';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import external from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json' with { type: 'json' };
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default {
     input: './src/components/index.ts',
@@ -48,5 +51,18 @@ export default {
         commonjs({
             include: ['node_modules/**'],
         }),
-    ],
+        isProduction &&
+            terser({
+                compress: {
+                    drop_console: false,
+                    ecma: 2020,
+                },
+                format: {
+                    comments: false,
+                },
+                mangle: {
+                    reserved: [],
+                },
+            }),
+    ].filter(Boolean),
 };
