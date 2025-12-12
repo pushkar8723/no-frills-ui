@@ -7,6 +7,13 @@
     "jsnext:main": "lib-esm/components/index.js",
     "types": "lib-esm/components/index.d.ts",
     "sideEffects": false,
+    "exports": {
+        ".": {
+            "types": "./lib-esm/components/index.d.ts",
+            "import": "./lib-esm/components/index.js",
+            "require": "./dist/index.js"
+        }
+    },
     "files": [
         "dist",
         "lib-esm"
