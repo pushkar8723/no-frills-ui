@@ -173,6 +173,7 @@ export const CloseButton = styled.button`
     top: 4px;
     right: 4px;
     cursor: pointer;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
 
     &:focus {
         box-shadow: 0 0 0 3px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
