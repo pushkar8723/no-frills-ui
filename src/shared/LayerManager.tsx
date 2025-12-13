@@ -135,7 +135,7 @@ class LayerManager {
     /** Layer stack */
     private layers: Layer[] = [];
     /** z-index of the next layer */
-    private nextIndex = 10000;
+    private nextIndex = 0;
     private keyupHandler: (e: KeyboardEvent) => void;
     private timeoutIds = new Map<string, number>(); // Track timeouts
 
@@ -224,11 +224,14 @@ class LayerManager {
         };
 
         // Get the z-index for the new layer
-        const currentIndex = layerConfig.alwaysOnTop ? 2147483647 : this.nextIndex++;
+        const currentIndex = layerConfig.alwaysOnTop ? 2147483647 : 10000 + this.nextIndex;
         const className = layerConfig.alwaysOnTop ? 'nf-layer-manager-top' : 'nf-layer-manager';
 
         // Create a unique ID for tracking this layer
-        const layerId = `nf-layer-manager-${currentIndex}`;
+        const layerId = `${className}-${currentIndex + this.nextIndex}`;
+
+        // Always increment for next layer
+        this.nextIndex += 1;
 
         const overlayClickHandler = () => {
             const layer = this.layers.find((l) => l.id === layerId);
