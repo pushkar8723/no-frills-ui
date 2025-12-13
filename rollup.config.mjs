@@ -36,6 +36,7 @@ export default {
             format: 'esm',
             preserveModules: true,
             preserveModulesRoot: 'src',
+            sourcemap: true,
         },
     ],
     external: ['react', 'react-dom', 'prop-types', '@emotion/styled', '@emotion/react'],
@@ -58,7 +59,14 @@ export default {
                         },
                     },
                     experimental: {
-                        plugins: [['@swc/plugin-emotion', {}]],
+                        plugins: [
+                            [
+                                '@swc/plugin-emotion',
+                                {
+                                    sourceMap: false,
+                                },
+                            ],
+                        ],
                     },
                 },
             },
