@@ -65,7 +65,7 @@ type DrawerProps = {
     /** Closes the drawer on overlay click */
     closeOnOverlayClick?: boolean;
     /** Call back function called when the drawer closes. */
-    onClose: () => void;
+    onClose?: () => void;
 };
 
 interface DrawerState {
@@ -117,9 +117,9 @@ export default class Drawer extends React.Component<
         return null;
     }
 
-    private layer?: ReturnType<typeof LayerManager.renderLayer> = undefined;
+    private layer?: ReturnType<typeof LayerManager.renderLayer>;
 
-    private closeCallback?: (resp?: unknown) => void = undefined;
+    private closeCallback?: (resp?: unknown) => void;
 
     /**
      * Internal close handler.
