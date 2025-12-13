@@ -155,7 +155,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
     const dragOverHandler: DragEventHandler<HTMLDivElement> = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (context?.startIndex) {
+        if (context && context.startIndex !== null) {
             setActive(context.startIndex - index);
         }
     };
@@ -295,25 +295,29 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
         }
         // Arrow keys to move while grabbed
         else if (isGrabbed) {
-            if (e.key === moveUp && index > 0 && context.startIndex) {
+            if (e.key === moveUp && index > 0 && context.startIndex !== null) {
                 e.preventDefault();
                 // Move without dropping - just reorder and update startIndex
                 const newIndex = index - 1;
-                context?.onDrop(context?.startIndex, newIndex);
-                context?.setStartIndex(newIndex);
+                context.onDrop(context.startIndex, newIndex);
+                context.setStartIndex(newIndex);
                 setAnnouncement(
-                    context?.i18n.replacePlaceholders(context?.i18n.movedAnnouncementTemplate, {
+                    context.i18n.replacePlaceholders(context.i18n.movedAnnouncementTemplate, {
                         position: newIndex + 1,
                     }),
                 );
-            } else if (e.key === moveDown && index < totalItems - 1 && context.startIndex) {
+            } else if (
+                e.key === moveDown &&
+                index < totalItems - 1 &&
+                context.startIndex !== null
+            ) {
                 e.preventDefault();
                 // Move without dropping - just reorder and update startIndex
                 const newIndex = index + 1;
-                context?.onDrop(context?.startIndex, newIndex);
-                context?.setStartIndex(newIndex);
+                context.onDrop(context.startIndex, newIndex);
+                context.setStartIndex(newIndex);
                 setAnnouncement(
-                    context?.i18n.replacePlaceholders(context?.i18n.movedAnnouncementTemplate, {
+                    context.i18n.replacePlaceholders(context.i18n.movedAnnouncementTemplate, {
                         position: newIndex + 1,
                     }),
                 );
@@ -334,7 +338,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
 
     /** Update active state based on dragOver changes */
     useEffect(() => {
-        if (context?.isDragging && context?.startIndex && dragOver === index) {
+        if (context?.isDragging && context?.startIndex !== null && dragOver === index) {
             setActive(context?.startIndex - index);
         } else {
             setActive(0);
@@ -346,15 +350,15 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
             draggable={!showIndicator}
             showIndicator={showIndicator}
             active={active}
-            dragging={!!(context?.isDragging && context?.startIndex === index)}
+            dragging={!!(context?.isDragging && context.startIndex === index)}
             orientation={orientation}
             data-drag-index={index}
             tabIndex={0}
             role="listitem"
-            aria-label={context?.i18n.replacePlaceholders(context?.i18n.itemAriaLabelTemplate, {
+            aria-label={context?.i18n.replacePlaceholders(context.i18n.itemAriaLabelTemplate, {
                 position: index + 1,
             })}
-            aria-grabbed={context?.isDragging && context?.startIndex === index}
+            aria-grabbed={context?.isDragging && context.startIndex === index}
             onKeyDown={handleKeyDown}
             onDragStart={!showIndicator ? dragStartHandler : undefined}
             onDragOver={dragOverHandler}
