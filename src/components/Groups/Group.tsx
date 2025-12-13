@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     display: inline-flex;
-    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+    border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     border-radius: 3px;
     margin: 5px;
 
@@ -15,7 +15,7 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
         margin: 0;
         border: none;
         border-radius: 0;
-        border-left: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+        border-left: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
         box-shadow: none;
         height: 32px;
     }
@@ -70,23 +70,23 @@ const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
 
     &:focus-within,
     &:hover {
-        box-shadow: var(--hover-shadow, ${constants.HOVER_SHADOW});
+        box-shadow: ${getThemeValue(THEME_NAME.HOVER_SHADOW)};
     }
 
     ${(props) =>
         props.errorText
             ? `
-        border-color: var(--error, ${constants.ERROR});
+        border-color: ${getThemeValue(THEME_NAME.ERROR)};
 
         & > button, & > label {
-            border-color: var(--error, ${constants.ERROR});
+            border-color: ${getThemeValue(THEME_NAME.ERROR)};
         }
     `
             : ''}
 `;
 
 const ErrorContainer = styled.div`
-    color: var(--error, ${constants.ERROR});
+    color: ${getThemeValue(THEME_NAME.ERROR)};
     margin-left: 8px;
     font-size: 12px;
 `;
@@ -94,10 +94,14 @@ const ErrorContainer = styled.div`
 export default function Group(
     props: React.PropsWithChildren<PropTypes.InferProps<typeof Group.propTypes>>,
 ) {
+    const errorId = useId();
+
     return (
         <>
-            <Container {...props}>{props.children}</Container>
-            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
+            <Container {...props} aria-describedby={props.errorText ? errorId : undefined}>
+                {props.children}
+            </Container>
+            {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
         </>
     );
 }

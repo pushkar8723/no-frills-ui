@@ -24,7 +24,22 @@ Following props are added on top of `HTMLInputElement` props.
 
 ## CSS Variables Used
 
-| Variable Name   | Description                                   |
-| :-------------- | :-------------------------------------------- |
-| --primary       | Used for `color` and `border-color`.          |
-| --primary-light | Used for `box-shadow` and `background-color`. |
+| Variable Name               | Description                                                 |
+| :-------------------------- | :---------------------------------------------------------- |
+| `--nfui-primary`            | Used for `color` and `border-color`.                        |
+| `--nfui-primary-light`      | Used for checked `background-color` and focus `box-shadow`. |
+| `--nfui-background`         | Used for toggle button `background-color`.                  |
+| `--nfui-disabled-border`    | Used for disabled `border-color`.                           |
+| `--nfui-light-grey`         | Used for disabled `background-color`.                       |
+| `--nfui-border-light-color` | Used for default `background-color`.                        |
+
+## Accessibility
+
+The Toggle component is fully compliant with WCAG 2.1 AA guidelines:
+
+- **Label Association**: The label is implicitly associated with the toggle input through nesting within the `<label>` element.
+- **Semantic HTML**: Uses native `<input type="checkbox">` with `role="switch"` to properly identify this as a switch control for assistive technologies.
+- **State Announcement**: The `aria-checked` attribute ensures screen readers announce the current state (on/off) of the toggle.
+- **Keyboard Navigation**: Full keyboard support through native checkbox behavior (Space to toggle, Tab to navigate).
+- **Focus Indication**: Clear focus styles are provided for keyboard navigation using the `:focus` pseudo-class with visual ring indicator.
+- **Disabled State**: Properly handles disabled state with appropriate visual styling and prevents interaction.

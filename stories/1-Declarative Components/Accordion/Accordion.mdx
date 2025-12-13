@@ -42,12 +42,42 @@ import { Accordion, AccordionStep } from 'no-frills-ui';
 
 ## CSS Variables Used
 
-| Variable Name          | Description                  |
-| ---------------------- | ---------------------------- |
-| `--primary`            | Used for `color`.            |
-| `--primary-light`      | Used for `box-shadow`.       |
-| `--success`            | Used for `color`.            |
-| `--error`              | Used for `background-color`. |
-| `--border-light-color` | Used for `border-color`.     |
-| `--shadow`             | Used for `box-shadow`        |
-| `--modal-shadow`       | Used for `box-shadow`        |
+| Variable Name               | Description              |
+| --------------------------- | ------------------------ |
+| `--nfui-primary`            | Used for `color`.        |
+| `--nfui-primary-light`      | Used for `box-shadow`.   |
+| `--nfui-success`            | Used for `color`.        |
+| `--nfui-light-grey`         | Used for `border-color`. |
+| `--nfui-border-light-color` | Used for `border-color`. |
+| `--nfui-disabled`           | Used for `color`.        |
+| `--nfui-text-color-dark`    | Used for `color`.        |
+
+## Accessibility
+
+This component follows WCAG 2.1 AA guidelines:
+
+### Keyboard Navigation
+
+- **Tab**: Navigate between accordion step buttons
+- **Enter/Space**: Toggle the focused accordion step open/closed
+
+### Screen Reader Support
+
+- Each accordion button has `aria-expanded` to indicate its state (expanded/collapsed)
+- Each accordion button has `aria-controls` linking it to its content region
+- Content regions have `role="region"` with `aria-labelledby` connecting to their header
+- Decorative icons are marked with `aria-hidden="true"` to prevent screen reader announcement
+- Disabled steps are properly announced and cannot be activated
+
+### Visual Indicators
+
+- Clear focus indicator (blue outline) on keyboard navigation
+- Visual state indicators for open, completed, and error states
+- Sufficient color contrast for text and interactive elements (meets 4.5:1 ratio)
+
+### Best Practices
+
+- Use descriptive `header` text for each step
+- Provide meaningful `errorText` when validation fails
+- Only one step can be open at a time, reducing cognitive load
+- Content is progressively disclosed to improve focus and comprehension

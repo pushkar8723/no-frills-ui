@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Card } from '../Card';
@@ -96,16 +96,39 @@ export default function Popover(
     const [translate, setTranslate] = useState<translate>({ x: 0, y: 0 });
     const popperRef = useRef<HTMLDivElement>();
     const containerRef = useRef<HTMLDivElement>();
+    const triggerRef = useRef<HTMLElement | null>(null);
+    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const focusTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const popperId = useId();
+    const triggerId = useId();
 
     const close = useCallback(() => {
+        // Clear any existing timeouts first
+        if (closeTimeoutRef.current) {
+            clearTimeout(closeTimeoutRef.current);
+        }
+        if (focusTimeoutRef.current) {
+            clearTimeout(focusTimeoutRef.current);
+        }
+
         setClosing(true);
-        setTimeout(() => {
+        closeTimeoutRef.current = setTimeout(() => {
             setOpen(false);
             setTranslate({ x: 0, y: 0 });
+
             if (props.onClose) {
                 props.onClose();
             }
             setClosing(false);
+
+            // Restore focus to the trigger element after animation completes
+            focusTimeoutRef.current = setTimeout(() => {
+                if (triggerRef.current && document.body.contains(triggerRef.current)) {
+                    triggerRef.current.focus();
+                }
+                focusTimeoutRef.current = null;
+            }, 50);
+            closeTimeoutRef.current = null;
         }, 280);
     }, [props]);
 
@@ -135,26 +158,26 @@ export default function Popover(
 
         return () => {
             document.removeEventListener('keyup', keyupEventHandler);
-            document.removeEventListener('click', clickOutsideHandler);
         };
-    }, [clickOutsideHandler, close, keyupEventHandler]);
+    }, [keyupEventHandler]);
 
     useEffect(() => {
         if (props.open) {
             setOpen(true);
             // Use requestAnimationFrame to add listener after current event loop
-            requestAnimationFrame(() => {
+            const rafId = requestAnimationFrame(() => {
                 document.addEventListener('click', clickOutsideHandler);
             });
+
+            return () => {
+                cancelAnimationFrame(rafId);
+                document.removeEventListener('click', clickOutsideHandler);
+            };
         } else {
             if (open) {
                 close();
             }
         }
-
-        return () => {
-            document.removeEventListener('click', clickOutsideHandler);
-        };
     }, [props.open, open, clickOutsideHandler, close]);
 
     useEffect(() => {
@@ -205,13 +228,36 @@ export default function Popover(
         }
     }, [open, props.position]);
 
+    /**
+     * Cleanup timeouts on unmount
+     */
+    useEffect(() => {
+        return () => {
+            if (closeTimeoutRef.current) {
+                clearTimeout(closeTimeoutRef.current);
+            }
+            if (focusTimeoutRef.current) {
+                clearTimeout(focusTimeoutRef.current);
+            }
+        };
+    }, []);
+
     return (
         <PopoverDiv ref={containerRef}>
-            <props.element />
+            {React.createElement(props.element, {
+                ref: triggerRef,
+                id: triggerId,
+                'aria-expanded': open,
+                'aria-haspopup': 'dialog',
+                'aria-controls': popperId,
+            })}
             {open && (
                 <Popper
                     elevated
                     tabIndex={0}
+                    role="dialog"
+                    aria-labelledby={triggerId}
+                    id={popperId}
                     position={props.position}
                     translateX={translate.x}
                     translateY={translate.y}

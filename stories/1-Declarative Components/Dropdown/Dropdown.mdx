@@ -24,3 +24,21 @@ import { Dropdown, MenuItem } from 'no-frills-ui';
 ## Props
 
 <Controls of={DropdownStories.Primary} />
+
+## Accessibility
+
+The Dropdown component is designed to be accessible and WCAG 2.1 AA compliant.
+
+### Keyboard Interaction
+
+- **Focus**: Use `Tab` to move focus to the Dropdown trigger.
+- **Open**: Press `Enter`, `Space`, `ArrowDown`, or `ArrowUp` to open the options menu.
+- **Navigate**: Use `ArrowDown` and `ArrowUp` to move focus between options.
+- **Select**: Press `Enter` or `Space` to select the currently focused option.
+- **Close**: Press `Escape` to close the menu without selecting. Focus returns to the trigger.
+
+### Screen Readers
+
+- **Role**: The trigger has `role="combobox"` and the menu has `role="listbox"`.
+- **State**: `aria-expanded` indicates if the menu is open. `aria-haspopup` indicates availability of a popup menu.
+- **Read-only**: The input trigger is `readOnly` to prevent entering arbitrary text, acting purely as a selection trigger.

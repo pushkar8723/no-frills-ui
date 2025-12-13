@@ -1,30 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import PropTypes from 'prop-types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FiberManualRecord, ExpandMore } from '../../icons';
-import constants from '../../shared/constants';
+import { THEME_NAME, getThemeValue } from '../../shared/constants';
 import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
 import { Card } from '../Card';
 
-const Step = styled(Card)<AccordionStepProps & { focused: boolean }>`
+const Step = styled(Card)<AccordionStepProps>`
     transition: all 0.6s ease;
+    overflow: visible;
 
-    ${(props) =>
-        props.open &&
-        `
-        margin: 20px 5px;
-    `}
-
-    ${(props) =>
-        props.focused && `box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});`}
+    ${(props) => props.open && `margin: 20px 5px;`}
 `;
 
-const StepHeader = styled.div<{ open: boolean; disabled: boolean }>`
+const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
     padding: 20px 15px;
     display: flex;
     justify-content: space-between;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    font-size: inherit;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
+
+    &:focus-visible {
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
+    }
 
     & input {
         appearance: none;
@@ -32,20 +36,9 @@ const StepHeader = styled.div<{ open: boolean; disabled: boolean }>`
     }
 
     ${(props) =>
-        props.open
-            ? `
-        border-bottom: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
-    `
-            : ''}
+        props.open && `border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};`}
 
-    ${(props) =>
-        props.disabled
-            ? `
-        color: ${constants.LIGHT_GREY};
-    `
-            : `
-        cursor: pointer;
-    `}
+    ${(props) => props.disabled && `color: ${getThemeValue(THEME_NAME.DISABLED)};`}
 `;
 
 const HeaderContainer = styled.div<{ open: boolean; completed: boolean }>`
@@ -58,10 +51,10 @@ const HeaderContainer = styled.div<{ open: boolean; completed: boolean }>`
         margin-right: 10px;
         fill: ${(props) =>
             props.open
-                ? `var(--primary, ${constants.PRIMARY})`
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : props.completed
-                  ? `var(--success, ${constants.SUCCESS})`
-                  : constants.LIGHT_GREY};
+                  ? getThemeValue(THEME_NAME.SUCCESS)
+                  : getThemeValue(THEME_NAME.LIGHT_GREY)};
         transform: ${(props) => (props.open ? 'scale(0.8)' : 'scale(0.6)')};
         transition: all 0.3s ease;
         min-width: 24px;
@@ -79,14 +72,7 @@ const ExpandContainer = styled.div<{ open: boolean }>`
         fill: currentColor;
     }
 
-    ${(props) =>
-        props.open
-            ? `
-        & svg {
-            transform: rotate(180deg);
-        }
-    `
-            : ''}
+    ${(props) => (props.open ? `& svg { transform: rotate(180deg); }` : '')}
 `;
 
 const StepBody = styled.div<{ height: number }>`
@@ -103,32 +89,32 @@ export const AccordionStepFooter = styled.div`
     display: flex;
     justify-content: flex-end;
     padding: 10px 15px;
-    border-top: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+    border-top: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
 `;
 
 export default function AccordionStep(props: React.PropsWithChildren<AccordionStepProps>) {
     const [height, setHeight] = useState(0);
-    const [focused, setFocused] = useState(false);
-    const { open, disabled, header, errorText, completed, onStepClick } = props;
+    const { open, disabled, header, errorText, completed, onStepClick, children, ...restProps } =
+        props;
+
+    // Generate unique IDs for ARIA relationships
+    const headerId = useId();
+    const regionId = useId();
 
     const ref = (el?: HTMLDivElement) => setHeight(el?.scrollHeight || 0);
 
-    const toggleFocus = () => {
-        setFocused(!focused);
-    };
-
     return (
-        <Step {...props} focused={focused} elevated={props.open}>
-            <StepHeader open={open} disabled={disabled} onClick={onStepClick}>
+        <Step {...restProps} open={open} elevated={open} completed={completed}>
+            <StepHeader
+                open={open}
+                disabled={disabled}
+                onClick={onStepClick}
+                aria-expanded={open ? 'true' : 'false'}
+                aria-controls={regionId}
+                id={headerId}
+            >
                 <HeaderContainer open={open} completed={completed}>
-                    <input
-                        type="checkbox"
-                        checked={open}
-                        disabled={disabled}
-                        onFocus={toggleFocus}
-                        onBlur={toggleFocus}
-                    />
-                    <FiberManualRecord />
+                    <FiberManualRecord aria-hidden="true" />
                     <Ellipsis>{header}</Ellipsis>
                 </HeaderContainer>
                 <ExpandContainer open={open}>
@@ -143,11 +129,18 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                             {errorText}
                         </Badge>
                     )}
-                    <ExpandMore />
+                    <ExpandMore aria-hidden="true" />
                 </ExpandContainer>
             </StepHeader>
-            <StepBody ref={ref} height={open ? height : 0}>
-                {open && props.children}
+            <StepBody
+                ref={ref}
+                height={open ? height : 0}
+                role="region"
+                id={regionId}
+                aria-labelledby={headerId}
+                aria-hidden={open ? 'false' : 'true'}
+            >
+                {open && children}
             </StepBody>
         </Step>
     );

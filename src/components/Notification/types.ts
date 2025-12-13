@@ -33,4 +33,6 @@ export interface NotificationOptions {
     buttonClick?: () => void;
     /** Notification close callback. */
     onClose?: () => void;
+    /** aria label for the close button on the notification */
+    closeButtonAriaLabel?: string;
 }

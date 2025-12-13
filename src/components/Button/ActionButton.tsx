@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { THEME_NAME, getThemeValue } from '../../shared/constants';
 
 export default styled.button`
-    border: 1px solid var(--primary, ${constants.PRIMARY});
-    background-color: var(--primary, ${constants.PRIMARY});
-    color: #fff;
+    border: 1px solid ${getThemeValue(THEME_NAME.PRIMARY)};
+    background-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     border-radius: 5px;
     height: 32px;
     min-width: 100px;
@@ -12,10 +12,11 @@ export default styled.button`
     text-align: center;
     padding: 0 12px;
     cursor: pointer;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     margin: 5px;
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     & svg {
         vertical-align: middle;
@@ -26,16 +27,16 @@ export default styled.button`
     }
 
     &:enabled:hover {
-        box-shadow: var(--hover-shadow, ${constants.HOVER_SHADOW});
+        box-shadow: ${getThemeValue(THEME_NAME.HOVER_SHADOW)};
     }
 
     &:focus {
-        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:disabled {
-        border: 1px solid ${constants.LIGHT_GREY};
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
-        color: var(--disabled, ${constants.DISABLED});
+        border: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 `;

@@ -40,11 +40,49 @@ Toast.remove();
 
 ## CSS Variables used
 
-| Variable Name    | Description                 |
-| ---------------- | --------------------------- |
-| `--modal-shadow` | Used for `box-shadow`       |
-| `--info`         | Used for `background-color` |
-| `--success`      | Used for `background-color` |
-| `--warn`         | Used for `background-color` |
-| `--error`        | Used for `background-color` |
-| `--toast`        | Used for `background-color` |
+| Variable Name             | Description                      |
+| :------------------------ | :------------------------------- |
+| `--nfui-modal-shadow`     | Used for `box-shadow`.           |
+| `--nfui-info`             | Used for `background-color`.     |
+| `--nfui-success`          | Used for `background-color`.     |
+| `--nfui-warning`          | Used for `background-color`.     |
+| `--nfui-error`            | Used for `background-color`.     |
+| `--nfui-toast`            | Used for `background-color`.     |
+| `--nfui-text-color-light` | Used for `color`.                |
+| `--nfui-primary-light`    | Used for `color` (Close button). |
+
+## Accessibility
+
+The Toast component follows WCAG 2.1 AA guidelines:
+
+### ARIA Live Regions
+
+- **Status messages** (`NORMAL`, `INFO`, `SUCCESS`): Use `role="log"` with `aria-live="polite"` for non-critical notifications
+- **Alert messages** (`WARNING`, `DANGER`): Use `role="alert"` with `aria-live="assertive"` for important notifications that require immediate attention
+- **Screen reader announcements**: Toast content is announced to screen readers via dedicated ARIA live regions while the visual container is hidden from assistive technologies (`aria-hidden="true"`) to prevent duplicate announcements
+- **Atomic announcements**: `aria-atomic="true"` ensures the entire message is read as a single unit
+- **Announcement delay**: A 200ms delay is applied before content is added to the live region to ensure reliable screen reader detection
+- **Button announcements**: If a toast includes an action button, the announcement includes the button text (e.g., "Message text Button text button available")
+
+> **Note:** At a time only one toast is rendered. If multiple toasts are added with the same text,
+> the voiceover may ignore some of the duplicate toasts.
+
+### Keyboard Accessibility
+
+- **Escape key**: Dismisses the toast immediately
+- **Space key**: Pauses/resumes auto-dismiss timer, allowing keyboard users to read the content without time pressure
+- **Mouse hover**: Pauses auto-dismiss when hovering over the toast (same as keyboard pause)
+- **Action button**: Fully keyboard accessible with enhanced `aria-label` describing available keyboard shortcuts
+
+### Focus Management
+
+- Toast does not steal focus when it appears, allowing users to continue their current task
+- If the toast contains an action button, it can be accessed via keyboard navigation
+- The auto-dismiss timer respects user interaction, pausing when the user engages with the toast
+
+### Best Practices
+
+- Keep toast messages concise and clear
+- Use appropriate toast types to convey urgency (`DANGER`/`WARNING` for critical messages)
+- Provide sufficient duration for users to read and interact with the message (default: 2000ms)
+- Action buttons should have clear, descriptive text

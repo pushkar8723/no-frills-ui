@@ -31,8 +31,23 @@ Props of native `div` element.
 
 ## CSS Variables Used
 
-| Variable Name  | Description                  |
-| :------------- | :--------------------------- |
-| --background   | Used for `background-color`. |
-| --shadow       | Used for `box-shadow`.       |
-| --modal-shadow | Used for `box-shadow`.       |
+| Variable Name         | Description                  |
+| :-------------------- | :--------------------------- |
+| `--nfui-background`   | Used for `background-color`. |
+| `--nfui-shadow`       | Used for `box-shadow`.       |
+| `--nfui-modal-shadow` | Used for `box-shadow`.       |
+
+## Accessibility
+
+The Card component is a generic presentational container that follows WCAG 2.1 AA guidelines:
+
+- **Semantic flexibility**: Uses a `div` element appropriate for generic containers. Content within the card should use semantic HTML as needed.
+- **ARIA support**: All standard HTML attributes including ARIA properties can be passed through props for specific accessibility needs.
+- **Non-interactive**: The card itself is not interactive. If you need a clickable card, wrap it in a button or link element.
+
+### Recommendations
+
+- **Content contrast**: Ensure text and interactive elements within the card meet WCAG AA contrast requirements (4.5:1 for normal text, 3:1 for large text).
+- **Scrollable content**: If card content overflows, ensure keyboard navigation works properly within the scrollable region.
+- **Semantic structure**: Use appropriate heading levels and semantic elements for content within the card.
+- **Interactive cards**: If making the card clickable, use a semantic element (button/link) and ensure proper focus indicators are visible.

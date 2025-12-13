@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useId } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 export enum TOOLTIP_POSITION {
     TOP = 'TOP',
@@ -46,9 +46,9 @@ const positionHoverStyle = {
 
 const TooltipDiv = styled.div<{ position: TOOLTIP_POSITION }>`
     position: absolute;
-    background-color: var(--tooltip-color, ${constants.TOOLTIP_COLOR});
+    background-color: ${getThemeValue(THEME_NAME.TOOLTIP_COLOR)};
     padding: 5px;
-    color: #fff;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
     border-radius: 3px;
     transition: transform 0.3s ease;
     font-size: 12px;
@@ -62,18 +62,32 @@ const TooltipContainer = styled.div<{ position: TOOLTIP_POSITION }>`
     justify-content: center;
     align-items: center;
 
-    &:hover ${TooltipDiv} {
+    &:hover ${TooltipDiv}, &:focus-within ${TooltipDiv} {
         ${(props) => positionHoverStyle[props.position]}
     }
 `;
 
 export default function Tooltip(props: React.PropsWithChildren<TooltipProps>) {
     const { children, position, ...rest } = props;
+    const tooltipId = useId();
+
+    // Clone the child to inject aria-describedby and tabIndex if possible
+    const trigger = React.isValidElement(children)
+        ? React.cloneElement(children as React.ReactElement, {
+              'aria-describedby': tooltipId,
+              tabIndex:
+                  children.props && typeof children.props.tabIndex !== 'undefined'
+                      ? children.props.tabIndex
+                      : 0,
+          })
+        : children;
 
     return (
         <TooltipContainer position={position} {...rest}>
-            {children}
-            <TooltipDiv position={position}>{rest.tooltipText}</TooltipDiv>
+            {trigger}
+            <TooltipDiv id={tooltipId} aria-hidden="true" role="tooltip" position={position}>
+                {rest.tooltipText}
+            </TooltipDiv>
         </TooltipContainer>
     );
 }

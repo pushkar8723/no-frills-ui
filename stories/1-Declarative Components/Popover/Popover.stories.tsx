@@ -41,7 +41,11 @@ const [open, setOpen] = useState(false);
 <Popover
     open={open}
     position={POPOVER_POSITION.TOP_RIGHT}
-    element={<button onClick={() => setOpen(true)}>Open Popover</button>}
+    element={({ ...passedProps }) => (
+        <Button onClick={() => setOpen(!open)} {...passedProps}>
+            Open Popover
+        </Button>
+    )}
 >
     Popover Content goes here
 </Popover>`,

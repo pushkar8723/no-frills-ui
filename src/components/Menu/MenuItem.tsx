@@ -1,31 +1,37 @@
 import React, { SyntheticEvent, useContext } from 'react';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import Checkbox from '../Input/Checkbox';
 import MenuContext, { MenuContextType } from './MenuContext';
 
 interface MenuItemProps<T> {
     /** Value of the element */
-    value: T & T[];
+    value: T;
 }
 
-const Container = styled.button<{ selected: boolean }>`
+const Container = styled.button<{ selected: boolean; multiselect?: boolean }>`
     font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
-    padding: 8px 6px;
+    padding: 8px;
     border: none;
+    border-left: 4px solid
+        ${(props) =>
+            props.selected && !props.multiselect
+                ? getThemeValue(THEME_NAME.TEXT_COLOR_DARK)
+                : 'transparent'};
     background-color: transparent;
     font-size: 16px;
-    border-bottom: 1px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+    border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
     min-height: 41px;
     display: flex;
     align-items: center;
     cursor: pointer;
     position: relative;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
 
     &:hover,
     &:focus,
     &:focus-within {
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+        background-color: ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
     }
 
     & > label {
@@ -33,15 +39,15 @@ const Container = styled.button<{ selected: boolean }>`
     }
 `;
 
-export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChildren<unknown>) {
+const MenuItemInner = <T,>(
+    props: MenuItemProps<T> & React.PropsWithChildren,
+    ref: React.Ref<HTMLButtonElement>,
+) => {
     const context = useContext(MenuContext) as MenuContextType<T>;
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
-        if (context.multiSelect) {
-            e.nativeEvent.stopImmediatePropagation();
-        }
-        context.updateValue(value);
+        context.updateValue(value as T & T[]);
     };
 
     const selected = context.multiSelect
@@ -51,13 +57,29 @@ export default function MenuItem<T>(props: MenuItemProps<T> & React.PropsWithChi
     return (
         <Container
             {...rest}
+            ref={ref}
             type="button"
-            tabIndex={context.multiSelect ? -1 : 0}
+            role="option"
+            aria-selected={selected}
             selected={selected}
             onClick={clickHandler}
+            multiselect={context.multiSelect ? true : undefined}
         >
-            {context.multiSelect && <Checkbox checked={selected} />}
+            {context.multiSelect && (
+                <Checkbox
+                    checked={selected}
+                    readOnly
+                    tabIndex={-1}
+                    onClick={(e) => e.stopPropagation()}
+                />
+            )}
             {children}
         </Container>
     );
-}
+};
+
+const MenuItem = React.forwardRef(MenuItemInner) as <T>(
+    props: MenuItemProps<T> & React.PropsWithChildren & { ref?: React.Ref<HTMLButtonElement> },
+) => ReturnType<typeof MenuItemInner>;
+
+export default MenuItem;

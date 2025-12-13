@@ -1,76 +1,93 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const Label = styled.label`
     display: inline-flex;
     align-items: center;
     margin: 5px 0;
+    cursor: pointer;
+    position: relative;
 `;
 
-const Input = styled.input`
-    appearance: none;
+const StyledRadio = styled.span`
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
+    border-radius: 50%;
+    display: block;
+    transition: background-color 0.3s ease;
+    position: relative;
+    flex-shrink: 0;
+
+    &::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-shadow: inset 0 0 0 3px ${getThemeValue(THEME_NAME.BACKGROUND)};
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+`;
+
+const HiddenInput = styled.input`
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
     margin: 0;
 
-    &::before {
-        content: ' ';
-        width: 16px;
-        height: 16px;
-        margin: 0 5px;
-        border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
-        border-radius: 50%;
-        display: block;
-        transition: background-color 0.3s ease;
+    /* checked */
+    &:checked + ${StyledRadio} {
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        background-color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
-    /* checked */
-    &:checked::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
-        background-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: inset 0 0 0 3px var(--background, ${constants.BACKGROUND});
+    &:checked + ${StyledRadio}::after {
+        opacity: 1;
     }
 
     /* focus */
-    &:enabled:focus::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT});
-        cursor: pointer;
+    &:enabled:focus + ${StyledRadio} {
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 3px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
-    &:enabled:checked:focus::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
-        box-shadow:
-            0 0 0 3px var(--primary, ${constants.PRIMARY_LIGHT}),
-            inset 0 0 0 3px var(--background, ${constants.BACKGROUND});
-        cursor: pointer;
+    &:enabled:checked:focus + ${StyledRadio} {
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 3px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     /* hover */
-    &:enabled:hover::before {
-        border: 1px solid var(--primary, ${constants.PRIMARY});
-        cursor: pointer;
+    &:enabled:hover + ${StyledRadio} {
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
-    &:enabled:hover + span {
-        color: var(--primary, ${constants.PRIMARY});
-        cursor: pointer;
+    &:enabled:hover ~ span {
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /* disabled */
-    &:disabled::before {
-        border: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
-        background-color: var(--light-grey, ${constants.LIGHT_GREY});
+    &:disabled + ${StyledRadio} {
+        border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        background-color: ${getThemeValue(THEME_NAME.LIGHT_GREY)};
+        cursor: not-allowed;
     }
 
-    &:disabled:checked::before {
-        border: 1px solid var(--disabled-border, ${constants.DISABLED_BORDER});
-        background-color: var(--disabled-border, ${constants.DISABLED_BORDER});
-        box-shadow: inset 0 0 0 3px var(--background, ${constants.BACKGROUND});
+    &:disabled:checked + ${StyledRadio} {
+        border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
     }
 
-    &:disabled + span {
-        color: var(--disabled-border, ${constants.DISABLED_BORDER});
+    &:disabled ~ span {
+        color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        cursor: not-allowed;
     }
 `;
 
@@ -79,7 +96,8 @@ function Radio(
 ) {
     return (
         <Label>
-            <Input {...props} type="radio" />
+            <HiddenInput {...props} type="radio" />
+            <StyledRadio />
             <span>{props.label}</span>
         </Label>
     );

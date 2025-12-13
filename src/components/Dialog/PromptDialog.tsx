@@ -11,6 +11,29 @@ const BodyText = styled.p`
     margin-top: 0;
 `;
 
+const InputContainer = styled.div`
+    display: flex;
+    flex: 1;
+    margin-top: 10px;
+
+    & > label {
+        flex: 1;
+        width: 100%;
+        padding: 0;
+
+        & > input {
+            width: 100%;
+            padding: 0 8px;
+            box-sizing: border-box;
+        }
+    }
+`;
+
+const StyledInput = styled(Input)`
+    flex: 1;
+    padding: 0;
+`;
+
 export default class PromptDialog extends React.Component<PromptOption, { value: string }> {
     static propTypes = {
         /** Shown as header of the dialog */
@@ -87,14 +110,13 @@ export default class PromptDialog extends React.Component<PromptOption, { value:
                     {header && <DialogHeader>{header}</DialogHeader>}
                     <DialogBody>
                         <BodyText>{body}</BodyText>
-                        <div style={{ display: 'flex' }}>
-                            <Input
-                                style={{ width: 'auto', flex: '1' }}
+                        <InputContainer>
+                            <StyledInput
                                 value={this.state.value}
                                 onChange={this.valueChange}
                                 {...inputProps}
                             />
-                        </div>
+                        </InputContainer>
                     </DialogBody>
                     <DialogFooter>
                         <Button type="button" onClick={this.cancel}>

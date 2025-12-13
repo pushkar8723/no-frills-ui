@@ -49,7 +49,7 @@ import { Notification, NOTIFICATION_POSITION, NOTIFICATION_TYPE } from 'no-frill
 
 // Add a notification
 // It returns an id which can be used to programmatically dismiss the notification.
-const id = Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+const id = await Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
     title: 'New message received',
     description: 'Please share feedback if you like this approach.',
     type: NOTIFICATION_TYPE.INFO,
@@ -68,15 +68,46 @@ Notification.destroy(NOTIFICATION_POSITION.TOP_RIGHT);
 
 ## CSS Variables used
 
-| Variable Name   | Description                  |
-| :-------------- | :--------------------------- |
-| --background    | Used for `background-color`. |
-| --shadow        | Used for `box-shadow`        |
-| --info          | Used for `color`             |
-| --info-light    | Used for `border-color`      |
-| --success       | Used for `color`             |
-| --success-light | Used for `border-color`      |
-| --warn          | Used for `color`             |
-| --warn-light    | Used for `border-color`      |
-| --error         | Used for `color`             |
-| --error-light   | Used for `border-color`      |
+| Variable Name            | Description                  |
+| :----------------------- | :--------------------------- |
+| `--nfui-background`      | Used for `background-color`. |
+| `--nfui-shadow`          | Used for `box-shadow`.       |
+| `--nfui-info`            | Used for `color`.            |
+| `--nfui-info-light`      | Used for `border-color`.     |
+| `--nfui-success`         | Used for `color`.            |
+| `--nfui-success-light`   | Used for `border-color`.     |
+| `--nfui-warning`         | Used for `color`.            |
+| `--nfui-warning-light`   | Used for `border-color`.     |
+| `--nfui-error`           | Used for `color`.            |
+| `--nfui-error-light`     | Used for `border-color`.     |
+| `--nfui-primary-light`   | Used for `box-shadow`.       |
+| `--nfui-text-color-dark` | Used from `color`.           |
+
+## Accessibility
+
+The Notification component is designed to meet WCAG 2.1 AA accessibility requirements:
+
+- **ARIA Roles & Live Regions:**
+    - Uses two persistent live region containers (present in DOM before notifications appear).
+    - Warning and danger notifications use `role="alert"` with `aria-live="assertive"` for immediate announcement.
+    - Info and success notifications use `role="log"` with `aria-live="polite"` for sequential, non-disruptive announcement.
+    - Content is cleared and re-added with a 150ms delay to ensure reliable VoiceOver detection.
+    - Alert region uses `aria-atomic="true"` to announce complete urgent messages.
+    - Log region uses `aria-atomic="false"` with `aria-relevant="additions text"` to announce only new content.
+    - Only the most recent notification is announced to avoid overwhelming screen reader users.
+- **Structured Content:**
+    - Multiple notifications are presented as a list (`role="list"` with `role="listitem"`).
+    - Screen readers receive announcements from dedicated live regions, not visual elements.
+- **Keyboard Accessibility:**
+    - Close button is keyboard accessible (`tabIndex={0}`) with proper focus indication.
+    - Close button has `aria-label="Close notification"` for screen readers.
+    - Users can navigate between notifications using standard list navigation.
+- **Non-Disruptive:**
+    - Notifications don't trap focus, allowing users to continue their workflow.
+    - Notifications auto-dismiss (configurable) to avoid cluttering the screen.
+    - Pause on hover prevents premature dismissal during interaction.
+- **Developer Responsibilities:**
+    - Use appropriate notification types (warning/danger for urgent, info/success for non-urgent).
+    - Keep notification text concise and descriptive.
+    - Ensure custom themes meet color contrast requirements for text and icons (minimum 4.5:1 ratio).
+    - Test with screen readers to verify announcements work as expected.

@@ -5,10 +5,11 @@ import {
     useState,
     useEffect,
     TouchEventHandler,
+    useRef,
 } from 'react';
 import styled from '@emotion/styled';
 import { DragIndicator } from '../../icons';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import { ORIENTATION, DragContext } from './types';
 
 interface DragItemProps {
@@ -20,6 +21,10 @@ interface DragItemProps {
     showIndicator: boolean;
     /** The index of the item currently being dragged over */
     dragOver: number;
+    /** Total number of items in the list */
+    totalItems: number;
+    /** Callback to set announcement for screen readers */
+    setAnnouncement: (message: string) => void;
 }
 
 /** Styled component for the draggable item container */
@@ -32,27 +37,40 @@ const Item = styled.div<{
     cursor: ${(props) => (props.showIndicator ? 'default' : 'move')};
     display: flex;
     user-select: ${(props) => (props.showIndicator ? 'auto' : 'none')};
-    border-top: 2px solid
+    border-top: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.VERTICAL && props.active > 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
-    border-bottom: 2px solid
+    border-bottom: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.VERTICAL && props.active < 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
-    border-left: 2px solid
+    border-left: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.HORIZONTAL && props.active > 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
-    border-right: 2px solid
+    border-right: 2px dashed
         ${(props) =>
             props.orientation === ORIENTATION.HORIZONTAL && props.active < 0
-                ? constants.PRIMARY
+                ? getThemeValue(THEME_NAME.PRIMARY)
                 : 'transparent'};
     opacity: ${(props) => (props.dragging ? 0.5 : 1)};
+    border-radius: 10px;
+
+    &:focus {
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
+    }
+
+    &:focus:not(:focus-visible) {
+        box-shadow: none;
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
+    }
 `;
 
 /** Styled component for the drag handle indicator */
@@ -60,7 +78,7 @@ const DragKnob = styled.div`
     padding-top: 8px;
     cursor: move;
     touch-action: none;
-    color: var(--disabled, ${constants.DISABLED});
+    color: ${getThemeValue(THEME_NAME.DISABLED)};
 `;
 
 /** Container for the children */
@@ -101,9 +119,10 @@ const Container = styled.div`
  * @returns A draggable item with optional drag indicator and visual feedback
  */
 export default function DragItem(props: PropsWithChildren<DragItemProps>) {
-    const { index, orientation, children, showIndicator, dragOver } = props;
+    const { index, orientation, children, showIndicator, dragOver, totalItems, setAnnouncement } =
+        props;
     const [active, setActive] = useState(0);
-    const [touchTimer, setTouchTimer] = useState<NodeJS.Timeout | null>(null);
+    const touchTimerRef = useRef<NodeJS.Timeout | null>(null);
     const context = useContext(DragContext);
 
     /**
@@ -158,15 +177,18 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
      * @param e Event
      */
     const touchStartHandler: TouchEventHandler<HTMLDivElement> = () => {
-        const timer = setTimeout(() => {
+        // Clear any existing timer first
+        if (touchTimerRef.current) {
+            clearTimeout(touchTimerRef.current);
+        }
+
+        touchTimerRef.current = setTimeout(() => {
             context.setStartIndex(index);
             context.setIsDragging(true);
             context.setDragOver(index);
             document.body.style.overflow = 'hidden';
             vibrate(50);
         }, 200);
-
-        setTouchTimer(timer);
     };
 
     /**
@@ -193,9 +215,9 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
             if (overIndex !== null) {
                 context.setDragOver(overIndex);
             }
-        } else if (touchTimer) {
-            clearTimeout(touchTimer);
-            setTouchTimer(null);
+        } else if (touchTimerRef.current) {
+            clearTimeout(touchTimerRef.current);
+            touchTimerRef.current = null;
         }
     };
 
@@ -204,9 +226,9 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
      * @param e Event
      */
     const touchEndHandler: TouchEventHandler<HTMLDivElement> = () => {
-        if (touchTimer) {
-            clearTimeout(touchTimer);
-            setTouchTimer(null);
+        if (touchTimerRef.current) {
+            clearTimeout(touchTimerRef.current);
+            touchTimerRef.current = null;
         }
 
         if (context.isDragging) {
@@ -217,13 +239,92 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
         }
     };
 
-    /** Cleanup touch timer on unmount */
+    /**
+     * Keyboard navigation handler for reordering items
+     * @param e Keyboard event
+     */
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        const isVertical = orientation === ORIENTATION.VERTICAL;
+        const moveUp = isVertical ? 'ArrowUp' : 'ArrowLeft';
+        const moveDown = isVertical ? 'ArrowDown' : 'ArrowRight';
+
+        const isGrabbed = context.isDragging && context.startIndex === index;
+
+        // Space to grab/drop
+        if (e.key === ' ' || e.key === 'Spacebar') {
+            e.preventDefault();
+            if (isGrabbed) {
+                // Drop at current position
+                context.drop(index);
+                setAnnouncement(
+                    context.i18n.replacePlaceholders(context.i18n.droppedAnnouncementTemplate, {
+                        position: index + 1,
+                    }),
+                );
+            } else {
+                // Grab item
+                context.startGrab(index);
+                setAnnouncement(
+                    context.i18n.replacePlaceholders(context.i18n.grabbedAnnouncementTemplate, {
+                        position: index + 1,
+                    }),
+                );
+            }
+        }
+        // Enter to drop
+        else if (e.key === 'Enter' && isGrabbed) {
+            e.preventDefault();
+            context.drop(index);
+            setAnnouncement(
+                context.i18n.replacePlaceholders(context.i18n.droppedAnnouncementTemplate, {
+                    position: index + 1,
+                }),
+            );
+        }
+        // Escape to cancel
+        else if (e.key === 'Escape' && isGrabbed) {
+            e.preventDefault();
+            context.cancel();
+            setAnnouncement(context.i18n.cancelledAnnouncementTemplate);
+        }
+        // Arrow keys to move while grabbed
+        else if (isGrabbed) {
+            if (e.key === moveUp && index > 0) {
+                e.preventDefault();
+                // Move without dropping - just reorder and update startIndex
+                const newIndex = index - 1;
+                context.onDrop(context.startIndex, newIndex);
+                context.setStartIndex(newIndex);
+                setAnnouncement(
+                    context.i18n.replacePlaceholders(context.i18n.movedAnnouncementTemplate, {
+                        position: newIndex + 1,
+                    }),
+                );
+            } else if (e.key === moveDown && index < totalItems - 1) {
+                e.preventDefault();
+                // Move without dropping - just reorder and update startIndex
+                const newIndex = index + 1;
+                context.onDrop(context.startIndex, newIndex);
+                context.setStartIndex(newIndex);
+                setAnnouncement(
+                    context.i18n.replacePlaceholders(context.i18n.movedAnnouncementTemplate, {
+                        position: newIndex + 1,
+                    }),
+                );
+            }
+        }
+    };
+
+    /** Cleanup touch timer and body overflow on unmount */
     useEffect(() => {
         return () => {
-            if (touchTimer) clearTimeout(touchTimer);
+            if (touchTimerRef.current) {
+                clearTimeout(touchTimerRef.current);
+                touchTimerRef.current = null;
+            }
             document.body.style.overflow = 'auto';
         };
-    }, [touchTimer]);
+    }, []);
 
     /** Update active state based on dragOver changes */
     useEffect(() => {
@@ -242,6 +343,13 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
             dragging={context.isDragging && context.startIndex === index}
             orientation={orientation}
             data-drag-index={index}
+            tabIndex={0}
+            role="listitem"
+            aria-label={context.i18n.replacePlaceholders(context.i18n.itemAriaLabelTemplate, {
+                position: index + 1,
+            })}
+            aria-grabbed={context.isDragging && context.startIndex === index}
+            onKeyDown={handleKeyDown}
             onDragStart={!showIndicator ? dragStartHandler : undefined}
             onDragOver={dragOverHandler}
             onDragLeave={dragExitHandler}
@@ -252,7 +360,15 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
             onTouchCancel={touchEndHandler}
         >
             {showIndicator && (
-                <DragKnob draggable onDragStart={dragStartHandler} onTouchStart={touchStartHandler}>
+                <DragKnob
+                    draggable
+                    role="button"
+                    aria-label={context.i18n.dragHandleAriaLabel}
+                    onDragStart={dragStartHandler}
+                    onTouchStart={touchStartHandler}
+                    onKeyDown={handleKeyDown}
+                    tabIndex={-1}
+                >
                     <DragIndicator />
                 </DragKnob>
             )}

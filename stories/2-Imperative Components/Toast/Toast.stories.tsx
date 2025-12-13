@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Button } from '../../../src/components/Button';
 import { Toast, TOAST_TYPE } from '../../../src/components/Toast';
 import ToastStory from '../../../src/components/Toast/ToastStory';
+import { Ellipsis } from '../../../src/shared/styles';
 
 const meta: Meta = {
     component: ToastStory,
@@ -19,22 +20,22 @@ export const Variations: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a simple toast.',
                     });
                 }}
             >
-                Simple Toast
+                <Ellipsis>Simple Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is an action toast.',
                         buttonText: 'Action',
                         buttonClick: () => alert('Action button on toast was clicked.'),
                     });
                 }}
             >
-                Action Toast
+                <Ellipsis>Action Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
@@ -46,13 +47,13 @@ export const Variations: Story = {
                     });
                 }}
             >
-                Multiline Toast
+                <Ellipsis>Multiline Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
                     Toast.add({
                         text: `
-                        When a toast contains a very large string, the excess
+                        This is multiline toast with an action. When a toast contains a very large string, the excess
                         string is wrapped and showed on the next line.
                     `,
                         buttonText: 'Action',
@@ -60,7 +61,7 @@ export const Variations: Story = {
                     });
                 }}
             >
-                Multiline Action Toast
+                <Ellipsis>Multiline Action Toast</Ellipsis>
             </Button>
         </div>
     ),
@@ -108,42 +109,42 @@ export const Types: Story = {
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is an information toast.',
                         type: TOAST_TYPE.INFO,
                     });
                 }}
             >
-                Information Toast
+                <Ellipsis>Information Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a success toast.',
                         type: TOAST_TYPE.SUCCESS,
                     });
                 }}
             >
-                Success Toast
+                <Ellipsis>Success Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a warning toast.',
                         type: TOAST_TYPE.WARNING,
                     });
                 }}
             >
-                Warning Toast
+                <Ellipsis>Warning Toast</Ellipsis>
             </Button>
             <Button
                 onClick={() => {
                     Toast.add({
-                        text: 'I am a 🍞 bro.',
+                        text: 'This is a danger toast.',
                         type: TOAST_TYPE.DANGER,
                     });
                 }}
             >
-                Danger Toast
+                <Ellipsis>Danger Toast</Ellipsis>
             </Button>
         </div>
     ),

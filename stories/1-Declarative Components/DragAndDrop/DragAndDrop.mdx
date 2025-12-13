@@ -60,6 +60,64 @@ export default function DragAndDropDemo(prop) {
 
 ## CSS Variables used
 
-| Variable Name | Description       |
-| :------------ | :---------------- |
-| --disabled    | Used for `color`. |
+| Variable Name          | Description                                        |
+| :--------------------- | :------------------------------------------------- |
+| `--nfui-disabled`      | Used for `color`.                                  |
+| `--nfui-primary`       | Used for focus `box-shadow` and drop zone borders. |
+| `--nfui-primary-light` | Used for focus `box-shadow`.                       |
+
+## Accessibility
+
+This component meets **WCAG 2.1 Level AA** standards.
+
+### Keyboard Navigation
+
+- **Tab**: Navigate to items
+- **Space**: Grab/drop item
+- **Arrow Keys** (while grabbed): Move item up/down or left/right
+- **Enter** (while grabbed): Drop at current position
+- **Escape** (while grabbed): Cancel and restore to original position
+
+### Screen Reader Support
+
+- **Semantic Structure**: List presented with `role="list"` and `role="listitem"`
+- **Descriptive Labels**: Each item announces position and keyboard instructions
+- **Live Announcements**: Real-time feedback for grab, move, drop, and cancel actions
+- **Drag State**: `aria-grabbed` indicates when an item is being dragged
+
+### Visual Feedback
+
+- **Focus Indicator**: Clear box-shadow on keyboard focus
+- **Drop Zones**: Dashed borders show where item will be dropped
+- **Dragging State**: 50% opacity while item is being moved
+
+### Internationalization (i18n)
+
+All announcements and labels support customization with auto-injecting keyboard key names:
+
+**Available Props:**
+
+- `itemAriaLabelTemplate` - Item aria-label with instructions
+- `dragHandleAriaLabel` - Drag handle label (when `showIndicator` is true)
+- `grabbedAnnouncementTemplate` - Announcement when item is grabbed
+- `movedAnnouncementTemplate` - Announcement when item position changes
+- `droppedAnnouncementTemplate` - Announcement when item is dropped
+- `cancelledAnnouncementTemplate` - Announcement when drag is cancelled
+
+**Placeholders:**
+
+- `{:position}` - Item position number
+- `{:grabKey}`, `{:dropKey}`, `{:altDropKey}`, `{:cancelKey}` - Auto-inject keyboard keys
+- `{:moveKeys}` - Orientation-aware arrow key names
+
+Example with Spanish:
+
+```tsx
+<DragAndDrop
+    orientation={ORIENTATION.VERTICAL}
+    onDrop={onDrop}
+    itemAriaLabelTemplate="Elemento {:position}. Presiona {:grabKey} para agarrar, {:moveKeys} para mover"
+    grabbedAnnouncementTemplate="Elemento {:position} agarrado. Usa {:moveKeys} para mover, {:dropKey} para soltar, {:cancelKey} para cancelar"
+    movedAnnouncementTemplate="Elemento movido a posición {:position}"
+/>
+```

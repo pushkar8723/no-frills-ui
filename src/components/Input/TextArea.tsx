@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useId } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 interface TextAreaProps
     extends
@@ -17,7 +17,6 @@ type TextAreaInternalProps = TextAreaProps & {
 const Label = styled.label`
     display: inline-flex;
     flex-direction: column;
-    flex: 1;
     position: relative;
     margin: 10px 5px;
 `;
@@ -29,47 +28,47 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     min-height: 150px;
     min-width: 250px;
     border-radius: 3px;
-    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+    border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     display: inline-block;
-    background-color: var(--background, ${constants.BACKGROUND});
+    background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
 
     /** Focused */
     &:focus,
     &:active {
-        border-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 4px var(--primary, ${constants.PRIMARY_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:focus + span,
     &:active + span {
-        color: var(--primary, ${constants.PRIMARY});
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     /** Disabled */
     &:disabled {
-        border-color: var(--disabled-border, ${constants.DISABLED_BORDER});
-        background-color: var(--disabled-background, ${constants.DISABLED_BACKGROUND});
+        border-color: ${getThemeValue(THEME_NAME.DISABLED_BORDER)};
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
     }
 
     &:disabled + span {
-        color: var(--disabled, ${constants.DISABLED});
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 
     /** Invalid */
     &:focus:invalid {
-        border-color: var(--error, ${constants.ERROR});
-        box-shadow: 0 0 0 4px var(--error-light, ${constants.ERROR_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.ERROR)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.ERROR_LIGHT)};
     }
 
     ${(props) =>
         props.touched
             ? `
     &:invalid {
-        border-color: var(--error, ${constants.ERROR});
+        border-color: ${getThemeValue(THEME_NAME.ERROR)};
     }
 
     &:invalid + span {
-        color: var(--error, ${constants.ERROR});
+        color: ${getThemeValue(THEME_NAME.ERROR)};
     }
     `
             : ''}
@@ -78,10 +77,10 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     ${(props) =>
         props.errorText
             ? `
-    border-color: var(--error, ${constants.ERROR});
+    border-color: ${getThemeValue(THEME_NAME.ERROR)};
 
     & + span {
-        color: var(--error, ${constants.ERROR});
+        color: ${getThemeValue(THEME_NAME.ERROR)};
     }
     `
             : ''}
@@ -90,7 +89,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
     &:required + span:after {
         content: '*';
         margin-left: 2px;
-        color: var(--error, ${constants.ERROR});
+        color: ${getThemeValue(THEME_NAME.ERROR)};
     }
 
     /** Label Animation */
@@ -109,7 +108,7 @@ const TextField = styled.textarea<TextAreaInternalProps>`
             ? `
     & + span {
         top: -8px;
-        background: var(--background, ${constants.BACKGROUND});
+        background: ${getThemeValue(THEME_NAME.BACKGROUND)};
         font-size: 12px;
         line-height: 14px;
     }
@@ -118,14 +117,14 @@ const TextField = styled.textarea<TextAreaInternalProps>`
 
     &:focus + span, &:placeholder-shown + span {
         top: -8px;
-        background: var(--background, ${constants.BACKGROUND});
+        background: ${getThemeValue(THEME_NAME.BACKGROUND)};
         font-size: 12px;
         line-height: 14px;
     }
 `;
 
 const ErrorContainer = styled.div`
-    color: var(--error, ${constants.ERROR});
+    color: ${getThemeValue(THEME_NAME.ERROR)};
     padding-top: 3px;
     font-size: 12px;
     line-height: 14px;
@@ -135,6 +134,13 @@ const ErrorContainer = styled.div`
 export default function TextArea(props: TextAreaProps) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
+    const errorId = useId();
+
+    useEffect(() => {
+        if (props.value !== undefined) {
+            setValue(props.value);
+        }
+    }, [props.value]);
 
     const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         setTouched(true);
@@ -160,9 +166,12 @@ export default function TextArea(props: TextAreaProps) {
                 onChange={onChangeHandler}
                 onFocus={handleFocus}
                 touched={touched}
+                aria-invalid={!!props.errorText}
+                aria-required={props.required}
+                aria-describedby={props.errorText ? errorId : undefined}
             />
             <span>{props.label}</span>
-            {props.errorText && <ErrorContainer>{props.errorText}</ErrorContainer>}
+            {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
         </Label>
     );
 }

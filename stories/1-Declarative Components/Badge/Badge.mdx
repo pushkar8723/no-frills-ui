@@ -32,9 +32,77 @@ Following props are added on top of `HTMLSpanElement` props.
 
 ## CSS Variables Used
 
-| Variable Name | Description                  |
-| ------------- | ---------------------------- |
-| `--primary`   | Used for `background-color`. |
-| `--success`   | Used for `background-color`. |
-| `--info`      | Used for `background-color`. |
-| `--danger`    | Used for `background-color`. |
+| Variable Name             | Description                  |
+| ------------------------- | ---------------------------- |
+| `--nfui-primary`          | Used for `background-color`. |
+| `--nfui-success`          | Used for `background-color`. |
+| `--nfui-warning`          | Used for `background-color`. |
+| `--nfui-error`            | Used for `background-color`. |
+| `--nfui-disabled`         | Used for `background-color`. |
+| `--nfui-text-color-light` | Used for `color`.            |
+
+## Accessibility
+
+### WCAG 2.1 AA Compliance
+
+This component meets WCAG 2.1 AA standards when used according to these guidelines:
+
+#### ✅ Color Contrast
+
+All badge colors have been tested to ensure 4.5:1 contrast ratio with white text.
+
+#### Required: Text Alternatives for Empty Badges
+
+Empty badges (notification dots) **must** include an `aria-label`:
+
+```tsx
+// ✅ Correct - Provides context for screen readers
+<Badge aria-label="3 new messages" />
+<Badge type="danger" aria-label="Critical alert" />
+
+// ❌ Incorrect - Screen readers cannot interpret
+<Badge />
+```
+
+#### Recommended: Semantic Roles
+
+For status indicators, use `role="status"`:
+
+```tsx
+<Badge type="success" role="status">
+    Verified
+</Badge>
+
+// For dynamic updates
+<Badge type="warning" role="status" aria-live="polite">
+    Syncing...
+</Badge>
+```
+
+#### Best Practices
+
+1. **Prefer text content** over empty badges when possible
+2. **Don't rely on color alone** - always include descriptive text
+3. **Internationalization** - Pass `aria-label` in user's language
+4. **Context matters** - Ensure the badge's meaning is clear from surrounding content
+
+### Examples
+
+```tsx
+// Inline badge with text
+<Badge type="success" inline>Active</Badge>
+
+// Notification count
+<Badge aria-label="5 unread notifications">5</Badge>
+
+// Status indicator
+<Badge type="danger" role="status" aria-label="Payment failed">
+    Failed
+</Badge>
+
+// Empty notification dot (properly labeled)
+<div style={{ position: 'relative' }}>
+    <BellIcon />
+    <Badge aria-label="You have new notifications" />
+</div>
+```

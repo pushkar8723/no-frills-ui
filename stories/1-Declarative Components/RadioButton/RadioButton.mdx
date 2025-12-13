@@ -38,7 +38,22 @@ Following props are added on top of `HTMLInputElement` props.
 
 ## CSS Variables Used
 
-| Variable Name   | Description                                                 |
-| :-------------- | :---------------------------------------------------------- |
-| --primary       | Used for `color` and `border-color` and `background-color`. |
-| --primary-light | Used for `box-shadow`.                                      |
+| Variable Name            | Description                                              |
+| :----------------------- | :------------------------------------------------------- |
+| `--nfui-primary`         | Used for `color`, `border-color` and `background-color`. |
+| `--nfui-primary-light`   | Used for `box-shadow`.                                   |
+| `--nfui-background`      | Used for `box-shadow` (inset) and `background-color`.    |
+| `--nfui-border-color`    | Used for `border-color`.                                 |
+| `--nfui-disabled-border` | Used for disabled `border-color` and `background-color`. |
+| `--nfui-light-grey`      | Used for disabled `background-color`.                    |
+
+## Accessibility
+
+The RadioButton component is fully compliant with WCAG 2.1 AA guidelines:
+
+- **Label Association**: The label is implicitly associated with the radio input through nesting within the `<label>` element.
+- **Semantic HTML**: Uses native `<input type="radio">` which provides built-in ARIA semantics and behavior.
+- **Keyboard Navigation**: Full keyboard support through native radio button behavior (arrow keys for navigation within a group, Space to select).
+- **Focus Indication**: Clear focus styles are provided for keyboard navigation, with enhanced z-index management to prevent overlap in RadioGroup.
+- **Disabled State**: Properly handles disabled state with appropriate visual styling and prevents interaction.
+- **RadioGroup**: The `RadioGroup` component is purely decorative for visual styling. When grouping related radio buttons with a descriptive label, consider using a `<fieldset>` with `<legend>` at the form level for proper semantic grouping.

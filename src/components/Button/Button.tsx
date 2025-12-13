@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-export default styled.button`
-    border: 1px solid var(--border-color, ${constants.BORDER_COLOR});
+const StyledButton = styled.button`
+    border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     border-radius: 5px;
     height: 32px;
     min-width: 100px;
@@ -10,12 +10,13 @@ export default styled.button`
     text-align: center;
     padding: 0 12px;
     cursor: pointer;
-    color: inherit;
-    background-color: var(--background, ${constants.BACKGROUND});
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: ${getThemeValue(THEME_NAME.TEXT_COLOR_DARK)};
+    background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     margin: 5px;
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     & svg {
         vertical-align: middle;
@@ -26,18 +27,24 @@ export default styled.button`
     }
 
     &:enabled:hover {
-        border-color: var(--primary, ${constants.PRIMARY});
-        color: var(--primary, ${constants.PRIMARY});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        color: ${getThemeValue(THEME_NAME.PRIMARY)};
     }
 
     &:focus {
-        border-color: var(--primary, ${constants.PRIMARY});
-        box-shadow: 0 0 0 4px var(--primary-light, ${constants.PRIMARY_LIGHT});
+        border-color: ${getThemeValue(THEME_NAME.PRIMARY)};
+        box-shadow: 0 0 0 4px ${getThemeValue(THEME_NAME.PRIMARY_LIGHT)};
     }
 
     &:disabled {
-        background-color: var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
-        border-color: var(--light-grey, ${constants.LIGHT_GREY});
-        color: var(--disabled, ${constants.DISABLED});
+        background-color: ${getThemeValue(THEME_NAME.DISABLED_BACKGROUND)};
+        border-color: ${getThemeValue(THEME_NAME.LIGHT_GREY)};
+        color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 `;
+
+StyledButton.defaultProps = {
+    type: 'button',
+};
+
+export default StyledButton;

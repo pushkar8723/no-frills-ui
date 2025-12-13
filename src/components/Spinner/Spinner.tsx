@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import constants from '../../shared/constants';
+import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
 const SpinnerDiv = styled.div<SpinnerProp>`
-    border: 4px solid var(--primary, ${constants.PRIMARY});
-    border-top: 4px solid var(--border-light-color, ${constants.BORDER_LIGHT_COLOR});
+    border: 4px solid ${getThemeValue(THEME_NAME.PRIMARY)};
+    border-top: 4px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
     border-radius: 50%;
     width: ${(props) => props.size}px;
     height: ${(props) => props.size}px;
@@ -22,7 +22,16 @@ const SpinnerDiv = styled.div<SpinnerProp>`
 `;
 
 function Spinner(props: SpinnerProp) {
-    return <SpinnerDiv {...props} />;
+    const { label, ...rest } = props;
+    return (
+        <SpinnerDiv
+            {...rest}
+            role="status"
+            aria-label={label}
+            aria-live="polite"
+            aria-busy="true"
+        />
+    );
 }
 
 type SpinnerProp = PropTypes.InferProps<typeof Spinner.propTypes>;
@@ -30,10 +39,13 @@ type SpinnerProp = PropTypes.InferProps<typeof Spinner.propTypes>;
 Spinner.propTypes = {
     /** Spinner's size */
     size: PropTypes.number,
+    /** Accessible label for screen readers */
+    label: PropTypes.string,
 };
 
 Spinner.defaultProps = {
     size: 30,
+    label: 'Loading',
 };
 
 export default Spinner;
