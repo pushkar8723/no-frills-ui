@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
@@ -16,7 +15,7 @@ export enum DRAWER_POSITION {
     BOTTOM = 'BOTTOM',
 }
 
-const positionStyle = (size: string) => ({
+const positionStyle = (size?: string) => ({
     [DRAWER_POSITION.LEFT]: {
         before: `height: 100vh; min-width: ${size || '300px'}; transform: translateX(-100%);`,
         after: 'transform: translateX(0%);',
@@ -38,7 +37,7 @@ const positionStyle = (size: string) => ({
     },
 });
 
-const DrawerDiv = styled.div<{ position: DRAWER_POSITION; size: string }>`
+const DrawerDiv = styled.div<{ position: DRAWER_POSITION; size?: string }>`
     display: flex;
     flex-direction: column;
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
@@ -52,28 +51,22 @@ const DrawerDiv = styled.div<{ position: DRAWER_POSITION; size: string }>`
     }
 `;
 
-const drawerPropTypes = {
+type DrawerProps = {
     /** Opens the drawer */
-    open: PropTypes.bool.isRequired,
+    open: boolean;
     /** position of the drawer */
-    position: PropTypes.oneOf([
-        DRAWER_POSITION.LEFT,
-        DRAWER_POSITION.RIGHT,
-        DRAWER_POSITION.BOTTOM,
-    ]),
+    position: DRAWER_POSITION;
     /** size of the drawer */
-    size: PropTypes.string,
+    size?: string;
     /** Shows an overlay behind the drawer. */
-    overlay: PropTypes.bool,
+    overlay?: boolean;
     /** Closes the drawer on esc */
-    closeOnEsc: PropTypes.bool,
+    closeOnEsc?: boolean;
     /** Closes the drawer on overlay click */
-    closeOnOverlayClick: PropTypes.bool,
+    closeOnOverlayClick?: boolean;
     /** Call back function called when the drawer closes. */
-    onClose: PropTypes.func,
+    onClose?: () => void;
 };
-
-type DrawerProps = PropTypes.InferProps<typeof drawerPropTypes>;
 
 interface DrawerState {
     open: boolean;
@@ -105,8 +98,6 @@ export default class Drawer extends React.Component<
         open: false,
     };
 
-    static propTypes = drawerPropTypes;
-
     static defaultProps = {
         overlay: true,
         position: DRAWER_POSITION.LEFT,
@@ -126,9 +117,9 @@ export default class Drawer extends React.Component<
         return null;
     }
 
-    private layer: ReturnType<typeof LayerManager.renderLayer>;
+    private layer?: ReturnType<typeof LayerManager.renderLayer>;
 
-    private closeCallback: (resp?: unknown) => void;
+    private closeCallback?: (resp?: unknown) => void;
 
     /**
      * Internal close handler.
@@ -140,8 +131,8 @@ export default class Drawer extends React.Component<
             open: false,
         });
         this.props.onClose?.();
-        this.closeCallback = null;
-        this.layer = null;
+        this.closeCallback = undefined;
+        this.layer = undefined;
     };
 
     private lastFocusedElement: HTMLElement | null = null;

@@ -65,7 +65,9 @@ class NotificationManager extends React.Component<
      *
      * @param id
      */
-    public remove = (id: string) => {
+    public remove = (id?: string) => {
+        if (!id) return;
+
         // Trigger leaving animation.
         this.setState({
             notices: this.state.notices.map((notice) => ({
@@ -83,8 +85,8 @@ class NotificationManager extends React.Component<
                 if (notice.onClose) {
                     try {
                         notice.onClose();
-                    } catch (e) {
-                        console.warn('Error in notification close callback', e.message);
+                    } catch (e: unknown) {
+                        console.warn('Error in notification close callback', (e as Error).message);
                     }
                 }
 
@@ -177,7 +179,7 @@ class NotificationManager extends React.Component<
      *
      * @param id
      */
-    public closeClickHandler = (id: string) => () => {
+    public closeClickHandler = (id?: string) => () => {
         this.remove(id);
     };
 
@@ -186,8 +188,10 @@ class NotificationManager extends React.Component<
      *
      * @param id
      */
-    public pause = (id: string) => () => {
-        clearTimeout(this.timeouts[id]);
+    public pause = (id?: string) => () => {
+        if (id && this.timeouts[id]) {
+            clearTimeout(this.timeouts[id]);
+        }
     };
 
     /**
@@ -195,9 +199,9 @@ class NotificationManager extends React.Component<
      *
      * @param id
      */
-    public resume = (id: string) => () => {
+    public resume = (id?: string) => () => {
         const notice = this.state.notices.find((notice) => notice.id === id);
-        if (!notice.sticky) {
+        if (!notice?.sticky && id && !this.timeouts[id]) {
             this.timeouts[id] = setTimeout(() => this.remove(id), DEFAULT_DURATION);
         }
     };

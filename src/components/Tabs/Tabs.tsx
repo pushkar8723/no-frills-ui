@@ -76,8 +76,10 @@ export default function Tabs(props: ITabsProps) {
     };
 
     useEffect(() => {
-        setActive(props.active);
-        props.onChange?.(props.active);
+        if (props.active !== undefined) {
+            setActive(props.active);
+            props.onChange?.(props.active);
+        }
     }, [props]);
 
     // Generate unique IDs for tabs and panels using sanitized tab name and index
@@ -90,6 +92,11 @@ export default function Tabs(props: ITabsProps) {
         const name = isValidElement(child) && child.props.name ? child.props.name : `tab${i}`;
         return `nfui-tabpanel-${sanitize(name)}-${i}`;
     });
+
+    // Sanity check for active index
+    if (active === undefined || active < 0 || active >= childrenArray.length) {
+        return null;
+    }
 
     return (
         <>

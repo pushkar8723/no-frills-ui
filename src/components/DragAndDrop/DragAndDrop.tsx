@@ -84,11 +84,11 @@ export default function DragAndDrop(props: DragAndDropProps) {
         droppedAnnouncementTemplate,
         cancelledAnnouncementTemplate,
     } = props;
-    const [startIndex, setStartIndex] = useState<number>(null);
-    const [originalIndex, setOriginalIndex] = useState<number>(null);
+    const [startIndex, setStartIndex] = useState<number | null>(null);
+    const [originalIndex, setOriginalIndex] = useState<number | null>(null);
     const [isDragging, setIsDragging] = useState<boolean>(false);
-    const [dragOver, setDragOver] = useState<number>(null);
-    const [announcement, setAnnouncement] = useState('');
+    const [dragOver, setDragOver] = useState<number | null>(null);
+    const [announcement, setAnnouncement] = useState<string | undefined>('');
     const childrenArray = React.Children.toArray(children);
     const totalItems = childrenArray.length;
 
@@ -141,8 +141,8 @@ export default function DragAndDrop(props: DragAndDropProps) {
      * Drop handler invoked when a draggable item is released.
      * @param index
      */
-    const drop = (index: number) => {
-        if (startIndex !== null) {
+    const drop = (index: number | null) => {
+        if (startIndex !== null && index !== null) {
             onDrop?.(startIndex, index);
         }
         setStartIndex(null);

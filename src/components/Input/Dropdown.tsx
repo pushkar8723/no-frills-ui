@@ -40,7 +40,7 @@ const ArrowContainer = styled.span`
 export default function Dropdown<T extends object>(props: DropdownProps<T>) {
     const { multiSelect, onChange } = props;
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(props.value);
+    const [value, setValue] = useState<T | T[] | undefined>(props.value);
     const id = React.useId();
     const menuId = `${id}-menu`;
     const menuRef = React.useRef<HTMLDivElement>(null);

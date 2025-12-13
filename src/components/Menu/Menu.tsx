@@ -39,12 +39,13 @@ const MenuContainer = styled.div`
  * @param {MenuProps<T> & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>} props - The menu properties.
  * @param {ForwardedRef<HTMLDivElement>} ref - The ref forwarded to the menu container.
  */
-const Menu = React.forwardRef(function <T extends object>(
+function MenuInner<T>(
     props: MenuProps<T> & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
     ref: ForwardedRef<HTMLDivElement>,
 ) {
-    const { multiSelect, onChange, value: propValue, ...rest } = props;
-    const [value, setValue] = useState(propValue || (multiSelect ? [] : ''));
+    const { multiSelect = false, onChange, value: propValue, ...rest } = props;
+    // State holds either a single T or an array of T when multiSelect
+    const [value, setValue] = useState<unknown | undefined>(propValue);
 
     /**
      * Updates the selected value(s).
@@ -52,21 +53,24 @@ const Menu = React.forwardRef(function <T extends object>(
      *
      * @param {T} val - The value to select or deselect.
      */
-    const updateValue = (val: T) => {
-        let newVal;
+    const updateValue = (val: unknown) => {
+        let newVal: unknown;
         if (multiSelect) {
             if (Array.isArray(value)) {
-                if (value.includes(val)) {
-                    newVal = value.filter((item) => item !== val);
+                if (value.includes(val as unknown as T)) {
+                    newVal = (value as T[]).filter((item) => item !== val);
                 } else {
-                    newVal = [...value, val];
+                    newVal = [...(value as T[]), val];
                 }
+            } else {
+                newVal = [val];
             }
         } else {
             newVal = val;
         }
-        setValue(newVal);
-        onChange?.(newVal);
+
+        setValue(newVal as T | T[]);
+        onChange?.(newVal as T | T[]);
     };
 
     /**
@@ -137,15 +141,8 @@ const Menu = React.forwardRef(function <T extends object>(
     };
 
     return (
-        <MenuContext.Provider
-            value={
-                {
-                    value,
-                    multiSelect,
-                    updateValue,
-                } as unknown as React.ContextType<typeof MenuContext>
-            }
-        >
+        // @ts-expect-error Generic context typing
+        <MenuContext.Provider value={{ value: value, multiSelect: !!multiSelect, updateValue }}>
             <MenuContainer
                 {...rest}
                 ref={ref}
@@ -159,12 +156,13 @@ const Menu = React.forwardRef(function <T extends object>(
             </MenuContainer>
         </MenuContext.Provider>
     );
-});
+}
 
-Menu.displayName = 'Menu';
-
-Menu.defaultProps = {
-    multiSelect: false,
-};
+const Menu = React.forwardRef(MenuInner) as <T>(
+    props: MenuProps<T> &
+        Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> & {
+            ref?: ForwardedRef<HTMLDivElement>;
+        },
+) => JSX.Element;
 
 export default Menu;

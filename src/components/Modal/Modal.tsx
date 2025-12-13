@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 export {
     Header as ModalHeader,
@@ -8,18 +7,16 @@ export {
 } from '../../shared/styles';
 import { DialogContainer as ModalContainer } from '../Dialog/Dialog';
 
-const modalPropTypes = {
+type ModalProps = {
     /** Opens the modal */
-    open: PropTypes.bool.isRequired,
+    open: boolean;
     /** Closes the modal on esc */
-    closeOnEsc: PropTypes.bool,
+    closeOnEsc?: boolean;
     /** Closes the modal on overlay click */
-    closeOnOverlayClick: PropTypes.bool,
+    closeOnOverlayClick?: boolean;
     /** Call back function called when the modal closes. */
-    onClose: PropTypes.func,
+    onClose?: () => void;
 };
-
-type ModalProps = PropTypes.InferProps<typeof modalPropTypes>;
 
 interface ModalState {
     open: boolean;
@@ -45,8 +42,6 @@ export default class Modal extends React.Component<
         open: false,
     };
 
-    static propTypes = modalPropTypes;
-
     static defaultProps = {
         closeOnEsc: true,
         closeOnOverlayClick: true,
@@ -64,9 +59,9 @@ export default class Modal extends React.Component<
         return null;
     }
 
-    private layer: ReturnType<typeof LayerManager.renderLayer>;
+    private layer?: ReturnType<typeof LayerManager.renderLayer>;
 
-    private closeCallback: (resp?: unknown) => void;
+    private closeCallback?: (resp?: unknown) => void;
 
     /**
      * Internal close handler.
@@ -78,8 +73,8 @@ export default class Modal extends React.Component<
             open: false,
         });
         this.props.onClose?.();
-        this.closeCallback = null;
-        this.layer = null;
+        this.closeCallback = undefined;
+        this.layer = undefined;
     };
 
     private lastFocusedElement: HTMLElement | null = null;
@@ -142,9 +137,9 @@ export default class Modal extends React.Component<
         // Clean up layer references
         if (this.closeCallback) {
             this.closeCallback();
-            this.closeCallback = null;
+            this.closeCallback = undefined;
         }
-        this.layer = null;
+        this.layer = undefined;
     }
 
     /**

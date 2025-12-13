@@ -3,6 +3,13 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
+TextArea.propTypes = {
+    /** Label for the field */
+    label: PropTypes.string,
+    /** Error text to be shown below the field */
+    errorText: PropTypes.string,
+};
+
 interface TextAreaProps
     extends
         PropTypes.InferType<typeof TextArea.propTypes>,
@@ -175,10 +182,3 @@ export default function TextArea(props: TextAreaProps) {
         </Label>
     );
 }
-
-TextArea.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string,
-    /** Error text to be shown below the field */
-    errorText: PropTypes.string,
-};

@@ -6,7 +6,22 @@ import Chip from '../Chip/Chip';
 import { DragAndDrop, ORIENTATION } from '../DragAndDrop';
 
 // Prop types definition
-type ChipInputProps = PropTypes.InferProps<typeof ChipInput.propTypes>;
+interface ChipInputProps {
+    /** Label for the field */
+    label: string;
+    /** Error message for the field */
+    errorText?: string;
+    /** Values to display as chips */
+    value?: string[];
+    /** Callback when chips change */
+    onChange?: (newValue: string[]) => void;
+    /** Aria label for the close button on chip. Defaults to "Remove {label}" */
+    closeButtonAriaLabel?: string;
+    /** Announcement text when a chip is added. Defaults to "{label} was added" */
+    addedAnnouncementTemplate?: string;
+    /** Announcement text when a chip is removed. Defaults to "{label} was removed" */
+    removedAnnouncementTemplate?: string;
+}
 
 // Label component for the ChipInput
 const Label = styled.label<{
@@ -232,7 +247,7 @@ export default function ChipInput(
      * @param e React keyboard event
      */
     const handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-        if (e.key === 'Enter' && text.trim() !== '' && InputRef.current.validity.valid) {
+        if (e.key === 'Enter' && text.trim() !== '' && InputRef.current?.validity.valid) {
             const newValue = [...value, text.trim()];
             updateValue(newValue);
             setText('');

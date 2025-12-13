@@ -6,9 +6,9 @@ export enum ORIENTATION {
 }
 
 export const DragContext = createContext<{
-    startIndex: number;
+    startIndex: number | null;
     setStartIndex: (value: number) => void;
-    drop: (index: number) => void;
+    drop: (index: number | null) => void;
     onDrop: (start: number, end: number) => void;
     cancel: () => void;
     startGrab: (index: number) => void;
@@ -34,4 +34,4 @@ export const DragContext = createContext<{
             },
         ) => string;
     };
-}>(null);
+} | null>(null);

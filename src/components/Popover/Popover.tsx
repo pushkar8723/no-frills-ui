@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Card } from '../Card';
 
@@ -10,7 +9,7 @@ export enum POPOVER_POSITION {
     BOTTOM_RIGHT = 'BOTTOM_RIGHT',
 }
 
-interface translate {
+interface Translate {
     x: number;
     y: number;
 }
@@ -88,17 +87,28 @@ const KEY_CODES = {
     ESC: 27,
 };
 
-export default function Popover(
-    props: React.PropsWithChildren<PropTypes.InferProps<typeof Popover.propTypes>>,
-) {
-    const [open, setOpen] = useState(props.open);
-    const [closing, setClosing] = useState(false);
-    const [translate, setTranslate] = useState<translate>({ x: 0, y: 0 });
-    const popperRef = useRef<HTMLDivElement>();
-    const containerRef = useRef<HTMLDivElement>();
+type PopoverProps = {
+    /** Opens the popover */
+    open: boolean;
+    /** Anchor element for the popover */
+    element: React.ElementType;
+    /** Position of the popover around anchor element */
+    position: POPOVER_POSITION;
+    /** If the popover should close on `esc` key press */
+    closeOnEsc: boolean;
+    /** Popover close callback */
+    onClose?: () => void;
+};
+
+export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
+    const [open, setOpen] = useState<boolean>(props.open);
+    const [closing, setClosing] = useState<boolean>(false);
+    const [translate, setTranslate] = useState<Translate>({ x: 0, y: 0 });
+    const popperRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLElement | null>(null);
-    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const focusTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const focusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const popperId = useId();
     const triggerId = useId();
 
@@ -182,8 +192,12 @@ export default function Popover(
 
     useEffect(() => {
         if (open) {
-            const { top, left, right } = popperRef.current.getBoundingClientRect();
-            const height = popperRef.current.scrollHeight;
+            const {
+                top = 0,
+                left = 0,
+                right = 0,
+            } = popperRef.current?.getBoundingClientRect() ?? {};
+            const height = popperRef.current?.scrollHeight ?? 0;
             const viewportWidth = document.documentElement.clientWidth;
             const viewportHeight = document.documentElement.clientHeight;
             const translation = { x: 0, y: 0 };
@@ -224,7 +238,7 @@ export default function Popover(
             // Note it can still overflow, but in that case fitting popper inside the
             // window is not possible.
             setTranslate(translation);
-            popperRef.current.focus();
+            popperRef.current?.focus();
         }
     }, [open, props.position]);
 
@@ -261,7 +275,7 @@ export default function Popover(
                     position={props.position}
                     translateX={translate.x}
                     translateY={translate.y}
-                    className={closing && 'closing'}
+                    className={closing ? 'closing' : ''}
                     ref={popperRef}
                     onClick={(e) => {
                         e.stopPropagation();
@@ -274,24 +288,6 @@ export default function Popover(
         </PopoverDiv>
     );
 }
-
-Popover.propTypes = {
-    /** Opens the popover */
-    open: PropTypes.bool.isRequired,
-    /** Anchor element for the popover */
-    element: PropTypes.func,
-    /** Position of the popover around anchor element */
-    position: PropTypes.oneOf([
-        POPOVER_POSITION.TOP_LEFT,
-        POPOVER_POSITION.TOP_RIGHT,
-        POPOVER_POSITION.BOTTOM_LEFT,
-        POPOVER_POSITION.BOTTOM_RIGHT,
-    ]),
-    /** If the popover should close on `esc` key press */
-    closeOnEsc: PropTypes.bool,
-    /** Popover close callback */
-    onClose: PropTypes.func,
-};
 
 Popover.defaultProps = {
     closeOnEsc: true,

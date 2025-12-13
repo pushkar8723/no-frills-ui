@@ -109,6 +109,13 @@ const HiddenInput = styled.input`
     }
 `;
 
+Checkbox.propTypes = {
+    /** Label for the field */
+    label: PropTypes.string,
+    /** If the field is in indeterminate state */
+    indeterminate: PropTypes.bool,
+};
+
 type CheckboxProps = Omit<React.HTMLProps<HTMLInputElement>, 'as'> &
     PropTypes.InferProps<typeof Checkbox.propTypes>;
 
@@ -137,13 +144,6 @@ export default function Checkbox(props: CheckboxProps) {
         </Label>
     );
 }
-
-Checkbox.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string,
-    /** If the field is in indeterminate state */
-    indeterminate: PropTypes.bool,
-};
 
 Checkbox.defaultProps = {
     indeterminate: false,

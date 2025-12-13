@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
+Group.propTypes = {
+    /** Error Message for the group */
+    errorText: PropTypes.string,
+};
+
 const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
     display: inline-flex;
     border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
@@ -105,8 +110,3 @@ export default function Group(
         </>
     );
 }
-
-Group.propTypes = {
-    /** Error Message for the group */
-    errorText: PropTypes.string,
-};

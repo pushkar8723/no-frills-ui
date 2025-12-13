@@ -37,7 +37,7 @@ interface DialogOptions {
 
 interface DialogState {
     show: boolean;
-    LayerComponent?: () => React.ReactPortal | null;
+    LayerComponent?: React.ComponentType | null;
 }
 
 class Dialog extends React.Component<
@@ -56,8 +56,8 @@ class Dialog extends React.Component<
         closeOnOverlayClick: true,
     };
 
-    private closeDialog: (resp?: unknown) => void;
-    private onCloseFn: (resp?: unknown) => void;
+    private closeDialog: ((resp?: unknown) => void) | null = null;
+    private onCloseFn: ((resp?: unknown) => void) | null = null;
     private lastFocusedElement: HTMLElement | null = null;
     private dialogRef = React.createRef<HTMLDivElement>();
 
@@ -167,7 +167,7 @@ class Dialog extends React.Component<
         this.onCloseFn = null;
     }
 
-    public open = (closeCallback?: (resp: unknown) => void) => {
+    public open = (closeCallback?: (resp?: unknown) => void) => {
         const { closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
 
         // Save current focus
@@ -202,7 +202,7 @@ class Dialog extends React.Component<
             show: true,
             LayerComponent: Component,
         });
-        this.onCloseFn = closeCallback;
+        this.onCloseFn = closeCallback ?? null;
     };
 
     public close = (resp?: unknown) => {
