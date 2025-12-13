@@ -122,15 +122,15 @@ class NotificationManager extends React.Component<
 
             // Add notice to the top of stack.
             this.setState(
-                {
+                (prevState) => ({
                     notices: [
                         {
                             ...notice,
                             id,
                         },
-                        ...this.state.notices,
+                        ...prevState.notices,
                     ],
-                },
+                }),
                 () => {
                     // Update live region after state update
                     const announcement = `${notice.title} ${notice.description}`;
