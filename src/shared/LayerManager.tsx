@@ -18,7 +18,7 @@ interface LayerConfig {
     /** Show an overlay */
     overlay?: boolean;
     /** Element to render inside the layer. */
-    component: JSX.Element;
+    component: JSX.Element | null;
     /** Position of the layer */
     position?: LAYER_POSITION;
     /** Delay for exit */
@@ -28,7 +28,7 @@ interface LayerConfig {
     /** Close layer overlay is clicked. */
     closeOnOverlayClick?: boolean;
     /** Callback called when modal closes */
-    closeCallback?: <T>(resp: T) => void;
+    closeCallback?: (resp?: unknown) => void;
     /** Layer is created with max z-index */
     alwaysOnTop?: boolean;
 }
@@ -52,7 +52,7 @@ interface Layer {
 }
 
 /** Styles for each position */
-const POSITION_STYLE = {
+const POSITION_STYLE: Record<LAYER_POSITION, string> = {
     [LAYER_POSITION.TOP_LEFT]: 'top: 0; left: 0;',
     [LAYER_POSITION.TOP_CENTER]: 'top: 0; left: 50%; justify-content: center;',
     [LAYER_POSITION.TOP_RIGHT]: 'top: 0; right: 0; justify-content: flex-end;',
@@ -68,7 +68,7 @@ const Container = styled.div<LayerConfig & { zIndex: number }>`
     display: flex;
     opacity: 0;
     transition: opacity 0.3s ease;
-    ${(props) => POSITION_STYLE[props.position]}
+    ${(props) => POSITION_STYLE[props.position as LAYER_POSITION]}
     ${(props) =>
         props.overlay &&
         `
@@ -136,7 +136,7 @@ class LayerManager {
     private layers: Layer[] = [];
     /** z-index of the next layer */
     private nextIndex = 0;
-    private keyupHandler: (e: KeyboardEvent) => void;
+    private keyupHandler!: (e: KeyboardEvent) => void;
     private timeoutIds = new Map<string, number>(); // Track timeouts
 
     /**
@@ -195,8 +195,12 @@ class LayerManager {
             this.timeoutIds.delete(layer.id);
             try {
                 layer.config.closeCallback?.(resp);
-            } catch (e) {
-                console.warn(e.message);
+            } catch (err) {
+                if (err instanceof Error) {
+                    console.warn(err.message);
+                } else {
+                    console.warn(err);
+                }
             }
             // Clear reference to help GC
             layer.config.component = null;

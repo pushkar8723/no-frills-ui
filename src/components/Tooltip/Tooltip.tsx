@@ -1,5 +1,4 @@
 import React, { useId } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -92,20 +91,12 @@ export default function Tooltip(props: React.PropsWithChildren<TooltipProps>) {
     );
 }
 
-type TooltipProps = PropTypes.InferProps<typeof Tooltip.propTypes>;
-
-Tooltip.propTypes = {
+type TooltipProps = {
     /** Text to show in the tooltip */
-    tooltipText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    tooltipText: string | React.ReactNode;
     /** Position of the tooltip */
-    position: PropTypes.oneOf([
-        TOOLTIP_POSITION.TOP,
-        TOOLTIP_POSITION.LEFT,
-        TOOLTIP_POSITION.RIGHT,
-        TOOLTIP_POSITION.BOTTOM,
-    ]),
+    position: TOOLTIP_POSITION;
 };
-
 Tooltip.defaultProps = {
     position: TOOLTIP_POSITION.BOTTOM,
 };

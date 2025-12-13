@@ -11,8 +11,6 @@ export enum BADGE_TYPE {
     DISABLED = 'disabled',
 }
 
-type BadgeProps = React.PropsWithChildren<PropTypes.InferProps<typeof Badge.propTypes>>;
-
 const BadgeSpan = styled.span<BadgeProps>`
     background-color: ${(props) => {
         switch (props.type) {
@@ -62,6 +60,8 @@ Badge.propTypes = {
     ]),
     css: PropTypes.any,
 };
+
+type BadgeProps = React.PropsWithChildren<PropTypes.InferProps<typeof Badge.propTypes>>;
 
 Badge.defaultProps = {
     inline: false,

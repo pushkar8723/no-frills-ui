@@ -8,14 +8,14 @@ import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
 import { Card } from '../Card';
 
-const Step = styled(Card)<AccordionStepProps>`
+const Step = styled(Card)<{ open?: boolean; completed?: boolean }>`
     transition: all 0.6s ease;
     overflow: visible;
 
     ${(props) => props.open && `margin: 20px 5px;`}
 `;
 
-const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
+const StepHeader = styled.button<{ open?: boolean; disabled?: boolean }>`
     padding: 20px 15px;
     display: flex;
     justify-content: space-between;
@@ -41,7 +41,7 @@ const StepHeader = styled.button<{ open: boolean; disabled: boolean }>`
     ${(props) => props.disabled && `color: ${getThemeValue(THEME_NAME.DISABLED)};`}
 `;
 
-const HeaderContainer = styled.div<{ open: boolean; completed: boolean }>`
+const HeaderContainer = styled.div<{ open?: boolean; completed?: boolean }>`
     display: flex;
     align-items: center;
     min-width: 40px;
@@ -61,7 +61,7 @@ const HeaderContainer = styled.div<{ open: boolean; completed: boolean }>`
     }
 `;
 
-const ExpandContainer = styled.div<{ open: boolean }>`
+const ExpandContainer = styled.div<{ open?: boolean }>`
     display: flex;
     align-items: center;
 
@@ -92,6 +92,15 @@ export const AccordionStepFooter = styled.div`
     border-top: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
 `;
 
+interface AccordionStepProps {
+    open?: boolean;
+    completed?: boolean;
+    disabled?: boolean;
+    header: React.ReactNode;
+    errorText?: React.ReactNode;
+    onStepClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
 export default function AccordionStep(props: React.PropsWithChildren<AccordionStepProps>) {
     const [height, setHeight] = useState(0);
     const { open, disabled, header, errorText, completed, onStepClick, children, ...restProps } =
@@ -101,7 +110,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
     const headerId = useId();
     const regionId = useId();
 
-    const ref = (el?: HTMLDivElement) => setHeight(el?.scrollHeight || 0);
+    const ref = (el: HTMLDivElement | null) => setHeight(el?.scrollHeight || 0);
 
     return (
         <Step {...restProps} open={open} elevated={open} completed={completed}>
@@ -160,10 +169,4 @@ AccordionStep.propTypes = {
 AccordionStep.defaultProps = {
     completed: false,
     disabled: false,
-};
-
-type AccordionStepProps = PropTypes.InferProps<typeof AccordionStep.propTypes> & {
-    open?: boolean;
-    completed: boolean;
-    onStepClick?: () => void;
 };

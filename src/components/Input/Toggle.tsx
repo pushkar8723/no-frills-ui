@@ -78,6 +78,11 @@ const Input = styled.input`
     }
 `;
 
+Toggle.propTypes = {
+    /** Label for the field */
+    label: PropTypes.string,
+};
+
 type ToggleProps = PropTypes.InferProps<
     React.AllHTMLAttributes<HTMLInputElement> & typeof Toggle.propTypes
 >;
@@ -91,10 +96,5 @@ function Toggle(props: ToggleProps) {
         </Switch>
     );
 }
-
-Toggle.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string,
-};
 
 export default Toggle;

@@ -1,11 +1,25 @@
 import React, { createRef } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { Button, ActionButton } from '../Button';
 import { Input } from '../Input';
 import Dialog, { DialogHeader, DialogBody, DialogFooter } from './Dialog';
 
-type PromptOption = PropTypes.InferProps<typeof PromptDialog.propTypes>;
+type PromptOption = {
+    /** Shown as header of the dialog */
+    header: string;
+    /** Rendered as the body of the dialog */
+    body: string;
+    /** Default value for the input. */
+    defaultValue?: string;
+    /** Submit button text. Default value is 'Submit' */
+    submitText?: string;
+    /** Cancel button text. Default value is 'Cancel' */
+    cancelText?: string;
+    /** Props for the input. */
+    inputProps?: React.HTMLProps<HTMLInputElement>;
+    /** Additional props for the dialog. */
+    dialogProps?: Dialog['props'];
+};
 
 const BodyText = styled.p`
     margin-top: 0;
@@ -34,23 +48,8 @@ const StyledInput = styled(Input)`
     padding: 0;
 `;
 
-export default class PromptDialog extends React.Component<PromptOption, { value: string }> {
-    static propTypes = {
-        /** Shown as header of the dialog */
-        header: PropTypes.string,
-        /** Rendered as the body of the dialog */
-        body: PropTypes.string,
-        /** Default value for the input. */
-        defaultValue: PropTypes.string,
-        /** Submit button text. Default value is 'Submit' */
-        submitText: PropTypes.string,
-        /** Cancel button text. Default value is 'Cancel' */
-        cancelText: PropTypes.string,
-        /** Props for the input. */
-        inputProps: PropTypes.object,
-        /** Additional props for the dialog. */
-        dialogProps: PropTypes.object,
-    };
+export default class PromptDialog extends React.Component<PromptOption, { value?: string }> {
+    static propTypes = {};
 
     static defaultProps = {
         cancelText: 'Cancel',
@@ -73,16 +72,16 @@ export default class PromptDialog extends React.Component<PromptOption, { value:
         });
     };
 
-    private cancel = () => this.dialog.current.close();
+    private cancel = () => this.dialog.current?.close();
 
     private submit = (e: React.FormEvent) => {
         e.preventDefault();
-        this.dialog.current.close(this.state.value);
+        this.dialog.current?.close(this.state.value);
     };
 
     public show = () => {
         return new Promise((resolve, reject) => {
-            const onClose = (value: string) => {
+            const onClose = (value: unknown) => {
                 if (value) {
                     resolve(value);
                 } else {
@@ -92,7 +91,7 @@ export default class PromptDialog extends React.Component<PromptOption, { value:
                     value: this.props.defaultValue,
                 });
             };
-            this.dialog.current.open(onClose);
+            this.dialog.current?.open(onClose);
         });
     };
 

@@ -32,14 +32,14 @@ function Accordion(props: PropsWithChildren<AccordionProps>) {
     );
 }
 
-type AccordionProps = PropTypes.InferProps<typeof Accordion.propTypes>;
-
 Accordion.propTypes = {
     /** Currently opened step */
     active: PropTypes.number,
     /** Handler for click event on a step */
     onStepClick: PropTypes.func,
 };
+
+type AccordionProps = PropTypes.InferProps<typeof Accordion.propTypes>;
 
 Accordion.defaultProps = {
     active: -1,

@@ -43,16 +43,23 @@ const MenuItemInner = <T,>(
     props: MenuItemProps<T> & React.PropsWithChildren,
     ref: React.Ref<HTMLButtonElement>,
 ) => {
-    const context = useContext(MenuContext) as MenuContextType<T>;
+    const context = useContext(MenuContext) as MenuContextType<T> | undefined;
+    if (!context) {
+        throw new Error('`MenuItem` must be used within a `Menu` provider');
+    }
     const { value, children, ...rest } = props;
     const clickHandler = (e: SyntheticEvent) => {
         e.stopPropagation();
-        context.updateValue(value as T & T[]);
+        context.updateValue(value as T);
     };
 
-    const selected = context.multiSelect
-        ? context.value?.includes?.(value)
-        : context.value === value;
+    let selected = false;
+    if (context.multiSelect) {
+        const arr = context.value as unknown as T[] | undefined;
+        selected = Array.isArray(arr) && arr.includes(value as unknown as T);
+    } else {
+        selected = (context.value as unknown as T) === value;
+    }
 
     return (
         <Container

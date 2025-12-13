@@ -4,6 +4,12 @@ import styled from '@emotion/styled';
 import ExpandMore from '../../icons/ExpandMore';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
+Select.propTypes = {
+    /** Label for the field */
+    label: PropTypes.string,
+    /** Error text to be shown below the field */
+    errorText: PropTypes.string,
+};
 interface SelectProps
     extends
         PropTypes.InferType<typeof Select.propTypes>,
@@ -198,10 +204,3 @@ export default function Select(props: SelectProps) {
         </Label>
     );
 }
-
-Select.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string,
-    /** Error text to be shown below the field */
-    errorText: PropTypes.string,
-};

@@ -23,7 +23,7 @@ const getExitAnimation = (position: NOTIFICATION_POSITION) => {
     }
 };
 
-const getBorderColor = (type: NOTIFICATION_TYPE) => {
+const getBorderColor = (type?: NOTIFICATION_TYPE) => {
     switch (type) {
         case NOTIFICATION_TYPE.SUCCESS:
             return getThemeValue(THEME_NAME.SUCCESS_LIGHT);

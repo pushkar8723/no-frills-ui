@@ -109,13 +109,13 @@ const createAriaLiveRegion = (id: string, ariaLive: 'polite' | 'assertive') => {
 };
 
 class Toast {
-    private element: HTMLDivElement;
-    private ariaLiveContainer: HTMLDivElement;
-    private toast: ReturnType<typeof LayerManager.renderLayer>;
-    private timeout: NodeJS.Timeout;
-    private root: Root;
-    private politeRegion: HTMLDivElement;
-    private assertiveRegion: HTMLDivElement;
+    private element?: HTMLDivElement;
+    private ariaLiveContainer?: HTMLDivElement;
+    private toast?: ReturnType<typeof LayerManager.renderLayer>;
+    private timeout?: NodeJS.Timeout;
+    private root?: Root;
+    private politeRegion?: HTMLDivElement;
+    private assertiveRegion?: HTMLDivElement;
     private isPaused: boolean = false;
     private currentOptions: ToastOptions | null = null;
 
@@ -147,9 +147,9 @@ class Toast {
         if (this.ariaLiveContainer && document.body.contains(this.ariaLiveContainer)) {
             document.body.removeChild(this.ariaLiveContainer);
         }
-        this.politeRegion = null;
-        this.assertiveRegion = null;
-        this.ariaLiveContainer = null;
+        this.politeRegion = undefined;
+        this.assertiveRegion = undefined;
+        this.ariaLiveContainer = undefined;
     };
 
     /**
@@ -187,9 +187,9 @@ class Toast {
      */
     private updateLiveRegion = (content: string, isAssertive: boolean) => {
         const region = isAssertive ? this.assertiveRegion : this.politeRegion;
-        region.textContent = '';
 
         if (region) {
+            region.textContent = '';
             // Add content after delay
             setTimeout(() => {
                 if (region) {
@@ -204,17 +204,17 @@ class Toast {
             this.toast[1]();
             if (this.timeout) {
                 clearTimeout(this.timeout);
-                this.timeout = null;
+                this.timeout = undefined;
             }
         }
-        this.toast = null;
+        this.toast = undefined;
         this.currentOptions = null;
         this.isPaused = false;
 
         setTimeout(() => {
             if (!this.toast && this.root) {
                 this.root.unmount();
-                this.root = null;
+                this.root = undefined;
             }
         }, 300);
     };
@@ -257,6 +257,8 @@ class Toast {
     };
 
     public add(options: ToastOptions) {
+        if (!this.element) return;
+
         const { text, buttonText, buttonClick, duration, type = TOAST_TYPE.NORMAL } = options;
         this.currentOptions = options;
         this.isPaused = false;

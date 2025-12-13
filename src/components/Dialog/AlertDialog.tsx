@@ -28,11 +28,11 @@ export default class AlertDialog extends React.Component<AlertOption> {
     public show = () => {
         return new Promise((resolve) => {
             const onClose = () => resolve(null);
-            this.dialog.current.open(onClose);
+            this.dialog.current?.open(onClose);
         });
     };
 
-    private close = () => this.dialog.current.close();
+    private close = () => this.dialog.current?.close();
 
     render() {
         const titleId = `nfui-alert-dialog-${dialogCounter++}-title`;

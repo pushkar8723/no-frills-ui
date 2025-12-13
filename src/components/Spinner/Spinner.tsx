@@ -27,14 +27,12 @@ function Spinner(props: SpinnerProp) {
         <SpinnerDiv
             {...rest}
             role="status"
-            aria-label={label}
+            aria-label={label || undefined}
             aria-live="polite"
             aria-busy="true"
         />
     );
 }
-
-type SpinnerProp = PropTypes.InferProps<typeof Spinner.propTypes>;
 
 Spinner.propTypes = {
     /** Spinner's size */
@@ -42,6 +40,8 @@ Spinner.propTypes = {
     /** Accessible label for screen readers */
     label: PropTypes.string,
 };
+
+type SpinnerProp = PropTypes.InferProps<typeof Spinner.propTypes>;
 
 Spinner.defaultProps = {
     size: 30,
