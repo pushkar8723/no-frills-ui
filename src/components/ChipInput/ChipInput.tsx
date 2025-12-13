@@ -13,6 +13,7 @@ const Label = styled.label<{
     text: string;
     touched?: boolean;
     errorText?: string;
+    required?: boolean;
 }>`
     display: inline-flex;
     flex-direction: column;
@@ -80,11 +81,15 @@ const Label = styled.label<{
             : ''}
 
     /** Required */
-    &:has(:required) > span:after {
-        content: '*';
-        margin-left: 2px;
-        color: ${getThemeValue(THEME_NAME.ERROR)};
-    }
+    ${(props) =>
+        props.required
+            ? `& > span:after {
+                content: '*';
+                margin-left: 2px;
+                color: ${getThemeValue(THEME_NAME.ERROR)};
+            }`
+            : ''}
+    
 
     & > input {
         border: none;
@@ -264,7 +269,12 @@ export default function ChipInput(
     // Render the component
     return (
         <>
-            <Label text={text} touched={touched} errorText={props.errorText}>
+            <Label
+                text={text}
+                touched={touched}
+                errorText={props.errorText}
+                required={props.required}
+            >
                 <input
                     {...props}
                     ref={InputRef}
