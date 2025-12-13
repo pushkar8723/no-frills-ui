@@ -22,6 +22,7 @@
         "clean": "shx rm -rf dist lib-esm",
         "build": "NODE_ENV=production tsc --emitDeclarationOnly && rollup -c",
         "build:dev": "NODE_ENV=development tsc --emitDeclarationOnly && rollup -c",
+        "build:storybook": "storybook build",
         "test": "echo \"Warning: No tests implemented yet\" && exit 0",
         "size": "size-limit",
         "size:why": "size-limit --why",
@@ -30,7 +31,6 @@
         "format": "prettier --write \"**/*.{js,jsx,mjs,ts,tsx,html,json,md,mdx,yml,yaml}\"",
         "format:check": "prettier --check \"**/*.{js,jsx,mjs,ts,tsx,html,json,md,mdx,yml,yaml}\"",
         "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build",
         "prepare": "husky && npm run clean && npm run build"
     },
     "size-limit": [
@@ -94,7 +94,8 @@
         "@storybook/addon-webpack5-compiler-swc": "^4.0.1",
         "@storybook/cli": "^10.0.2",
         "@storybook/react-webpack5": "^10.0.2",
-        "@swc/plugin-emotion": "^12.0.0",
+        "@swc/core": "^1.15.4",
+        "@swc/plugin-emotion": "^14.0.1",
         "@types/react": "^18.3.12",
         "@types/react-dom": "^18.3.1",
         "@typescript-eslint/eslint-plugin": "^8",
@@ -124,8 +125,8 @@
         "typescript": "^5.7.2"
     },
     "dependencies": {
-        "@emotion/react": "^11.13.5",
-        "@emotion/styled": "^11.13.5",
+        "@emotion/react": "^11.0.0",
+        "@emotion/styled": "^11.0.0",
         "prop-types": "^15.7.2"
     },
     "bit": {
