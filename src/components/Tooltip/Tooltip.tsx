@@ -86,7 +86,7 @@ export default function Tooltip(props: React.PropsWithChildren<TooltipProps>) {
         <TooltipContainer position={position} {...rest}>
             {trigger}
             <TooltipDiv id={tooltipId} aria-hidden="true" role="tooltip" position={position}>
-                {rest.tooltipText}
+                {rest.tooltipText as React.ReactNode}
             </TooltipDiv>
         </TooltipContainer>
     );
