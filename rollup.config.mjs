@@ -15,6 +15,21 @@ export default {
             format: 'cjs',
             exports: 'named',
             sourcemap: true,
+            plugins: [
+                isProduction &&
+                    terser({
+                        compress: {
+                            drop_console: false,
+                            ecma: 2020,
+                        },
+                        format: {
+                            comments: false,
+                        },
+                        mangle: {
+                            reserved: [],
+                        },
+                    }),
+            ].filter(Boolean),
         },
         {
             dir: 'lib-esm',
@@ -51,18 +66,5 @@ export default {
         commonjs({
             include: ['node_modules/**'],
         }),
-        isProduction &&
-            terser({
-                compress: {
-                    drop_console: false,
-                    ecma: 2020,
-                },
-                format: {
-                    comments: false,
-                },
-                mangle: {
-                    reserved: [],
-                },
-            }),
-    ].filter(Boolean),
+    ],
 };
