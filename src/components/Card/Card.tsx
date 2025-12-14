@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { THEME_NAME, getThemeValue } from '../../shared/constants';
 
 export interface CardExtraProps {
+    /** Shows a shadow around the card to show elevation */
     elevated?: boolean;
 }
 

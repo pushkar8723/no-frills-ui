@@ -5,6 +5,10 @@ const meta: Meta<typeof AccordionStep> = {
     component: AccordionStep as never,
     title: 'Declarative Components/Accordion/AccordionStep',
     tags: ['!dev', '!autodocs'],
+    argTypes: {
+        open: { table: { disable: true }, control: { disable: true } },
+        onStepClick: { table: { disable: true }, control: { disable: true } },
+    },
 };
 
 export default meta;

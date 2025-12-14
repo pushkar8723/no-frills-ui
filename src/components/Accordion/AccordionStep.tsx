@@ -1,5 +1,4 @@
-import React, { useState, useId } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useId, useRef, useEffect } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FiberManualRecord, ExpandMore } from '../../icons';
@@ -92,28 +91,58 @@ export const AccordionStepFooter = styled.div`
     border-top: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
 `;
 
+/** Props for `AccordionStep` component */
 interface AccordionStepProps {
-    open?: boolean;
+    /**
+     * If the step has been marked as completed
+     * @default false
+     */
     completed?: boolean;
+    /** If the step is disabled
+     * @default false
+     */
     disabled?: boolean;
+    /** Header content for the step */
     header: React.ReactNode;
+    /** Error text to display as a badge in the header */
     errorText?: React.ReactNode;
+    /** If the step is expanded */
+    open?: boolean;
+    /** Click handler for the step header */
     onStepClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function AccordionStep(props: React.PropsWithChildren<AccordionStepProps>) {
+function AccordionStepComponent(
+    props: React.PropsWithChildren<AccordionStepProps> &
+        Omit<React.HTMLProps<HTMLDivElement>, 'as'>,
+    ref: React.Ref<HTMLDivElement>,
+) {
     const [height, setHeight] = useState(0);
-    const { open, disabled, header, errorText, completed, onStepClick, children, ...restProps } =
-        props;
+    const {
+        open,
+        disabled = false,
+        header,
+        errorText,
+        completed = false,
+        onStepClick,
+        children,
+        ...restProps
+    } = props;
 
     // Generate unique IDs for ARIA relationships
     const headerId = useId();
     const regionId = useId();
 
-    const ref = (el: HTMLDivElement | null) => setHeight(el?.scrollHeight || 0);
+    const contentRef = useRef<HTMLDivElement | null>(null);
+
+    // Measure content height when `open` or children change.
+    useEffect(() => {
+        const el = contentRef.current;
+        setHeight(el?.scrollHeight || 0);
+    }, [open, children]);
 
     return (
-        <Step {...restProps} open={open} elevated={open} completed={completed}>
+        <Step {...restProps} ref={ref} open={open} elevated={open} completed={completed}>
             <StepHeader
                 open={open}
                 disabled={disabled}
@@ -142,7 +171,7 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
                 </ExpandContainer>
             </StepHeader>
             <StepBody
-                ref={ref}
+                ref={contentRef}
                 height={open ? height : 0}
                 role="region"
                 id={regionId}
@@ -155,18 +184,9 @@ export default function AccordionStep(props: React.PropsWithChildren<AccordionSt
     );
 }
 
-AccordionStep.propTypes = {
-    /** Header text for the step */
-    header: PropTypes.string.isRequired,
-    /** Error text for the step */
-    errorText: PropTypes.string,
-    /** If steps has been marked as completed */
-    completed: PropTypes.bool,
-    /** If the step is disabled */
-    disabled: PropTypes.bool,
-};
+const AccordionStep = React.forwardRef<
+    HTMLDivElement,
+    React.PropsWithChildren<AccordionStepProps> & Omit<React.HTMLProps<HTMLDivElement>, 'as'>
+>(AccordionStepComponent);
 
-AccordionStep.defaultProps = {
-    completed: false,
-    disabled: false,
-};
+export default AccordionStep;
