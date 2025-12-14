@@ -1,7 +1,8 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { THEME_NAME, getThemeValue } from '../../shared/constants';
 
-export default styled.button`
+const StyledActionButton = styled.button`
     border: 1px solid ${getThemeValue(THEME_NAME.PRIMARY)};
     background-color: ${getThemeValue(THEME_NAME.PRIMARY)};
     color: ${getThemeValue(THEME_NAME.TEXT_COLOR_LIGHT)};
@@ -40,3 +41,21 @@ export default styled.button`
         color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 `;
+
+type ActionButtonProps = {
+    /**
+     * Type of Action Button
+     * @default 'button'
+     */
+    type?: 'button' | 'submit' | 'reset';
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+function ActionButtonComponent(props: ActionButtonProps, ref: React.Ref<HTMLButtonElement>) {
+    const { type = 'button', ...rest } = props;
+
+    return <StyledActionButton ref={ref} type={type} {...rest} />;
+}
+
+const ActionButton = React.forwardRef(ActionButtonComponent);
+
+export default ActionButton;

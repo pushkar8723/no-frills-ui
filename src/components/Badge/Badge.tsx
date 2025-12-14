@@ -47,12 +47,13 @@ type BadgeProps = {
      * Display badge inline or overlay on parent component
      * @default false
      */
-    inline: boolean;
+    inline?: boolean;
     /** Type of badge
      * @default BADGE_TYPE.PRIMARY
      */
-    type: BADGE_TYPE;
-};
+    type?: BADGE_TYPE;
+} & React.HTMLAttributes<HTMLSpanElement>;
+
 function BadgeComponent(props: BadgeProps, ref: React.Ref<HTMLSpanElement>) {
     return <BadgeSpan {...props} ref={ref} />;
 }

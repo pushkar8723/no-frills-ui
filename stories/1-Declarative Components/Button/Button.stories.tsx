@@ -9,13 +9,13 @@ import {
 import SearchIcon from '../../resources/SearchIcon';
 
 const meta: Meta<typeof Button> = {
-    component: Button,
+    component: Button as never,
     title: 'Declarative Components/Button',
     tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<typeof Button>;
 
 export const EnabledState: Story = {
     render: () => (
@@ -84,9 +84,6 @@ export const DisabledState: Story = {
 };
 
 // Props documentation story
-export const Primary: Story = {
+export const ButtonStory: Story = {
     render: () => <Button>Button</Button>,
-    args: {
-        children: 'Button',
-    },
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -43,8 +44,20 @@ const StyledButton = styled.button`
     }
 `;
 
-StyledButton.defaultProps = {
-    type: 'button',
-};
+type ButtonProps = {
+    /**
+     * Type of Button
+     * @default 'button'
+     */
+    type?: 'button' | 'submit' | 'reset';
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export default StyledButton;
+function ButtonComponent(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
+    const { type = 'button', ...rest } = props;
+
+    return <StyledButton ref={ref} type={type} {...rest} />;
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(ButtonComponent);
+
+export default Button;

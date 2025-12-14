@@ -99,9 +99,9 @@ export const InlineBadges: Story = {
 
 // Individual story for the primary badge (for Controls/props table)
 export const Primary: Story = {
-    args: {
-        inline: true,
-        type: BADGE_TYPE.PRIMARY,
-        children: 'Primary',
-    },
+    render: () => (
+        <Badge inline type={BADGE_TYPE.PRIMARY}>
+            Primary
+        </Badge>
+    ),
 };

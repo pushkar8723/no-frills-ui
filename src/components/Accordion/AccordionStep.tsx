@@ -116,8 +116,7 @@ interface AccordionStepProps {
 }
 
 function AccordionStepComponent(
-    props: React.PropsWithChildren<AccordionStepProps> &
-        Omit<React.HTMLProps<HTMLDivElement>, 'as'>,
+    props: React.PropsWithChildren<AccordionStepProps> & React.HTMLAttributes<HTMLDivElement>,
     ref: React.Ref<HTMLDivElement>,
 ) {
     const [height, setHeight] = useState(0);

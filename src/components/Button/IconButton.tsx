@@ -1,7 +1,8 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-export default styled.button`
+const StyledIconButton = styled.button`
     border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     border-radius: 5px;
     height: 32px;
@@ -44,3 +45,18 @@ export default styled.button`
         fill: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 `;
+
+type IconButtonProps = {
+    /** Type of Icon Button */
+    type?: 'button' | 'submit' | 'reset';
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+function IconButtonComponent(props: IconButtonProps, ref: React.Ref<HTMLButtonElement>) {
+    const { type = 'button', ...rest } = props;
+
+    return <StyledIconButton ref={ref} type={type} {...rest} />;
+}
+
+const IconButton = React.forwardRef(IconButtonComponent);
+
+export default IconButton;
