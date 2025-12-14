@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { THEME_NAME, getThemeValue } from '../../shared/constants';
 
@@ -43,27 +42,23 @@ const BadgeSpan = styled.span<BadgeProps>`
         !props.inline && 'position: absolute; top: 0; right: 0; transform: translate(50%, -50%);'};
 `;
 
-export default function Badge(props: BadgeProps) {
-    return <BadgeSpan {...props} />;
+type BadgeProps = {
+    /**
+     * Display badge inline or overlay on parent component
+     * @default false
+     */
+    inline: boolean;
+    /** Type of badge
+     * @default BADGE_TYPE.PRIMARY
+     */
+    type: BADGE_TYPE;
+};
+function BadgeComponent(props: BadgeProps, ref: React.Ref<HTMLSpanElement>) {
+    return <BadgeSpan {...props} ref={ref} />;
 }
 
-Badge.propTypes = {
-    /** Display badge inline or overlay on parent component */
-    inline: PropTypes.bool,
-    /** Type of badge */
-    type: PropTypes.oneOf([
-        BADGE_TYPE.PRIMARY,
-        BADGE_TYPE.SUCCESS,
-        BADGE_TYPE.WARNING,
-        BADGE_TYPE.DANGER,
-        BADGE_TYPE.DISABLED,
-    ]),
-    css: PropTypes.any,
-};
+const Badge = React.forwardRef<HTMLSpanElement, React.PropsWithChildren<BadgeProps>>(
+    BadgeComponent,
+);
 
-type BadgeProps = React.PropsWithChildren<PropTypes.InferProps<typeof Badge.propTypes>>;
-
-Badge.defaultProps = {
-    inline: false,
-    type: BADGE_TYPE.PRIMARY,
-};
+export default Badge;

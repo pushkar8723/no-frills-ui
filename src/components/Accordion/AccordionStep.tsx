@@ -1,5 +1,4 @@
 import React, { useState, useId, useRef, useEffect } from 'react';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { FiberManualRecord, ExpandMore } from '../../icons';
 import { THEME_NAME, getThemeValue } from '../../shared/constants';
@@ -80,6 +79,10 @@ const StepBody = styled.div<{ height: number }>`
     height: ${(props) => props.height || 0}px;
 `;
 
+const AccordionBadge = styled(Badge)`
+    margin-right: 15px;
+`;
+
 export const AccordionStepBody = styled.div`
     padding: 20px 15px;
 `;
@@ -157,15 +160,9 @@ function AccordionStepComponent(
                 </HeaderContainer>
                 <ExpandContainer open={open}>
                     {errorText && (
-                        <Badge
-                            css={css`
-                                margin-right: 15px;
-                            `}
-                            inline
-                            type={BADGE_TYPE.DANGER}
-                        >
+                        <AccordionBadge inline type={BADGE_TYPE.DANGER}>
                             {errorText}
-                        </Badge>
+                        </AccordionBadge>
                     )}
                     <ExpandMore aria-hidden="true" />
                 </ExpandContainer>
