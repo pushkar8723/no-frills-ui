@@ -96,6 +96,8 @@
         "@storybook/react-webpack5": "^10.0.2",
         "@swc/core": "^1.15.4",
         "@swc/plugin-emotion": "^14.0.1",
+        "@types/node": "^25.0.2",
+        "@types/prop-types": "^15.7.15",
         "@types/react": "^18.3.12",
         "@types/react-dom": "^18.3.1",
         "@typescript-eslint/eslint-plugin": "^8",
@@ -129,12 +131,5 @@
         "@emotion/styled": "^11.0.0",
         "prop-types": "^15.7.2"
     },
-    "bit": {
-        "env": {
-            "compiler": "bit.envs/compilers/react-typescript@3.1.53"
-        },
-        "componentsDefaultDirectory": "components/{name}",
-        "packageManager": "npm"
-    },
-    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+    "packageManager": "yarn@4.12.0"
 }
