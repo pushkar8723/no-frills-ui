@@ -1,7 +1,8 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-export default styled.button`
+const StyledRaisedButton = styled.button`
     border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     border-radius: 5px;
     height: 32px;
@@ -48,3 +49,23 @@ export default styled.button`
         box-shadow: ${getThemeValue(THEME_NAME.SHADOW)};
     }
 `;
+
+type RaisedButtonProps = {
+    /**
+     * Type of Raised Button
+     * @default 'button'
+     */
+    type?: 'button' | 'submit' | 'reset';
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const RaisedButtonComponent = (props: RaisedButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+    const { type = 'button', ...rest } = props;
+
+    return <StyledRaisedButton ref={ref} type={type} {...rest} />;
+};
+
+const RaisedButton = React.forwardRef<
+    HTMLButtonElement,
+    RaisedButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(RaisedButtonComponent);
+export default RaisedButton;

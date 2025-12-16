@@ -47,7 +47,10 @@ const StyledIconButton = styled.button`
 `;
 
 type IconButtonProps = {
-    /** Type of Icon Button */
+    /**
+     * Type of Icon Button
+     * @default 'button'
+     */
     type?: 'button' | 'submit' | 'reset';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
