@@ -37,7 +37,10 @@ const Button = styled.button`
     }
 `;
 
-export default function Chip(props: ChipProps & React.HTMLAttributes<HTMLSpanElement>) {
+function ChipComponent(
+    props: ChipProps & React.HTMLAttributes<HTMLSpanElement>,
+    ref: React.Ref<HTMLSpanElement>,
+) {
     const { label, onCloseClick, closeButtonAriaLabel, ...rest } = props;
 
     const keyUpHandler: React.KeyboardEventHandler<HTMLSpanElement> = (e) => {
@@ -54,7 +57,7 @@ export default function Chip(props: ChipProps & React.HTMLAttributes<HTMLSpanEle
     };
 
     return (
-        <Container {...rest} onKeyUp={keyUpHandler}>
+        <Container {...rest} ref={ref} onKeyUp={keyUpHandler}>
             {label}
             <Button
                 onClick={onCloseClick}
@@ -66,3 +69,6 @@ export default function Chip(props: ChipProps & React.HTMLAttributes<HTMLSpanEle
         </Container>
     );
 }
+
+const Chip = React.forwardRef(ChipComponent);
+export default Chip;
