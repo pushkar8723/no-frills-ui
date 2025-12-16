@@ -125,17 +125,17 @@ function CheckboxComponent(props: CheckboxProps, fwdRef: React.Ref<HTMLInputElem
     const { label = '', indeterminate = false, checked, ...rest } = props;
 
     const ref = useCallback(
-        (node: unknown) => {
-            if (node !== null) {
-                if (indeterminate) {
-                    (node as HTMLInputElement).indeterminate = true;
-                }
+        (node: HTMLInputElement | null) => {
+            // Ensure the DOM `indeterminate` flag always matches the prop
+            if (node) {
+                node.indeterminate = !!indeterminate;
             }
+
+            // Forward the node (or null) to the parent ref (supports function or ref object)
             if (typeof fwdRef === 'function') {
-                fwdRef(node as HTMLInputElement);
+                fwdRef(node);
             } else if (fwdRef) {
-                (fwdRef as React.MutableRefObject<HTMLInputElement | null>).current =
-                    node as HTMLInputElement;
+                (fwdRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
             }
         },
         [indeterminate, fwdRef],
