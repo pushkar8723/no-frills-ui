@@ -1839,6 +1839,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^25.0.2":
+  version: 25.0.2
+  resolution: "@types/node@npm:25.0.2"
+  dependencies:
+    undici-types: "npm:~7.16.0"
+  checksum: 10c0/12c4044bf2e46ba3d313ddf6256ee3c88e336a62d129fe788eeab8ff2631b3df51eb31ade4cdc04552fbe51e285f0663c49b60c78acd31da2b9f2c86a84347e3
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
@@ -6329,6 +6338,7 @@ __metadata:
     "@storybook/react-webpack5": "npm:^10.0.2"
     "@swc/core": "npm:^1.15.4"
     "@swc/plugin-emotion": "npm:^14.0.1"
+    "@types/node": "npm:^25.0.2"
     "@types/prop-types": "npm:^15.7.15"
     "@types/react": "npm:^18.3.12"
     "@types/react-dom": "npm:^18.3.1"
