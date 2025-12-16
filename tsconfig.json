@@ -5,6 +5,7 @@
         "noImplicitAny": true,
         "module": "esnext",
         "target": "es6",
+        "lib": ["es2017", "dom"],
         "jsx": "react-jsx",
         "jsxImportSource": "@emotion/react",
         "experimentalDecorators": true,
