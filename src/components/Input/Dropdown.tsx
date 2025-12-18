@@ -46,9 +46,19 @@ function DropdownComponent<T extends object>(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     outerRef: React.Ref<HTMLInputElement>,
 ) {
-    const { multiSelect = false, onChange, ...rest } = props;
+    const {
+        multiSelect = false,
+        onChange,
+        children,
+        value: propValue,
+        label,
+        errorText,
+        required,
+        disabled,
+        ...rest
+    } = props;
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState<T | T[] | undefined>(props.value);
+    const [value, setValue] = useState<T | T[] | undefined>(propValue);
     const id = React.useId();
     const menuId = `${id}-menu`;
     const menuRef = React.useRef<HTMLDivElement | null>(null);
@@ -154,12 +164,12 @@ function DropdownComponent<T extends object>(
                     ref={combinedRef}
                     type="text"
                     value={value && String(value)}
-                    label={props.label}
-                    errorText={props.errorText}
+                    label={label}
+                    errorText={errorText}
                     onClick={clickHandler}
                     onKeyDown={onKeyDown}
-                    required={props.required}
-                    disabled={props.disabled}
+                    required={required}
+                    disabled={disabled}
                     readOnly
                     role="combobox"
                     aria-haspopup="listbox"
@@ -191,7 +201,7 @@ function DropdownComponent<T extends object>(
                 multiSelect={multiSelect}
                 onChange={changeHandler}
             >
-                {props.children}
+                {children}
             </Menu>
         </Popover>
     );
