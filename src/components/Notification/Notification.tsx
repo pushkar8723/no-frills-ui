@@ -1,52 +1,50 @@
-import React, { type RefCallback } from 'react';
-import PropTypes from 'prop-types';
+import { type RefCallback } from 'react';
 import { flushSync } from 'react-dom';
 import { createRoot, type Root } from 'react-dom/client';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import NotificationManager from './NotificationManager';
 import { NOTIFICATION_POSITION, NOTIFICATION_TYPE, NotificationOptions } from './types';
 
-type NotificationProps = PropTypes.InferProps<typeof StoryProps.propTypes>;
+type NotificationProps = {
+    /** Title of the notification */
+    title: string;
+    /** Body of the notification */
+    description: string;
+    /** Id for the notification, helps in de-duplication. */
+    id?: string;
+    /**
+     * Duration for the notification in milliseconds
+     * @default 5000
+     */
+    duration?: number;
+    /**
+     * Creates sticky notification
+     * @default false
+     */
+    sticky?: boolean;
+    /**
+     * Type of notification
+     * @default NOTIFICATION_TYPE.INFO
+     */
+    type?: NOTIFICATION_TYPE;
+    /** Action button text */
+    buttonText?: string;
+    /** Action button click callback */
+    buttonClick?: () => void;
+    /** Notification close callback. */
+    onClose?: () => void;
+    /** Aria label for the close button on the notification. Defaults to "Close notification" */
+    closeButtonAriaLabel?: string;
+};
 
-/** This component is only used for storybook documentation */
-export class StoryProps extends React.Component<NotificationProps> {
-    static propTypes = {
-        /** Title of the notification */
-        title: PropTypes.string.isRequired,
-        /** Body of the notification */
-        description: PropTypes.string.isRequired,
-        /** Id for the notification, helps in de-duplication. */
-        id: PropTypes.string,
-        /** Duration for the notification in milliseconds */
-        duration: PropTypes.number,
-        /** Creates sticky notification */
-        sticky: PropTypes.bool,
-        /** Type of notification */
-        type: PropTypes.oneOf([
-            NOTIFICATION_TYPE.INFO,
-            NOTIFICATION_TYPE.SUCCESS,
-            NOTIFICATION_TYPE.WARNING,
-            NOTIFICATION_TYPE.DANGER,
-        ]),
-        /** Action button text */
-        buttonText: PropTypes.string,
-        /** Action button click callback */
-        buttonClick: PropTypes.func,
-        /** Notification close callback. */
-        onClose: PropTypes.func,
-        /** Aria label for the close button on the notification. Defaults to "Close notification" */
-        closeButtonAriaLabel: PropTypes.string,
-    };
-
-    static defaultProps = {
-        duration: 5000,
-        sticky: false,
-        type: NOTIFICATION_TYPE.INFO,
-    };
-
-    render(): React.ReactNode {
-        return null;
-    }
+/**
+ * This dummy component is used to extract props for documentation in Storybook.
+ * @param props
+ * @returns
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function StoryProps(props: NotificationProps) {
+    return null;
 }
 
 /** Maps notification position to layer position */

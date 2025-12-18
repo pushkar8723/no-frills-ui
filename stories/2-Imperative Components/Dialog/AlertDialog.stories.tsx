@@ -12,5 +12,6 @@ type Story = StoryObj<typeof AlertDialog>;
 
 // Props documentation story for AlertDialog
 export const AlertDialogProps: Story = {
+    // @ts-expect-error - This is for Controls only
     render: (args: object) => <AlertDialog {...args} />,
 };
