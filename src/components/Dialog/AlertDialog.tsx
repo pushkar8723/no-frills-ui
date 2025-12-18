@@ -1,25 +1,22 @@
 import React, { createRef } from 'react';
-import PropTypes from 'prop-types';
 import { Button } from '../Button';
 import Dialog, { DialogBody, DialogFooter, DialogHeader } from './Dialog';
 
-type AlertOption = PropTypes.InferProps<typeof AlertDialog.propTypes>;
+type AlertOption = {
+    /** Shown as header of the dialog */
+    header: string;
+    /** Rendered in the body. */
+    body: React.ReactNode;
+    /** Accept button text */
+    buttonText?: string;
+    /** props for the dialog */
+    dialogProps?: React.ComponentProps<typeof Dialog>;
+};
 
 let dialogCounter = 0;
 
 export default class AlertDialog extends React.Component<AlertOption> {
     private dialog = createRef<Dialog>();
-
-    static propTypes = {
-        /** Shown as header of the dialog */
-        header: PropTypes.string,
-        /** Rendered in the body. */
-        body: PropTypes.any.isRequired,
-        /** Accept button text, default value is `OK` */
-        buttonText: PropTypes.string,
-        /** props for the dialog */
-        dialogProps: PropTypes.object,
-    };
 
     static defaultProps = {
         buttonText: 'OK',

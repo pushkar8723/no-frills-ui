@@ -12,5 +12,6 @@ type Story = StoryObj<typeof PromptDialog>;
 
 // Props documentation story for PromptDialog
 export const PromptDialogProps: Story = {
+    // @ts-expect-error - This is for Controls only
     render: (args: object) => <PromptDialog {...args} />,
 };

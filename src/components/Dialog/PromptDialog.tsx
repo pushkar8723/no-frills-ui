@@ -18,7 +18,7 @@ type PromptOption = {
     /** Props for the input. */
     inputProps?: React.HTMLProps<HTMLInputElement>;
     /** Additional props for the dialog. */
-    dialogProps?: Dialog['props'];
+    dialogProps?: React.ComponentProps<typeof Dialog>;
 };
 
 const BodyText = styled.p`
@@ -49,8 +49,6 @@ const StyledInput = styled(Input)`
 `;
 
 export default class PromptDialog extends React.Component<PromptOption, { value?: string }> {
-    static propTypes = {};
-
     static defaultProps = {
         cancelText: 'Cancel',
         submitText: 'Submit',
