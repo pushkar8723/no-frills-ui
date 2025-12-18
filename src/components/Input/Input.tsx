@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useId } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-type InputProps = React.AllHTMLAttributes<HTMLInputElement> & {
+type InputProps = {
     /** Label for the field */
     label?: string;
-    /** Error message for the field */
+    /** Error text to be shown below the field */
     errorText?: string;
-};
+} & React.AllHTMLAttributes<HTMLInputElement>;
 
 type InputInternalProps = InputProps & {
     touched: boolean;
@@ -180,12 +179,4 @@ const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props,
 });
 
 Input.displayName = 'Input';
-
 export default Input;
-
-Input.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string,
-    /** Error text to be shown below the field */
-    errorText: PropTypes.string,
-};
