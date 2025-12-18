@@ -5,11 +5,14 @@ import { Menu } from '../Menu';
 import { Popover, POPOVER_POSITION } from '../Popover';
 import Input from './Input';
 
-type DropdownProps<T> = {
+type DropdownProps<T> = React.PropsWithChildren<{
     /** Value of the control */
     value?: T | T[];
-    /** If multiple elements can be selected */
-    multiSelect: boolean;
+    /**
+     * If multiple elements can be selected
+     * @default false
+     */
+    multiSelect?: boolean;
     /** Change handler */
     onChange?: (v: T | T[]) => void;
     /** Label of the control */
@@ -20,7 +23,8 @@ type DropdownProps<T> = {
     required?: boolean;
     /** Disables the field */
     disabled?: boolean;
-} & React.PropsWithChildren<unknown>;
+}> &
+    React.InputHTMLAttributes<HTMLInputElement>;
 
 const ArrowContainer = styled.span`
     position: absolute;
@@ -34,17 +38,23 @@ const ArrowContainer = styled.span`
  * Supports single and multi-select modes.
  *
  * @template T - The type of the value(s) in the dropdown.
- * @param {DropdownProps<T>} props - The properties for the Dropdown component.
- * @returns {JSX.Element} The rendered Dropdown component.
+ * @param props - The properties for the Dropdown component.
+ * @returns The rendered Dropdown component.
  */
-export default function Dropdown<T extends object>(props: DropdownProps<T>) {
-    const { multiSelect, onChange } = props;
+function DropdownComponent<T extends object>(
+    props: DropdownProps<T>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    outerRef: React.Ref<HTMLInputElement>,
+) {
+    const { multiSelect = false, onChange, ...rest } = props;
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState<T | T[] | undefined>(props.value);
     const id = React.useId();
     const menuId = `${id}-menu`;
-    const menuRef = React.useRef<HTMLDivElement>(null);
-    const triggerRef = React.useRef<HTMLInputElement>(null);
+    const menuRef = React.useRef<HTMLDivElement | null>(null);
+    const triggerRef = React.useRef<HTMLInputElement | null>(
+        null,
+    ) as React.MutableRefObject<HTMLInputElement | null>;
 
     // Focus menu when opened
     useEffect(() => {
@@ -97,30 +107,71 @@ export default function Dropdown<T extends object>(props: DropdownProps<T>) {
      */
     const clickHandler = () => setOpen(true);
 
-    const TriggerElement = React.forwardRef<HTMLInputElement>((passedProps, ref) => (
-        <>
-            <Input
-                {...passedProps}
-                ref={ref}
-                type="text"
-                value={value && String(value)}
-                label={props.label}
-                errorText={props.errorText}
-                onClick={clickHandler}
-                onKeyDown={onKeyDown}
-                required={props.required}
-                disabled={props.disabled}
-                readOnly
-                role="combobox"
-                aria-haspopup="listbox"
-                aria-expanded={open}
-                aria-controls={menuId}
-            />
-            <ArrowContainer aria-hidden="true">
-                <ExpandMore />
-            </ArrowContainer>
-        </>
-    ));
+    const TriggerElement = React.forwardRef<HTMLInputElement>((passedProps, ref) => {
+        // Helper to assign both internal triggerRef and external forwarded ref
+        const assignRefs = (node: HTMLInputElement | null) => {
+            triggerRef.current = node;
+
+            if (!outerRef) return;
+            if (typeof outerRef === 'function') {
+                try {
+                    outerRef(node);
+                } catch (e) {
+                    console.warn(e);
+                }
+            } else {
+                try {
+                    (outerRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+        };
+
+        // Combine the ref passed by parent with our assignRefs so both are updated
+        const combinedRef: React.Ref<HTMLInputElement> = (node) => {
+            assignRefs(node);
+            if (typeof ref === 'function') {
+                try {
+                    ref(node);
+                } catch (e) {
+                    console.warn(e);
+                }
+            } else if (ref) {
+                try {
+                    (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+        };
+
+        return (
+            <>
+                <Input
+                    {...rest}
+                    {...passedProps}
+                    ref={combinedRef}
+                    type="text"
+                    value={value && String(value)}
+                    label={props.label}
+                    errorText={props.errorText}
+                    onClick={clickHandler}
+                    onKeyDown={onKeyDown}
+                    required={props.required}
+                    disabled={props.disabled}
+                    readOnly
+                    role="combobox"
+                    aria-haspopup="listbox"
+                    aria-expanded={open}
+                    aria-controls={menuId}
+                />
+                <ArrowContainer aria-hidden="true">
+                    <ExpandMore />
+                </ArrowContainer>
+            </>
+        );
+    });
     TriggerElement.displayName = 'DropdownTrigger';
 
     return (
@@ -146,6 +197,5 @@ export default function Dropdown<T extends object>(props: DropdownProps<T>) {
     );
 }
 
-Dropdown.defaultProps = {
-    multiSelect: false,
-};
+const Dropdown = React.forwardRef(DropdownComponent);
+export default Dropdown;

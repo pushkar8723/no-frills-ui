@@ -147,6 +147,7 @@ function CheckboxComponent(props: CheckboxProps, fwdRef: React.Ref<HTMLInputElem
                 {...rest}
                 ref={ref}
                 type="checkbox"
+                checked={checked}
                 aria-checked={indeterminate ? 'mixed' : checked}
             />
             <StyledCheckmark />
