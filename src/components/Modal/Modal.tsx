@@ -18,7 +18,7 @@ type ModalProps = {
     onClose?: () => void;
     /** Ref forwarded to the modal container */
     forwardRef?: React.Ref<HTMLDivElement>;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
 interface ModalState {
     open: boolean;
