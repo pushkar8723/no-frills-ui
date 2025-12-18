@@ -194,7 +194,7 @@ function DropdownComponent<T extends object>(
                 triggerRef.current?.focus();
             }}
         >
-            <Menu
+            <Menu<T>
                 ref={menuRef}
                 id={menuId}
                 value={value}

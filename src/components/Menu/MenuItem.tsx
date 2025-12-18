@@ -4,10 +4,10 @@ import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import Checkbox from '../Input/Checkbox';
 import MenuContext, { MenuContextType } from './MenuContext';
 
-interface MenuItemProps<T> {
+type MenuItemProps<T> = {
     /** Value of the element */
     value: T;
-}
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Container = styled.button<{ selected: boolean; multiselect?: boolean }>`
     font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
@@ -39,10 +39,7 @@ const Container = styled.button<{ selected: boolean; multiselect?: boolean }>`
     }
 `;
 
-const MenuItemInner = <T,>(
-    props: MenuItemProps<T> & React.PropsWithChildren,
-    ref: React.Ref<HTMLButtonElement>,
-) => {
+const MenuItemInner = <T,>(props: MenuItemProps<T>, ref: React.Ref<HTMLButtonElement>) => {
     const context = useContext(MenuContext) as MenuContextType<T> | undefined;
     if (!context) {
         throw new Error('`MenuItem` must be used within a `Menu` provider');
@@ -85,8 +82,5 @@ const MenuItemInner = <T,>(
     );
 };
 
-const MenuItem = React.forwardRef(MenuItemInner) as <T>(
-    props: MenuItemProps<T> & React.PropsWithChildren & { ref?: React.Ref<HTMLButtonElement> },
-) => ReturnType<typeof MenuItemInner>;
-
+const MenuItem = React.forwardRef(MenuItemInner);
 export default MenuItem;
