@@ -36,7 +36,10 @@ const TriggerButton = forwardRef((props, ref) => (
 </Popover>;
 ```
 
-## Props
+## Props and Ref
+
+All `props` and `ref` are forwarded to native `div` element.
+Following are the additional `props` that are added on top of `HTMLDivElement` props.
 
 <Controls of={PopoverStories.Primary} />
 

@@ -92,20 +92,41 @@ type PopoverProps = {
     open: boolean;
     /** Anchor element for the popover */
     element: React.ElementType;
-    /** Position of the popover around anchor element */
-    position: POPOVER_POSITION;
-    /** If the popover should close on `esc` key press */
-    closeOnEsc: boolean;
+    /**
+     * Position of the popover around anchor element
+     * @default POPOVER_POSITION.BOTTOM_LEFT
+     */
+    position?: POPOVER_POSITION;
+    /**
+     * If the popover should close on `esc` key press
+     * @default true
+     */
+    closeOnEsc?: boolean;
     /** Popover close callback */
     onClose?: () => void;
 };
 
-export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
-    const [open, setOpen] = useState<boolean>(props.open);
+function PopoverComponent(
+    props: React.PropsWithChildren<PopoverProps>,
+    ref: React.Ref<HTMLDivElement>,
+) {
+    const {
+        open: propsOpen,
+        element,
+        position = POPOVER_POSITION.BOTTOM_LEFT,
+        closeOnEsc = true,
+        onClose,
+        children,
+        ...rest
+    } = props;
+
+    const [open, setOpen] = useState<boolean>(propsOpen);
     const [closing, setClosing] = useState<boolean>(false);
     const [translate, setTranslate] = useState<Translate>({ x: 0, y: 0 });
     const popperRef = useRef<HTMLDivElement | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(
+        null,
+    ) as React.MutableRefObject<HTMLDivElement | null>;
     const triggerRef = useRef<HTMLElement | null>(null);
     const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const focusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -126,8 +147,8 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
             setOpen(false);
             setTranslate({ x: 0, y: 0 });
 
-            if (props.onClose) {
-                props.onClose();
+            if (onClose) {
+                onClose();
             }
             setClosing(false);
 
@@ -140,15 +161,15 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
             }, 50);
             closeTimeoutRef.current = null;
         }, 280);
-    }, [props]);
+    }, [onClose]);
 
     const keyupEventHandler = useCallback(
         (e: KeyboardEvent) => {
-            if (props.closeOnEsc && e.keyCode === KEY_CODES.ESC) {
+            if (closeOnEsc && e.keyCode === KEY_CODES.ESC) {
                 close();
             }
         },
-        [close, props.closeOnEsc],
+        [close, closeOnEsc],
     );
 
     const clickOutsideHandler = useCallback(
@@ -172,7 +193,7 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
     }, [keyupEventHandler]);
 
     useEffect(() => {
-        if (props.open) {
+        if (propsOpen) {
             setOpen(true);
             // Use requestAnimationFrame to add listener after current event loop
             const rafId = requestAnimationFrame(() => {
@@ -188,7 +209,7 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
                 close();
             }
         }
-    }, [props.open, open, clickOutsideHandler, close]);
+    }, [propsOpen, open, clickOutsideHandler, close]);
 
     useEffect(() => {
         if (open) {
@@ -202,7 +223,7 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
             const viewportHeight = document.documentElement.clientHeight;
             const translation = { x: 0, y: 0 };
 
-            if (props.position === POPOVER_POSITION.BOTTOM_LEFT) {
+            if (position === POPOVER_POSITION.BOTTOM_LEFT) {
                 // overflow can happen at bottom and right
                 if (viewportHeight - top - height < 0) {
                     translation.y = -1 * (Math.abs(viewportHeight - top - height) + 5);
@@ -210,7 +231,7 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
                 if (viewportWidth - right < 0) {
                     translation.x = -1 * (Math.abs(viewportWidth - right) + 5);
                 }
-            } else if (props.position == POPOVER_POSITION.BOTTOM_RIGHT) {
+            } else if (position == POPOVER_POSITION.BOTTOM_RIGHT) {
                 // overflow can happen at bottom and left
                 if (viewportHeight - top - height < 0) {
                     translation.y = -1 * (Math.abs(viewportHeight - top - height) + 5);
@@ -218,7 +239,7 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
                 if (left < 0) {
                     translation.x = Math.abs(left) + 5;
                 }
-            } else if (props.position === POPOVER_POSITION.TOP_LEFT) {
+            } else if (position === POPOVER_POSITION.TOP_LEFT) {
                 // overflow can happen at top and right
                 if (top - height < 0) {
                     translation.y = Math.abs(top - height) + 5;
@@ -240,7 +261,7 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
             setTranslate(translation);
             popperRef.current?.focus();
         }
-    }, [open, props.position]);
+    }, [open, position]);
 
     /**
      * Cleanup timeouts on unmount
@@ -256,9 +277,23 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
         };
     }, []);
 
+    const forwardRef = (node: HTMLDivElement | null) => {
+        containerRef.current = node;
+
+        if (typeof ref === 'function') {
+            try {
+                ref(node);
+            } catch (error) {
+                console.warn(error);
+            }
+        } else if (ref) {
+            (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+    };
+
     return (
-        <PopoverDiv ref={containerRef}>
-            {React.createElement(props.element, {
+        <PopoverDiv ref={forwardRef} {...rest}>
+            {React.createElement(element, {
                 ref: triggerRef,
                 id: triggerId,
                 'aria-expanded': open,
@@ -272,7 +307,7 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
                     role="dialog"
                     aria-labelledby={triggerId}
                     id={popperId}
-                    position={props.position}
+                    position={position}
                     translateX={translate.x}
                     translateY={translate.y}
                     className={closing ? 'closing' : ''}
@@ -282,14 +317,12 @@ export default function Popover(props: React.PropsWithChildren<PopoverProps>) {
                         e.nativeEvent.stopImmediatePropagation();
                     }}
                 >
-                    {props.children}
+                    {children}
                 </Popper>
             )}
         </PopoverDiv>
     );
 }
 
-Popover.defaultProps = {
-    closeOnEsc: true,
-    position: POPOVER_POSITION.BOTTOM_LEFT,
-};
+const Popover = React.forwardRef(PopoverComponent);
+export default Popover;
