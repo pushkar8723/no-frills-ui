@@ -66,8 +66,19 @@ const TooltipContainer = styled.div<{ position: TOOLTIP_POSITION }>`
     }
 `;
 
-export default function Tooltip(props: React.PropsWithChildren<TooltipProps>) {
-    const { children, position, ...rest } = props;
+type TooltipProps = React.PropsWithChildren<{
+    /** Text to show in the tooltip */
+    tooltipText: string | React.ReactNode;
+    /**
+     * Position of the tooltip
+     * @default TOOLTIP_POSITION.BOTTOM
+     */
+    position?: TOOLTIP_POSITION;
+}> &
+    React.HTMLAttributes<HTMLDivElement>;
+
+function TooltipComponent(props: TooltipProps, ref: React.Ref<HTMLDivElement>) {
+    const { children, position = TOOLTIP_POSITION.BOTTOM, ...rest } = props;
     const tooltipId = useId();
 
     // Clone the child to inject aria-describedby and tabIndex if possible
@@ -82,7 +93,7 @@ export default function Tooltip(props: React.PropsWithChildren<TooltipProps>) {
         : children;
 
     return (
-        <TooltipContainer position={position} {...rest}>
+        <TooltipContainer {...rest} ref={ref} position={position}>
             {trigger}
             <TooltipDiv id={tooltipId} aria-hidden="true" role="tooltip" position={position}>
                 {rest.tooltipText as React.ReactNode}
@@ -91,12 +102,5 @@ export default function Tooltip(props: React.PropsWithChildren<TooltipProps>) {
     );
 }
 
-type TooltipProps = {
-    /** Text to show in the tooltip */
-    tooltipText: string | React.ReactNode;
-    /** Position of the tooltip */
-    position: TOOLTIP_POSITION;
-};
-Tooltip.defaultProps = {
-    position: TOOLTIP_POSITION.BOTTOM,
-};
+const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(TooltipComponent);
+export default Tooltip;
