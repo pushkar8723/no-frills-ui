@@ -1,5 +1,11 @@
-import { useState, Children, useEffect, PropsWithChildren, isValidElement } from 'react';
-import PropTypes from 'prop-types';
+import {
+    useState,
+    Children,
+    useEffect,
+    PropsWithChildren,
+    isValidElement,
+    forwardRef,
+} from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -44,14 +50,20 @@ const TabBody = styled.div`
 `;
 
 type ITabsProps = PropsWithChildren<{
-    active?: number;
+    /**
+     * Active Tab Index
+     * @default 0
+     */
+    active: number;
+    /** OnChange event handler */
     onChange?: (index: number) => void;
-    props?: object;
+    /** Props for div that contains tab body */
     bodyProps?: object;
 }>;
 
-export default function Tabs(props: ITabsProps) {
-    const [active, setActive] = useState(props.active);
+function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
+    const { active: propsActive = 0, onChange, bodyProps, ...rest } = props;
+    const [active, setActive] = useState(propsActive);
     const { children } = props;
     const tabRefs = [] as Array<HTMLButtonElement | null>;
     const childrenArray = Children.toArray(children);
@@ -59,7 +71,7 @@ export default function Tabs(props: ITabsProps) {
     const switchTab = (index: number) => () => {
         setActive(index);
         tabRefs[index]?.focus();
-        props.onChange?.(index);
+        onChange?.(index);
     };
 
     // Keyboard navigation for tab buttons
@@ -76,11 +88,11 @@ export default function Tabs(props: ITabsProps) {
     };
 
     useEffect(() => {
-        if (props.active !== undefined) {
-            setActive(props.active);
-            props.onChange?.(props.active);
+        if (propsActive !== undefined) {
+            setActive(propsActive);
+            onChange?.(propsActive);
         }
-    }, [props]);
+    }, [propsActive, onChange]);
 
     // Generate unique IDs for tabs and panels using sanitized tab name and index
     const sanitize = (str: string) => str.replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
@@ -100,7 +112,7 @@ export default function Tabs(props: ITabsProps) {
 
     return (
         <>
-            <ButtonContainer role="tablist" aria-label="Tabs" {...props.props}>
+            <ButtonContainer role="tablist" aria-label="Tabs" ref={ref} {...rest}>
                 {childrenArray.map((child, index) => (
                     <Button
                         key={tabIds[index]}
@@ -122,29 +134,19 @@ export default function Tabs(props: ITabsProps) {
                 ))}
             </ButtonContainer>
             <TabBody
+                {...bodyProps}
                 id={panelIds[active]}
                 role="tabpanel"
                 aria-labelledby={tabIds[active]}
                 tabIndex={0}
-                {...props.bodyProps}
             >
-                {childrenArray[active]}
+                {isValidElement(childrenArray[active])
+                    ? childrenArray[active].props.children
+                    : null}
             </TabBody>
         </>
     );
 }
 
-Tabs.propTypes = {
-    /** Active Tab Index */
-    active: PropTypes.number,
-    /** OnChange event handler */
-    onChange: PropTypes.func,
-    /** Props for div that contains tab buttons */
-    props: PropTypes.object,
-    /** Props for div that contains tab body */
-    bodyProps: PropTypes.object,
-};
-
-Tabs.defaultProps = {
-    active: 0,
-};
+const Tabs = forwardRef(TabsComponent);
+export default Tabs;

@@ -1,20 +1,19 @@
 import { PropsWithChildren } from 'react';
-import PropTypes from 'prop-types';
 
-const Tab = (props: PropsWithChildren<{ name: string; disabled: boolean }>) => {
-    const { children } = props;
-    return <>{children}</>;
-};
-
-Tab.propTypes = {
+type TabProps = PropsWithChildren<{
     /** Name of the tab. This shown in the tab's button */
-    name: PropTypes.string.isRequired,
-    /** If the tab is disabled */
-    disabled: PropTypes.bool,
-};
+    name: string;
+    /**
+     * If the tab is disabled
+     * @default false
+     */
+    disabled?: boolean;
+}>;
 
-Tab.defaultProps = {
-    disabled: false,
+const Tab = (props: TabProps) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { children, disabled = false } = props;
+    return <>{children}</>;
 };
 
 export default Tab;
