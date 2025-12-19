@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -78,23 +77,26 @@ const Input = styled.input`
     }
 `;
 
-Toggle.propTypes = {
+type ToggleProps = {
     /** Label for the field */
-    label: PropTypes.string,
-};
+    label?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-type ToggleProps = PropTypes.InferProps<
-    React.AllHTMLAttributes<HTMLInputElement> & typeof Toggle.propTypes
->;
-
-function Toggle(props: ToggleProps) {
+function ToggleComponent(props: ToggleProps, ref: React.Ref<HTMLInputElement>) {
     return (
         <Switch>
-            <Input {...props} type="checkbox" role="switch" aria-checked={props.checked} />
+            <Input
+                {...props}
+                ref={ref}
+                type="checkbox"
+                role="switch"
+                aria-checked={props.checked}
+            />
             <span></span>
             <span>{props.label}</span>
         </Switch>
     );
 }
 
+const Toggle = React.forwardRef(ToggleComponent);
 export default Toggle;
