@@ -1,24 +1,17 @@
 import React, { useState, useEffect, useId } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-TextArea.propTypes = {
+type TextAreaProps = {
     /** Label for the field */
-    label: PropTypes.string,
+    label: string;
     /** Error text to be shown below the field */
-    errorText: PropTypes.string,
-};
+    errorText?: string;
+} & React.InputHTMLAttributes<HTMLTextAreaElement>;
 
-interface TextAreaProps
-    extends
-        PropTypes.InferType<typeof TextArea.propTypes>,
-        React.InputHTMLAttributes<HTMLTextAreaElement> {
-    value?: string;
-}
-
-type TextAreaInternalProps = TextAreaProps & {
+type TextAreaInternalProps = {
     touched: boolean;
+    errorText?: string;
 };
 
 const Label = styled.label`
@@ -138,16 +131,17 @@ const ErrorContainer = styled.div`
     margin-left: 3px;
 `;
 
-export default function TextArea(props: TextAreaProps) {
+function TextAreaComponent(props: TextAreaProps, ref: React.Ref<HTMLTextAreaElement>) {
+    const { label, errorText, value: propsValue, required, ...rest } = props;
     const [touched, setTouched] = useState(false);
-    const [value, setValue] = useState(props.value || '');
+    const [value, setValue] = useState(propsValue || '');
     const errorId = useId();
 
     useEffect(() => {
-        if (props.value !== undefined) {
-            setValue(props.value);
+        if (propsValue !== undefined) {
+            setValue(propsValue);
         }
-    }, [props.value]);
+    }, [propsValue]);
 
     const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         setTouched(true);
@@ -168,17 +162,22 @@ export default function TextArea(props: TextAreaProps) {
     return (
         <Label>
             <TextField
-                {...props}
+                {...rest}
+                ref={ref}
                 value={value}
                 onChange={onChangeHandler}
                 onFocus={handleFocus}
                 touched={touched}
-                aria-invalid={!!props.errorText}
-                aria-required={props.required}
-                aria-describedby={props.errorText ? errorId : undefined}
+                required={required}
+                aria-invalid={!!errorText}
+                aria-required={required}
+                aria-describedby={errorText ? errorId : undefined}
             />
-            <span>{props.label}</span>
-            {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
+            <span>{label}</span>
+            {errorText && <ErrorContainer id={errorId}>{errorText}</ErrorContainer>}
         </Label>
     );
 }
+
+const TextArea = React.forwardRef(TextAreaComponent);
+export default TextArea;
