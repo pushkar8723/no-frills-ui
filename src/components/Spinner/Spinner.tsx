@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -21,11 +21,26 @@ const SpinnerDiv = styled.div<SpinnerProp>`
     }
 `;
 
-function Spinner(props: SpinnerProp) {
-    const { label, ...rest } = props;
+type SpinnerProp = {
+    /**
+     * Spinner's size
+     * @default 30
+     */
+    size?: number;
+    /**
+     * Accessible label for screen readers
+     * @default 'Loading'
+     */
+    label?: string;
+};
+
+function SpinnerComponent(props: SpinnerProp, ref: React.Ref<HTMLDivElement>) {
+    const { label = 'Loading', size = 30, ...rest } = props;
     return (
         <SpinnerDiv
             {...rest}
+            ref={ref}
+            size={size}
             role="status"
             aria-label={label || undefined}
             aria-live="polite"
@@ -34,18 +49,5 @@ function Spinner(props: SpinnerProp) {
     );
 }
 
-Spinner.propTypes = {
-    /** Spinner's size */
-    size: PropTypes.number,
-    /** Accessible label for screen readers */
-    label: PropTypes.string,
-};
-
-type SpinnerProp = PropTypes.InferProps<typeof Spinner.propTypes>;
-
-Spinner.defaultProps = {
-    size: 30,
-    label: 'Loading',
-};
-
+const Spinner = React.forwardRef<HTMLDivElement, SpinnerProp>(SpinnerComponent);
 export default Spinner;
