@@ -39,7 +39,7 @@ export default {
             sourcemap: true,
         },
     ],
-    external: ['react', 'react-dom', 'prop-types', '@emotion/styled', '@emotion/react'],
+    external: ['react', 'react-dom', '@emotion/styled', '@emotion/react'],
     plugins: [
         external(),
         resolve({
