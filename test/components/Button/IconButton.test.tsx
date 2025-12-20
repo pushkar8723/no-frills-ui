@@ -32,4 +32,17 @@ describe('IconButton', () => {
         button.click();
         expect(handleClick).toHaveBeenCalledTimes(1);
     });
+
+    it('handles disabled state', () => {
+        const handleClick = jest.fn();
+        const { getByRole } = render(
+            <IconButton disabled onClick={handleClick}>
+                Disabled
+            </IconButton>,
+        );
+        const button = getByRole('button');
+        expect(button).toBeDisabled();
+        button.click();
+        expect(handleClick).not.toHaveBeenCalled();
+    });
 });
