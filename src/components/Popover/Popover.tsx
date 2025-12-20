@@ -124,9 +124,7 @@ function PopoverComponent(
     const [closing, setClosing] = useState<boolean>(false);
     const [translate, setTranslate] = useState<Translate>({ x: 0, y: 0 });
     const popperRef = useRef<HTMLDivElement | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(
-        null,
-    ) as React.MutableRefObject<HTMLDivElement | null>;
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const triggerRef = useRef<HTMLElement | null>(null);
     const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const focusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -281,11 +279,7 @@ function PopoverComponent(
         containerRef.current = node;
 
         if (typeof ref === 'function') {
-            try {
-                ref(node);
-            } catch (error) {
-                console.warn(error);
-            }
+            ref(node);
         } else if (ref) {
             (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }

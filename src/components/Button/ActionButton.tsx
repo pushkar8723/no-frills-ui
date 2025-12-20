@@ -56,6 +56,6 @@ function ActionButtonComponent(props: ActionButtonProps, ref: React.Ref<HTMLButt
     return <StyledActionButton ref={ref} type={type} {...rest} />;
 }
 
-const ActionButton = React.forwardRef(ActionButtonComponent);
+const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(ActionButtonComponent);
 
 export default ActionButton;

@@ -54,7 +54,7 @@ type ITabsProps = PropsWithChildren<{
      * Active Tab Index
      * @default 0
      */
-    active: number;
+    active?: number;
     /** OnChange event handler */
     onChange?: (index: number) => void;
     /** Props for div that contains tab body */
@@ -134,15 +134,13 @@ function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
                 ))}
             </ButtonContainer>
             <TabBody
-                {...bodyProps}
                 id={panelIds[active]}
                 role="tabpanel"
                 aria-labelledby={tabIds[active]}
                 tabIndex={0}
+                {...bodyProps}
             >
-                {isValidElement(childrenArray[active])
-                    ? childrenArray[active].props.children
-                    : null}
+                {childrenArray[active]}
             </TabBody>
         </>
     );

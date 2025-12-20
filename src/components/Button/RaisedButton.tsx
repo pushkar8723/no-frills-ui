@@ -64,8 +64,5 @@ const RaisedButtonComponent = (props: RaisedButtonProps, ref: React.Ref<HTMLButt
     return <StyledRaisedButton ref={ref} type={type} {...rest} />;
 };
 
-const RaisedButton = React.forwardRef<
-    HTMLButtonElement,
-    RaisedButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>
->(RaisedButtonComponent);
+const RaisedButton = React.forwardRef<HTMLButtonElement, RaisedButtonProps>(RaisedButtonComponent);
 export default RaisedButton;

@@ -214,8 +214,8 @@ function ChipInputComponent(
     const [announcement, setAnnouncement] = useState('');
     const errorId = useId();
 
-    // Forward the underlying input element. Use an empty deps array because InputRef is stable.
-    useImperativeHandle(ref, () => InputRef.current, []);
+    // Forward the underlying input element.
+    useImperativeHandle(ref, () => InputRef.current);
 
     /**
      * Replace {:label} placeholder in template string

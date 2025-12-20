@@ -11,8 +11,7 @@ type TabProps = PropsWithChildren<{
 }>;
 
 const Tab = (props: TabProps) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { children, disabled = false } = props;
+    const { children } = props;
     return <>{children}</>;
 };
 

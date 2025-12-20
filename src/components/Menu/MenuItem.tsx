@@ -7,7 +7,7 @@ import MenuContext, { MenuContextType } from './MenuContext';
 type MenuItemProps<T> = {
     /** Value of the element */
     value: T;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'>;
 
 const Container = styled.button<{ selected: boolean; multiselect?: boolean }>`
     font-weight: ${(props) => (props.selected ? 'bold' : 'normal')};
@@ -82,5 +82,7 @@ const MenuItemInner = <T,>(props: MenuItemProps<T>, ref: React.Ref<HTMLButtonEle
     );
 };
 
-const MenuItem = React.forwardRef(MenuItemInner);
+const MenuItem = React.forwardRef(MenuItemInner) as <T>(
+    props: MenuItemProps<T> & { ref?: React.Ref<HTMLButtonElement> },
+) => ReturnType<typeof MenuItemInner>;
 export default MenuItem;

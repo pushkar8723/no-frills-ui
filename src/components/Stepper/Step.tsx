@@ -25,7 +25,9 @@ type StepProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 function StepComponent(props: React.PropsWithChildren<StepProps>, ref: React.Ref<HTMLDivElement>) {
-    return <Container {...props} ref={ref} />;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { name, disabled, completed, ...rest } = props;
+    return <Container {...rest} ref={ref} />;
 }
 
 const Step = React.forwardRef(StepComponent);

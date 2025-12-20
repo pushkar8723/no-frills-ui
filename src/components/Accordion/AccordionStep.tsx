@@ -182,7 +182,7 @@ function AccordionStepComponent(
 
 const AccordionStep = React.forwardRef<
     HTMLDivElement,
-    React.PropsWithChildren<AccordionStepProps> & Omit<React.HTMLProps<HTMLDivElement>, 'as'>
+    React.PropsWithChildren<AccordionStepProps> & React.HTMLAttributes<HTMLDivElement>
 >(AccordionStepComponent);
 
 export default AccordionStep;

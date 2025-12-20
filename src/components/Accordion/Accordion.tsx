@@ -36,9 +36,9 @@ type AccordionProps = {
      * Currently opened step
      * @default -1
      */
-    active: number;
+    active?: number;
     /** Handler for click event on a step */
-    onStepClick: (index: number) => void;
+    onStepClick?: (index: number) => void;
 };
 
 export default Accordion;

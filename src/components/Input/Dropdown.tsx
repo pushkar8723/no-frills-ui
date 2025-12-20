@@ -43,7 +43,6 @@ const ArrowContainer = styled.span`
  */
 function DropdownComponent<T extends object>(
     props: DropdownProps<T>,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     outerRef: React.Ref<HTMLInputElement>,
 ) {
     const {
@@ -62,9 +61,7 @@ function DropdownComponent<T extends object>(
     const id = React.useId();
     const menuId = `${id}-menu`;
     const menuRef = React.useRef<HTMLDivElement | null>(null);
-    const triggerRef = React.useRef<HTMLInputElement | null>(
-        null,
-    ) as React.MutableRefObject<HTMLInputElement | null>;
+    const triggerRef = React.useRef<HTMLInputElement | null>(null);
 
     // Focus menu when opened
     useEffect(() => {
@@ -142,17 +139,9 @@ function DropdownComponent<T extends object>(
         const combinedRef: React.Ref<HTMLInputElement> = (node) => {
             assignRefs(node);
             if (typeof ref === 'function') {
-                try {
-                    ref(node);
-                } catch (e) {
-                    console.warn(e);
-                }
+                ref(node);
             } else if (ref) {
-                try {
-                    (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
-                } catch (e) {
-                    console.warn(e);
-                }
+                (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
             }
         };
 
@@ -194,7 +183,7 @@ function DropdownComponent<T extends object>(
                 triggerRef.current?.focus();
             }}
         >
-            <Menu<T>
+            <Menu
                 ref={menuRef}
                 id={menuId}
                 value={value}

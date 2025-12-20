@@ -51,8 +51,5 @@ const LinkButtonComponent = (props: LinkButtonProps, ref: React.Ref<HTMLButtonEl
     return <StyledLinkButton ref={ref} type={type} {...rest} />;
 };
 
-const LinkButton = React.forwardRef<
-    HTMLButtonElement,
-    LinkButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>
->(LinkButtonComponent);
+const LinkButton = React.forwardRef<HTMLButtonElement, LinkButtonProps>(LinkButtonComponent);
 export default LinkButton;

@@ -60,6 +60,6 @@ function IconButtonComponent(props: IconButtonProps, ref: React.Ref<HTMLButtonEl
     return <StyledIconButton ref={ref} type={type} {...rest} />;
 }
 
-const IconButton = React.forwardRef(IconButtonComponent);
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(IconButtonComponent);
 
 export default IconButton;
