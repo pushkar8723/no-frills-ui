@@ -42,14 +42,14 @@
         },
         {
             "name": "Tree-shaking - Single Component (Button)",
-            "path": "lib-esm/components/index.js",
+            "path": "lib-esm/index.js",
             "import": "{ Button }",
             "limit": "5 KB",
             "gzip": true
         },
         {
             "name": "Tree-shaking - Multiple Components",
-            "path": "lib-esm/components/index.js",
+            "path": "lib-esm/index.js",
             "import": "{ Button, Card, Input }",
             "limit": "10 KB",
             "gzip": true
