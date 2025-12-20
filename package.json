@@ -56,7 +56,7 @@
         },
         {
             "name": "Tree-shaking - All exports",
-            "path": "lib-esm/components/index.js",
+            "path": "lib-esm/index.js",
             "import": "*",
             "limit": "25 KB",
             "gzip": true
