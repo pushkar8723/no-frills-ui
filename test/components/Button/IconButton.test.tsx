@@ -45,4 +45,9 @@ describe('IconButton', () => {
         button.click();
         expect(handleClick).not.toHaveBeenCalled();
     });
+
+    it('has aria-label', () => {
+        const { getByRole } = render(<IconButton aria-label="Close">X</IconButton>);
+        expect(getByRole('button')).toHaveAttribute('aria-label', 'Close');
+    });
 });

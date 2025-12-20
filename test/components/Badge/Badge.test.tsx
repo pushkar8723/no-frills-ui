@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import Badge, { BADGE_TYPE } from '../../../src/components/Badge/Badge';
+import { Badge, BADGE_TYPE } from '../../../src/components/Badge';
 
 expect.extend(toHaveNoViolations);
 
@@ -47,5 +47,32 @@ describe('Badge', () => {
     it('renders without children', () => {
         const { container } = render(<Badge />);
         expect(container.firstChild).toBeInTheDocument();
+    });
+
+    it('renders with aria-label for empty badges', () => {
+        const { getByLabelText } = render(<Badge aria-label="Notification" />);
+        expect(getByLabelText('Notification')).toBeInTheDocument();
+    });
+
+    it('renders with role="status" for dynamic updates', () => {
+        const { container } = render(<Badge role="status">Dynamic</Badge>);
+        expect(container.firstChild).toHaveAttribute('role', 'status');
+    });
+
+    it('renders with aria-live="polite" for status changes', () => {
+        const { container } = render(<Badge aria-live="polite">Status</Badge>);
+        expect(container.firstChild).toHaveAttribute('aria-live', 'polite');
+    });
+
+    // Color contrast test is hard to automate, assuming styles are correct
+    it('props forwarding to span element', () => {
+        const { container } = render(
+            <Badge data-testid="badge" className="custom">
+                Test
+            </Badge>,
+        );
+        const span = container.firstChild as HTMLElement;
+        expect(span).toHaveAttribute('data-testid', 'badge');
+        expect(span).toHaveClass('custom');
     });
 });
