@@ -8,7 +8,7 @@ import pkg from './package.json' with { type: 'json' };
 const isProduction = process.env.NODE_ENV === 'production';
 
 export default {
-    input: './src/components/index.ts',
+    input: './src/index.ts',
     output: [
         {
             file: pkg.main,

@@ -3,14 +3,14 @@
     "version": "0.0.14-alpha.10",
     "description": "React components that are made of styled native components. Mostly!",
     "main": "dist/index.js",
-    "module": "lib-esm/components/index.js",
-    "jsnext:main": "lib-esm/components/index.js",
-    "types": "lib-esm/components/index.d.ts",
+    "module": "lib-esm/index.js",
+    "jsnext:main": "lib-esm/index.js",
+    "types": "lib-esm/index.d.ts",
     "sideEffects": false,
     "exports": {
         ".": {
-            "types": "./lib-esm/components/index.d.ts",
-            "import": "./lib-esm/components/index.js",
+            "types": "./lib-esm/index.d.ts",
+            "import": "./lib-esm/index.js",
             "require": "./dist/index.js"
         }
     },
