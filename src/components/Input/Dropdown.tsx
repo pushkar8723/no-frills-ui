@@ -121,17 +121,9 @@ function DropdownComponent<T extends object>(
 
             if (!outerRef) return;
             if (typeof outerRef === 'function') {
-                try {
-                    outerRef(node);
-                } catch (e) {
-                    console.warn(e);
-                }
+                outerRef(node);
             } else {
-                try {
-                    (outerRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
-                } catch (e) {
-                    console.warn(e);
-                }
+                (outerRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
             }
         };
 

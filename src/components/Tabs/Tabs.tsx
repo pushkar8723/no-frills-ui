@@ -134,11 +134,11 @@ function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
                 ))}
             </ButtonContainer>
             <TabBody
+                {...bodyProps}
                 id={panelIds[active]}
                 role="tabpanel"
                 aria-labelledby={tabIds[active]}
                 tabIndex={0}
-                {...bodyProps}
             >
                 {childrenArray[active]}
             </TabBody>
