@@ -1,5 +1,4 @@
-import React, { useEffect, useId, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useImperativeHandle, useEffect, useId, useState } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import Chip from '../Chip/Chip';
@@ -11,15 +10,27 @@ interface ChipInputProps {
     label: string;
     /** Error message for the field */
     errorText?: string;
-    /** Values to display as chips */
+    /**
+     * Values to display as chips
+     * @default []
+     */
     value?: string[];
     /** Callback when chips change */
     onChange?: (newValue: string[]) => void;
-    /** Aria label for the close button on chip. Defaults to "Remove {label}" */
+    /**
+     * Aria label for the close button on chip. Defaults to "Remove {:label}"
+     * @default "Remove {:label}"
+     */
     closeButtonAriaLabel?: string;
-    /** Announcement text when a chip is added. Defaults to "{label} was added" */
+    /**
+     * Announcement text when a chip is added. Defaults to "{:label} was added"
+     * @default "{:label} was added"
+     */
     addedAnnouncementTemplate?: string;
-    /** Announcement text when a chip is removed. Defaults to "{label} was removed" */
+    /**
+     * Announcement text when a chip is removed. Defaults to "{:label} was removed"
+     * @default "{:label} was removed"
+     */
     removedAnnouncementTemplate?: string;
 }
 
@@ -185,15 +196,26 @@ const VisuallyHidden = styled.ul`
  * />
  * ```
  */
-export default function ChipInput(
+function ChipInputComponent(
     props: ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>,
+    ref: React.Ref<HTMLInputElement | null>,
 ) {
+    const {
+        value: propValue = [],
+        closeButtonAriaLabel = `Remove {:label}`,
+        addedAnnouncementTemplate = '{:label} was added',
+        removedAnnouncementTemplate = '{:label} was removed',
+    } = props;
+
     const [text, setText] = useState('');
     const [touched, setTouched] = useState(false);
-    const [value, setValue] = useState<string[]>(props.value || []);
+    const [value, setValue] = useState<string[]>(propValue || []);
     const InputRef = React.useRef<HTMLInputElement>(null);
     const [announcement, setAnnouncement] = useState('');
     const errorId = useId();
+
+    // Forward the underlying input element.
+    useImperativeHandle(ref, () => InputRef.current);
 
     /**
      * Replace {:label} placeholder in template string
@@ -208,10 +230,10 @@ export default function ChipInput(
 
     // Sync internal value with props.value
     useEffect(() => {
-        if (Array.isArray(props.value)) {
-            setValue(props.value);
+        if (Array.isArray(propValue)) {
+            setValue(propValue);
         }
-    }, [props.value]);
+    }, [propValue]);
 
     /**
      * Update the chip values and notify changes.
@@ -251,7 +273,7 @@ export default function ChipInput(
             const newValue = [...value, text.trim()];
             updateValue(newValue);
             setText('');
-            setAnnouncement(replacePlaceholder(props.addedAnnouncementTemplate, text.trim())!);
+            setAnnouncement(replacePlaceholder(addedAnnouncementTemplate, text.trim())!);
         }
     };
 
@@ -262,7 +284,7 @@ export default function ChipInput(
     const removeChip = (chipToRemove: string) => {
         const newValue = value.filter((chip) => chip !== chipToRemove);
         updateValue(newValue);
-        setAnnouncement(replacePlaceholder(props.removedAnnouncementTemplate, chipToRemove)!);
+        setAnnouncement(replacePlaceholder(removedAnnouncementTemplate, chipToRemove)!);
     };
 
     /**
@@ -311,7 +333,7 @@ export default function ChipInput(
                                     label={chip}
                                     onCloseClick={() => removeChip(chip)}
                                     closeButtonAriaLabel={replacePlaceholder(
-                                        props.closeButtonAriaLabel,
+                                        closeButtonAriaLabel,
                                         chip,
                                     )}
                                 />
@@ -329,26 +351,9 @@ export default function ChipInput(
     );
 }
 
-ChipInput.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string.isRequired,
-    /** Error message for the field */
-    errorText: PropTypes.string,
-    /** Values to display as chips */
-    value: PropTypes.arrayOf(PropTypes.string),
-    /** Callback when chips change */
-    onChange: PropTypes.func,
-    /** Aria label for the close button on chip. Defaults to "Remove {label}" */
-    closeButtonAriaLabel: PropTypes.string,
-    /** Announcement text when a chip is added. Defaults to "{label} was added" */
-    addedAnnouncementTemplate: PropTypes.string,
-    /** Announcement text when a chip is removed. Defaults to "{label} was removed" */
-    removedAnnouncementTemplate: PropTypes.string,
-};
+const ChipInput = React.forwardRef<
+    HTMLInputElement,
+    ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>
+>(ChipInputComponent);
 
-ChipInput.defaultProps = {
-    value: [],
-    closeButtonAriaLabel: 'Remove {:label}',
-    addedAnnouncementTemplate: '{:label} was added',
-    removedAnnouncementTemplate: '{:label} was removed',
-};
+export default ChipInput;

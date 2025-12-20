@@ -1,16 +1,16 @@
 {
     "name": "no-frills-ui",
-    "version": "0.0.14-alpha.8",
+    "version": "0.0.14-alpha.11",
     "description": "React components that are made of styled native components. Mostly!",
     "main": "dist/index.js",
-    "module": "lib-esm/components/index.js",
-    "jsnext:main": "lib-esm/components/index.js",
-    "types": "lib-esm/components/index.d.ts",
+    "module": "lib-esm/index.js",
+    "jsnext:main": "lib-esm/index.js",
+    "types": "lib-esm/index.d.ts",
     "sideEffects": false,
     "exports": {
         ".": {
-            "types": "./lib-esm/components/index.d.ts",
-            "import": "./lib-esm/components/index.js",
+            "types": "./lib-esm/index.d.ts",
+            "import": "./lib-esm/index.js",
             "require": "./dist/index.js"
         }
     },
@@ -42,21 +42,21 @@
         },
         {
             "name": "Tree-shaking - Single Component (Button)",
-            "path": "lib-esm/components/index.js",
+            "path": "lib-esm/index.js",
             "import": "{ Button }",
             "limit": "5 KB",
             "gzip": true
         },
         {
             "name": "Tree-shaking - Multiple Components",
-            "path": "lib-esm/components/index.js",
+            "path": "lib-esm/index.js",
             "import": "{ Button, Card, Input }",
             "limit": "10 KB",
             "gzip": true
         },
         {
             "name": "Tree-shaking - All exports",
-            "path": "lib-esm/components/index.js",
+            "path": "lib-esm/index.js",
             "import": "*",
             "limit": "25 KB",
             "gzip": true
@@ -97,7 +97,6 @@
         "@swc/core": "^1.15.4",
         "@swc/plugin-emotion": "^14.0.1",
         "@types/node": "^25.0.2",
-        "@types/prop-types": "^15.7.15",
         "@types/react": "^18.3.12",
         "@types/react-dom": "^18.3.1",
         "@typescript-eslint/eslint-plugin": "^8",
@@ -128,8 +127,7 @@
     },
     "dependencies": {
         "@emotion/react": "^11.0.0",
-        "@emotion/styled": "^11.0.0",
-        "prop-types": "^15.7.2"
+        "@emotion/styled": "^11.0.0"
     },
     "packageManager": "yarn@4.12.0"
 }

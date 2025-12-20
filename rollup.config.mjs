@@ -8,7 +8,7 @@ import pkg from './package.json' with { type: 'json' };
 const isProduction = process.env.NODE_ENV === 'production';
 
 export default {
-    input: './src/components/index.ts',
+    input: './src/index.ts',
     output: [
         {
             file: pkg.main,
@@ -39,7 +39,7 @@ export default {
             sourcemap: true,
         },
     ],
-    external: ['react', 'react-dom', 'prop-types', '@emotion/styled', '@emotion/react'],
+    external: ['react', 'react-dom', '@emotion/styled', '@emotion/react'],
     plugins: [
         external(),
         resolve({

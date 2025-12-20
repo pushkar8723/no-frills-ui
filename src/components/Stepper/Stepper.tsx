@@ -1,14 +1,8 @@
-import { Children, PropsWithChildren, useState, isValidElement } from 'react';
-import PropTypes from 'prop-types';
+import React, { Children, PropsWithChildren, useState, isValidElement } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import { Ellipsis } from '../../shared/styles';
 import { Badge, BADGE_TYPE } from '../Badge';
-
-type StepperProps = PropsWithChildren<{
-    active: number;
-    onStepClick?: (index: number) => void;
-}>;
 
 const Container = styled.div`
     flex: 1;
@@ -91,9 +85,21 @@ const MobileHeader = styled.div`
     }
 `;
 
-export default function Stepper(props: StepperProps) {
-    const [active, setActive] = useState(props.active);
-    const { children, onStepClick } = props;
+type StepperProps = PropsWithChildren<{
+    /**
+     * Index of currently active step
+     * @default 0
+     */
+    active?: number;
+    /** Callback function for click event on a step */
+    onStepClick?: (index: number) => void;
+}> &
+    React.HTMLAttributes<HTMLDivElement>;
+
+function StepperComponent(props: StepperProps, ref: React.Ref<HTMLDivElement>) {
+    const { active: propsActive = 0, onStepClick, children, ...rest } = props;
+
+    const [active, setActive] = useState(propsActive);
     const childrenArray = Children.toArray(children);
     const stepRefs = [] as Array<HTMLButtonElement | null>;
 
@@ -129,7 +135,7 @@ export default function Stepper(props: StepperProps) {
     };
 
     return (
-        <Container>
+        <Container ref={ref} {...rest}>
             <Header role="tablist" aria-label="Stepper Steps">
                 {Children.map(children, (child, index) => {
                     if (!isValidElement(child)) return null;
@@ -174,13 +180,5 @@ export default function Stepper(props: StepperProps) {
     );
 }
 
-Stepper.propTypes = {
-    /** Index of currently active step */
-    active: PropTypes.number,
-    /** Callback function for click event on a step */
-    onStepClick: PropTypes.func,
-};
-
-Stepper.defaultProps = {
-    active: 0,
-};
+const Stepper = React.forwardRef(StepperComponent);
+export default Stepper;

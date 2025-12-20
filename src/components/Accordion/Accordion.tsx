@@ -1,5 +1,4 @@
 import { useState, Children, cloneElement, PropsWithChildren, isValidElement } from 'react';
-import PropTypes from 'prop-types';
 
 function Accordion(props: PropsWithChildren<AccordionProps>) {
     const [active, setActive] = useState(props.active);
@@ -32,17 +31,14 @@ function Accordion(props: PropsWithChildren<AccordionProps>) {
     );
 }
 
-Accordion.propTypes = {
-    /** Currently opened step */
-    active: PropTypes.number,
+type AccordionProps = {
+    /**
+     * Currently opened step
+     * @default -1
+     */
+    active?: number;
     /** Handler for click event on a step */
-    onStepClick: PropTypes.func,
-};
-
-type AccordionProps = PropTypes.InferProps<typeof Accordion.propTypes>;
-
-Accordion.defaultProps = {
-    active: -1,
+    onStepClick?: (index: number) => void;
 };
 
 export default Accordion;

@@ -16,7 +16,9 @@ type ModalProps = {
     closeOnOverlayClick?: boolean;
     /** Call back function called when the modal closes. */
     onClose?: () => void;
-};
+    /** Ref forwarded to the modal container */
+    forwardRef?: React.Ref<HTMLDivElement>;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 interface ModalState {
     open: boolean;
@@ -169,6 +171,10 @@ export default class Modal extends React.Component<
         if (node) {
             // Set initial focus when the node is mounted
             this.setInitialFocus(node);
+        }
+
+        if (this.props.forwardRef) {
+            (this.props.forwardRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }
     };
 

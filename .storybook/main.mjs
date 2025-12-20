@@ -30,6 +30,8 @@ const config = {
         reactDocgen: 'react-docgen-typescript',
         reactDocgenTypescriptOptions: {
             shouldExtractLiteralValuesFromEnum: true,
+            // Hide `undefined` from optional props in the docs table
+            shouldRemoveUndefinedFromOptional: true,
             propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
         },
     },

@@ -36,7 +36,10 @@ const [open, setOpen] = useState(false);
 </Modal>;
 ```
 
-## `Modal` Props
+## Props and Ref
+
+All `props` are forwarded to native `div` element. Following props are added on top of `HTMLDivElement` props.
+For ref we use `forwardedRef` prop.
 
 <Controls of={ModalStories.Primary} />
 

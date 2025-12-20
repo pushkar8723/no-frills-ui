@@ -1,14 +1,8 @@
 import React, { useId } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-Group.propTypes = {
-    /** Error Message for the group */
-    errorText: PropTypes.string,
-};
-
-const Container = styled.div<PropTypes.InferProps<typeof Group.propTypes>>`
+const Container = styled.div<GroupProps>`
     display: inline-flex;
     border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     border-radius: 3px;
@@ -96,17 +90,30 @@ const ErrorContainer = styled.div`
     font-size: 12px;
 `;
 
-export default function Group(
-    props: React.PropsWithChildren<PropTypes.InferProps<typeof Group.propTypes>>,
+type GroupProps = {
+    /** Error Message for the group */
+    errorText?: string;
+};
+
+function GroupComponent(
+    props: React.PropsWithChildren<GroupProps>,
+    ref: React.Ref<HTMLDivElement>,
 ) {
     const errorId = useId();
 
     return (
         <>
-            <Container {...props} aria-describedby={props.errorText ? errorId : undefined}>
+            <Container
+                {...props}
+                ref={ref}
+                aria-describedby={props.errorText ? errorId : undefined}
+            >
                 {props.children}
             </Container>
             {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
         </>
     );
 }
+
+const Group = React.forwardRef<HTMLDivElement, GroupProps>(GroupComponent);
+export default Group;

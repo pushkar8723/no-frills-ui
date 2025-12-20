@@ -66,6 +66,8 @@ type DrawerProps = {
     closeOnOverlayClick?: boolean;
     /** Call back function called when the drawer closes. */
     onClose?: () => void;
+    /** Ref to the drawer element */
+    forwardRef?: React.Ref<HTMLDivElement> | React.MutableRefObject<HTMLDivElement | null>;
 };
 
 interface DrawerState {
@@ -304,12 +306,24 @@ export default class Drawer extends React.Component<
     }
 
     /**
+     * Sets the ref prop passed to the Drawer Container component.
+     * @param node
+     */
+    setRefProp = (node: HTMLDivElement | null) => {
+        if (this.props.forwardRef && typeof this.props.forwardRef === 'function') {
+            this.props.forwardRef(node);
+        } else if (this.props.forwardRef && typeof this.props.forwardRef === 'object') {
+            (this.props.forwardRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+    };
+
+    /**
      * Renders the Drawer component via the LayerManager portal.
      */
     render() {
         if (this.state.open && this.layer) {
             const [Component] = this.layer;
-            return <Component />;
+            return <Component ref={this.setRefProp} />;
         }
 
         return null;

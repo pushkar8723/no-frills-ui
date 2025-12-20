@@ -4,23 +4,45 @@ import DragItem from './DragItem';
 import { ORIENTATION, DragContext } from './types';
 
 type DragAndDropProps = {
-    /** Orientation of the list layout */
-    orientation: ORIENTATION;
+    /**
+     * Orientation of the list layout
+     * @default ORIENTATION.VERTICAL
+     */
+    orientation?: ORIENTATION;
     /** Drop event handler */
     onDrop: (start: number, end: number) => void;
-    /** Shows drag indicator against each list item */
-    showIndicator: boolean;
-    /** i18n: Template for item aria-label. Placeholders: {:position}, {:grabKey}, {:moveKeys}, {:dropKey}, {:altDropKey} */
+    /** Shows drag indicator against each list item
+     * @default false
+     */
+    showIndicator?: boolean;
+    /**
+     * i18n: Template for item aria-label. Placeholders: {:position}, {:grabKey}, {:moveKeys}, {:dropKey}, {:altDropKey}
+     * @default 'Item {:position}. Press {:grabKey} to grab, {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop'
+     */
     itemAriaLabelTemplate?: string;
-    /** i18n: Aria label for drag handle */
+    /** i18n: Aria label for drag handle
+     * @default 'Drag to reorder'
+     */
     dragHandleAriaLabel?: string;
-    /** i18n: Template for grabbed announcement. Placeholders: {:position}, {:moveKeys}, {:dropKey}, {:altDropKey}, {:cancelKey} */
+    /**
+     * i18n: Template for grabbed announcement. Placeholders: {:position}, {:moveKeys}, {:dropKey}, {:altDropKey}, {:cancelKey}
+     * @default 'Item {:position} grabbed. Use {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop, {:cancelKey} to cancel'
+     */
     grabbedAnnouncementTemplate?: string;
-    /** i18n: Template for moved announcement. Placeholders: {:position} */
+    /**
+     * i18n: Template for moved announcement. Placeholders: {:position}
+     * @default 'Item moved to position {:position}'
+     */
     movedAnnouncementTemplate?: string;
-    /** i18n: Template for dropped announcement. Placeholders: {:position} */
+    /**
+     * i18n: Template for dropped announcement. Placeholders: {:position}
+     * @default 'Item dropped at position {:position}'
+     */
     droppedAnnouncementTemplate?: string;
-    /** i18n: Template for cancelled announcement */
+    /**
+     * i18n: Template for cancelled announcement
+     * @default 'Drag cancelled, item restored to original position'
+     */
     cancelledAnnouncementTemplate?: string;
 } & PropsWithChildren<unknown>;
 
@@ -63,26 +85,27 @@ const VisuallyHidden = styled.div`
  * </DragAndDrop>
  * ```
  *
- * @param {DragAndDropProps} props - The component props
- * @param {ORIENTATION} props.orientation - Determines the layout direction (horizontal or vertical). Defaults to VERTICAL.
- * @param {(start: number, end: number) => void} props.onDrop - Callback fired when an item is dropped, receives the start and end indices
- * @param {boolean} props.showIndicator - Whether to display drag indicators for each list item. Defaults to false.
- * @param {React.ReactNode} props.children - Child elements to be rendered as draggable items
+ * @param props - The component props
+ * @param props.orientation - Determines the layout direction (horizontal or vertical). Defaults to VERTICAL.
+ * @param props.onDrop - Callback fired when an item is dropped, receives the start and end indices
+ * @param props.showIndicator - Whether to display drag indicators for each list item. Defaults to false.
+ * @param props.children - Child elements to be rendered as draggable items
  *
- * @returns {JSX.Element} A draggable container with reorderable items
+ * @returns A draggable container with reorderable items
  */
-export default function DragAndDrop(props: DragAndDropProps) {
+function DragAndDropComponent(props: DragAndDropProps, ref: React.Ref<HTMLDivElement>) {
     const {
-        orientation,
+        orientation = ORIENTATION.VERTICAL,
         children,
         onDrop,
-        showIndicator,
-        itemAriaLabelTemplate,
-        dragHandleAriaLabel,
-        grabbedAnnouncementTemplate,
-        movedAnnouncementTemplate,
-        droppedAnnouncementTemplate,
-        cancelledAnnouncementTemplate,
+        showIndicator = false,
+        itemAriaLabelTemplate = 'Item {:position}. Press {:grabKey} to grab, {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop',
+        dragHandleAriaLabel = 'Drag to reorder',
+        grabbedAnnouncementTemplate = 'Item {:position} grabbed. Use {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop, {:cancelKey} to cancel',
+        movedAnnouncementTemplate = 'Item moved to position {:position}',
+        droppedAnnouncementTemplate = 'Item dropped at position {:position}',
+        cancelledAnnouncementTemplate = 'Drag cancelled, item restored to original position',
+        ...rest
     } = props;
     const [startIndex, setStartIndex] = useState<number | null>(null);
     const [originalIndex, setOriginalIndex] = useState<number | null>(null);
@@ -187,7 +210,7 @@ export default function DragAndDrop(props: DragAndDropProps) {
                     i18n,
                 }}
             >
-                <Container orientation={orientation} role="list">
+                <Container {...rest} ref={ref} orientation={orientation} role="list">
                     {React.Children.map(childrenArray, (child, index) => (
                         <DragItem
                             index={index}
@@ -209,23 +232,5 @@ export default function DragAndDrop(props: DragAndDropProps) {
     );
 }
 
-DragAndDrop.defaultProps = {
-    /** Orientation of the list layout */
-    orientation: ORIENTATION.VERTICAL,
-    /** Whether to display drag indicators for each list item */
-    showIndicator: false,
-    /** Default item aria-label template */
-    itemAriaLabelTemplate:
-        'Item {:position}. Press {:grabKey} to grab, {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop',
-    /** Default drag handle aria-label */
-    dragHandleAriaLabel: 'Drag to reorder',
-    /** Default grabbed announcement template */
-    grabbedAnnouncementTemplate:
-        'Item {:position} grabbed. Use {:moveKeys} to move, {:dropKey} or {:altDropKey} to drop, {:cancelKey} to cancel',
-    /** Default moved announcement template */
-    movedAnnouncementTemplate: 'Item moved to position {:position}',
-    /** Default dropped announcement template */
-    droppedAnnouncementTemplate: 'Item dropped at position {:position}',
-    /** Default cancelled announcement template */
-    cancelledAnnouncementTemplate: 'Drag cancelled, item restored to original position',
-};
+const DragAndDrop = React.forwardRef(DragAndDropComponent);
+export default DragAndDrop;

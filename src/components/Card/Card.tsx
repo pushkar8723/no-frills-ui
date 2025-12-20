@@ -1,11 +1,13 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { THEME_NAME, getThemeValue } from '../../shared/constants';
 
-export interface CardExtraProps {
+type CardProps = {
+    /** Shows a shadow around the card to show elevation */
     elevated?: boolean;
-}
+} & React.HTMLAttributes<HTMLDivElement>;
 
-const Card = styled.div<CardExtraProps>`
+const StyledCard = styled.div<CardProps>`
     border-radius: 10px;
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     ${(props) =>
@@ -17,4 +19,9 @@ const Card = styled.div<CardExtraProps>`
     position: relative;
 `;
 
+function CardComponent(props: CardProps, ref: React.Ref<HTMLDivElement>) {
+    return <StyledCard {...props} ref={ref} />;
+}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(CardComponent);
 export default Card;

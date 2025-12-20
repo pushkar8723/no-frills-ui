@@ -22,7 +22,10 @@ const [open, setOpen] = useState(false);
 </Drawer>;
 ```
 
-## Props
+## Props and ref
+
+A `forwardRef` prop is used to get the `ref` of `div` element which contains the drawer and the overlay.
+All `props` are forwarded to native `div` element. Following props are added on top of `HTMLDivElement` props.
 
 <Controls of={DrawerStories.Primary} />
 

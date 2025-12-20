@@ -1,5 +1,9 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as ButtonStories from './Button.stories';
+import * as ActionButtonStories from './ActionButton.stories';
+import * as IconButtonStories from './IconButton.stories';
+import * as LinkButtonStories from './LinkButton.stories';
+import * as RaisedButtonStories from './RaisedButton.stories';
 
 <Meta of={ButtonStories} />
 
@@ -29,11 +33,30 @@ import { Button, RaisedButton, LinkButton, ActionButton, IconButton } from 'no-f
 <IconButton><SVGIcon /></IconButton>
 ```
 
-## Props
+## Props and Ref
 
-Since this is just a native button element. You can use any `HTMLButtonElement` props.
+Since this is just a native button element, you can use any `HTMLButtonElement` props.
+`Props` and `ref` for each button type is forwarded to the native `button` element.
 
-<Controls of={ButtonStories.Primary} />
+### `Button` Props
+
+<Controls of={ButtonStories.ButtonStory} />
+
+### `ActionButton` Props
+
+<Controls of={ActionButtonStories.ActionButtonStory} />
+
+### `IconButton` Props
+
+<Controls of={IconButtonStories.IconButtonStory} />
+
+### `LinkButton` Props
+
+<Controls of={LinkButtonStories.LinkButtonStory} />
+
+### `RaisedButton` Props
+
+<Controls of={RaisedButtonStories.RaisedButtonStory} />
 
 ## CSS Variables Used
 

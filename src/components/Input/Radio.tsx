@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -91,21 +90,22 @@ const HiddenInput = styled.input`
     }
 `;
 
-function Radio(
-    props: PropTypes.InferProps<React.AllHTMLAttributes<HTMLInputElement> & typeof Radio.propTypes>,
-) {
+type RadioProps = {
+    /** Label for the field */
+    label?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
+
+function RadioComponent(props: RadioProps, ref: React.Ref<HTMLInputElement>) {
+    const { label, ...rest } = props;
+
     return (
         <Label>
-            <HiddenInput {...props} type="radio" />
+            <HiddenInput {...rest} ref={ref} type="radio" />
             <StyledRadio />
-            <span>{props.label}</span>
+            <span>{label}</span>
         </Label>
     );
 }
 
-Radio.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string,
-};
-
+const Radio = React.forwardRef<HTMLInputElement, RadioProps>(RadioComponent);
 export default Radio;

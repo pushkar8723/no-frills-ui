@@ -1,21 +1,14 @@
 import React, { useState, useEffect, useId } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import ExpandMore from '../../icons/ExpandMore';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-Select.propTypes = {
+type SelectProps = {
     /** Label for the field */
-    label: PropTypes.string,
+    label?: string;
     /** Error text to be shown below the field */
-    errorText: PropTypes.string,
-};
-interface SelectProps
-    extends
-        PropTypes.InferType<typeof Select.propTypes>,
-        React.InputHTMLAttributes<HTMLSelectElement> {
-    value?: string;
-}
+    errorText?: string;
+} & React.InputHTMLAttributes<HTMLSelectElement>;
 
 type SelectInternalProps = SelectProps & {
     touched: boolean;
@@ -153,7 +146,7 @@ const ArrowContainer = styled.span`
     top: 8px;
 `;
 
-export default function Select(props: SelectProps) {
+function SelectComponent(props: SelectProps, ref: React.Ref<HTMLSelectElement>) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
     const errorId = useId();
@@ -184,6 +177,7 @@ export default function Select(props: SelectProps) {
         <Label>
             <SelectField
                 {...props}
+                ref={ref}
                 multiple={false}
                 value={value}
                 onChange={onChangeHandler}
@@ -204,3 +198,6 @@ export default function Select(props: SelectProps) {
         </Label>
     );
 }
+
+const Select = React.forwardRef(SelectComponent);
+export default Select;

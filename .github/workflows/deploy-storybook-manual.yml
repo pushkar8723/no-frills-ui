@@ -30,6 +30,9 @@ jobs:
                   ref: ${{ github.event.inputs.version }}
                   fetch-depth: 0
 
+            - name: Enable Corepack
+              run: corepack enable
+
             - name: Detect package manager
               id: detect-pm
               run: |

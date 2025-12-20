@@ -291,6 +291,5 @@ export const Features: Story = {
 };
 
 export const Options: Story = {
-    // @ts-expect-error - This is for Controls only
     render: (args) => <div {...args} />,
 };

@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, ForwardedRef } from 'react';
+import React, { useState, ForwardedRef } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import MenuContext from './MenuContext';
@@ -6,16 +6,14 @@ import MenuContext from './MenuContext';
  * Props for the Menu component.
  * @template T - The type of value(s) in the menu.
  */
-interface MenuProps<T> {
+type MenuProps<T> = {
     /** Multiple Menu Items can be selected */
     multiSelect?: boolean;
     /** Value(s) selected */
     value?: T | T[];
     /** Callback when the selected value changes */
     onChange?: (value: T | T[]) => void;
-    /** Menu Items */
-    children?: ReactNode;
-}
+} & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 const MenuContainer = styled.div`
     flex: 1;
@@ -36,14 +34,11 @@ const MenuContainer = styled.div`
  * Supports single and multi-select modes and keyboard navigation.
  *
  * @template T - The type of value(s) in the menu.
- * @param {MenuProps<T> & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>} props - The menu properties.
- * @param {ForwardedRef<HTMLDivElement>} ref - The ref forwarded to the menu container.
+ * @param props - The menu properties.
+ * @param ref - The ref forwarded to the menu container.
  */
-function MenuInner<T>(
-    props: MenuProps<T> & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>,
-    ref: ForwardedRef<HTMLDivElement>,
-) {
-    const { multiSelect = false, onChange, value: propValue, ...rest } = props;
+function MenuInner<T>(props: MenuProps<T>, ref: ForwardedRef<HTMLDivElement>) {
+    const { multiSelect = false, onChange, value: propValue, children, ...rest } = props;
     // State holds either a single T or an array of T when multiSelect
     const [value, setValue] = useState<unknown | undefined>(propValue);
 
@@ -152,17 +147,14 @@ function MenuInner<T>(
                 onKeyDown={handleKeyDown}
                 onFocus={focusHandler}
             >
-                {props.children}
+                {children}
             </MenuContainer>
         </MenuContext.Provider>
     );
 }
 
 const Menu = React.forwardRef(MenuInner) as <T>(
-    props: MenuProps<T> &
-        Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> & {
-            ref?: ForwardedRef<HTMLDivElement>;
-        },
-) => JSX.Element;
+    props: MenuProps<T> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement;
 
 export default Menu;

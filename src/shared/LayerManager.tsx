@@ -1,4 +1,4 @@
-import React, { ReactPortal, useEffect } from 'react';
+import React, { ForwardRefExoticComponent, RefAttributes, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from './constants';
@@ -209,16 +209,20 @@ class LayerManager {
         this.timeoutIds.set(layer.id, timeoutId);
     };
 
+    private Empty = () => {
+        return null;
+    };
+
     /**
      * Renders a layer.
      * @param config
      */
     public renderLayer = (
         config: LayerConfig,
-    ): [() => React.ReactPortal | null, (resp?: unknown) => void] => {
+    ): [ForwardRefExoticComponent<RefAttributes<HTMLDivElement>>, (resp?: unknown) => void] => {
         // SSR guard
         if (typeof document === 'undefined') {
-            return [() => null, () => {}];
+            return [React.forwardRef(this.Empty), () => {}];
         }
 
         // Merge default config with the provided config.
@@ -251,127 +255,138 @@ class LayerManager {
             }
         };
 
-        // Return callback which will trigger the un-mount.
-        return [
-            (): ReactPortal | null => {
-                const [divElement, setDivElement] = React.useState<HTMLDivElement | null>(null);
+        const LayerContainer = (
+            props: React.HTMLAttributes<HTMLDivElement>,
+            ref: React.Ref<HTMLDivElement>,
+        ) => {
+            const [divElement, setDivElement] = React.useState<HTMLDivElement | null>(null);
 
-                useEffect(() => {
-                    // Create the div element only once when component mounts
-                    const div = document.createElement('div');
-                    div.setAttribute('class', className);
-                    div.setAttribute('id', layerId);
-                    document.body.appendChild(div);
+            useEffect(() => {
+                // Create the div element only once when component mounts
+                const div = document.createElement('div');
+                div.setAttribute('class', className);
+                div.setAttribute('id', layerId);
+                document.body.appendChild(div);
 
-                    // Add layer to stack
-                    const currentLayer = {
-                        id: layerId,
-                        config: layerConfig,
-                        element: div,
-                    };
-                    this.layers.push(currentLayer);
+                // Add layer to stack
+                const currentLayer = {
+                    id: layerId,
+                    config: layerConfig,
+                    element: div,
+                };
+                this.layers.push(currentLayer);
 
-                    setDivElement(div);
-                    // Add entry animation class after a short delay
-                    setTimeout(() => {
-                        div.setAttribute('class', 'nf-layer-enter');
-                    }, 10);
+                setDivElement(div);
+                // Add entry animation class after a short delay
+                setTimeout(() => {
+                    div.setAttribute('class', 'nf-layer-enter');
+                }, 10);
 
-                    // Track elements modified for accessibility
-                    const modifiedElements: Array<{
-                        element: Element;
-                        hadAriaHidden: boolean;
-                        previousValue: string | null;
-                    }> = [];
-                    let originalBodyOverflow: string | null = null;
-                    let originalBodyPosition: string | null = null;
-                    let originalBodyWidth: string | null = null;
-                    let originalBodyTop: string | null = null;
-                    let scrollY = 0;
+                // Track elements modified for accessibility
+                const modifiedElements: Array<{
+                    element: Element;
+                    hadAriaHidden: boolean;
+                    previousValue: string | null;
+                }> = [];
+                let originalBodyOverflow: string | null = null;
+                let originalBodyPosition: string | null = null;
+                let originalBodyWidth: string | null = null;
+                let originalBodyTop: string | null = null;
+                let scrollY = 0;
 
-                    // Apply aria-hidden to siblings and body scroll lock for overlay modals
-                    if (layerConfig.overlay) {
-                        // Hide all body children except this layer portal, scripts, and styles
-                        const bodyChildren = Array.from(document.body.children);
-                        bodyChildren.forEach((child) => {
-                            if (
-                                child !== div &&
-                                child.className !== 'nf-layer-manager-top' &&
-                                child.tagName !== 'SCRIPT' &&
-                                child.tagName !== 'STYLE'
-                            ) {
-                                const hadAriaHidden = child.hasAttribute('aria-hidden');
-                                const previousValue = child.getAttribute('aria-hidden');
+                // Apply aria-hidden to siblings and body scroll lock for overlay modals
+                if (layerConfig.overlay) {
+                    // Hide all body children except this layer portal, scripts, and styles
+                    const bodyChildren = Array.from(document.body.children);
+                    bodyChildren.forEach((child) => {
+                        if (
+                            child !== div &&
+                            child.className !== 'nf-layer-manager-top' &&
+                            child.tagName !== 'SCRIPT' &&
+                            child.tagName !== 'STYLE'
+                        ) {
+                            const hadAriaHidden = child.hasAttribute('aria-hidden');
+                            const previousValue = child.getAttribute('aria-hidden');
 
-                                // Only set aria-hidden if not already hidden
-                                if (previousValue !== 'true') {
-                                    child.setAttribute('aria-hidden', 'true');
-                                    modifiedElements.push({
-                                        element: child,
-                                        hadAriaHidden,
-                                        previousValue,
-                                    });
-                                }
+                            // Only set aria-hidden if not already hidden
+                            if (previousValue !== 'true') {
+                                child.setAttribute('aria-hidden', 'true');
+                                modifiedElements.push({
+                                    element: child,
+                                    hadAriaHidden,
+                                    previousValue,
+                                });
                             }
-                        });
-
-                        // Prevent body scroll on iOS
-                        scrollY = window.scrollY;
-                        originalBodyOverflow = document.body.style.overflow;
-                        originalBodyPosition = document.body.style.position;
-                        originalBodyWidth = document.body.style.width;
-                        originalBodyTop = document.body.style.top;
-
-                        document.body.style.overflow = 'hidden';
-                        document.body.style.position = 'fixed';
-                        document.body.style.width = '100%';
-                        document.body.style.top = `-${scrollY}px`;
-                    }
-
-                    // Cleanup function - remove div when component unmounts
-                    return () => {
-                        // Restore aria-hidden attributes
-                        modifiedElements.forEach(({ element, hadAriaHidden, previousValue }) => {
-                            if (document.body.contains(element)) {
-                                if (hadAriaHidden && previousValue !== null) {
-                                    element.setAttribute('aria-hidden', previousValue);
-                                } else {
-                                    element.removeAttribute('aria-hidden');
-                                }
-                            }
-                        });
-
-                        // Restore body scroll
-                        if (layerConfig.overlay) {
-                            document.body.style.overflow = originalBodyOverflow || '';
-                            document.body.style.position = originalBodyPosition || '';
-                            document.body.style.width = originalBodyWidth || '';
-                            document.body.style.top = originalBodyTop || '';
-                            window.scrollTo(0, scrollY);
                         }
+                    });
 
-                        if (document.body.contains(div)) {
-                            document.body.removeChild(div);
-                        }
-                        // Remove from layers array
-                        const index = this.layers.findIndex((layer) => layer.id === layerId);
-                        if (index !== -1) {
-                            this.layers.splice(index, 1);
-                        }
-                    };
-                }, []); // Empty dependency array - run only once
+                    // Prevent body scroll on iOS
+                    scrollY = window.scrollY;
+                    originalBodyOverflow = document.body.style.overflow;
+                    originalBodyPosition = document.body.style.position;
+                    originalBodyWidth = document.body.style.width;
+                    originalBodyTop = document.body.style.top;
 
-                if (!divElement) {
-                    return null;
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                    document.body.style.top = `-${scrollY}px`;
                 }
 
-                return ReactDOM.createPortal(
-                    <Container onClick={overlayClickHandler} zIndex={currentIndex} {...layerConfig}>
-                        {layerConfig.component}
-                    </Container>,
-                    divElement,
-                );
-            },
+                // Cleanup function - remove div when component unmounts
+                return () => {
+                    // Restore aria-hidden attributes
+                    modifiedElements.forEach(({ element, hadAriaHidden, previousValue }) => {
+                        if (document.body.contains(element)) {
+                            if (hadAriaHidden && previousValue !== null) {
+                                element.setAttribute('aria-hidden', previousValue);
+                            } else {
+                                element.removeAttribute('aria-hidden');
+                            }
+                        }
+                    });
+
+                    // Restore body scroll
+                    if (layerConfig.overlay) {
+                        document.body.style.overflow = originalBodyOverflow || '';
+                        document.body.style.position = originalBodyPosition || '';
+                        document.body.style.width = originalBodyWidth || '';
+                        document.body.style.top = originalBodyTop || '';
+                        window.scrollTo(0, scrollY);
+                    }
+
+                    if (document.body.contains(div)) {
+                        document.body.removeChild(div);
+                    }
+                    // Remove from layers array
+                    const index = this.layers.findIndex((layer) => layer.id === layerId);
+                    if (index !== -1) {
+                        this.layers.splice(index, 1);
+                    }
+                };
+            }, []); // Empty dependency array - run only once
+
+            if (!divElement) {
+                return null;
+            }
+
+            return ReactDOM.createPortal(
+                <Container
+                    {...props}
+                    ref={ref}
+                    onClick={overlayClickHandler}
+                    zIndex={currentIndex}
+                    {...layerConfig}
+                >
+                    {layerConfig.component}
+                </Container>,
+                divElement,
+            );
+        };
+
+        // Return callback which will trigger the un-mount.
+        return [
+            React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(LayerContainer),
             closeFn,
         ];
     };

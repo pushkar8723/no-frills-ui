@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import { Card } from '../Card';
@@ -41,16 +40,9 @@ interface DialogState {
 }
 
 class Dialog extends React.Component<
-    React.PropsWithChildren<DialogOptions> & Omit<React.HTMLProps<HTMLDivElement>, 'as' | 'ref'>,
+    React.PropsWithChildren<DialogOptions> & React.HTMLAttributes<HTMLDivElement>,
     DialogState
 > {
-    static propTypes = {
-        /** Flag to close dialog on `esc` click. Default value is true. */
-        closeOnEsc: PropTypes.bool,
-        /** Close layer overlay is clicked. Default value is true. */
-        closeOnOverlayClick: PropTypes.bool,
-    };
-
     static defaultProps = {
         closeOnEsc: true,
         closeOnOverlayClick: true,

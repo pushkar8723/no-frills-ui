@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -109,43 +108,54 @@ const HiddenInput = styled.input`
     }
 `;
 
-Checkbox.propTypes = {
-    /** Label for the field */
-    label: PropTypes.string,
-    /** If the field is in indeterminate state */
-    indeterminate: PropTypes.bool,
-};
+type CheckboxProps = {
+    /**
+     * Label for the field
+     * @default ''
+     */
+    label?: string;
+    /**
+     * If the field is in indeterminate state
+     * @default false
+     */
+    indeterminate?: boolean;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-type CheckboxProps = Omit<React.HTMLProps<HTMLInputElement>, 'as'> &
-    PropTypes.InferProps<typeof Checkbox.propTypes>;
+function CheckboxComponent(props: CheckboxProps, fwdRef: React.Ref<HTMLInputElement>) {
+    const { label = '', indeterminate = false, checked, ...rest } = props;
 
-export default function Checkbox(props: CheckboxProps) {
     const ref = useCallback(
-        (node: unknown) => {
-            if (node !== null) {
-                if (props.indeterminate) {
-                    (node as HTMLInputElement).indeterminate = true;
-                }
+        (node: HTMLInputElement | null) => {
+            // Ensure the DOM `indeterminate` flag always matches the prop
+            if (node) {
+                node.indeterminate = !!indeterminate;
+            }
+
+            // Forward the node (or null) to the parent ref (supports function or ref object)
+            if (typeof fwdRef === 'function') {
+                fwdRef(node);
+            } else if (fwdRef) {
+                (fwdRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
             }
         },
-        [props.indeterminate],
+        [indeterminate, fwdRef],
     );
 
     return (
         <Label>
             <HiddenInput
-                {...props}
+                {...rest}
                 ref={ref}
                 type="checkbox"
-                aria-checked={props.indeterminate ? 'mixed' : props.checked}
+                checked={checked}
+                aria-checked={indeterminate ? 'mixed' : checked}
             />
             <StyledCheckmark />
-            <span>{props.label}</span>
+            <span>{label}</span>
         </Label>
     );
 }
 
-Checkbox.defaultProps = {
-    indeterminate: false,
-    label: '',
-};
+const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(CheckboxComponent);
+
+export default Checkbox;

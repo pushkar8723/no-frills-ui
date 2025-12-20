@@ -1,7 +1,8 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
-export default styled.button`
+const StyledLinkButton = styled.button`
     min-width: 100px;
     font-size: 14px;
     text-align: center;
@@ -35,3 +36,20 @@ export default styled.button`
         color: ${getThemeValue(THEME_NAME.DISABLED)};
     }
 `;
+
+type LinkButtonProps = {
+    /**
+     * Type of Link Button
+     * @default 'button'
+     */
+    type?: 'button' | 'submit' | 'reset';
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+const LinkButtonComponent = (props: LinkButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+    const { type = 'button', ...rest } = props;
+
+    return <StyledLinkButton ref={ref} type={type} {...rest} />;
+};
+
+const LinkButton = React.forwardRef<HTMLButtonElement, LinkButtonProps>(LinkButtonComponent);
+export default LinkButton;
