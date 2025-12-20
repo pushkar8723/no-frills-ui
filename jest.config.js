@@ -6,7 +6,7 @@ module.exports = {
     setupFilesAfterEnv: ['<rootDir>/test/test-setup.ts'],
     collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts'],
     coverageDirectory: 'coverage',
-    coverageReporters: ['text-summary', 'lcov'],
+    coverageReporters: ['text', 'lcov'],
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
     },
