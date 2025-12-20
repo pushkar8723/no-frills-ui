@@ -2,6 +2,7 @@ node_modules
 storybook-static
 dist
 lib-esm
+coverage
 .DS_Store
 .swc
 
