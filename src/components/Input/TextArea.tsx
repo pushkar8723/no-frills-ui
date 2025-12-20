@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -136,10 +136,12 @@ function TextAreaComponent(props: TextAreaProps, ref: React.Ref<HTMLTextAreaElem
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(propsValue || '');
     const errorId = useId();
+    const prevValueRef = useRef<string>();
 
     useEffect(() => {
-        if (propsValue !== undefined) {
+        if (propsValue !== undefined && propsValue !== prevValueRef.current) {
             setValue(propsValue);
+            prevValueRef.current = propsValue as string;
         }
     }, [propsValue]);
 

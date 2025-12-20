@@ -24,7 +24,7 @@ type DropdownProps<T> = React.PropsWithChildren<{
     /** Disables the field */
     disabled?: boolean;
 }> &
-    React.InputHTMLAttributes<HTMLInputElement>;
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'>;
 
 const ArrowContainer = styled.span`
     position: absolute;
@@ -188,5 +188,7 @@ function DropdownComponent<T extends object>(
     );
 }
 
-const Dropdown = React.forwardRef(DropdownComponent);
+const Dropdown = React.forwardRef(DropdownComponent) as <T>(
+    props: DropdownProps<T> & React.RefAttributes<HTMLInputElement>,
+) => React.ReactElement | null;
 export default Dropdown;
