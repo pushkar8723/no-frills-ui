@@ -18,17 +18,17 @@ interface ChipInputProps {
     /** Callback when chips change */
     onChange?: (newValue: string[]) => void;
     /**
-     * Aria label for the close button on chip. Defaults to "Remove {label}"
+     * Aria label for the close button on chip. Defaults to "Remove {:label}"
      * @default "Remove {:label}"
      */
     closeButtonAriaLabel?: string;
     /**
-     * Announcement text when a chip is added. Defaults to "{label} was added"
+     * Announcement text when a chip is added. Defaults to "{:label} was added"
      * @default "{:label} was added"
      */
     addedAnnouncementTemplate?: string;
     /**
-     * Announcement text when a chip is removed. Defaults to "{label} was removed"
+     * Announcement text when a chip is removed. Defaults to "{:label} was removed"
      * @default "{:label} was removed"
      */
     removedAnnouncementTemplate?: string;

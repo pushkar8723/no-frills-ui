@@ -174,12 +174,7 @@ export default class Modal extends React.Component<
         }
 
         if (this.props.forwardRef) {
-            try {
-                (this.props.forwardRef as React.MutableRefObject<HTMLDivElement | null>).current =
-                    node;
-            } catch (e) {
-                console.warn(e);
-            }
+            (this.props.forwardRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }
     };
 

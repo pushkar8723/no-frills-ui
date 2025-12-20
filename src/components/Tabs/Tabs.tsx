@@ -58,13 +58,12 @@ type ITabsProps = PropsWithChildren<{
     /** OnChange event handler */
     onChange?: (index: number) => void;
     /** Props for div that contains tab body */
-    bodyProps?: object;
+    bodyProps?: React.HTMLAttributes<HTMLDivElement>;
 }>;
 
 function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
-    const { active: propsActive = 0, onChange, bodyProps, ...rest } = props;
+    const { active: propsActive = 0, onChange, bodyProps, children, ...rest } = props;
     const [active, setActive] = useState(propsActive);
-    const { children } = props;
     const tabRefs = [] as Array<HTMLButtonElement | null>;
     const childrenArray = Children.toArray(children);
 
