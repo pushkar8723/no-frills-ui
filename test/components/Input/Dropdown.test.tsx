@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import Dropdown from '../../../src/components/Input/Dropdown';
+import { Dropdown } from '../../../src/components/Input';
 import { MenuItem } from '../../../src/components/Menu';
 
 expect.extend(toHaveNoViolations);

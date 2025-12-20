@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import Radio from '../../../src/components/Input/Radio';
+import { Radio } from '../../../src/components/Input';
 
 expect.extend(toHaveNoViolations);
 

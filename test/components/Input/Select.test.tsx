@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import Select from '../../../src/components/Input/Select';
+import { Select } from '../../../src/components/Input';
 
 expect.extend(toHaveNoViolations);
 

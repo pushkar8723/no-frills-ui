@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import Chip from '../../../src/components/Chip/Chip';
+import { Chip } from '../../../src/components/Chip';
 
 expect.extend(toHaveNoViolations);
 
