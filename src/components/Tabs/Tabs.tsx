@@ -101,12 +101,18 @@ function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
     // Generate unique IDs for tabs and panels using sanitized tab name and index
     const sanitize = (str: string) => str.replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
     const tabIds = childrenArray.map((child, i) => {
-        const name = isValidElement(child) && child.props.name ? child.props.name : `tab${i}`;
-        return `nfui-tab-${sanitize(name)}-${i}`;
+        const name =
+            isValidElement(child) && (child as React.ReactElement<{ name?: string }>).props.name
+                ? (child as React.ReactElement<{ name?: string }>).props.name
+                : `tab${i}`;
+        return `nfui-tab-${sanitize(name || '')}-${i}`;
     });
     const panelIds = childrenArray.map((child, i) => {
-        const name = isValidElement(child) && child.props.name ? child.props.name : `tab${i}`;
-        return `nfui-tabpanel-${sanitize(name)}-${i}`;
+        const name =
+            isValidElement(child) && (child as React.ReactElement<{ name?: string }>).props.name
+                ? (child as React.ReactElement<{ name?: string }>).props.name
+                : `tab${i}`;
+        return `nfui-tabpanel-${sanitize(name || '')}-${i}`;
     });
 
     // Sanity check for active index
@@ -117,25 +123,35 @@ function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
     return (
         <>
             <ButtonContainer role="tablist" aria-label="Tabs" ref={ref} {...rest}>
-                {childrenArray.map((child, index) => (
-                    <Button
-                        key={tabIds[index]}
-                        ref={(el) => (tabRefs[index] = el)}
-                        id={tabIds[index]}
-                        type="button"
-                        role="tab"
-                        aria-selected={active === index}
-                        aria-controls={panelIds[index]}
-                        tabIndex={active === index ? 0 : -1}
-                        active={active === index}
-                        onClick={switchTab(index)}
-                        onKeyDown={onTabKeyDown(index)}
-                        disabled={isValidElement(child) ? child.props.disabled : false}
-                        aria-disabled={isValidElement(child) ? child.props.disabled : false}
-                    >
-                        {isValidElement(child) ? child.props.name : ''}
-                    </Button>
-                ))}
+                {childrenArray.map((child, index) => {
+                    const reactElement = child as React.ReactElement<{
+                        disabled?: boolean;
+                        name?: string;
+                    }>;
+                    return (
+                        <Button
+                            key={tabIds[index]}
+                            ref={(el) => {
+                                tabRefs[index] = el;
+                            }}
+                            id={tabIds[index]}
+                            type="button"
+                            role="tab"
+                            aria-selected={active === index}
+                            aria-controls={panelIds[index]}
+                            tabIndex={active === index ? 0 : -1}
+                            active={active === index}
+                            onClick={switchTab(index)}
+                            onKeyDown={onTabKeyDown(index)}
+                            disabled={isValidElement(child) ? reactElement.props.disabled : false}
+                            aria-disabled={
+                                isValidElement(child) ? reactElement.props.disabled : false
+                            }
+                        >
+                            {isValidElement(child) ? reactElement.props.name : ''}
+                        </Button>
+                    );
+                })}
             </ButtonContainer>
             <TabBody
                 {...bodyProps}

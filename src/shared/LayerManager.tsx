@@ -18,7 +18,7 @@ interface LayerConfig {
     /** Show an overlay */
     overlay?: boolean;
     /** Element to render inside the layer. */
-    component: JSX.Element | null;
+    component: React.JSX.Element | null;
     /** Position of the layer */
     position?: LAYER_POSITION;
     /** Delay for exit */

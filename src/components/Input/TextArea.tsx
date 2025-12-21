@@ -141,7 +141,7 @@ function TextAreaComponent(props: TextAreaProps, ref: React.Ref<HTMLTextAreaElem
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(propsValue || '');
     const errorId = useId();
-    const prevValueRef = useRef<string>();
+    const prevValueRef = useRef<string>(undefined);
 
     useEffect(() => {
         if (propsValue !== undefined && propsValue !== prevValueRef.current) {

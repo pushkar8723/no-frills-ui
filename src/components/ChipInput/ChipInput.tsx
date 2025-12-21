@@ -215,7 +215,7 @@ function ChipInputComponent(
     const errorId = useId();
 
     // Forward the underlying input element.
-    useImperativeHandle(ref, () => InputRef.current);
+    useImperativeHandle(ref, () => InputRef.current as HTMLInputElement);
 
     /**
      * Replace {:label} placeholder in template string
@@ -228,7 +228,7 @@ function ChipInputComponent(
         return template.replace(/\{:label\}/g, label);
     };
 
-    const prevPropValueRef = React.useRef<string[]>();
+    const prevPropValueRef = React.useRef<string[]>(undefined);
 
     // Sync internal value with props.value
     useEffect(() => {

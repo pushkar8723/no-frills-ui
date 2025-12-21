@@ -155,7 +155,7 @@ function SelectComponent(props: SelectProps, ref: React.Ref<HTMLSelectElement>) 
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
     const errorId = useId();
-    const prevValueRef = useRef<string>();
+    const prevValueRef = useRef<string>(undefined);
 
     useEffect(() => {
         if (props.value !== undefined && props.value !== prevValueRef.current) {

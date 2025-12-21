@@ -88,13 +88,32 @@ function TooltipComponent(props: TooltipProps, ref: React.Ref<HTMLDivElement>) {
 
     // Clone the child to inject aria-describedby and tabIndex if possible
     const trigger = React.isValidElement(children)
-        ? React.cloneElement(children as React.ReactElement, {
-              'aria-describedby': tooltipId,
-              tabIndex:
-                  children.props && typeof children.props.tabIndex !== 'undefined'
-                      ? children.props.tabIndex
-                      : 0,
-          })
+        ? React.cloneElement(
+              children as React.ReactElement<{ tabIndex?: number; 'aria-describedby'?: string }>,
+              {
+                  'aria-describedby': tooltipId,
+                  tabIndex:
+                      (
+                          children as React.ReactElement<{
+                              tabIndex?: number;
+                              'aria-describedby'?: string;
+                          }>
+                      ).props &&
+                      typeof (
+                          children as React.ReactElement<{
+                              tabIndex?: number;
+                              'aria-describedby'?: string;
+                          }>
+                      ).props.tabIndex !== 'undefined'
+                          ? (
+                                children as React.ReactElement<{
+                                    tabIndex?: number;
+                                    'aria-describedby'?: string;
+                                }>
+                            ).props.tabIndex
+                          : 0,
+              },
+          )
         : children;
 
     return (

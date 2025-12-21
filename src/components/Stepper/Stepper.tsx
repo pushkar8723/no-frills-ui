@@ -144,16 +144,23 @@ function StepperComponent(props: StepperProps, ref: React.Ref<HTMLDivElement>) {
             <Header role="tablist" aria-label="Stepper Steps">
                 {Children.map(children, (child, index) => {
                     if (!isValidElement(child)) return null;
+                    const reactElement = child as React.ReactElement<{
+                        disabled?: boolean;
+                        completed?: boolean;
+                        name?: string;
+                    }>;
                     return (
                         <HeaderButton
-                            ref={(el) => (stepRefs[index] = el)}
+                            ref={(el) => {
+                                stepRefs[index] = el;
+                            }}
                             active={index === active}
                             type="button"
                             role="tab"
                             aria-selected={index === active}
-                            aria-disabled={!!child.props.disabled}
+                            aria-disabled={!!reactElement.props.disabled}
                             tabIndex={index === active ? 0 : -1}
-                            disabled={child.props.disabled}
+                            disabled={reactElement.props.disabled}
                             onClick={stepClickHandler(index)}
                             onKeyDown={onStepKeyDown(index)}
                         >
@@ -161,18 +168,19 @@ function StepperComponent(props: StepperProps, ref: React.Ref<HTMLDivElement>) {
                                 inline
                                 type={getBadgeType(
                                     index,
-                                    child.props.completed,
-                                    child.props.disabled,
+                                    reactElement.props.completed || false,
+                                    reactElement.props.disabled || false,
                                 )}
                             />
-                            <Ellipsis>{child.props.name}</Ellipsis>
+                            <Ellipsis>{reactElement.props.name}</Ellipsis>
                         </HeaderButton>
                     );
                 })}
                 <MobileHeader>
                     <span>
                         {isValidElement(childrenArray[active])
-                            ? childrenArray[active].props.name
+                            ? (childrenArray[active] as React.ReactElement<{ name?: string }>).props
+                                  .name
                             : ''}
                     </span>
                     <Badge inline type={BADGE_TYPE.PRIMARY}>
