@@ -16,7 +16,7 @@ type ModalProps = {
     closeOnOverlayClick?: boolean;
     /** Call back function called when the modal closes. */
     onClose?: () => void;
-    /** Ref forwarded to the modal container */
+    /** Ref forwarded to the underlying HTMLDivElement of the modal container */
     forwardRef?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;
 
@@ -126,8 +126,42 @@ export default class Modal extends React.Component<
     componentDidMount() {
         if (this.props.open) {
             this.lastFocusedElement = document.activeElement as HTMLElement;
+            // Handle initial open state
+            this.handleOpen();
         }
     }
+
+    /**
+     * Handles opening the modal by creating the layer.
+     */
+    private handleOpen = () => {
+        const { closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
+
+        this.layer = LayerManager.renderLayer({
+            overlay: true,
+            exitDelay: 300,
+            position: LAYER_POSITION.DIALOG,
+            closeCallback: this.onClose,
+            closeOnEsc: closeOnEsc,
+            closeOnOverlayClick: closeOnOverlayClick,
+            component: (
+                <ModalContainer
+                    {...rest}
+                    ref={this.setModalRef}
+                    role="dialog"
+                    aria-modal="true"
+                    tabIndex={-1}
+                    onKeyDown={this.handleKeyDown}
+                    onClick={(e) => e.stopPropagation()}
+                    elevated
+                >
+                    {children}
+                </ModalContainer>
+            ),
+        });
+        this.closeCallback = this.layer[1];
+        this.forceUpdate();
+    };
 
     /**
      * Lifecycle method to restore focus when the modal unmounts.
@@ -209,7 +243,7 @@ export default class Modal extends React.Component<
      * Manages opening/closing logic via LayerManager and focus preservation.
      */
     getSnapshotBeforeUpdate(prevProps: ModalProps) {
-        const { open, closeOnEsc, closeOnOverlayClick, children, ...rest } = this.props;
+        const { open } = this.props;
 
         if (prevProps.open && !open) {
             this.closeCallback?.();
@@ -219,32 +253,10 @@ export default class Modal extends React.Component<
         if (!prevProps.open && open) {
             // Save current focus
             this.lastFocusedElement = document.activeElement as HTMLElement;
-
-            this.layer = LayerManager.renderLayer({
-                overlay: true,
-                exitDelay: 300,
-                position: LAYER_POSITION.DIALOG,
-                closeCallback: this.onClose,
-                closeOnEsc: closeOnEsc,
-                closeOnOverlayClick: closeOnOverlayClick,
-                component: (
-                    <ModalContainer
-                        {...rest}
-                        ref={this.setModalRef}
-                        role="dialog"
-                        aria-modal="true"
-                        tabIndex={-1}
-                        onKeyDown={this.handleKeyDown}
-                        onClick={(e) => e.stopPropagation()}
-                        elevated
-                    >
-                        {children}
-                    </ModalContainer>
-                ),
-            });
-            this.closeCallback = this.layer[1];
-            this.forceUpdate();
+            this.handleOpen();
         }
+
+        return null;
     }
 
     /**

@@ -121,6 +121,11 @@ type CheckboxProps = {
     indeterminate?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
+/**
+ * Checkbox Component
+ * @param props - Component props
+ * @param fwdRef - Ref forwarded to the underlying HTMLInputElement
+ */
 function CheckboxComponent(props: CheckboxProps, fwdRef: React.Ref<HTMLInputElement>) {
     const { label = '', indeterminate = false, checked, ...rest } = props;
 

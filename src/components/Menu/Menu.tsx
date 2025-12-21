@@ -37,6 +37,12 @@ const MenuContainer = styled.div`
  * @param props - The menu properties.
  * @param ref - The ref forwarded to the menu container.
  */
+/**
+ * Menu Component
+ * @template T - The type of value(s) in the menu.
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function MenuInner<T>(props: MenuProps<T>, ref: ForwardedRef<HTMLDivElement>) {
     const { multiSelect = false, onChange, value: propValue, children, ...rest } = props;
     // State holds either a single T or an array of T when multiSelect

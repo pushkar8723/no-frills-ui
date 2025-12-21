@@ -19,6 +19,11 @@ const StyledCard = styled.div<CardProps>`
     position: relative;
 `;
 
+/**
+ * Card Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function CardComponent(props: CardProps, ref: React.Ref<HTMLDivElement>) {
     return <StyledCard {...props} ref={ref} />;
 }

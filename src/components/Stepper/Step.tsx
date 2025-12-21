@@ -24,6 +24,11 @@ type StepProps = {
     completed?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
+/**
+ * Step Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function StepComponent(props: React.PropsWithChildren<StepProps>, ref: React.Ref<HTMLDivElement>) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { name, disabled, completed, ...rest } = props;

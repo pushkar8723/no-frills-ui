@@ -37,6 +37,11 @@ const Button = styled.button`
     }
 `;
 
+/**
+ * Chip Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLSpanElement
+ */
 function ChipComponent(
     props: ChipProps & React.HTMLAttributes<HTMLSpanElement>,
     ref: React.Ref<HTMLSpanElement>,

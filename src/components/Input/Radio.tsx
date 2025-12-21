@@ -95,6 +95,11 @@ type RadioProps = {
     label?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
+/**
+ * Radio Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLInputElement
+ */
 function RadioComponent(props: RadioProps, ref: React.Ref<HTMLInputElement>) {
     const { label, ...rest } = props;
 

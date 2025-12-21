@@ -72,8 +72,9 @@ export default class PromptDialog extends React.Component<PromptOption, { value?
 
     private cancel = () => this.dialog.current?.close();
 
-    private submit = (e: React.FormEvent) => {
+    private submit = (e: React.SyntheticEvent) => {
         e.preventDefault();
+        if (!this.state.value) return;
         this.dialog.current?.close(this.state.value);
     };
 
@@ -119,7 +120,7 @@ export default class PromptDialog extends React.Component<PromptOption, { value?
                         <Button type="button" onClick={this.cancel}>
                             {cancelText}
                         </Button>
-                        <ActionButton>{submitText}</ActionButton>
+                        <ActionButton onClick={this.submit}>{submitText}</ActionButton>
                     </DialogFooter>
                 </form>
             </Dialog>

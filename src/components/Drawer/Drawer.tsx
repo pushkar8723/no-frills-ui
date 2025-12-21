@@ -66,7 +66,7 @@ type DrawerProps = {
     closeOnOverlayClick?: boolean;
     /** Call back function called when the drawer closes. */
     onClose?: () => void;
-    /** Ref to the drawer element */
+    /** Ref forwarded to the underlying HTMLDivElement of the drawer container */
     forwardRef?: React.Ref<HTMLDivElement> | React.MutableRefObject<HTMLDivElement | null>;
 };
 
@@ -184,8 +184,44 @@ export default class Drawer extends React.Component<
     componentDidMount() {
         if (this.props.open) {
             this.lastFocusedElement = document.activeElement as HTMLElement;
+            // Handle initial open state
+            this.handleOpen();
         }
     }
+
+    /**
+     * Handles opening the drawer by creating the layer.
+     */
+    private handleOpen = () => {
+        const { closeOnEsc, closeOnOverlayClick, position, size, overlay, children, ...rest } =
+            this.props;
+
+        this.layer = LayerManager.renderLayer({
+            overlay,
+            exitDelay: 300,
+            position: positionMap[position],
+            closeCallback: this.onClose,
+            closeOnEsc,
+            closeOnOverlayClick,
+            component: (
+                <DrawerDiv
+                    {...rest}
+                    ref={this.setDrawerRef}
+                    role="dialog"
+                    aria-modal="true"
+                    tabIndex={-1}
+                    onKeyDown={this.handleKeyDown}
+                    position={position}
+                    size={size}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {children}
+                </DrawerDiv>
+            ),
+        });
+        this.closeCallback = this.layer[1];
+        this.forceUpdate();
+    };
 
     /**
      * Lifecycle method to restore focus when the drawer unmounts.
@@ -257,16 +293,7 @@ export default class Drawer extends React.Component<
      * Manages opening/closing logic via LayerManager and focus preservation.
      */
     getSnapshotBeforeUpdate(prevProps: DrawerProps) {
-        const {
-            open,
-            closeOnEsc,
-            closeOnOverlayClick,
-            overlay,
-            position,
-            children,
-            size,
-            ...rest
-        } = this.props;
+        const { open } = this.props;
 
         if (prevProps.open && !open) {
             this.closeCallback?.();
@@ -276,33 +303,10 @@ export default class Drawer extends React.Component<
         if (!prevProps.open && open) {
             // Save current focus
             this.lastFocusedElement = document.activeElement as HTMLElement;
-
-            this.layer = LayerManager.renderLayer({
-                overlay,
-                exitDelay: 300,
-                position: positionMap[position],
-                closeCallback: this.onClose,
-                closeOnEsc,
-                closeOnOverlayClick,
-                component: (
-                    <DrawerDiv
-                        {...rest}
-                        ref={this.setDrawerRef}
-                        role="dialog"
-                        aria-modal="true"
-                        tabIndex={-1}
-                        onKeyDown={this.handleKeyDown}
-                        position={position}
-                        size={size}
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        {children}
-                    </DrawerDiv>
-                ),
-            });
-            this.closeCallback = this.layer[1];
-            this.forceUpdate();
+            this.handleOpen();
         }
+
+        return null;
     }
 
     /**

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -132,14 +132,21 @@ const ErrorContainer = styled.div`
     margin-left: 3px;
 `;
 
+/**
+ * Input Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLInputElement
+ */
 const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props, ref) => {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
     const errorId = useId();
+    const prevValueRef = useRef<string>(undefined);
 
     useEffect(() => {
-        if (props.value !== undefined) {
+        if (props.value !== undefined && props.value !== prevValueRef.current) {
             setValue(props.value);
+            prevValueRef.current = props.value as string;
         }
     }, [props.value]);
 

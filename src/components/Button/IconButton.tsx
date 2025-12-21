@@ -54,6 +54,11 @@ type IconButtonProps = {
     type?: 'button' | 'submit' | 'reset';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
+/**
+ * IconButton Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLButtonElement
+ */
 function IconButtonComponent(props: IconButtonProps, ref: React.Ref<HTMLButtonElement>) {
     const { type = 'button', ...rest } = props;
 

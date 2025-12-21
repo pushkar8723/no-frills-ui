@@ -22,10 +22,15 @@ function Accordion(props: PropsWithChildren<AccordionProps>) {
                 if (!isValidElement(child)) {
                     return child;
                 }
-                return cloneElement(child, {
+                const reactElement = child as React.ReactElement<{
+                    disabled?: boolean;
+                    open?: boolean;
+                    onStepClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+                }>;
+                return cloneElement(reactElement, {
                     open: active === index,
-                    onStepClick: onStepClick(index, child.props.disabled),
-                } as Partial<typeof child.props>);
+                    onStepClick: onStepClick(index, reactElement.props.disabled || false),
+                });
             })}
         </>
     );

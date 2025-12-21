@@ -52,6 +52,11 @@ type ButtonProps = {
     type?: 'button' | 'submit' | 'reset';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
+/**
+ * Button Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLButtonElement
+ */
 function ButtonComponent(props: ButtonProps, ref: React.Ref<HTMLButtonElement>) {
     const { type = 'button', ...rest } = props;
 

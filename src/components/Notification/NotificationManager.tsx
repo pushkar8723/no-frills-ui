@@ -191,6 +191,7 @@ class NotificationManager extends React.Component<
     public pause = (id?: string) => () => {
         if (id && this.timeouts[id]) {
             clearTimeout(this.timeouts[id]);
+            delete this.timeouts[id];
         }
     };
 
