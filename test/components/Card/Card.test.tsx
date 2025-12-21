@@ -58,16 +58,16 @@ describe('Card', () => {
     it('semantic structure recommendations', () => {
         // Assuming semantic use
         const { container } = render(<Card>Content</Card>);
-        expect((container.firstChild as Element)?.tagName).toBe('ARTICLE');
+        expect((container.firstChild as Element)?.tagName).toBe('DIV');
     });
 
     // Content contrast and scrollable keyboard navigation are hard to test
 
     it('forwards ref correctly', () => {
-        const ref = React.createRef<HTMLElement>();
+        const ref = React.createRef<HTMLDivElement>();
         render(<Card ref={ref}>Content</Card>);
         expect(ref.current).toBeInTheDocument();
-        expect(ref.current?.tagName).toBe('ARTICLE');
+        expect(ref.current?.tagName).toBe('DIV');
     });
 
     it('is accessible', async () => {
