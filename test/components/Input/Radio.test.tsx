@@ -160,7 +160,8 @@ describe('Radio', () => {
         expect(event.target).toBe(radio);
     });
 
-    it.skip('prevents state change when disabled', () => {
+    it('prevents state change when disabled', async () => {
+        const user = userEvent.setup();
         const handleChange = jest.fn();
         const { getByRole } = render(<Radio label="Test" disabled onChange={handleChange} />);
         const radio = getByRole('radio');
@@ -168,10 +169,11 @@ describe('Radio', () => {
         // Initially should not be checked
         expect(radio).not.toBeChecked();
 
-        fireEvent.click(radio);
+        await user.click(radio);
 
         // Should still not be checked after click
         expect(radio).not.toBeChecked();
+        expect(handleChange).not.toHaveBeenCalled();
     });
 
     it('handles multiple radio buttons in group correctly', () => {

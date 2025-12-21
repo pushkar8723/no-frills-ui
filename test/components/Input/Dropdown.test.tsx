@@ -86,7 +86,7 @@ describe('Dropdown', () => {
         });
     });
 
-    it.skip('selects option and closes dropdown', async () => {
+    it('selects option and closes dropdown', async () => {
         const handleChange = jest.fn();
         const { getByRole, queryByRole } = render(
             <Dropdown label="Test" onChange={handleChange}>
@@ -105,7 +105,9 @@ describe('Dropdown', () => {
         fireEvent.click(option);
 
         expect(handleChange).toHaveBeenCalledWith(mockOptions[0]);
-        expect(queryByRole('listbox')).not.toBeInTheDocument();
+        await waitFor(() => {
+            expect(queryByRole('listbox')).not.toBeInTheDocument();
+        });
     });
 
     it('supports multi-select mode', async () => {
@@ -194,8 +196,9 @@ describe('Dropdown', () => {
 
     // Skipped due to jsdom limitation: Popover uses document event listeners for outside click,
     // which may not work as expected in the test environment.
-    it.skip('closes on outside click', async () => {
-        const { getByRole, queryByRole, container } = render(
+    it('closes on outside click', async () => {
+        const user = userEvent.setup();
+        const { getByRole, queryByRole, getByTestId } = render(
             <div>
                 <Dropdown label="Test">
                     {mockOptions.map((option) => (
@@ -209,19 +212,22 @@ describe('Dropdown', () => {
         );
 
         const trigger = getByRole('combobox');
-        fireEvent.click(trigger);
+        await user.click(trigger);
 
         await waitFor(() => {
             expect(getByRole('listbox')).toBeInTheDocument();
         });
 
         // Click outside
-        const outside = container.querySelector('[data-testid="outside"]')!;
-        fireEvent.click(outside);
+        const outside = getByTestId('outside');
+        await user.click(outside);
 
-        await waitFor(() => {
-            expect(queryByRole('listbox')).not.toBeInTheDocument();
-        });
+        await waitFor(
+            () => {
+                expect(queryByRole('listbox')).not.toBeInTheDocument();
+            },
+            { timeout: 2000 },
+        );
     });
 
     it('is accessible', async () => {
