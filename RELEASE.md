@@ -4,13 +4,13 @@ This document explains how to create and publish a new release of `no-frills-ui`
 
 ## Quick Release Guide
 
+> [!IMPORTANT]
+> You must be on `main` branch to release a stable version.
+> Otherwise the `tag` may not map to the correct commit as we sqash merge our PRs.
+
 All you need to do is:
 
 1. **Update the version** in `package.json`:
-
-    > [!IMPORTANT]
-    > You must be on `main` branch to release a stable version.
-    > Otherwise the `tag` may not map to the correct commit as we sqash merge our PRs.
 
     ```bash
     # For a patch release (bug fixes)
