@@ -1,7 +1,23 @@
-import { useState, Children, cloneElement, PropsWithChildren, isValidElement } from 'react';
+import {
+    useState,
+    Children,
+    cloneElement,
+    PropsWithChildren,
+    isValidElement,
+    useEffect,
+    useRef,
+} from 'react';
 
 function Accordion(props: PropsWithChildren<AccordionProps>) {
     const [active, setActive] = useState(props.active);
+    const prevActive = useRef(props.active);
+
+    useEffect(() => {
+        if (props.active !== undefined && props.active !== prevActive.current) {
+            setActive(props.active);
+            prevActive.current = props.active;
+        }
+    }, [props.active]);
 
     const onStepClick = (index: number, disabled: boolean) => () => {
         if (disabled) {
