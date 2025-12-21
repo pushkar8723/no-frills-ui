@@ -35,6 +35,7 @@ const StepHeader = styled.button<{ open?: boolean; disabled?: boolean }>`
 
     ${(props) =>
         props.open && `border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};`}
+    ${(props) => props.open && `border-radius: 10px 10px 0 0;`}
 
     ${(props) => props.disabled && `color: ${getThemeValue(THEME_NAME.DISABLED)};`}
 `;

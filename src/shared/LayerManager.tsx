@@ -289,9 +289,6 @@ class LayerManager {
                     previousValue: string | null;
                 }> = [];
                 let originalBodyOverflow: string | null = null;
-                let originalBodyPosition: string | null = null;
-                let originalBodyWidth: string | null = null;
-                let originalBodyTop: string | null = null;
                 let scrollY = 0;
 
                 // Apply aria-hidden to siblings and body scroll lock for overlay modals
@@ -323,14 +320,8 @@ class LayerManager {
                     // Prevent body scroll on iOS
                     scrollY = window.scrollY;
                     originalBodyOverflow = document.body.style.overflow;
-                    originalBodyPosition = document.body.style.position;
-                    originalBodyWidth = document.body.style.width;
-                    originalBodyTop = document.body.style.top;
 
                     document.body.style.overflow = 'hidden';
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
-                    document.body.style.top = `-${scrollY}px`;
                 }
 
                 // Cleanup function - remove div when component unmounts
@@ -349,9 +340,6 @@ class LayerManager {
                     // Restore body scroll
                     if (layerConfig.overlay) {
                         document.body.style.overflow = originalBodyOverflow || '';
-                        document.body.style.position = originalBodyPosition || '';
-                        document.body.style.width = originalBodyWidth || '';
-                        document.body.style.top = originalBodyTop || '';
                         window.scrollTo(0, scrollY);
                     }
 

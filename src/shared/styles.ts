@@ -17,7 +17,8 @@ export const Header = styled.h1`
 `;
 
 export const Body = styled.div`
-    padding: 20px 15px;
+    padding: 0 15px;
+    margin: 20px 0;
     flex: 1;
     overflow: auto;
 `;
