@@ -44,4 +44,10 @@ describe('Spinner', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('renders with empty label', () => {
+        const { getByRole } = render(<Spinner label="" />);
+        const spinner = getByRole('status');
+        expect(spinner).not.toHaveAttribute('aria-label');
+    });
 });

@@ -1,10 +1,11 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, render } from '@testing-library/react';
 import {
     Notification,
     NOTIFICATION_POSITION,
     NOTIFICATION_TYPE,
     NotificationOptions,
 } from '../../../src/components/Notification';
+import { StoryProps } from '../../../src/components/Notification/Notification';
 
 describe('Notification', () => {
     beforeEach(() => {
@@ -183,9 +184,15 @@ describe('Notification', () => {
             description: 'Error desc',
             type: NOTIFICATION_TYPE.DANGER,
         });
+        await addNotification({
+            title: 'Warning',
+            description: 'Warning desc',
+            type: NOTIFICATION_TYPE.WARNING,
+        });
 
         expect(await screen.findByText('Success')).toBeTruthy();
         expect(await screen.findByText('Error')).toBeTruthy();
+        expect(await screen.findByText('Warning')).toBeTruthy();
     });
 
     it('removes notification programmatically', async () => {
@@ -220,5 +227,9 @@ describe('Notification', () => {
         await act(async () => {});
 
         expect(screen.queryByText('Destroy me')).toBeNull();
+    });
+
+    it('exports StoryProps for documentation', () => {
+        render(<StoryProps title="test" description="test" />);
     });
 });

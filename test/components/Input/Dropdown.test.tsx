@@ -218,6 +218,9 @@ describe('Dropdown', () => {
             expect(getByRole('listbox')).toBeInTheDocument();
         });
 
+        // Wait a bit for requestAnimationFrame in Popover to register the click listener
+        await new Promise((resolve) => setTimeout(resolve, 50));
+
         // Click outside
         const outside = getByTestId('outside');
         await user.click(outside);
@@ -243,5 +246,63 @@ describe('Dropdown', () => {
 
         const results = await axe(container);
         expect(results).toHaveNoViolations();
+    });
+
+    it('opens dropdown on Enter key', async () => {
+        const user = userEvent.setup();
+        const { getByRole } = render(
+            <Dropdown label="Test">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        const trigger = getByRole('combobox');
+        await user.tab();
+        expect(trigger).toHaveFocus();
+        await user.keyboard('{Enter}');
+        await waitFor(() => {
+            expect(getByRole('listbox')).toBeInTheDocument();
+        });
+    });
+
+    it('opens dropdown on Space key', async () => {
+        const user = userEvent.setup();
+        const { getByRole } = render(
+            <Dropdown label="Test">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        getByRole('combobox');
+        await user.tab();
+        await user.keyboard(' ');
+        await waitFor(() => {
+            expect(getByRole('listbox')).toBeInTheDocument();
+        });
+    });
+
+    it('opens dropdown on ArrowUp key', async () => {
+        const user = userEvent.setup();
+        const { getByRole } = render(
+            <Dropdown label="Test">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        getByRole('combobox');
+        await user.tab();
+        await user.keyboard('{ArrowUp}');
+        await waitFor(() => {
+            expect(getByRole('listbox')).toBeInTheDocument();
+        });
     });
 });

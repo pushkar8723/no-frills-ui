@@ -69,4 +69,28 @@ describe('TextArea', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('handles focus event and calls onFocus prop', () => {
+        const handleFocus = jest.fn();
+        const { getByRole } = render(<TextArea label="Test" onFocus={handleFocus} />);
+        const textarea = getByRole('textbox');
+        fireEvent.focus(textarea);
+        expect(handleFocus).toHaveBeenCalled();
+    });
+
+    it('updates value correctly even without onChange prop', () => {
+        const { getByRole } = render(<TextArea label="Test" />);
+        const textarea = getByRole('textbox') as HTMLTextAreaElement;
+        fireEvent.change(textarea, { target: { value: 'new value' } });
+        expect(textarea.value).toBe('new value');
+    });
+
+    it('updates internal value when propsValue changes', () => {
+        const { getByRole, rerender } = render(<TextArea label="Test" value="initial" />);
+        const textarea = getByRole('textbox') as HTMLTextAreaElement;
+        expect(textarea.value).toBe('initial');
+
+        rerender(<TextArea label="Test" value="updated" />);
+        expect(textarea.value).toBe('updated');
+    });
 });

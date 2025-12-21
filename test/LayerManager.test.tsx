@@ -194,4 +194,40 @@ describe('LayerManager', () => {
 
         // Callback is called immediately (tested separately)
     });
+
+    it('handles errors in closeCallback gracefully', () => {
+        const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        const [LayerComponent, closeFn] = LayerManager.renderLayer({
+            component: <div data-testid="layer-content">Test Layer</div>,
+            closeCallback: () => {
+                throw new Error('Test Error');
+            },
+        });
+
+        render(<LayerComponent />);
+        closeFn();
+        jest.runAllTimers();
+
+        expect(consoleSpy).toHaveBeenCalledWith('Test Error');
+        consoleSpy.mockRestore();
+    });
+
+    it('restores previous aria-hidden value', () => {
+        const sibling = document.createElement('div');
+        sibling.setAttribute('aria-hidden', 'false');
+        document.body.appendChild(sibling);
+
+        const [LayerComponent] = LayerManager.renderLayer({
+            component: <div />,
+            overlay: true,
+        });
+
+        const { unmount } = render(<LayerComponent />);
+        expect(sibling.getAttribute('aria-hidden')).toBe('true');
+
+        unmount();
+        expect(sibling.getAttribute('aria-hidden')).toBe('false');
+
+        document.body.removeChild(sibling);
+    });
 });

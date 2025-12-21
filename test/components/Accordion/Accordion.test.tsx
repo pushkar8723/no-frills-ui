@@ -166,4 +166,29 @@ describe('Accordion', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('does not open disabled steps', () => {
+        const { getByRole, queryByText } = render(
+            <Accordion>
+                <AccordionStep header="Disabled" disabled>
+                    Content
+                </AccordionStep>
+            </Accordion>,
+        );
+        const button = getByRole('button');
+        fireEvent.click(button);
+        expect(queryByText('Content')).not.toBeInTheDocument();
+    });
+
+    it('renders non-element children correctly', () => {
+        const { getByText } = render(
+            <Accordion>
+                {null}
+                <AccordionStep header="Step 1">Content 1</AccordionStep>
+                Text Child
+            </Accordion>,
+        );
+        expect(getByText('Step 1')).toBeInTheDocument();
+        expect(getByText('Text Child')).toBeInTheDocument();
+    });
 });

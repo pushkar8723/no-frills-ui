@@ -59,4 +59,15 @@ describe('Toggle', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('does not change state when disabled', async () => {
+        const user = userEvent.setup();
+        const handleChange = jest.fn();
+        const { getByRole } = render(<Toggle label="Test" disabled onChange={handleChange} />);
+        const toggle = getByRole('switch');
+
+        await user.click(toggle);
+        expect(toggle).not.toBeChecked();
+        expect(handleChange).not.toHaveBeenCalled();
+    });
 });
