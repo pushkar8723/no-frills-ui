@@ -1,5 +1,5 @@
 import React, { ForwardRefExoticComponent, RefAttributes, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from './constants';
 
@@ -370,7 +370,7 @@ class LayerManager {
                 return null;
             }
 
-            return ReactDOM.createPortal(
+            return createPortal(
                 <Container
                     {...props}
                     ref={ref}

@@ -1,7 +1,7 @@
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 import swc from '@rollup/plugin-swc';
 import terser from '@rollup/plugin-terser';
-import commonjs from 'rollup-plugin-commonjs';
-import resolve from 'rollup-plugin-node-resolve';
 import external from 'rollup-plugin-peer-deps-external';
 import pkg from './package.json' with { type: 'json' };
 
@@ -39,7 +39,11 @@ export default {
             sourcemap: true,
         },
     ],
-    external: ['react', 'react-dom', '@emotion/styled', '@emotion/react'],
+    external: (id) =>
+        id.startsWith('react') ||
+        id.startsWith('react-dom') ||
+        id.startsWith('@emotion/styled') ||
+        id.startsWith('@emotion/react'),
     plugins: [
         external(),
         resolve({
