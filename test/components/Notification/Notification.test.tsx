@@ -1,10 +1,10 @@
 import { act, fireEvent, screen } from '@testing-library/react';
-import Notification from '../../../src/components/Notification/Notification';
 import {
+    Notification,
     NOTIFICATION_POSITION,
     NOTIFICATION_TYPE,
     NotificationOptions,
-} from '../../../src/components/Notification/types';
+} from '../../../src/components/Notification';
 
 describe('Notification', () => {
     beforeEach(() => {
