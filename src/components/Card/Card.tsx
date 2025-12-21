@@ -5,9 +5,9 @@ import { THEME_NAME, getThemeValue } from '../../shared/constants';
 type CardProps = {
     /** Shows a shadow around the card to show elevation */
     elevated?: boolean;
-} & React.HTMLAttributes<HTMLDivElement>;
+} & React.HTMLAttributes<HTMLElement>;
 
-const StyledCard = styled.div<CardProps>`
+const StyledCard = styled.article<CardProps>`
     border-radius: 10px;
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
     ${(props) =>
@@ -22,11 +22,11 @@ const StyledCard = styled.div<CardProps>`
 /**
  * Card Component
  * @param props - Component props
- * @param ref - Ref forwarded to the underlying HTMLDivElement
+ * @param ref - Ref forwarded to the underlying HTMLAr
  */
-function CardComponent(props: CardProps, ref: React.Ref<HTMLDivElement>) {
+function CardComponent(props: CardProps, ref: React.Ref<HTMLElement>) {
     return <StyledCard {...props} ref={ref} />;
 }
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(CardComponent);
+const Card = React.forwardRef<HTMLElement, CardProps>(CardComponent);
 export default Card;
