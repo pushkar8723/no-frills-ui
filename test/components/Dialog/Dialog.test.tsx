@@ -181,4 +181,118 @@ describe('Dialog', () => {
         const dialogElement = screen.getByRole('dialog');
         expect(dialogElement.className).toContain('custom-dialog');
     });
+
+    it('traps focus within the dialog', () => {
+        const ref = React.createRef<Dialog>();
+        render(
+            <Dialog ref={ref}>
+                <DialogBody>
+                    <button data-testid="btn1">Button 1</button>
+                    <button data-testid="btn2">Button 2</button>
+                </DialogBody>
+            </Dialog>,
+        );
+
+        act(() => {
+            ref.current?.open();
+        });
+
+        const btn1 = screen.getByTestId('btn1');
+        const btn2 = screen.getByTestId('btn2');
+        const dialog = screen.getByRole('dialog');
+
+        // Manually set focus to emulate user navigation
+        btn1.focus();
+        expect(document.activeElement).toBe(btn1);
+
+        // Shift+Tab from first element -> go to last
+        fireEvent.keyDown(dialog, { key: 'Tab', code: 'Tab', shiftKey: true });
+        expect(document.activeElement).toBe(btn2);
+
+        // Tab from last element -> go to first
+        fireEvent.keyDown(dialog, { key: 'Tab', code: 'Tab', shiftKey: false });
+        expect(document.activeElement).toBe(btn1);
+    });
+
+    it('restores focus to previous element on close', () => {
+        const ref = React.createRef<Dialog>();
+        render(
+            <div>
+                <button data-testid="external-btn">External</button>
+                <Dialog ref={ref}>
+                    <DialogBody>Content</DialogBody>
+                </Dialog>
+            </div>,
+        );
+
+        const externalBtn = screen.getByTestId('external-btn');
+        externalBtn.focus();
+        expect(document.activeElement).toBe(externalBtn);
+
+        act(() => {
+            ref.current?.open();
+        });
+
+        // Focus should be moved to dialog (or inside it)
+        expect(document.activeElement).not.toBe(externalBtn);
+
+        act(() => {
+            ref.current?.close();
+        });
+
+        act(() => {
+            jest.advanceTimersByTime(500);
+        });
+
+        expect(document.activeElement).toBe(externalBtn);
+    });
+
+    it('cleans up on unmount when open', () => {
+        const ref = React.createRef<Dialog>();
+        const { unmount } = render(
+            <Dialog ref={ref}>
+                <DialogBody>Content</DialogBody>
+            </Dialog>,
+        );
+
+        act(() => {
+            ref.current?.open();
+        });
+
+        expect(screen.getByRole('dialog')).toBeTruthy();
+
+        unmount();
+
+        act(() => {
+            jest.advanceTimersByTime(1000);
+        });
+
+        expect(screen.queryByRole('dialog')).toBeNull();
+    });
+
+    it('sets initial focus to the first child element', () => {
+        const ref = React.createRef<Dialog>();
+        render(
+            <Dialog ref={ref}>
+                <button data-testid="first-btn">First</button>
+            </Dialog>,
+        );
+        act(() => {
+            ref.current?.open();
+        });
+        expect(document.activeElement).toBe(screen.getByTestId('first-btn'));
+    });
+
+    it('sets initial focus to container if no children elements', () => {
+        const ref = React.createRef<Dialog>();
+        render(<Dialog ref={ref}>Just Text</Dialog>);
+        act(() => {
+            ref.current?.open();
+        });
+        const dialog = screen.getByRole('dialog');
+        expect(document.activeElement).toBe(dialog);
+
+        // Coverage check: Tab with no focusable elements should not crash
+        fireEvent.keyDown(dialog, { key: 'Tab', code: 'Tab' });
+    });
 });
