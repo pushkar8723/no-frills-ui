@@ -174,9 +174,9 @@ class Dialog extends React.Component<
             position: LAYER_POSITION.DIALOG,
             component: (
                 <DialogContainer
+                    role="dialog"
                     {...rest}
                     ref={this.setDialogRef}
-                    role="dialog"
                     aria-modal="true"
                     tabIndex={-1}
                     onKeyDown={this.handleKeyDown}
