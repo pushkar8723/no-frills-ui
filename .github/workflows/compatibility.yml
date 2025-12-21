@@ -1,0 +1,48 @@
+name: Compatibility Check
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    compat:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                react-version: [18, 19]
+
+        name: React ${{ matrix.react-version }} & Emotion 11
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Enable Corepack
+              run: corepack enable
+
+            - name: Setup Node.js 20
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: 'yarn'
+
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: Upgrade React to ${{ matrix.react-version }}
+              run: |
+                  if [ "${{ matrix.react-version }}" = "19" ]; then
+                    yarn add react@^19.0.0 react-dom@^19.0.0 @types/react@^19.0.0 @types/react-dom@^19.0.0 --dev
+                  else
+                    yarn add react@^18.0.0 react-dom@^18.0.0 @types/react@^18.0.0 @types/react-dom@^18.0.0 --dev
+                  fi
+
+            - name: Run Build
+              run: yarn build
+
+            - name: Run Tests
+              run: yarn test
