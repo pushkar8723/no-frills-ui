@@ -7,7 +7,7 @@ describe('PromptDialog', () => {
 
     beforeEach(() => {
         jest.useFakeTimers();
-        promptRef = React.createRef<PromptDialog>();
+        promptRef = React.createRef<PromptDialog>() as React.RefObject<PromptDialog>;
         render(
             <PromptDialog
                 ref={promptRef}

@@ -7,7 +7,7 @@ describe('Dialog', () => {
 
     beforeEach(() => {
         jest.useFakeTimers();
-        dialogRef = React.createRef<Dialog>();
+        dialogRef = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={dialogRef}>
                 <DialogBody data-testid="dialog-content">
@@ -52,7 +52,7 @@ describe('Dialog', () => {
 
     it('closes dialog on ESC key press when closeOnEsc is true', () => {
         const mockCallback = jest.fn();
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref} closeOnEsc={true}>
                 <DialogBody data-testid="dialog-content">Dialog Content</DialogBody>
@@ -72,7 +72,7 @@ describe('Dialog', () => {
 
     it('does not close dialog on ESC when closeOnEsc is false', () => {
         const mockCallback = jest.fn();
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref} closeOnEsc={false}>
                 <DialogBody data-testid="dialog-content">Dialog Content</DialogBody>
@@ -89,7 +89,7 @@ describe('Dialog', () => {
 
     it('closes dialog on overlay click when closeOnOverlayClick is true', () => {
         const mockCallback = jest.fn();
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref} closeOnOverlayClick={true}>
                 <DialogBody data-testid="dialog-content">Dialog Content</DialogBody>
@@ -110,7 +110,7 @@ describe('Dialog', () => {
 
     it('does not close dialog on overlay click when closeOnOverlayClick is false', () => {
         const mockCallback = jest.fn();
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref} closeOnOverlayClick={false}>
                 <DialogBody data-testid="dialog-content">Dialog Content</DialogBody>
@@ -138,7 +138,7 @@ describe('Dialog', () => {
 
     it('prevents event propagation on dialog click', () => {
         const mockCallback = jest.fn();
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref} closeOnOverlayClick={true}>
                 <DialogBody data-testid="dialog-content">Content</DialogBody>
@@ -154,7 +154,7 @@ describe('Dialog', () => {
     });
 
     it('renders children correctly', () => {
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref}>
                 <div data-testid="custom-content">Custom Dialog</div>
@@ -168,7 +168,7 @@ describe('Dialog', () => {
     });
 
     it('passes additional props to container', () => {
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref} className="custom-dialog">
                 <DialogBody>Content</DialogBody>
@@ -183,7 +183,7 @@ describe('Dialog', () => {
     });
 
     it('traps focus within the dialog', () => {
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref}>
                 <DialogBody>
@@ -215,7 +215,7 @@ describe('Dialog', () => {
     });
 
     it('restores focus to previous element on close', () => {
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <div>
                 <button data-testid="external-btn">External</button>
@@ -248,7 +248,7 @@ describe('Dialog', () => {
     });
 
     it('cleans up on unmount when open', () => {
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         const { unmount } = render(
             <Dialog ref={ref}>
                 <DialogBody>Content</DialogBody>
@@ -271,7 +271,7 @@ describe('Dialog', () => {
     });
 
     it('sets initial focus to the first child element', () => {
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(
             <Dialog ref={ref}>
                 <button data-testid="first-btn">First</button>
@@ -284,7 +284,7 @@ describe('Dialog', () => {
     });
 
     it('sets initial focus to container if no children elements', () => {
-        const ref = React.createRef<Dialog>();
+        const ref = React.createRef<Dialog>() as React.RefObject<Dialog>;
         render(<Dialog ref={ref}>Just Text</Dialog>);
         act(() => {
             ref.current?.open();

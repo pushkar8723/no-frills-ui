@@ -7,7 +7,7 @@ describe('ConfirmDialog', () => {
 
     beforeEach(() => {
         jest.useFakeTimers();
-        confirmRef = React.createRef<ConfirmDialog>();
+        confirmRef = React.createRef<ConfirmDialog>() as React.RefObject<ConfirmDialog>;
         render(
             <ConfirmDialog
                 ref={confirmRef}

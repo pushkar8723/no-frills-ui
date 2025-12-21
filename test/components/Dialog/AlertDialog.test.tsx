@@ -7,7 +7,7 @@ describe('AlertDialog', () => {
 
     beforeEach(() => {
         jest.useFakeTimers();
-        alertRef = React.createRef<AlertDialog>();
+        alertRef = React.createRef<AlertDialog>() as React.RefObject<AlertDialog>;
         render(
             <AlertDialog
                 ref={alertRef}
