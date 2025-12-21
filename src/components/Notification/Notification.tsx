@@ -67,6 +67,10 @@ class Notification {
         }
     > = new Map();
 
+    /** Pending add requests waiting for manager to mount */
+    private pending: Map<NOTIFICATION_POSITION, Array<(manager: NotificationManager) => void>> =
+        new Map();
+
     /**
      * Adds a notification
      *
@@ -86,6 +90,13 @@ class Notification {
                     const container = this.containers.get(position);
                     if (container) {
                         container.manager = instance;
+                    }
+
+                    // Process pending requests
+                    const queue = this.pending.get(position);
+                    if (queue) {
+                        queue.forEach((cb) => cb(instance));
+                        this.pending.delete(position);
                     }
                 }
             };
@@ -127,14 +138,13 @@ class Notification {
             return container.manager.add(options);
         }
 
-        // If manager is not ready yet, wait a bit and retry
+        // If manager is not ready yet, add to pending queue
         return new Promise<string>((resolve) => {
-            setTimeout(() => {
-                const container = this.containers.get(position);
-                if (container && container.manager) {
-                    resolve(container.manager.add(options));
-                }
-            }, 10);
+            const queue = this.pending.get(position) || [];
+            queue.push((manager) => {
+                resolve(manager.add(options));
+            });
+            this.pending.set(position, queue);
         });
     };
 
