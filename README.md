@@ -4,6 +4,7 @@
 [![Minified Size](https://badgen.net/bundlephobia/min/no-frills-ui)](https://bundlephobia.com/result?p=no-frills-ui)
 [![Gzipped Size](https://badgen.net/bundlephobia/minzip/no-frills-ui)](https://bundlephobia.com/result?p=no-frills-ui)
 [![license](https://badgen.now.sh/badge/license/MIT)](./LICENSE)
+[![Coverage Status](https://coveralls.io/repos/github/pushkar8723/no-frills-ui/badge.svg?branch=main)](https://coveralls.io/github/pushkar8723/no-frills-ui?branch=main)
 
 **React components that are made of styled native components. Mostly! 😅**
 
