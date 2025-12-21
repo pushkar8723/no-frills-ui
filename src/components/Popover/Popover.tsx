@@ -106,6 +106,11 @@ type PopoverProps = {
     onClose?: () => void;
 };
 
+/**
+ * Popover Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function PopoverComponent(
     props: React.PropsWithChildren<PopoverProps>,
     ref: React.Ref<HTMLDivElement>,

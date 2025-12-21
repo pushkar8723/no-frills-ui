@@ -146,6 +146,11 @@ const ArrowContainer = styled.span`
     top: 8px;
 `;
 
+/**
+ * Select Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLSelectElement
+ */
 function SelectComponent(props: SelectProps, ref: React.Ref<HTMLSelectElement>) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');

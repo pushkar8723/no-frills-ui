@@ -34,6 +34,11 @@ type SpinnerProp = {
     label?: string;
 };
 
+/**
+ * Spinner Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function SpinnerComponent(props: SpinnerProp, ref: React.Ref<HTMLDivElement>) {
     const { label = 'Loading', size = 30, ...rest } = props;
     return (

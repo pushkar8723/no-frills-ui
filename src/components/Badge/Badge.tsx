@@ -54,6 +54,11 @@ type BadgeProps = {
     type?: BADGE_TYPE;
 } & React.HTMLAttributes<HTMLSpanElement>;
 
+/**
+ * Badge Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLSpanElement
+ */
 function BadgeComponent(props: BadgeProps, ref: React.Ref<HTMLSpanElement>) {
     return <BadgeSpan {...props} ref={ref} />;
 }

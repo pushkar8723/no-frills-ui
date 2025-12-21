@@ -77,6 +77,11 @@ type TooltipProps = React.PropsWithChildren<{
 }> &
     React.HTMLAttributes<HTMLDivElement>;
 
+/**
+ * Tooltip Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function TooltipComponent(props: TooltipProps, ref: React.Ref<HTMLDivElement>) {
     const { children, position = TOOLTIP_POSITION.BOTTOM, ...rest } = props;
     const tooltipId = useId();

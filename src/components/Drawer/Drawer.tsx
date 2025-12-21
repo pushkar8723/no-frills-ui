@@ -66,7 +66,7 @@ type DrawerProps = {
     closeOnOverlayClick?: boolean;
     /** Call back function called when the drawer closes. */
     onClose?: () => void;
-    /** Ref to the drawer element */
+    /** Ref forwarded to the underlying HTMLDivElement of the drawer container */
     forwardRef?: React.Ref<HTMLDivElement> | React.MutableRefObject<HTMLDivElement | null>;
 };
 

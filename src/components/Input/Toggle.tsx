@@ -82,6 +82,11 @@ type ToggleProps = {
     label?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
+/**
+ * Toggle Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLInputElement
+ */
 function ToggleComponent(props: ToggleProps, ref: React.Ref<HTMLInputElement>) {
     return (
         <Switch>

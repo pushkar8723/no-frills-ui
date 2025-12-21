@@ -96,6 +96,11 @@ type StepperProps = PropsWithChildren<{
 }> &
     React.HTMLAttributes<HTMLDivElement>;
 
+/**
+ * Stepper Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function StepperComponent(props: StepperProps, ref: React.Ref<HTMLDivElement>) {
     const { active: propsActive = 0, onStepClick, children, ...rest } = props;
 

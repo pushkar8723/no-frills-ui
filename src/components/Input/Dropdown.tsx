@@ -41,6 +41,12 @@ const ArrowContainer = styled.span`
  * @param props - The properties for the Dropdown component.
  * @returns The rendered Dropdown component.
  */
+/**
+ * Dropdown Component
+ * @template T - The type of value(s) in the dropdown.
+ * @param props - Component props
+ * @param outerRef - Ref forwarded to the underlying HTMLInputElement
+ */
 function DropdownComponent<T extends object>(
     props: DropdownProps<T>,
     outerRef: React.Ref<HTMLInputElement>,

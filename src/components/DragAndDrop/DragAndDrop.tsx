@@ -93,6 +93,11 @@ const VisuallyHidden = styled.div`
  *
  * @returns A draggable container with reorderable items
  */
+/**
+ * DragAndDrop Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function DragAndDropComponent(props: DragAndDropProps, ref: React.Ref<HTMLDivElement>) {
     const {
         orientation = ORIENTATION.VERTICAL,

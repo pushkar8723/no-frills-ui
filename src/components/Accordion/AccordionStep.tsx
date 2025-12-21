@@ -115,6 +115,11 @@ interface AccordionStepProps {
     onStepClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
+/**
+ * AccordionStep Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function AccordionStepComponent(
     props: React.PropsWithChildren<AccordionStepProps> & React.HTMLAttributes<HTMLDivElement>,
     ref: React.Ref<HTMLDivElement>,

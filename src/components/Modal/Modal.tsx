@@ -16,7 +16,7 @@ type ModalProps = {
     closeOnOverlayClick?: boolean;
     /** Call back function called when the modal closes. */
     onClose?: () => void;
-    /** Ref forwarded to the modal container */
+    /** Ref forwarded to the underlying HTMLDivElement of the modal container */
     forwardRef?: React.Ref<HTMLDivElement>;
 } & React.HTMLAttributes<HTMLDivElement>;
 

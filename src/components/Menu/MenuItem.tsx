@@ -39,6 +39,12 @@ const Container = styled.button<{ selected: boolean; multiselect?: boolean }>`
     }
 `;
 
+/**
+ * MenuItem Component
+ * @template T - The type of value in the menu item.
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLButtonElement
+ */
 const MenuItemInner = <T,>(props: MenuItemProps<T>, ref: React.Ref<HTMLButtonElement>) => {
     const context = useContext(MenuContext) as MenuContextType<T> | undefined;
     if (!context) {

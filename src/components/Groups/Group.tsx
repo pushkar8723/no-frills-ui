@@ -95,6 +95,11 @@ type GroupProps = React.PropsWithChildren<{
     errorText?: string;
 }>;
 
+/**
+ * Group Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function GroupComponent(
     props: React.PropsWithChildren<GroupProps>,
     ref: React.Ref<HTMLDivElement>,

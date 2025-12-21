@@ -61,6 +61,11 @@ type ITabsProps = PropsWithChildren<{
     bodyProps?: React.HTMLAttributes<HTMLDivElement>;
 }>;
 
+/**
+ * Tabs Component
+ * @param props - Component props
+ * @param ref - Ref forwarded to the underlying HTMLDivElement
+ */
 function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
     const { active: propsActive = 0, onChange, bodyProps, children, ...rest } = props;
     const [active, setActive] = useState(propsActive);

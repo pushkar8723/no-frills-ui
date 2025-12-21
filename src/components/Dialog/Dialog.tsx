@@ -32,6 +32,8 @@ interface DialogOptions {
     closeOnEsc?: boolean;
     /** Close layer overlay is clicked. Default value is true. */
     closeOnOverlayClick?: boolean;
+    /** Ref forwarded to the underlying HTMLDivElement of the dialog container */
+    forwardRef?: React.Ref<HTMLDivElement>;
 }
 
 interface DialogState {
@@ -120,6 +122,15 @@ class Dialog extends React.Component<
 
         if (node) {
             this.setInitialFocus(node);
+        }
+
+        if (this.props.forwardRef) {
+            if (typeof this.props.forwardRef === 'function') {
+                this.props.forwardRef(node);
+            } else {
+                (this.props.forwardRef as React.MutableRefObject<HTMLDivElement | null>).current =
+                    node;
+            }
         }
     };
 
