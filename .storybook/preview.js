@@ -1,3 +1,12 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
+    import('@axe-core/react').then((axe) => {
+        axe.default(React, ReactDOM, 1000);
+    });
+}
+
 /** @type { import('@storybook/react-webpack5').Preview } */
 const preview = {
     parameters: {

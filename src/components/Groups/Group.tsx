@@ -90,10 +90,10 @@ const ErrorContainer = styled.div`
     font-size: 12px;
 `;
 
-type GroupProps = {
+type GroupProps = React.PropsWithChildren<{
     /** Error Message for the group */
     errorText?: string;
-};
+}>;
 
 function GroupComponent(
     props: React.PropsWithChildren<GroupProps>,

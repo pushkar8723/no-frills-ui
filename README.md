@@ -71,9 +71,8 @@ If you need production-ready components, use established libraries with active m
 But if you're hacking on a side project, need components for a quick demo, or want to explore a simpler approach
 to React UIs, give No Frills UI a try!
 
-And hey, if you're also learning and want to contribute to the roadmap in
-[issue #19](https://github.com/pushkar8723/no-frills-ui/issues/19), pull requests
-are welcome. We're all learning here! 🚀
+And hey, if you're also learning and want to contribute, pull requests are welcome.
+We're all learning here! 🚀
 
 ## Older Versions
 
