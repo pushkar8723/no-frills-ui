@@ -8,7 +8,7 @@ jobs:
     automerge:
         runs-on: ubuntu-latest
         # Check if the PR author is dependabot[bot]
-        if: ${{ github.actor == 'app/dependabot' }}
+        if: ${{ github.actor == 'dependabot[bot]' }}
         steps:
             - name: Enable auto-merge for Dependabot PRs
               # Use a community action to enable automerge
