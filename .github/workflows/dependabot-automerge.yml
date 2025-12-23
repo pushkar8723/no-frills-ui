@@ -1,18 +1,18 @@
 name: Dependabot Automerge
 on: pull_request
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    pull-requests: write
 
 jobs:
-  automerge:
-    runs-on: ubuntu-latest
-    # Check if the PR author is dependabot[bot]
-    if: ${{ github.actor == 'dependabot[bot]' }}
-    steps:
-      - name: Enable auto-merge for Dependabot PRs
-        # Use a community action to enable automerge
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          pull-request-number: ${{ github.event.pull_request.number }}
-          merge-method: squash # Choose your preferred merge method: merge, rebase, or squash
+    automerge:
+        runs-on: ubuntu-latest
+        # Check if the PR author is dependabot[bot]
+        if: ${{ github.actor == 'app/dependabot' }}
+        steps:
+            - name: Enable auto-merge for Dependabot PRs
+              # Use a community action to enable automerge
+              uses: peter-evans/enable-pull-request-automerge@v3
+              with:
+                  pull-request-number: ${{ github.event.pull_request.number }}
+                  merge-method: squash # Choose your preferred merge method: merge, rebase, or squash
