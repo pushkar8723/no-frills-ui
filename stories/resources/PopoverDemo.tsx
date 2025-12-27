@@ -15,7 +15,7 @@ export default function PopoverDemo(props: { text: string; position: POPOVER_POS
     return (
         <Popover
             open={open}
-            element={PopoverButton}
+            element={<PopoverButton />}
             onClose={() => setOpen(false)}
             position={props.position}
         >

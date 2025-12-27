@@ -16,7 +16,7 @@ describe('Popover', () => {
 
     it('renders with open prop', () => {
         const { getByText } = render(
-            <Popover open={true} element={TriggerButton}>
+            <Popover open={true} element={<TriggerButton />}>
                 <div>Content</div>
             </Popover>,
         );
@@ -25,7 +25,7 @@ describe('Popover', () => {
 
     it('does not render when closed', () => {
         const { queryByText } = render(
-            <Popover open={false} element={TriggerButton}>
+            <Popover open={false} element={<TriggerButton />}>
                 <div>Content</div>
             </Popover>,
         );
@@ -34,7 +34,7 @@ describe('Popover', () => {
 
     it('renders trigger element', () => {
         const { getByText } = render(
-            <Popover open={false} element={TriggerButton}>
+            <Popover open={false} element={<TriggerButton />}>
                 Content
             </Popover>,
         );
@@ -43,7 +43,11 @@ describe('Popover', () => {
 
     it('positions correctly with BOTTOM_LEFT', () => {
         const { container } = render(
-            <Popover open={true} position={POPOVER_POSITION.BOTTOM_LEFT} element={TriggerButton}>
+            <Popover
+                open={true}
+                position={POPOVER_POSITION.BOTTOM_LEFT}
+                element={<TriggerButton />}
+            >
                 <div>Content</div>
             </Popover>,
         );
@@ -53,7 +57,7 @@ describe('Popover', () => {
 
     it('positions correctly with TOP_LEFT', () => {
         const { container } = render(
-            <Popover open={true} position={POPOVER_POSITION.TOP_LEFT} element={TriggerButton}>
+            <Popover open={true} position={POPOVER_POSITION.TOP_LEFT} element={<TriggerButton />}>
                 <div>Content</div>
             </Popover>,
         );
@@ -62,7 +66,11 @@ describe('Popover', () => {
 
     it('positions correctly with BOTTOM_RIGHT', () => {
         const { container } = render(
-            <Popover open={true} position={POPOVER_POSITION.BOTTOM_RIGHT} element={TriggerButton}>
+            <Popover
+                open={true}
+                position={POPOVER_POSITION.BOTTOM_RIGHT}
+                element={<TriggerButton />}
+            >
                 <div>Content</div>
             </Popover>,
         );
@@ -71,7 +79,7 @@ describe('Popover', () => {
 
     it('positions correctly with TOP_RIGHT', () => {
         const { container } = render(
-            <Popover open={true} position={POPOVER_POSITION.TOP_RIGHT} element={TriggerButton}>
+            <Popover open={true} position={POPOVER_POSITION.TOP_RIGHT} element={<TriggerButton />}>
                 <div>Content</div>
             </Popover>,
         );
@@ -88,7 +96,7 @@ describe('Popover', () => {
 
         const ref = React.createRef<HTMLButtonElement>();
         render(
-            <Popover open={true} element={TriggerWithRef}>
+            <Popover open={true} element={<TriggerWithRef />}>
                 <div>Content</div>
             </Popover>,
         );
@@ -99,7 +107,7 @@ describe('Popover', () => {
     it('forwards ref to container', () => {
         const ref = React.createRef<HTMLDivElement>();
         render(
-            <Popover ref={ref} open={false} element={TriggerButton}>
+            <Popover ref={ref} open={false} element={<TriggerButton />}>
                 <div>Content</div>
             </Popover>,
         );
@@ -108,7 +116,7 @@ describe('Popover', () => {
 
     it('applies custom props to container', () => {
         const { container } = render(
-            <Popover open={false} element={TriggerButton} data-testid="custom-popover">
+            <Popover open={false} element={<TriggerButton />} data-testid="custom-popover">
                 <div>Content</div>
             </Popover>,
         );
@@ -118,7 +126,7 @@ describe('Popover', () => {
 
     it('renders with proper ARIA attributes', () => {
         const { container, getByRole } = render(
-            <Popover open={true} element={TriggerButton}>
+            <Popover open={true} element={<TriggerButton />}>
                 <div>Content</div>
             </Popover>,
         );
@@ -135,7 +143,12 @@ describe('Popover', () => {
     it('handles closeOnEsc prop', async () => {
         const handleClose = jest.fn();
         render(
-            <Popover open={true} element={TriggerButton} onClose={handleClose} closeOnEsc={true}>
+            <Popover
+                open={true}
+                element={<TriggerButton />}
+                onClose={handleClose}
+                closeOnEsc={true}
+            >
                 <div>Content</div>
             </Popover>,
         );
@@ -148,7 +161,12 @@ describe('Popover', () => {
     it('does not close on ESC when closeOnEsc is false', async () => {
         const handleClose = jest.fn();
         render(
-            <Popover open={true} element={TriggerButton} onClose={handleClose} closeOnEsc={false}>
+            <Popover
+                open={true}
+                element={<TriggerButton />}
+                onClose={handleClose}
+                closeOnEsc={false}
+            >
                 <div>Content</div>
             </Popover>,
         );
@@ -160,7 +178,7 @@ describe('Popover', () => {
 
     it('is accessible', async () => {
         const { container } = render(
-            <Popover open={true} element={TriggerButton}>
+            <Popover open={true} element={<TriggerButton />}>
                 <div>Content</div>
             </Popover>,
         );
