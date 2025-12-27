@@ -157,9 +157,10 @@ function SelectComponent(props: SelectProps, ref: React.Ref<HTMLSelectElement>) 
     const errorId = useId();
     const prevValueRef = useRef<string>(undefined);
 
+    // Sync prop value with state
     useEffect(() => {
-        if (props.value !== undefined && props.value !== prevValueRef.current) {
-            setValue(props.value);
+        if (props.value !== prevValueRef.current) {
+            setValue(props.value || '');
             prevValueRef.current = props.value as string;
         }
     }, [props.value]);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { ExpandMore } from '../../icons';
 import { Menu } from '../Menu';
@@ -68,6 +68,15 @@ function DropdownComponent<T extends object>(
     const menuId = `${id}-menu`;
     const menuRef = React.useRef<HTMLDivElement | null>(null);
     const triggerRef = React.useRef<HTMLInputElement | null>(null);
+
+    // Sync prop value with state
+    const prevValueRef = useRef<T | T[] | undefined>(undefined);
+    useEffect(() => {
+        if (propValue !== prevValueRef.current) {
+            setValue(propValue);
+            prevValueRef.current = propValue;
+        }
+    }, [propValue]);
 
     // Focus menu when opened
     useEffect(() => {
