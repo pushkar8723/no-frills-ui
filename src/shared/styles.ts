@@ -20,7 +20,7 @@ export const Body = styled.div`
     padding: 0 15px;
     margin: 20px 0;
     flex: 1;
-    overflow: auto;
+    overflow: visible;
 `;
 
 export const Footer = styled.div`
