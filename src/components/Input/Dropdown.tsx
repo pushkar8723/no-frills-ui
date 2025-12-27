@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { ExpandMore } from '../../icons';
 import { Menu } from '../Menu';
+import { MenuItemProps } from '../Menu/MenuItem';
 import { Popover, POPOVER_POSITION } from '../Popover';
 import Input from './Input';
 
@@ -23,6 +24,7 @@ type DropdownProps<T> = React.PropsWithChildren<{
     required?: boolean;
     /** Disables the field */
     disabled?: boolean;
+    children?: React.ReactElement<MenuItemProps<T>> | React.ReactElement<MenuItemProps<T>>[];
 }> &
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'>;
 
@@ -68,6 +70,41 @@ function DropdownComponent<T extends object>(
     const menuId = `${id}-menu`;
     const menuRef = React.useRef<HTMLDivElement | null>(null);
     const triggerRef = React.useRef<HTMLInputElement | null>(null);
+
+    /**
+     * Gets the display value for the dropdown based on the current value and children.
+     *
+     * @param currentValue - The current value of the dropdown.
+     * @param currentChildren - The children of the dropdown.
+     * @returns The display value.
+     */
+    const getDisplayValue = (
+        currentValue: T | T[] | undefined,
+        currentChildren: React.ReactNode,
+    ): string => {
+        if (currentValue === undefined || currentValue === null) return '';
+
+        const findLabel = (val: T): string => {
+            let label = '';
+            React.Children.forEach(currentChildren, (child) => {
+                if (React.isValidElement(child)) {
+                    const props = child.props as MenuItemProps<T> & React.PropsWithChildren;
+                    if ('value' in props && props.value === val) {
+                        label = String(props.children);
+                    }
+                }
+            });
+            return label;
+        };
+
+        if (Array.isArray(currentValue)) {
+            return currentValue.map(findLabel).filter(Boolean).join(', ');
+        }
+
+        return findLabel(currentValue as T);
+    };
+
+    const displayValue = getDisplayValue(value, children) || (value ? String(value) : '');
 
     // Sync prop value with state
     const prevValueRef = useRef<T | T[] | undefined>(undefined);
@@ -159,7 +196,7 @@ function DropdownComponent<T extends object>(
                     {...passedProps}
                     ref={combinedRef}
                     type="text"
-                    value={value && String(value)}
+                    value={displayValue}
                     label={label}
                     errorText={errorText}
                     onClick={clickHandler}

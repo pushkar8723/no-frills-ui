@@ -42,7 +42,7 @@ describe('Dropdown', () => {
             </Dropdown>,
         );
         const input = getByRole('combobox');
-        expect(input).toHaveValue('[object Object]');
+        expect(input).toHaveValue('Option 2');
     });
 
     it('opens dropdown on click', async () => {
