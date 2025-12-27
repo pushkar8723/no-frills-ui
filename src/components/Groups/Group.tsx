@@ -44,11 +44,11 @@ const Container = styled.div<GroupProps>`
     }
 
     /* Handling for first and last child */
-    & > *:first-child,
-    & > label:first-child input,
-    & > label:first-child select,
-    & > *:first-child label,
-    & > *:first-child input {
+    & > *:first-of-type,
+    & > label:first-of-type input,
+    & > label:first-of-type select,
+    & > *:first-of-type label,
+    & > *:first-of-type input {
         border-left: none;
         border-radius: 2px 0 0 2px;
     }

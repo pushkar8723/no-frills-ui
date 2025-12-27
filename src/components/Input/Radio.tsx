@@ -5,7 +5,7 @@ import { getThemeValue, THEME_NAME } from '../../shared/constants';
 const Label = styled.label`
     display: inline-flex;
     align-items: center;
-    margin: 5px 0;
+    margin: 5px 10px 5px 0;
     cursor: pointer;
     position: relative;
 `;
