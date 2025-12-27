@@ -142,7 +142,7 @@ type CheckboxProps = {
  */
 function CheckboxComponent(props: CheckboxProps, fwdRef: React.Ref<HTMLInputElement>) {
     const { label = '', indeterminate = false, checked, errorText, ...rest } = props;
-    const internalRef = useRef<HTMLInputElement>(null);
+    const internalRef = useRef<HTMLInputElement | null>(null);
     const errorId = useId();
 
     useImperativeHandle(fwdRef, () => internalRef.current as HTMLInputElement);
