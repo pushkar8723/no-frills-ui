@@ -29,3 +29,10 @@ export const Footer = styled.div`
     display: flex;
     justify-content: flex-end;
 `;
+
+export const ErrorContainer = styled.div`
+    color: ${getThemeValue(THEME_NAME.ERROR)};
+    padding-top: 3px;
+    font-size: 12px;
+    line-height: 14px;
+`;

@@ -10,6 +10,11 @@ can be used to wrap `RadioButton` component to give a rounded border and a bette
 
 `RadioGroup` component is purely for esthetical purpose.
 
+> **Note:** We don't render the `errorText` prop on the `RadioButton` component as
+> `RadioButton` component act as a group. This error text is only use to set the
+> custom validity of the `input` element.
+> If you need to render the error text then use the `ErrorContainer` component.
+
 **Example with `RadioGroup`**
 
 <Canvas of={RadioButtonStories.WithRadioGroup} />
