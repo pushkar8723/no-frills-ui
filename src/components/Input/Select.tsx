@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId, useRef } from 'react';
+import React, { useState, useEffect, useId, useRef, useImperativeHandle } from 'react';
 import styled from '@emotion/styled';
 import ExpandMore from '../../icons/ExpandMore';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
@@ -151,11 +151,14 @@ const ArrowContainer = styled.span`
  * @param props - Component props
  * @param ref - Ref forwarded to the underlying HTMLSelectElement
  */
-function SelectComponent(props: SelectProps, ref: React.Ref<HTMLSelectElement>) {
+function SelectComponent(props: SelectProps, forwardedRef: React.Ref<HTMLSelectElement>) {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
     const errorId = useId();
     const prevValueRef = useRef<string>(undefined);
+    const internalRef = useRef<HTMLSelectElement>(null);
+
+    useImperativeHandle(forwardedRef, () => internalRef.current as HTMLSelectElement);
 
     // Sync prop value with state
     useEffect(() => {
@@ -164,6 +167,12 @@ function SelectComponent(props: SelectProps, ref: React.Ref<HTMLSelectElement>) 
             prevValueRef.current = props.value as string;
         }
     }, [props.value]);
+
+    useEffect(() => {
+        if (internalRef.current) {
+            internalRef.current.setCustomValidity(props.errorText || '');
+        }
+    }, [props.errorText]);
 
     const handleFocus = (e: React.FocusEvent<HTMLSelectElement>) => {
         setTouched(true);
@@ -185,7 +194,7 @@ function SelectComponent(props: SelectProps, ref: React.Ref<HTMLSelectElement>) 
         <Label>
             <SelectField
                 {...props}
-                ref={ref}
+                ref={internalRef}
                 multiple={false}
                 value={value}
                 onChange={onChangeHandler}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId, useRef } from 'react';
+import React, { useState, useEffect, useId, useRef, useImperativeHandle } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -136,12 +136,15 @@ const ErrorContainer = styled.div`
  * @param props - Component props
  * @param ref - Ref forwarded to the underlying HTMLTextAreaElement
  */
-function TextAreaComponent(props: TextAreaProps, ref: React.Ref<HTMLTextAreaElement>) {
+function TextAreaComponent(props: TextAreaProps, forwardedRef: React.Ref<HTMLTextAreaElement>) {
     const { label, errorText, value: propsValue, required, ...rest } = props;
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(propsValue || '');
     const errorId = useId();
     const prevValueRef = useRef<string>(undefined);
+    const internalRef = useRef<HTMLTextAreaElement>(null);
+
+    useImperativeHandle(forwardedRef, () => internalRef.current as HTMLTextAreaElement);
 
     useEffect(() => {
         if (propsValue !== undefined && propsValue !== prevValueRef.current) {
@@ -149,6 +152,12 @@ function TextAreaComponent(props: TextAreaProps, ref: React.Ref<HTMLTextAreaElem
             prevValueRef.current = propsValue as string;
         }
     }, [propsValue]);
+
+    useEffect(() => {
+        if (internalRef.current) {
+            internalRef.current.setCustomValidity(errorText || '');
+        }
+    }, [errorText]);
 
     const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         setTouched(true);
@@ -170,7 +179,7 @@ function TextAreaComponent(props: TextAreaProps, ref: React.Ref<HTMLTextAreaElem
         <Label>
             <TextField
                 {...rest}
-                ref={ref}
+                ref={internalRef}
                 value={value}
                 onChange={onChangeHandler}
                 onFocus={handleFocus}

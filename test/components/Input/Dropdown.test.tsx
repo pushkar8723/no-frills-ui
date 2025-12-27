@@ -305,4 +305,41 @@ describe('Dropdown', () => {
             expect(getByRole('listbox')).toBeInTheDocument();
         });
     });
+
+    it('sets custom validity when errorText is provided', () => {
+        const { getByRole, rerender } = render(
+            <Dropdown label="Test">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        const input = getByRole('combobox') as HTMLInputElement;
+
+        expect(input.validationMessage).toBe('');
+
+        rerender(
+            <Dropdown label="Test" errorText="Invalid selection">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        expect(input.validationMessage).toBe('Invalid selection');
+
+        rerender(
+            <Dropdown label="Test" errorText="">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        expect(input.validationMessage).toBe('');
+    });
 });

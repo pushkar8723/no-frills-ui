@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId, useRef } from 'react';
+import React, { useState, useEffect, useId, useRef, useImperativeHandle } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -137,11 +137,14 @@ const ErrorContainer = styled.div`
  * @param props - Component props
  * @param ref - Ref forwarded to the underlying HTMLInputElement
  */
-const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props, ref) => {
+const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props, forwardedRef) => {
     const [touched, setTouched] = useState(false);
     const [value, setValue] = useState(props.value || '');
     const errorId = useId();
     const prevValueRef = useRef<string>(undefined);
+    const internalRef = useRef<HTMLInputElement>(null);
+
+    useImperativeHandle(forwardedRef, () => internalRef.current as HTMLInputElement);
 
     useEffect(() => {
         if (props.value !== undefined && props.value !== prevValueRef.current) {
@@ -149,6 +152,12 @@ const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props,
             prevValueRef.current = props.value as string;
         }
     }, [props.value]);
+
+    useEffect(() => {
+        if (internalRef.current) {
+            internalRef.current.setCustomValidity(props.errorText || '');
+        }
+    }, [props.errorText]);
 
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         setTouched(true);
@@ -170,7 +179,7 @@ const Input = React.forwardRef<HTMLInputElement, Omit<InputProps, 'as'>>((props,
         <Label>
             <TextField
                 {...props}
-                ref={ref}
+                ref={internalRef}
                 value={value}
                 onChange={onChangeHandler}
                 onFocus={handleFocus}

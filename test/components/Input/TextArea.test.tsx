@@ -93,4 +93,17 @@ describe('TextArea', () => {
         rerender(<TextArea label="Test" value="updated" />);
         expect(textarea.value).toBe('updated');
     });
+
+    it('sets custom validity when errorText is provided', () => {
+        const { getByRole, rerender } = render(<TextArea label="Test" />);
+        const textarea = getByRole('textbox') as HTMLTextAreaElement;
+
+        expect(textarea.validationMessage).toBe('');
+
+        rerender(<TextArea label="Test" errorText="Invalid text" />);
+        expect(textarea.validationMessage).toBe('Invalid text');
+
+        rerender(<TextArea label="Test" errorText="" />);
+        expect(textarea.validationMessage).toBe('');
+    });
 });

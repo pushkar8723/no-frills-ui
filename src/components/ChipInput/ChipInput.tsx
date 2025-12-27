@@ -248,6 +248,12 @@ function ChipInputComponent(
         }
     }, [propValue]);
 
+    useEffect(() => {
+        if (InputRef.current) {
+            InputRef.current.setCustomValidity(props.errorText || '');
+        }
+    }, [props.errorText]);
+
     /**
      * Update the chip values and notify changes.
      * @param newValue The new array of chip values

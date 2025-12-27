@@ -106,4 +106,20 @@ describe('Input', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('sets custom validity when errorText is provided', () => {
+        const { rerender, getByRole } = render(<Input label="Test" />);
+        const input = getByRole('textbox') as HTMLInputElement;
+
+        expect(input.validationMessage).toBe('');
+        expect(input.checkValidity()).toBe(true);
+
+        rerender(<Input label="Test" errorText="Invalid value" />);
+        expect(input.validationMessage).toBe('Invalid value');
+        expect(input.checkValidity()).toBe(false);
+
+        rerender(<Input label="Test" errorText="" />);
+        expect(input.validationMessage).toBe('');
+        expect(input.checkValidity()).toBe(true);
+    });
 });

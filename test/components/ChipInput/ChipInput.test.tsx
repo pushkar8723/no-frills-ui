@@ -151,4 +151,17 @@ describe('ChipInput', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('sets custom validity when errorText is provided', () => {
+        const { getByRole, rerender } = render(<ChipInput label="Skills" />);
+        const input = getByRole('textbox') as HTMLInputElement;
+
+        expect(input.validationMessage).toBe('');
+
+        rerender(<ChipInput label="Skills" errorText="Invalid chips" />);
+        expect(input.validationMessage).toBe('Invalid chips');
+
+        rerender(<ChipInput label="Skills" errorText="" />);
+        expect(input.validationMessage).toBe('');
+    });
 });
