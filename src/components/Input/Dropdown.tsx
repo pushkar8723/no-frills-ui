@@ -36,18 +36,94 @@ const ArrowContainer = styled.span`
 `;
 
 /**
+ * DropdownTrigger Component
+ */
+const DropdownTrigger = React.forwardRef<
+    HTMLInputElement,
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'> & {
+        displayValue: string;
+        label?: string;
+        errorText?: string;
+        open: boolean;
+        menuId: string;
+        toggleOpen: () => void;
+        onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+        forwardedRef?: React.Ref<HTMLInputElement>;
+    }
+>((props, ref) => {
+    const {
+        displayValue,
+        label,
+        errorText,
+        open,
+        menuId,
+        toggleOpen,
+        onKeyDown,
+        forwardedRef,
+        ...rest
+    } = props;
+    const triggerRef = React.useRef<HTMLInputElement | null>(null);
+
+    // Helper to assign both internal triggerRef and external forwarded ref
+    const assignRefs = React.useCallback(
+        (node: HTMLInputElement | null) => {
+            triggerRef.current = node;
+
+            if (!forwardedRef) return;
+            if (typeof forwardedRef === 'function') {
+                forwardedRef(node);
+            } else {
+                (forwardedRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
+            }
+        },
+        [forwardedRef],
+    );
+
+    // Combine the ref passed by parent with our assignRefs so both are updated
+    const combinedRef = React.useCallback(
+        (node: HTMLInputElement | null) => {
+            assignRefs(node);
+            if (typeof ref === 'function') {
+                ref(node);
+            } else if (ref) {
+                (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
+            }
+        },
+        [assignRefs, ref],
+    );
+
+    return (
+        <>
+            <Input
+                {...rest}
+                ref={combinedRef}
+                type="text"
+                value={displayValue}
+                label={label}
+                errorText={errorText}
+                onClick={toggleOpen}
+                onKeyDown={onKeyDown}
+                inputMode="none"
+                role="combobox"
+                aria-haspopup="listbox"
+                aria-expanded={open}
+                aria-controls={menuId}
+            />
+            <ArrowContainer aria-hidden="true">
+                <ExpandMore />
+            </ArrowContainer>
+        </>
+    );
+});
+DropdownTrigger.displayName = 'DropdownTrigger';
+
+/**
  * Dropdown component that allows selection from a list of options.
  * Supports single and multi-select modes.
  *
  * @template T - The type of the value(s) in the dropdown.
  * @param props - The properties for the Dropdown component.
  * @returns The rendered Dropdown component.
- */
-/**
- * Dropdown Component
- * @template T - The type of value(s) in the dropdown.
- * @param props - Component props
- * @param outerRef - Ref forwarded to the underlying HTMLInputElement
  */
 function DropdownComponent<T extends object>(
     props: DropdownProps<T>,
@@ -136,12 +212,15 @@ function DropdownComponent<T extends object>(
      *
      * @param {React.KeyboardEvent<HTMLInputElement>} e - The keyboard event.
      */
-    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onKeyDown = React.useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
         if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) {
             e.preventDefault();
             setOpen(true);
+        } else if (e.key !== 'Tab') {
+            // Prevent typing to mimic readOnly behavior while allowing native validation
+            e.preventDefault();
         }
-    };
+    }, []);
 
     /**
      * Handles changes to the dropdown value.
@@ -164,64 +243,42 @@ function DropdownComponent<T extends object>(
     /**
      * Toggles the dropdown open state on click.
      */
-    const clickHandler = () => setOpen(true);
+    const clickHandler = React.useCallback(() => setOpen(true), []);
 
-    const TriggerElement = React.forwardRef<HTMLInputElement>((passedProps, ref) => {
-        // Helper to assign both internal triggerRef and external forwarded ref
-        const assignRefs = (node: HTMLInputElement | null) => {
+    /**
+     * Forwarded ref handler for the trigger input.
+     */
+    const handleForwardedRef = React.useCallback(
+        (node: HTMLInputElement | null) => {
             triggerRef.current = node;
-
-            if (!outerRef) return;
             if (typeof outerRef === 'function') {
                 outerRef(node);
-            } else {
+            } else if (outerRef) {
                 (outerRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
             }
-        };
-
-        // Combine the ref passed by parent with our assignRefs so both are updated
-        const combinedRef: React.Ref<HTMLInputElement> = (node) => {
-            assignRefs(node);
-            if (typeof ref === 'function') {
-                ref(node);
-            } else if (ref) {
-                (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
-            }
-        };
-
-        return (
-            <>
-                <Input
-                    {...rest}
-                    {...passedProps}
-                    ref={combinedRef}
-                    type="text"
-                    value={displayValue}
-                    label={label}
-                    errorText={errorText}
-                    onClick={clickHandler}
-                    onKeyDown={onKeyDown}
-                    required={required}
-                    disabled={disabled}
-                    readOnly
-                    role="combobox"
-                    aria-haspopup="listbox"
-                    aria-expanded={open}
-                    aria-controls={menuId}
-                />
-                <ArrowContainer aria-hidden="true">
-                    <ExpandMore />
-                </ArrowContainer>
-            </>
-        );
-    });
-    TriggerElement.displayName = 'DropdownTrigger';
+        },
+        [outerRef],
+    );
 
     return (
         <Popover
             position={POPOVER_POSITION.BOTTOM_LEFT}
             open={open}
-            element={TriggerElement}
+            element={
+                <DropdownTrigger
+                    {...rest}
+                    displayValue={displayValue}
+                    label={label}
+                    errorText={errorText}
+                    open={open}
+                    menuId={menuId}
+                    toggleOpen={clickHandler}
+                    onKeyDown={onKeyDown}
+                    required={required}
+                    disabled={disabled}
+                    forwardedRef={handleForwardedRef}
+                />
+            }
             onClose={() => {
                 setOpen(false);
                 triggerRef.current?.focus();
