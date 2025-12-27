@@ -90,18 +90,6 @@ const HiddenInput = styled.input`
     }
 `;
 
-const ErrorContainer = styled.div`
-    color: ${getThemeValue(THEME_NAME.ERROR)};
-    padding-top: 3px;
-    font-size: 12px;
-    line-height: 14px;
-`;
-
-const Container = styled.div`
-    display: inline-flex;
-    flex-direction: column;
-`;
-
 type RadioProps = {
     /** Label for the field */
     label?: string;
@@ -128,20 +116,17 @@ function RadioComponent(props: RadioProps, forwardedRef: React.Ref<HTMLInputElem
     }, [errorText]);
 
     return (
-        <Container>
-            <Label>
-                <HiddenInput
-                    {...rest}
-                    ref={internalRef}
-                    type="radio"
-                    aria-invalid={!!errorText}
-                    aria-describedby={errorText ? errorId : undefined}
-                />
-                <StyledRadio />
-                <span>{label}</span>
-            </Label>
-            {errorText && <ErrorContainer id={errorId}>{errorText}</ErrorContainer>}
-        </Container>
+        <Label>
+            <HiddenInput
+                {...rest}
+                ref={internalRef}
+                type="radio"
+                aria-invalid={!!errorText}
+                aria-describedby={errorText ? errorId : undefined}
+            />
+            <StyledRadio />
+            <span>{label}</span>
+        </Label>
     );
 }
 

@@ -56,25 +56,13 @@ export const RadioGroup = styled.div`
     border-radius: 3px;
     margin: 5px 0;
 
-    & ${Label}:first-of-type > span {
+    & > ${Label}:first-of-type > span {
         border-radius: 3px 0 0 3px;
     }
 
-    & ${Label}:last-child > span {
+    & > ${Label}:last-of-type > span {
         border-radius: 0 3px 3px 0;
     }
-`;
-
-const ErrorContainer = styled.div`
-    color: ${getThemeValue(THEME_NAME.ERROR)};
-    padding-top: 3px;
-    font-size: 12px;
-    line-height: 14px;
-`;
-
-const Container = styled.div`
-    display: inline-flex;
-    flex-direction: column;
 `;
 
 type RadioButtonProps = {
@@ -103,19 +91,16 @@ function RadioButtonComponent(props: RadioButtonProps, forwardedRef: React.Ref<H
     }, [errorText]);
 
     return (
-        <Container>
-            <Label>
-                <Input
-                    {...rest}
-                    type="radio"
-                    ref={internalRef}
-                    aria-invalid={!!errorText}
-                    aria-describedby={errorText ? errorId : undefined}
-                />
-                <span>{label}</span>
-            </Label>
-            {errorText && <ErrorContainer id={errorId}>{errorText}</ErrorContainer>}
-        </Container>
+        <Label>
+            <Input
+                {...rest}
+                type="radio"
+                ref={internalRef}
+                aria-invalid={!!errorText}
+                aria-describedby={errorText ? errorId : undefined}
+            />
+            <span>{label}</span>
+        </Label>
     );
 }
 

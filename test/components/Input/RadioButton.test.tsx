@@ -79,13 +79,15 @@ describe('RadioButton', () => {
     });
 
     it('renders errorText and sets custom validity', () => {
-        const { getByText, getByRole, rerender } = render(<RadioButton label="Test" />);
+        const { getByRole, rerender, queryByText } = render(<RadioButton label="Test" />);
         const radio = getByRole('radio') as HTMLInputElement;
 
         expect(radio.validationMessage).toBe('');
 
         rerender(<RadioButton label="Test" errorText="Invalid option" />);
-        expect(getByText('Invalid option')).toBeInTheDocument();
+        // Visual error text should NOT be rendered
+        expect(queryByText('Invalid option')).not.toBeInTheDocument();
+        // But invalid state and message should be set on input
         expect(radio).toHaveAttribute('aria-invalid', 'true');
         expect(radio.validationMessage).toBe('Invalid option');
 
