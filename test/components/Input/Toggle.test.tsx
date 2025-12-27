@@ -70,4 +70,20 @@ describe('Toggle', () => {
         expect(toggle).not.toBeChecked();
         expect(handleChange).not.toHaveBeenCalled();
     });
+
+    it('renders errorText and sets custom validity', () => {
+        const { getByText, getByRole, rerender } = render(<Toggle label="Test" />);
+        const toggle = getByRole('switch') as HTMLInputElement;
+
+        expect(toggle.validationMessage).toBe('');
+
+        rerender(<Toggle label="Test" errorText="Invalid toggle" />);
+        expect(getByText('Invalid toggle')).toBeInTheDocument();
+        expect(toggle).toHaveAttribute('aria-invalid', 'true');
+        expect(toggle.validationMessage).toBe('Invalid toggle');
+
+        rerender(<Toggle label="Test" errorText="" />);
+        expect(toggle).toHaveAttribute('aria-invalid', 'false');
+        expect(toggle.validationMessage).toBe('');
+    });
 });

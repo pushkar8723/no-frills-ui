@@ -77,4 +77,20 @@ describe('RadioButton', () => {
         await user.tab();
         expect(radio).toHaveFocus();
     });
+
+    it('renders errorText and sets custom validity', () => {
+        const { getByText, getByRole, rerender } = render(<RadioButton label="Test" />);
+        const radio = getByRole('radio') as HTMLInputElement;
+
+        expect(radio.validationMessage).toBe('');
+
+        rerender(<RadioButton label="Test" errorText="Invalid option" />);
+        expect(getByText('Invalid option')).toBeInTheDocument();
+        expect(radio).toHaveAttribute('aria-invalid', 'true');
+        expect(radio.validationMessage).toBe('Invalid option');
+
+        rerender(<RadioButton label="Test" errorText="" />);
+        expect(radio).toHaveAttribute('aria-invalid', 'false');
+        expect(radio.validationMessage).toBe('');
+    });
 });

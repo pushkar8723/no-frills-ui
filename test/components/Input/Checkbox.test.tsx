@@ -77,4 +77,20 @@ describe('Checkbox', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('renders errorText and sets custom validity', () => {
+        const { getByText, getByRole, rerender } = render(<Checkbox label="Test" />);
+        const input = getByRole('checkbox') as HTMLInputElement;
+
+        expect(input.validationMessage).toBe('');
+
+        rerender(<Checkbox label="Test" errorText="Invalid selection" />);
+        expect(getByText('Invalid selection')).toBeInTheDocument();
+        expect(input).toHaveAttribute('aria-invalid', 'true');
+        expect(input.validationMessage).toBe('Invalid selection');
+
+        rerender(<Checkbox label="Test" errorText="" />);
+        expect(input).toHaveAttribute('aria-invalid', 'false');
+        expect(input.validationMessage).toBe('');
+    });
 });

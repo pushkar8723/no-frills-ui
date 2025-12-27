@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useId, useRef, useImperativeHandle } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -90,25 +90,58 @@ const HiddenInput = styled.input`
     }
 `;
 
+const ErrorContainer = styled.div`
+    color: ${getThemeValue(THEME_NAME.ERROR)};
+    padding-top: 3px;
+    font-size: 12px;
+    line-height: 14px;
+`;
+
+const Container = styled.div`
+    display: inline-flex;
+    flex-direction: column;
+`;
+
 type RadioProps = {
     /** Label for the field */
     label?: string;
+    /** Error text to be shown below the field */
+    errorText?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 /**
  * Radio Component
  * @param props - Component props
- * @param ref - Ref forwarded to the underlying HTMLInputElement
+ * @param forwardedRef - Ref forwarded to the underlying HTMLInputElement
  */
-function RadioComponent(props: RadioProps, ref: React.Ref<HTMLInputElement>) {
-    const { label, ...rest } = props;
+function RadioComponent(props: RadioProps, forwardedRef: React.Ref<HTMLInputElement>) {
+    const { label, errorText, ...rest } = props;
+    const internalRef = useRef<HTMLInputElement>(null);
+    const errorId = useId();
+
+    useImperativeHandle(forwardedRef, () => internalRef.current as HTMLInputElement);
+
+    useEffect(() => {
+        if (internalRef.current) {
+            internalRef.current.setCustomValidity(errorText || '');
+        }
+    }, [errorText]);
 
     return (
-        <Label>
-            <HiddenInput {...rest} ref={ref} type="radio" />
-            <StyledRadio />
-            <span>{label}</span>
-        </Label>
+        <Container>
+            <Label>
+                <HiddenInput
+                    {...rest}
+                    ref={internalRef}
+                    type="radio"
+                    aria-invalid={!!errorText}
+                    aria-describedby={errorText ? errorId : undefined}
+                />
+                <StyledRadio />
+                <span>{label}</span>
+            </Label>
+            {errorText && <ErrorContainer id={errorId}>{errorText}</ErrorContainer>}
+        </Container>
     );
 }
 
