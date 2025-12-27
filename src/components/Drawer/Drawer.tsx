@@ -292,7 +292,7 @@ export default class Drawer extends React.Component<
      * Lifecycle method to handle Drawer updates.
      * Manages opening/closing logic via LayerManager and focus preservation.
      */
-    getSnapshotBeforeUpdate(prevProps: DrawerProps) {
+    componentDidUpdate(prevProps: DrawerProps) {
         const { open } = this.props;
 
         if (prevProps.open && !open) {
@@ -305,8 +305,6 @@ export default class Drawer extends React.Component<
             this.lastFocusedElement = document.activeElement as HTMLElement;
             this.handleOpen();
         }
-
-        return null;
     }
 
     /**

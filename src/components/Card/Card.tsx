@@ -22,7 +22,7 @@ const StyledCard = styled.div<CardProps>`
 /**
  * Card Component
  * @param props - Component props
- * @param ref - Ref forwarded to the underlying HTMLDivElement
+ * @param ref - Ref forwarded to the underlying HTMLAr
  */
 function CardComponent(props: CardProps, ref: React.Ref<HTMLDivElement>) {
     return <StyledCard {...props} ref={ref} />;

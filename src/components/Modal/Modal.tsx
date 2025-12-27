@@ -242,7 +242,7 @@ export default class Modal extends React.Component<
      * Lifecycle method to handle Modal updates.
      * Manages opening/closing logic via LayerManager and focus preservation.
      */
-    getSnapshotBeforeUpdate(prevProps: ModalProps) {
+    componentDidUpdate(prevProps: ModalProps) {
         const { open } = this.props;
 
         if (prevProps.open && !open) {
@@ -255,8 +255,6 @@ export default class Modal extends React.Component<
             this.lastFocusedElement = document.activeElement as HTMLElement;
             this.handleOpen();
         }
-
-        return null;
     }
 
     /**

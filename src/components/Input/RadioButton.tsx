@@ -56,7 +56,7 @@ export const RadioGroup = styled.div`
     border-radius: 3px;
     margin: 5px 0;
 
-    & ${Label}:first-child > span {
+    & ${Label}:first-of-type > span {
         border-radius: 3px 0 0 3px;
     }
 

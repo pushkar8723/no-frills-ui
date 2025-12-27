@@ -8,7 +8,7 @@ export const Ellipsis = styled.span`
     flex: 1;
 `;
 
-export const Header = styled.h1`
+export const Header = styled.div`
     padding: 10px 15px;
     line-height: 26px;
     border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};
@@ -17,9 +17,10 @@ export const Header = styled.h1`
 `;
 
 export const Body = styled.div`
-    padding: 20px 15px;
+    padding: 0 15px;
+    margin: 20px 0;
     flex: 1;
-    overflow: auto;
+    overflow: visible;
 `;
 
 export const Footer = styled.div`

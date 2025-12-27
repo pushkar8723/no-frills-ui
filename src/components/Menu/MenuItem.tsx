@@ -4,7 +4,7 @@ import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import Checkbox from '../Input/Checkbox';
 import MenuContext, { MenuContextType } from './MenuContext';
 
-type MenuItemProps<T> = {
+export type MenuItemProps<T> = {
     /** Value of the element */
     value: T;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'>;

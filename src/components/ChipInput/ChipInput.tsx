@@ -40,6 +40,7 @@ const Label = styled.label<{
     touched?: boolean;
     errorText?: string;
     required?: boolean;
+    width?: string | number;
 }>`
     display: inline-flex;
     flex-direction: column;
@@ -48,10 +49,12 @@ const Label = styled.label<{
     margin: 10px 5px;
     color: inherit;
     padding: 0 8px;
-    width: 250px;
     border-radius: 3px;
     border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
+    width: ${(props) =>
+        typeof props.width === 'number' ? `${props.width}px` : props.width || '250px'};
+    max-width: 100%;
 
     /** Focused */
     &:has(:focus),
@@ -197,7 +200,7 @@ const VisuallyHidden = styled.ul`
  * ```
  */
 function ChipInputComponent(
-    props: ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>,
+    props: ChipInputProps & Omit<React.AllHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>,
     ref: React.Ref<HTMLInputElement | null>,
 ) {
     const {
@@ -321,6 +324,7 @@ function ChipInputComponent(
                 touched={touched}
                 errorText={props.errorText}
                 required={props.required}
+                width={props.width}
             >
                 <input
                     {...props}
@@ -363,7 +367,7 @@ function ChipInputComponent(
 
 const ChipInput = React.forwardRef<
     HTMLInputElement,
-    ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>
+    ChipInputProps & Omit<React.AllHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>
 >(ChipInputComponent);
 
 export default ChipInput;
