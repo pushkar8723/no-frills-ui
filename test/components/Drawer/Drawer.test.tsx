@@ -4,7 +4,13 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { Drawer, DRAWER_POSITION } from '../../../src/components/Drawer';
+import {
+    Drawer,
+    DRAWER_POSITION,
+    DrawerHeader,
+    DrawerBody,
+    DrawerFooter,
+} from '../../../src/components/Drawer';
 
 expect.extend(toHaveNoViolations);
 
@@ -252,44 +258,77 @@ describe('Drawer', () => {
     });
 
     it('traps focus within drawer with Tab key', () => {
-        const { getByTestId } = render(
+        const { getByTestId, getByText } = render(
             <Drawer open={true} position={DRAWER_POSITION.LEFT}>
-                <button>Button 1</button>
-                <button>Button 2</button>
-                <input type="text" />
+                <DrawerHeader>Header</DrawerHeader>
+                <DrawerBody>
+                    <button>Button 1</button>
+                    <button>Button 2</button>
+                </DrawerBody>
+                <DrawerFooter>
+                    <button data-testid="last-button">Footer Button</button>
+                </DrawerFooter>
             </Drawer>,
         );
 
-        const drawer = getByTestId('drawer-layer');
-        // Basic check that drawer contains focusable elements
-        expect(drawer.querySelectorAll('button, input')).toHaveLength(3);
+        const lastButton = getByTestId('last-button');
+        const firstInteractive = getByText('Button 1');
+
+        // Focus the last element
+        lastButton.focus();
+        expect(document.activeElement).toBe(lastButton);
+
+        // Simulate Tab key press
+        fireEvent.keyDown(lastButton, { key: 'Tab', code: 'Tab' });
+
+        // Focus should wrap to the first interactive element
+        expect(document.activeElement).toBe(firstInteractive);
     });
 
     it('traps focus within drawer with Shift+Tab', () => {
-        const { getByTestId } = render(
+        const { getByTestId, getByText } = render(
             <Drawer open={true} position={DRAWER_POSITION.LEFT}>
-                <button>Button 1</button>
-                <button>Button 2</button>
-                <input type="text" />
+                <DrawerHeader>Header</DrawerHeader>
+                <DrawerBody>
+                    <button>Button 1</button>
+                    <button>Button 2</button>
+                </DrawerBody>
+                <DrawerFooter>
+                    <button data-testid="last-button">Footer Button</button>
+                </DrawerFooter>
             </Drawer>,
         );
 
-        const drawer = getByTestId('drawer-layer');
-        // Basic check that drawer contains focusable elements
-        expect(drawer.querySelectorAll('button, input')).toHaveLength(3);
+        const lastButton = getByTestId('last-button');
+        const firstInteractive = getByText('Button 1');
+
+        // Focus the first interactive element
+        firstInteractive.focus();
+        expect(document.activeElement).toBe(firstInteractive);
+
+        // Simulate Shift+Tab key press
+        fireEvent.keyDown(firstInteractive, {
+            key: 'Tab',
+            code: 'Tab',
+            shiftKey: true,
+        });
+
+        // Focus should wrap to the last element
+        expect(document.activeElement).toBe(lastButton);
     });
 
     it('sets initial focus on first child when drawer opens', () => {
-        const { getByTestId } = render(
+        const { getByText } = render(
             <Drawer open={true} position={DRAWER_POSITION.LEFT}>
-                <div>First child</div>
-                <button>Button</button>
+                <DrawerHeader>First child header</DrawerHeader>
+                <DrawerBody>
+                    <button>Button</button>
+                </DrawerBody>
             </Drawer>,
         );
 
-        const drawer = getByTestId('drawer-layer');
-        // Check that the drawer contains the expected content
-        expect(drawer).toBeInTheDocument();
+        const header = getByText('First child header');
+        expect(document.activeElement).toBe(header);
     });
 
     it('forwards ref correctly', async () => {
