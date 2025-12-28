@@ -170,11 +170,15 @@ class Notification {
     public destroy = (position: NOTIFICATION_POSITION) => {
         const container = this.containers.get(position);
         if (container) {
-            container.root.unmount();
-            if (document.body.contains(container.div)) {
-                document.body.removeChild(container.div);
-            }
-            this.containers.delete(position);
+            // Defer unmount to avoid trying to synchronously unmount a root
+            // while React is already rendering which can cause a race.
+            setTimeout(() => {
+                container.root.unmount();
+                if (document.body.contains(container.div)) {
+                    document.body.removeChild(container.div);
+                }
+                this.containers.delete(position);
+            }, 0);
         }
     };
 }
