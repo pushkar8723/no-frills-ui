@@ -373,6 +373,52 @@ describe('Drawer', () => {
         expect(true).toBe(true); // Just verify no errors
     });
 
+    it('restores focus to the triggering element when closed', async () => {
+        const { getByRole, rerender } = render(
+            <div>
+                <button>Trigger</button>
+                <Drawer open={false} position={DRAWER_POSITION.LEFT}>
+                    <div>Drawer content</div>
+                </Drawer>
+            </div>,
+        );
+
+        const trigger = getByRole('button', { name: 'Trigger' });
+        trigger.focus();
+        expect(document.activeElement).toBe(trigger);
+
+        // Open drawer
+        rerender(
+            <div>
+                <button>Trigger</button>
+                <Drawer open={true} position={DRAWER_POSITION.LEFT}>
+                    <div>Drawer content</div>
+                </Drawer>
+            </div>,
+        );
+
+        // Drawer should be open, focus moved away from trigger
+        expect(document.activeElement).not.toBe(trigger);
+
+        // Close drawer
+        rerender(
+            <div>
+                <button>Trigger</button>
+                <Drawer open={false} position={DRAWER_POSITION.LEFT}>
+                    <div>Drawer content</div>
+                </Drawer>
+            </div>,
+        );
+
+        // Focus should be restored to trigger
+        await waitFor(
+            () => {
+                expect(document.activeElement).toBe(trigger);
+            },
+            { timeout: 500 },
+        );
+    });
+
     it('is accessible', async () => {
         const { container } = render(
             <Drawer open={true} position={DRAWER_POSITION.LEFT} aria-label="Test Drawer">

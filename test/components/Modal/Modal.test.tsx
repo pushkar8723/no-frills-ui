@@ -271,6 +271,52 @@ describe('Modal', () => {
         expect(true).toBe(true); // Just verify no errors
     });
 
+    it('restores focus to the triggering element when closed', async () => {
+        const { getByRole, rerender } = render(
+            <div>
+                <button>Trigger</button>
+                <Modal open={false}>
+                    <div>Modal content</div>
+                </Modal>
+            </div>,
+        );
+
+        const trigger = getByRole('button', { name: 'Trigger' });
+        trigger.focus();
+        expect(document.activeElement).toBe(trigger);
+
+        // Open modal
+        rerender(
+            <div>
+                <button>Trigger</button>
+                <Modal open={true}>
+                    <div>Modal content</div>
+                </Modal>
+            </div>,
+        );
+
+        // Modal should be open, focus moved away from trigger
+        expect(document.activeElement).not.toBe(trigger);
+
+        // Close modal
+        rerender(
+            <div>
+                <button>Trigger</button>
+                <Modal open={false}>
+                    <div>Modal content</div>
+                </Modal>
+            </div>,
+        );
+
+        // Focus should be restored to trigger
+        await waitFor(
+            () => {
+                expect(document.activeElement).toBe(trigger);
+            },
+            { timeout: 500 },
+        );
+    });
+
     it('is accessible', async () => {
         const { container } = render(
             <Modal open={true} aria-label="Test Modal">
