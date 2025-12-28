@@ -294,5 +294,31 @@ describe('ChipInput', () => {
             expect(getByText('React')).toBeInTheDocument();
             expect(getByText('TypeScript')).toBeInTheDocument();
         });
+
+        it('reorders chips on drag and drop', () => {
+            const handleChange = jest.fn();
+            const { getByText } = render(
+                <ChipInput
+                    label="Skills"
+                    value={['React', 'TypeScript', 'Node.js']}
+                    onChange={handleChange}
+                />,
+            );
+
+            const reactChip = getByText('React').closest('[draggable="true"]');
+            const typeScriptChip = getByText('TypeScript').closest('[draggable="true"]');
+
+            if (!reactChip || !typeScriptChip) {
+                throw new Error('Chips not found or not draggable');
+            }
+
+            // Simulate drag and drop
+            fireEvent.dragStart(reactChip);
+            fireEvent.dragOver(typeScriptChip);
+            fireEvent.drop(typeScriptChip);
+
+            // Assert that onChange was called with reordered chips
+            expect(handleChange).toHaveBeenCalledWith(['TypeScript', 'React', 'Node.js']);
+        });
     });
 });
