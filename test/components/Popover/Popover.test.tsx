@@ -185,4 +185,217 @@ describe('Popover', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    describe('overflow behavior', () => {
+        let originalClientWidth: number;
+        let originalClientHeight: number;
+
+        beforeAll(() => {
+            originalClientWidth = document.documentElement.clientWidth;
+            originalClientHeight = document.documentElement.clientHeight;
+        });
+
+        afterAll(() => {
+            Object.defineProperty(document.documentElement, 'clientWidth', {
+                configurable: true,
+                value: originalClientWidth,
+            });
+            Object.defineProperty(document.documentElement, 'clientHeight', {
+                configurable: true,
+                value: originalClientHeight,
+            });
+        });
+
+        it('adjusts position when overflowing BOTTOM_LEFT (bottom and right)', () => {
+            Object.defineProperty(document.documentElement, 'clientWidth', {
+                configurable: true,
+                value: 1000,
+            });
+            Object.defineProperty(document.documentElement, 'clientHeight', {
+                configurable: true,
+                value: 800,
+            });
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+                configurable: true,
+                value: 200,
+            });
+
+            const getBoundingClientRectMock = jest
+                .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+                .mockImplementation(function (this: HTMLElement) {
+                    if (this.getAttribute('role') === 'dialog') {
+                        return {
+                            top: 700,
+                            left: 900,
+                            right: 1100,
+                            bottom: 900,
+                            width: 200,
+                            height: 200,
+                        } as DOMRect;
+                    }
+                    return { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 } as DOMRect;
+                });
+
+            const { getByRole } = render(
+                <Popover
+                    open={true}
+                    position={POPOVER_POSITION.BOTTOM_LEFT}
+                    element={<TriggerButton />}
+                >
+                    <div style={{ height: '200px' }}>Content</div>
+                </Popover>,
+            );
+
+            const popper = getByRole('dialog');
+            // viewportHeight (800) - top (700) - height (200) = -100 -> translation.y = -105
+            // viewportWidth (1000) - right (1100) = -100 -> translation.x = -105
+            expect(popper).toHaveStyle('transform: translate(-105px, -105px)');
+
+            getBoundingClientRectMock.mockRestore();
+        });
+
+        it('adjusts position when overflowing BOTTOM_RIGHT (bottom and left)', () => {
+            Object.defineProperty(document.documentElement, 'clientWidth', {
+                configurable: true,
+                value: 1000,
+            });
+            Object.defineProperty(document.documentElement, 'clientHeight', {
+                configurable: true,
+                value: 800,
+            });
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+                configurable: true,
+                value: 200,
+            });
+
+            const getBoundingClientRectMock = jest
+                .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+                .mockImplementation(function (this: HTMLElement) {
+                    if (this.getAttribute('role') === 'dialog') {
+                        return {
+                            top: 700,
+                            left: -50,
+                            right: 150,
+                            bottom: 900,
+                            width: 200,
+                            height: 200,
+                        } as DOMRect;
+                    }
+                    return { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 } as DOMRect;
+                });
+
+            const { getByRole } = render(
+                <Popover
+                    open={true}
+                    position={POPOVER_POSITION.BOTTOM_RIGHT}
+                    element={<TriggerButton />}
+                >
+                    <div style={{ height: '200px' }}>Content</div>
+                </Popover>,
+            );
+
+            const popper = getByRole('dialog');
+            // viewportHeight (800) - top (700) - height (200) = -100 -> translation.y = -105
+            // left (-50) < 0 -> translation.x = 55
+            expect(popper).toHaveStyle('transform: translate(55px, -105px)');
+
+            getBoundingClientRectMock.mockRestore();
+        });
+
+        it('adjusts position when overflowing TOP_LEFT (top and right)', () => {
+            Object.defineProperty(document.documentElement, 'clientWidth', {
+                configurable: true,
+                value: 1000,
+            });
+            Object.defineProperty(document.documentElement, 'clientHeight', {
+                configurable: true,
+                value: 800,
+            });
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+                configurable: true,
+                value: 200,
+            });
+
+            const getBoundingClientRectMock = jest
+                .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+                .mockImplementation(function (this: HTMLElement) {
+                    if (this.getAttribute('role') === 'dialog') {
+                        return {
+                            top: 100,
+                            left: 900,
+                            right: 1100,
+                            bottom: 300,
+                            width: 200,
+                            height: 200,
+                        } as DOMRect;
+                    }
+                    return { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 } as DOMRect;
+                });
+
+            const { getByRole } = render(
+                <Popover
+                    open={true}
+                    position={POPOVER_POSITION.TOP_LEFT}
+                    element={<TriggerButton />}
+                >
+                    <div style={{ height: '200px' }}>Content</div>
+                </Popover>,
+            );
+
+            const popper = getByRole('dialog');
+            // top (100) - height (200) = -100 -> translation.y = 105
+            // viewportWidth (1000) - right (1100) = -100 -> translation.x = -105
+            expect(popper).toHaveStyle('transform: translate(-105px, 105px)');
+
+            getBoundingClientRectMock.mockRestore();
+        });
+
+        it('adjusts position when overflowing TOP_RIGHT (top and left)', () => {
+            Object.defineProperty(document.documentElement, 'clientWidth', {
+                configurable: true,
+                value: 1000,
+            });
+            Object.defineProperty(document.documentElement, 'clientHeight', {
+                configurable: true,
+                value: 800,
+            });
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+                configurable: true,
+                value: 200,
+            });
+
+            const getBoundingClientRectMock = jest
+                .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+                .mockImplementation(function (this: HTMLElement) {
+                    if (this.getAttribute('role') === 'dialog') {
+                        return {
+                            top: 100,
+                            left: -50,
+                            right: 150,
+                            bottom: 300,
+                            width: 200,
+                            height: 200,
+                        } as DOMRect;
+                    }
+                    return { top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0 } as DOMRect;
+                });
+
+            const { getByRole } = render(
+                <Popover
+                    open={true}
+                    position={POPOVER_POSITION.TOP_RIGHT}
+                    element={<TriggerButton />}
+                >
+                    <div style={{ height: '200px' }}>Content</div>
+                </Popover>,
+            );
+
+            const popper = getByRole('dialog');
+            // top (100) - height (200) = -100 -> translation.y = 105
+            // left (-50) < 0 -> translation.x = 55
+            expect(popper).toHaveStyle('transform: translate(55px, 105px)');
+
+            getBoundingClientRectMock.mockRestore();
+        });
+    });
 });
