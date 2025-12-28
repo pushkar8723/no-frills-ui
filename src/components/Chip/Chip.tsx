@@ -65,6 +65,7 @@ function ChipComponent(
         <Container {...rest} ref={ref} onKeyUp={keyUpHandler}>
             {label}
             <Button
+                type="button"
                 onClick={onCloseClick}
                 onKeyDown={buttonKeyDownHandler}
                 aria-label={closeButtonAriaLabel ?? `Remove ${label}`}

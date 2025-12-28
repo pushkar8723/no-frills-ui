@@ -285,6 +285,7 @@ class NotificationManager extends React.Component<
                                     )}
                                 </FillParent>
                                 <CloseButton
+                                    type="button"
                                     onClick={this.closeClickHandler(id)}
                                     aria-label={closeButtonAriaLabel || 'Close notification'}
                                     tabIndex={0}

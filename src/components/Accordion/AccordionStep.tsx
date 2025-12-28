@@ -152,6 +152,7 @@ function AccordionStepComponent(
     return (
         <Step {...restProps} ref={ref} open={open} elevated={open} completed={completed}>
             <StepHeader
+                type="button"
                 open={open}
                 disabled={disabled}
                 onClick={onStepClick}
