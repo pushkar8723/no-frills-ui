@@ -57,6 +57,47 @@ describe('Tabs', () => {
         expect(handleTabChange).toHaveBeenCalledWith(1);
     });
 
+    it('navigates focused tab with arrow keys', () => {
+        const { getByRole } = render(
+            <Tabs>
+                <Tab name="Tab 1">Content 1</Tab>
+                <Tab name="Tab 2">Content 2</Tab>
+                <Tab name="Tab 3">Content 3</Tab>
+            </Tabs>,
+        );
+
+        const tab1 = getByRole('tab', { name: 'Tab 1' });
+        const tab2 = getByRole('tab', { name: 'Tab 2' });
+        const tab3 = getByRole('tab', { name: 'Tab 3' });
+
+        tab1.focus();
+        expect(document.activeElement).toBe(tab1);
+
+        // ArrowRight
+        fireEvent.keyDown(tab1, { key: 'ArrowRight' });
+        expect(document.activeElement).toBe(tab2);
+
+        // ArrowDown
+        fireEvent.keyDown(tab2, { key: 'ArrowDown' });
+        expect(document.activeElement).toBe(tab3);
+
+        // Cyclic ArrowRight
+        fireEvent.keyDown(tab3, { key: 'ArrowRight' });
+        expect(document.activeElement).toBe(tab1);
+
+        // ArrowLeft
+        fireEvent.keyDown(tab1, { key: 'ArrowLeft' });
+        expect(document.activeElement).toBe(tab3);
+
+        // ArrowUp
+        fireEvent.keyDown(tab3, { key: 'ArrowUp' });
+        expect(document.activeElement).toBe(tab2);
+
+        // Cyclic ArrowLeft
+        fireEvent.keyDown(tab2, { key: 'ArrowLeft' });
+        expect(document.activeElement).toBe(tab1);
+    });
+
     it('is accessible', async () => {
         const { container } = render(
             <Tabs>
