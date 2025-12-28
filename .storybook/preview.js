@@ -27,6 +27,7 @@ const preview = {
                         'Extending Styles',
                         'Icons',
                         'Layer Manager',
+                        'With Formik',
                     ],
                     'Declarative Components',
                     [

@@ -1,0 +1,26 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as WithFormikStories from './WithFormik.stories';
+
+<Meta of={WithFormikStories} />
+
+# With Formik
+
+My choice of library for form handling is `formik` with `yup` for validation. Hence, I made sure that all
+the components are compatible with `formik`. `formik` provides `Field` component that works nicely with
+native elements and since most of our inputs are just styled native elements, it is quite easy to use with
+`formik`.
+
+The exception to this is complex components like `Dropdown` and `ChipInput`. For these components, addional
+`value` and `onChange` handler needs to be passed.
+
+The followind demo shows all these components in action with `formik` and `yup`.
+
+## Demo
+
+<iframe
+    src="https://codesandbox.io/embed/hh7kvv?fontsize=12&module=%2Fsrc%2FForm.tsx&hidenavigation=1"
+    style={{ width: '100%', height: '600px', border: '0', borderRadius: '4px', overflow: 'hidden' }}
+    title="with-formik"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+/>
