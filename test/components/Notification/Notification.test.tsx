@@ -15,6 +15,10 @@ describe('Notification', () => {
             act(() => {
                 Notification.destroy(position);
             });
+            // Allow macrotask unmounts to run (destroy defers via setTimeout)
+            act(() => {
+                jest.runOnlyPendingTimers();
+            });
         });
     });
 
@@ -24,7 +28,9 @@ describe('Notification', () => {
             act(() => {
                 Notification.destroy(position);
             });
-            jest.runOnlyPendingTimers();
+            act(() => {
+                jest.runOnlyPendingTimers();
+            });
         });
         jest.useRealTimers();
     });
@@ -223,8 +229,10 @@ describe('Notification', () => {
             Notification.destroy(NOTIFICATION_POSITION.TOP_RIGHT);
         });
 
-        // unmount is sync but effects might cleanup
-        await act(async () => {});
+        // Run pending macrotasks created by destroy
+        act(() => {
+            jest.runOnlyPendingTimers();
+        });
 
         expect(screen.queryByText('Destroy me')).toBeNull();
     });
