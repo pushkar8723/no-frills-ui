@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useImperativeHandle } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -108,6 +108,18 @@ const HiddenInput = styled.input`
     }
 `;
 
+const ErrorContainer = styled.div`
+    color: ${getThemeValue(THEME_NAME.ERROR)};
+    padding-top: 3px;
+    font-size: 12px;
+    line-height: 14px;
+`;
+
+const Container = styled.div`
+    display: inline-flex;
+    flex-direction: column;
+`;
+
 type CheckboxProps = {
     /**
      * Label for the field
@@ -119,6 +131,8 @@ type CheckboxProps = {
      * @default false
      */
     indeterminate?: boolean;
+    /** Error text to be shown below the field */
+    errorText?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 /**
@@ -127,37 +141,56 @@ type CheckboxProps = {
  * @param fwdRef - Ref forwarded to the underlying HTMLInputElement
  */
 function CheckboxComponent(props: CheckboxProps, fwdRef: React.Ref<HTMLInputElement>) {
-    const { label = '', indeterminate = false, checked, ...rest } = props;
+    const { label = '', indeterminate = false, checked, errorText, ...rest } = props;
+    const internalRef = useRef<HTMLInputElement | null>(null);
+    const errorId = useId();
+
+    useImperativeHandle(fwdRef, () => internalRef.current as HTMLInputElement);
+
+    useEffect(() => {
+        if (internalRef.current) {
+            internalRef.current.setCustomValidity(errorText || '');
+        }
+    }, [errorText]);
 
     const ref = useCallback(
         (node: HTMLInputElement | null) => {
+            internalRef.current = node;
             // Ensure the DOM `indeterminate` flag always matches the prop
             if (node) {
                 node.indeterminate = !!indeterminate;
             }
 
             // Forward the node (or null) to the parent ref (supports function or ref object)
-            if (typeof fwdRef === 'function') {
-                fwdRef(node);
-            } else if (fwdRef) {
-                (fwdRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
-            }
+            // Note: Since we use useImperativeHandle now, we don't technically need to manually forward here
+            // if we weren't doing the ref callback pattern for indeterminate.
+            // However, useImperativeHandle handles the forwarding.
+            // BUT, our local ref callback `ref` is passed to the input `ref={ref}`.
+            // React will call this callback with the node.
+            // Inside this callback, we set internalRef.current.
+            // useImperativeHandle exposes internalRef.current to fwdRef.
+            // So we don't need manual forwarding logic here anymore!
         },
-        [indeterminate, fwdRef],
+        [indeterminate],
     );
 
     return (
-        <Label>
-            <HiddenInput
-                {...rest}
-                ref={ref}
-                type="checkbox"
-                checked={checked}
-                aria-checked={indeterminate ? 'mixed' : checked}
-            />
-            <StyledCheckmark />
-            <span>{label}</span>
-        </Label>
+        <Container>
+            <Label>
+                <HiddenInput
+                    {...rest}
+                    ref={ref}
+                    type="checkbox"
+                    checked={checked}
+                    aria-checked={indeterminate ? 'mixed' : checked}
+                    aria-invalid={!!errorText}
+                    aria-describedby={errorText ? errorId : undefined}
+                />
+                <StyledCheckmark />
+                <span>{label}</span>
+            </Label>
+            {errorText && <ErrorContainer id={errorId}>{errorText}</ErrorContainer>}
+        </Container>
     );
 }
 

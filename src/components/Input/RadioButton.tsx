@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useId, useRef, useImperativeHandle } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 
@@ -56,11 +56,11 @@ export const RadioGroup = styled.div`
     border-radius: 3px;
     margin: 5px 0;
 
-    & ${Label}:first-child > span {
+    & > ${Label}:first-of-type > span {
         border-radius: 3px 0 0 3px;
     }
 
-    & ${Label}:last-child > span {
+    & > ${Label}:last-of-type > span {
         border-radius: 0 3px 3px 0;
     }
 `;
@@ -68,18 +68,37 @@ export const RadioGroup = styled.div`
 type RadioButtonProps = {
     /** Label for the field */
     label?: string;
+    /** Error text to be shown below the field */
+    errorText?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 /**
  * RadioButton Component
  * @param props - Component props
- * @param ref - Ref forwarded to the underlying HTMLInputElement
+ * @param forwardedRef - Ref forwarded to the underlying HTMLInputElement
  */
-function RadioButtonComponent(props: RadioButtonProps, ref: React.Ref<HTMLInputElement>) {
-    const { label, ...rest } = props;
+function RadioButtonComponent(props: RadioButtonProps, forwardedRef: React.Ref<HTMLInputElement>) {
+    const { label, errorText, ...rest } = props;
+    const internalRef = useRef<HTMLInputElement>(null);
+    const errorId = useId();
+
+    useImperativeHandle(forwardedRef, () => internalRef.current as HTMLInputElement);
+
+    useEffect(() => {
+        if (internalRef.current) {
+            internalRef.current.setCustomValidity(errorText || '');
+        }
+    }, [errorText]);
+
     return (
         <Label>
-            <Input {...rest} type="radio" ref={ref} />
+            <Input
+                {...rest}
+                type="radio"
+                ref={internalRef}
+                aria-invalid={!!errorText}
+                aria-describedby={errorText ? errorId : undefined}
+            />
             <span>{label}</span>
         </Label>
     );

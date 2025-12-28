@@ -262,8 +262,8 @@ export const Features: Story = {
           sticky: true,
         })
       }}>Sticky</Button>
-      <Button onClick={() => {
-        const id = Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
+      <Button onClick={async () => {
+        const id = await Notification.add(NOTIFICATION_POSITION.TOP_RIGHT, {
           title: 'Button Notification',
           description: 'This notification will contains a actionable button.',
           sticky: true,

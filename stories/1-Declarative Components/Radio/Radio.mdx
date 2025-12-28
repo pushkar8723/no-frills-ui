@@ -7,6 +7,11 @@ import * as RadioStories from './Radio.stories';
 
 Wraps `HTMLInputElement` of type `radio` in a React component to give additional `label` prop.
 
+> **Note:** We don't render the `errorText` prop on the `Radio` component as
+> `Radio` component act as a group. This error text is only use to set the
+> custom validity of the `input` element.
+> If you need to render the error text then use the `ErrorContainer` component.
+
 <Canvas of={RadioStories.Variants} />
 
 ```jsx

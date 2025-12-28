@@ -9,6 +9,7 @@ import { Card } from '../Card';
 const Step = styled(Card)<{ open?: boolean; completed?: boolean }>`
     transition: all 0.6s ease;
     overflow: visible;
+    display: flow-root;
 
     ${(props) => props.open && `margin: 20px 5px;`}
 `;
@@ -35,6 +36,7 @@ const StepHeader = styled.button<{ open?: boolean; disabled?: boolean }>`
 
     ${(props) =>
         props.open && `border-bottom: 1px solid ${getThemeValue(THEME_NAME.BORDER_LIGHT_COLOR)};`}
+    ${(props) => props.open && `border-radius: 10px 10px 0 0;`}
 
     ${(props) => props.disabled && `color: ${getThemeValue(THEME_NAME.DISABLED)};`}
 `;
@@ -151,6 +153,7 @@ function AccordionStepComponent(
     return (
         <Step {...restProps} ref={ref} open={open} elevated={open} completed={completed}>
             <StepHeader
+                type="button"
                 open={open}
                 disabled={disabled}
                 onClick={onStepClick}

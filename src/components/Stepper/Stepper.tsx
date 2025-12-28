@@ -1,4 +1,11 @@
-import React, { Children, PropsWithChildren, useState, isValidElement } from 'react';
+import React, {
+    Children,
+    PropsWithChildren,
+    useState,
+    isValidElement,
+    useEffect,
+    useRef,
+} from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import { Ellipsis } from '../../shared/styles';
@@ -107,6 +114,15 @@ function StepperComponent(props: StepperProps, ref: React.Ref<HTMLDivElement>) {
     const [active, setActive] = useState(propsActive);
     const childrenArray = Children.toArray(children);
     const stepRefs = [] as Array<HTMLButtonElement | null>;
+
+    const prevActiveRef = useRef<number | null>(null);
+
+    useEffect(() => {
+        if (prevActiveRef.current !== propsActive) {
+            setActive(propsActive);
+        }
+        prevActiveRef.current = propsActive;
+    }, [propsActive]);
 
     const stepClickHandler = (index: number) => () => {
         setActive(index);

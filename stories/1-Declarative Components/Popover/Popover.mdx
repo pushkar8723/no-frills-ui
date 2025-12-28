@@ -29,7 +29,7 @@ const TriggerButton = forwardRef((props, ref) => (
 <Popover
     open={open}
     position={POPOVER_POSITION.TOP_RIGHT}
-    element={TriggerButton}
+    element={<TriggerButton />}
     onClose={() => setOpen(false)}
 >
     Popover Content goes here

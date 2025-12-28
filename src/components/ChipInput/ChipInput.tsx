@@ -34,24 +34,31 @@ interface ChipInputProps {
     removedAnnouncementTemplate?: string;
 }
 
+// Container for the ChipInput
+const Container = styled.div`
+    margin: 10px 5px;
+`;
+
 // Label component for the ChipInput
 const Label = styled.label<{
     text: string;
     touched?: boolean;
     errorText?: string;
     required?: boolean;
+    width?: string | number;
 }>`
     display: inline-flex;
     flex-direction: column;
     flex: 1;
     position: relative;
-    margin: 10px 5px;
     color: inherit;
     padding: 0 8px;
-    width: 250px;
     border-radius: 3px;
     border: 1px solid ${getThemeValue(THEME_NAME.BORDER_COLOR)};
     background-color: ${getThemeValue(THEME_NAME.BACKGROUND)};
+    width: ${(props) =>
+        typeof props.width === 'number' ? `${props.width}px` : props.width || '250px'};
+    max-width: 100%;
 
     /** Focused */
     &:has(:focus),
@@ -197,14 +204,19 @@ const VisuallyHidden = styled.ul`
  * ```
  */
 function ChipInputComponent(
-    props: ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>,
+    props: ChipInputProps & Omit<React.AllHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>,
     ref: React.Ref<HTMLInputElement | null>,
 ) {
     const {
         value: propValue = [],
+        onChange: onChangeCallback,
+        label,
+        errorText,
         closeButtonAriaLabel = `Remove {:label}`,
         addedAnnouncementTemplate = '{:label} was added',
         removedAnnouncementTemplate = '{:label} was removed',
+        width,
+        ...inputProps
     } = props;
 
     const [text, setText] = useState('');
@@ -245,6 +257,12 @@ function ChipInputComponent(
         }
     }, [propValue]);
 
+    useEffect(() => {
+        if (InputRef.current) {
+            InputRef.current.setCustomValidity(errorText || '');
+        }
+    }, [errorText]);
+
     /**
      * Update the chip values and notify changes.
      * @param newValue The new array of chip values
@@ -252,7 +270,7 @@ function ChipInputComponent(
     const updateValue = (newValue: string[]) => {
         const deduped = Array.from(new Set(newValue));
         setValue(deduped);
-        props.onChange?.(deduped);
+        onChangeCallback?.(deduped);
     };
 
     /**
@@ -261,8 +279,8 @@ function ChipInputComponent(
      */
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         setTouched(true);
-        if (props.onFocus) {
-            props.onFocus(e);
+        if (inputProps.onFocus) {
+            inputProps.onFocus(e);
         }
     };
 
@@ -278,12 +296,26 @@ function ChipInputComponent(
      * Adds a new chip on Enter key press.
      * @param e React keyboard event
      */
-    const handleKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-        if (e.key === 'Enter' && text.trim() !== '' && InputRef.current?.validity.valid) {
-            const newValue = [...value, text.trim()];
-            updateValue(newValue);
-            setText('');
-            setAnnouncement(replacePlaceholder(addedAnnouncementTemplate, text.trim())!);
+    const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key === 'Enter') {
+            // Check validity against HTML5 constraints only (ignore custom validity from errorText)
+            let isValid;
+            if (InputRef.current) {
+                InputRef.current.setCustomValidity('');
+                isValid = InputRef.current.checkValidity();
+                InputRef.current.setCustomValidity(errorText || '');
+            }
+
+            // Only prevent form submission if we have valid text to add as a chip
+            if (text.trim() !== '' && isValid) {
+                e.preventDefault();
+                e.stopPropagation();
+                const newValue = [...value, text.trim()];
+                updateValue(newValue);
+                setText('');
+                setAnnouncement(replacePlaceholder(addedAnnouncementTemplate, text.trim())!);
+            }
+            // Otherwise, allow form submission to proceed
         }
     };
 
@@ -316,44 +348,47 @@ function ChipInputComponent(
     // Render the component
     return (
         <>
-            <Label
-                text={text}
-                touched={touched}
-                errorText={props.errorText}
-                required={props.required}
-            >
-                <input
-                    {...props}
-                    ref={InputRef}
-                    value={text}
-                    onChange={handleChange}
-                    onFocus={handleFocus}
-                    onKeyUp={handleKeyUp}
-                    required={props.required && value.length === 0}
-                    aria-required={props.required}
-                    aria-invalid={!!props.errorText}
-                    aria-describedby={props.errorText ? errorId : undefined}
-                />
-                <div>
-                    {value?.length > 0 && (
-                        <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
-                            {value.map((chip) => (
-                                <Chip
-                                    key={chip}
-                                    label={chip}
-                                    onCloseClick={() => removeChip(chip)}
-                                    closeButtonAriaLabel={replacePlaceholder(
-                                        closeButtonAriaLabel,
-                                        chip,
-                                    )}
-                                />
-                            ))}
-                        </DragAndDrop>
-                    )}
-                </div>
-                <span>{props.label}</span>
-                {props.errorText && <ErrorContainer id={errorId}>{props.errorText}</ErrorContainer>}
-            </Label>
+            <Container>
+                <Label
+                    text={text}
+                    touched={touched}
+                    errorText={errorText}
+                    required={inputProps.required}
+                    width={width}
+                >
+                    <input
+                        {...inputProps}
+                        ref={InputRef}
+                        value={text}
+                        onChange={handleChange}
+                        onFocus={handleFocus}
+                        onKeyDown={handleKeyDown}
+                        required={inputProps.required && value.length === 0}
+                        aria-required={inputProps.required}
+                        aria-invalid={!!errorText}
+                        aria-describedby={errorText ? errorId : undefined}
+                    />
+                    <div>
+                        {value?.length > 0 && (
+                            <DragAndDrop orientation={ORIENTATION.HORIZONTAL} onDrop={onDrop}>
+                                {value.map((chip) => (
+                                    <Chip
+                                        key={chip}
+                                        label={chip}
+                                        onCloseClick={() => removeChip(chip)}
+                                        closeButtonAriaLabel={replacePlaceholder(
+                                            closeButtonAriaLabel,
+                                            chip,
+                                        )}
+                                    />
+                                ))}
+                            </DragAndDrop>
+                        )}
+                    </div>
+                    <span>{label}</span>
+                </Label>
+                {errorText && <ErrorContainer id={errorId}>{errorText}</ErrorContainer>}
+            </Container>
             <VisuallyHidden aria-live="polite" aria-atomic="true">
                 {announcement}
             </VisuallyHidden>
@@ -363,7 +398,7 @@ function ChipInputComponent(
 
 const ChipInput = React.forwardRef<
     HTMLInputElement,
-    ChipInputProps & React.AllHTMLAttributes<HTMLInputElement>
+    ChipInputProps & Omit<React.AllHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>
 >(ChipInputComponent);
 
 export default ChipInput;

@@ -4,7 +4,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
-import { Modal } from '../../../src/components/Modal';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from '../../../src/components/Modal';
 
 expect.extend(toHaveNoViolations);
 
@@ -157,44 +157,77 @@ describe('Modal', () => {
     });
 
     it('traps focus within modal with Tab key', () => {
-        const { getByTestId } = render(
+        const { getByTestId, getByText } = render(
             <Modal open={true}>
-                <button>Button 1</button>
-                <button>Button 2</button>
-                <input type="text" />
+                <ModalHeader>Header</ModalHeader>
+                <ModalBody>
+                    <button>Button 1</button>
+                    <button>Button 2</button>
+                </ModalBody>
+                <ModalFooter>
+                    <button data-testid="last-button">Footer Button</button>
+                </ModalFooter>
             </Modal>,
         );
 
-        const modal = getByTestId('modal-layer');
-        // Basic check that modal contains focusable elements
-        expect(modal.querySelectorAll('button, input')).toHaveLength(3);
+        const lastButton = getByTestId('last-button');
+        const firstInteractive = getByText('Button 1');
+
+        // Focus the last element
+        lastButton.focus();
+        expect(document.activeElement).toBe(lastButton);
+
+        // Simulate Tab key press
+        fireEvent.keyDown(lastButton, { key: 'Tab', code: 'Tab' });
+
+        // Focus should wrap to the first interactive element
+        expect(document.activeElement).toBe(firstInteractive);
     });
 
     it('traps focus within modal with Shift+Tab', () => {
-        const { getByTestId } = render(
+        const { getByTestId, getByText } = render(
             <Modal open={true}>
-                <button>Button 1</button>
-                <button>Button 2</button>
-                <input type="text" />
+                <ModalHeader>Header</ModalHeader>
+                <ModalBody>
+                    <button>Button 1</button>
+                    <button>Button 2</button>
+                </ModalBody>
+                <ModalFooter>
+                    <button data-testid="last-button">Footer Button</button>
+                </ModalFooter>
             </Modal>,
         );
 
-        const modal = getByTestId('modal-layer');
-        // Basic check that modal contains focusable elements
-        expect(modal.querySelectorAll('button, input')).toHaveLength(3);
+        const lastButton = getByTestId('last-button');
+        const firstInteractive = getByText('Button 1');
+
+        // Focus the first interactive element
+        firstInteractive.focus();
+        expect(document.activeElement).toBe(firstInteractive);
+
+        // Simulate Shift+Tab key press
+        fireEvent.keyDown(firstInteractive, {
+            key: 'Tab',
+            code: 'Tab',
+            shiftKey: true,
+        });
+
+        // Focus should wrap to the last element
+        expect(document.activeElement).toBe(lastButton);
     });
 
     it('sets initial focus on first child when modal opens', () => {
-        const { getByTestId } = render(
+        const { getByText } = render(
             <Modal open={true}>
-                <div>First child</div>
-                <button>Button</button>
+                <ModalHeader>First child header</ModalHeader>
+                <ModalBody>
+                    <button>Button</button>
+                </ModalBody>
             </Modal>,
         );
 
-        const modal = getByTestId('modal-layer');
-        // Check that the modal contains the expected content
-        expect(modal).toBeInTheDocument();
+        const header = getByText('First child header');
+        expect(document.activeElement).toBe(header);
     });
 
     it('forwards ref correctly', () => {
@@ -236,6 +269,52 @@ describe('Modal', () => {
         );
 
         expect(true).toBe(true); // Just verify no errors
+    });
+
+    it('restores focus to the triggering element when closed', async () => {
+        const { getByRole, rerender } = render(
+            <div>
+                <button>Trigger</button>
+                <Modal open={false}>
+                    <div>Modal content</div>
+                </Modal>
+            </div>,
+        );
+
+        const trigger = getByRole('button', { name: 'Trigger' });
+        trigger.focus();
+        expect(document.activeElement).toBe(trigger);
+
+        // Open modal
+        rerender(
+            <div>
+                <button>Trigger</button>
+                <Modal open={true}>
+                    <div>Modal content</div>
+                </Modal>
+            </div>,
+        );
+
+        // Modal should be open, focus moved away from trigger
+        expect(document.activeElement).not.toBe(trigger);
+
+        // Close modal
+        rerender(
+            <div>
+                <button>Trigger</button>
+                <Modal open={false}>
+                    <div>Modal content</div>
+                </Modal>
+            </div>,
+        );
+
+        // Focus should be restored to trigger
+        await waitFor(
+            () => {
+                expect(document.activeElement).toBe(trigger);
+            },
+            { timeout: 500 },
+        );
     });
 
     it('is accessible', async () => {

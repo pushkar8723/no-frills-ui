@@ -91,7 +91,7 @@ type PopoverProps = {
     /** Opens the popover */
     open: boolean;
     /** Anchor element for the popover */
-    element: React.ElementType;
+    element: React.ReactElement;
     /**
      * Position of the popover around anchor element
      * @default POPOVER_POSITION.BOTTOM_LEFT
@@ -292,13 +292,13 @@ function PopoverComponent(
 
     return (
         <PopoverDiv ref={forwardRef} {...rest}>
-            {React.createElement(element, {
+            {React.cloneElement(element, {
                 ref: triggerRef,
                 id: triggerId,
                 'aria-expanded': open,
                 'aria-haspopup': 'dialog',
                 'aria-controls': popperId,
-            })}
+            } as React.Attributes)}
             {open && (
                 <Popper
                     elevated

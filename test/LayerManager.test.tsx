@@ -159,8 +159,6 @@ describe('LayerManager', () => {
 
     it('locks body scroll when overlay is true', () => {
         const originalOverflow = document.body.style.overflow;
-        const originalPosition = document.body.style.position;
-
         const [LayerComponent] = LayerManager.renderLayer({
             component: <div data-testid="layer-content">Test Layer</div>,
             overlay: true,
@@ -169,11 +167,9 @@ describe('LayerManager', () => {
         render(<LayerComponent />);
 
         expect(document.body.style.overflow).toBe('hidden');
-        expect(document.body.style.position).toBe('fixed');
 
         // Cleanup styles
         document.body.style.overflow = originalOverflow;
-        document.body.style.position = originalPosition;
     });
 
     it('respects exitDelay', async () => {

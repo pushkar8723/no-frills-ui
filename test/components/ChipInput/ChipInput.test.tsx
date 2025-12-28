@@ -151,4 +151,174 @@ describe('ChipInput', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('sets custom validity when errorText is provided', () => {
+        const { getByRole, rerender } = render(<ChipInput label="Skills" />);
+        const input = getByRole('textbox') as HTMLInputElement;
+
+        expect(input.validationMessage).toBe('');
+
+        rerender(<ChipInput label="Skills" errorText="Invalid chips" />);
+        expect(input.validationMessage).toBe('Invalid chips');
+
+        rerender(<ChipInput label="Skills" errorText="" />);
+        expect(input.validationMessage).toBe('');
+    });
+
+    describe('Form submission behavior', () => {
+        it('prevents form submission when adding a chip with Enter', async () => {
+            const user = userEvent.setup();
+            const handleSubmit = jest.fn((e) => e.preventDefault());
+            const handleChange = jest.fn();
+
+            const { getByRole } = render(
+                <form onSubmit={handleSubmit}>
+                    <ChipInput label="Skills" onChange={handleChange} />
+                </form>,
+            );
+
+            const input = getByRole('textbox');
+            await user.type(input, 'React{enter}');
+
+            // Chip should be added
+            expect(handleChange).toHaveBeenCalledWith(['React']);
+            // Form should NOT be submitted
+            expect(handleSubmit).not.toHaveBeenCalled();
+        });
+
+        it('allows form submission when pressing Enter with empty input', async () => {
+            const user = userEvent.setup();
+            const handleSubmit = jest.fn((e) => e.preventDefault());
+            const handleChange = jest.fn();
+
+            const { getByRole } = render(
+                <form onSubmit={handleSubmit}>
+                    <ChipInput label="Skills" value={['React']} onChange={handleChange} />
+                </form>,
+            );
+
+            const input = getByRole('textbox');
+            await user.click(input);
+            await user.keyboard('{enter}');
+
+            // No chip should be added
+            expect(handleChange).not.toHaveBeenCalled();
+            // Form SHOULD be submitted
+            expect(handleSubmit).toHaveBeenCalled();
+        });
+
+        it('prevents form submission when adding chip even with errorText', async () => {
+            const user = userEvent.setup();
+            const handleSubmit = jest.fn((e) => e.preventDefault());
+            const handleChange = jest.fn();
+
+            const { getByRole } = render(
+                <form onSubmit={handleSubmit}>
+                    <ChipInput
+                        label="Skills"
+                        onChange={handleChange}
+                        errorText="At least 3 skills required"
+                    />
+                </form>,
+            );
+
+            const input = getByRole('textbox');
+            await user.type(input, 'React{enter}');
+
+            // Chip should still be added despite errorText
+            expect(handleChange).toHaveBeenCalledWith(['React']);
+            // Form should NOT be submitted
+            expect(handleSubmit).not.toHaveBeenCalled();
+        });
+
+        it('does not submit form when chip close button is clicked', () => {
+            const handleSubmit = jest.fn((e) => e.preventDefault());
+            const handleChange = jest.fn();
+
+            const { getByLabelText } = render(
+                <form onSubmit={handleSubmit}>
+                    <ChipInput
+                        label="Skills"
+                        value={['React', 'TypeScript']}
+                        onChange={handleChange}
+                    />
+                </form>,
+            );
+
+            const closeButton = getByLabelText('Remove React');
+            fireEvent.click(closeButton);
+
+            // Chip should be removed
+            expect(handleChange).toHaveBeenCalledWith(['TypeScript']);
+            // Form should NOT be submitted
+            expect(handleSubmit).not.toHaveBeenCalled();
+        });
+
+        it('prevents form submission when Enter is pressed with invalid input', async () => {
+            const user = userEvent.setup();
+            const handleSubmit = jest.fn((e) => e.preventDefault());
+            const handleChange = jest.fn();
+
+            const { getByRole } = render(
+                <form onSubmit={handleSubmit}>
+                    <ChipInput label="Emails" type="email" onChange={handleChange} />
+                </form>,
+            );
+
+            const input = getByRole('textbox');
+            await user.type(input, 'invalid-email{enter}');
+
+            // Chip should NOT be added (invalid email)
+            expect(handleChange).not.toHaveBeenCalled();
+            // Form SHOULD be submitted (no valid text to add)
+            expect(handleSubmit).toHaveBeenCalled();
+        });
+
+        it('maintains chip values after form submission', async () => {
+            const user = userEvent.setup();
+            const handleSubmit = jest.fn((e) => e.preventDefault());
+            const { getByRole, getByText } = render(
+                <form onSubmit={handleSubmit}>
+                    <ChipInput label="Skills" value={['React', 'TypeScript']} />
+                </form>,
+            );
+
+            const input = getByRole('textbox');
+            await user.click(input);
+            await user.keyboard('{enter}');
+
+            // Form should be submitted
+            expect(handleSubmit).toHaveBeenCalled();
+
+            // Chips should still be visible
+            expect(getByText('React')).toBeInTheDocument();
+            expect(getByText('TypeScript')).toBeInTheDocument();
+        });
+
+        it('reorders chips on drag and drop', () => {
+            const handleChange = jest.fn();
+            const { getByText } = render(
+                <ChipInput
+                    label="Skills"
+                    value={['React', 'TypeScript', 'Node.js']}
+                    onChange={handleChange}
+                />,
+            );
+
+            const reactChip = getByText('React').closest('[draggable="true"]');
+            const typeScriptChip = getByText('TypeScript').closest('[draggable="true"]');
+
+            if (!reactChip || !typeScriptChip) {
+                throw new Error('Chips not found or not draggable');
+            }
+
+            // Simulate drag and drop
+            fireEvent.dragStart(reactChip);
+            fireEvent.dragOver(typeScriptChip);
+            fireEvent.drop(typeScriptChip);
+
+            // Assert that onChange was called with reordered chips
+            expect(handleChange).toHaveBeenCalledWith(['TypeScript', 'React', 'Node.js']);
+        });
+    });
 });

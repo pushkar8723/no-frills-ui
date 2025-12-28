@@ -208,4 +208,22 @@ describe('Radio', () => {
         expect(radios[0]).toBeChecked();
         expect(radios[1]).not.toBeChecked();
     });
+
+    it('renders errorText and sets custom validity', () => {
+        const { getByRole, rerender, queryByText } = render(<Radio label="Test" />);
+        const radio = getByRole('radio') as HTMLInputElement;
+
+        expect(radio.validationMessage).toBe('');
+
+        rerender(<Radio label="Test" errorText="Invalid choice" />);
+        // Visual error text should NOT be rendered
+        expect(queryByText('Invalid choice')).not.toBeInTheDocument();
+        // But invalid state and message should be set on input
+        expect(radio).toHaveAttribute('aria-invalid', 'true');
+        expect(radio.validationMessage).toBe('Invalid choice');
+
+        rerender(<Radio label="Test" errorText="" />);
+        expect(radio).toHaveAttribute('aria-invalid', 'false');
+        expect(radio.validationMessage).toBe('');
+    });
 });

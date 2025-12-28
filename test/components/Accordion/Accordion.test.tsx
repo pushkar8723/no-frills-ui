@@ -191,4 +191,38 @@ describe('Accordion', () => {
         expect(getByText('Step 1')).toBeInTheDocument();
         expect(getByText('Text Child')).toBeInTheDocument();
     });
+
+    it('works as a controlled component', () => {
+        const { getByText, queryByText, rerender } = render(
+            <Accordion active={0}>
+                <AccordionStep header="Step 1">Content 1</AccordionStep>
+                <AccordionStep header="Step 2">Content 2</AccordionStep>
+            </Accordion>,
+        );
+
+        expect(getByText('Content 1')).toBeInTheDocument();
+        expect(queryByText('Content 2')).not.toBeInTheDocument();
+
+        // Update prop to open Step 2
+        rerender(
+            <Accordion active={1}>
+                <AccordionStep header="Step 1">Content 1</AccordionStep>
+                <AccordionStep header="Step 2">Content 2</AccordionStep>
+            </Accordion>,
+        );
+
+        expect(queryByText('Content 1')).not.toBeInTheDocument();
+        expect(getByText('Content 2')).toBeInTheDocument();
+
+        // Update prop to close all
+        rerender(
+            <Accordion active={-1}>
+                <AccordionStep header="Step 1">Content 1</AccordionStep>
+                <AccordionStep header="Step 2">Content 2</AccordionStep>
+            </Accordion>,
+        );
+
+        expect(queryByText('Content 1')).not.toBeInTheDocument();
+        expect(queryByText('Content 2')).not.toBeInTheDocument();
+    });
 });

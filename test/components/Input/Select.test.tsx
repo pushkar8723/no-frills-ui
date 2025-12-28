@@ -111,4 +111,29 @@ describe('Select', () => {
         const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
+
+    it('sets custom validity when errorText is provided', () => {
+        const { getByRole, rerender } = render(
+            <Select label="Test">
+                <option value="1">Option 1</option>
+            </Select>,
+        );
+        const select = getByRole('combobox') as HTMLSelectElement;
+
+        expect(select.validationMessage).toBe('');
+
+        rerender(
+            <Select label="Test" errorText="Invalid selection">
+                <option value="1">Option 1</option>
+            </Select>,
+        );
+        expect(select.validationMessage).toBe('Invalid selection');
+
+        rerender(
+            <Select label="Test" errorText="">
+                <option value="1">Option 1</option>
+            </Select>,
+        );
+        expect(select.validationMessage).toBe('');
+    });
 });

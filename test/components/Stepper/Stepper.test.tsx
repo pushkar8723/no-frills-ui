@@ -84,6 +84,47 @@ describe('Stepper', () => {
         expect(step1Button).toHaveAttribute('aria-selected', 'true');
     });
 
+    it('navigates focused step with arrow keys', () => {
+        const { getByRole } = render(
+            <Stepper>
+                <Step name="Step 1">Content 1</Step>
+                <Step name="Step 2">Content 2</Step>
+                <Step name="Step 3">Content 3</Step>
+            </Stepper>,
+        );
+
+        const step1Button = getByRole('tab', { name: 'Step 1' });
+        const step2Button = getByRole('tab', { name: 'Step 2' });
+        const step3Button = getByRole('tab', { name: 'Step 3' });
+
+        step1Button.focus();
+        expect(document.activeElement).toBe(step1Button);
+
+        // ArrowRight
+        fireEvent.keyDown(step1Button, { key: 'ArrowRight' });
+        expect(document.activeElement).toBe(step2Button);
+
+        // ArrowDown
+        fireEvent.keyDown(step2Button, { key: 'ArrowDown' });
+        expect(document.activeElement).toBe(step3Button);
+
+        // Cyclic ArrowRight
+        fireEvent.keyDown(step3Button, { key: 'ArrowRight' });
+        expect(document.activeElement).toBe(step1Button);
+
+        // ArrowLeft
+        fireEvent.keyDown(step1Button, { key: 'ArrowLeft' });
+        expect(document.activeElement).toBe(step3Button);
+
+        // ArrowUp
+        fireEvent.keyDown(step3Button, { key: 'ArrowUp' });
+        expect(document.activeElement).toBe(step2Button);
+
+        // Cyclic ArrowLeft
+        fireEvent.keyDown(step2Button, { key: 'ArrowLeft' });
+        expect(document.activeElement).toBe(step1Button);
+    });
+
     it('is accessible', async () => {
         const { container } = render(
             <Stepper>
