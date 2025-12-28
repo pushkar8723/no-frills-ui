@@ -303,7 +303,9 @@ class Toast {
             ),
         });
         const Component = this.toast[0];
-        this.root = createRoot(this.element);
+        if (!this.root) {
+            this.root = createRoot(this.element);
+        }
         this.root.render(<Component />);
 
         this.timeout = setTimeout(() => {
