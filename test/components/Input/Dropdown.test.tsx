@@ -342,4 +342,77 @@ describe('Dropdown', () => {
         );
         expect(input.validationMessage).toBe('');
     });
+
+    it('supports functional ref', () => {
+        let refNode: HTMLInputElement | null = null;
+        const functionalRef = (node: HTMLInputElement | null) => {
+            refNode = node;
+        };
+        render(
+            <Dropdown ref={functionalRef} label="Test">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+
+        expect(refNode).not.toBeNull();
+        expect(refNode).toHaveProperty('tagName', 'INPUT');
+    });
+
+    it('supports useRef-style ref', () => {
+        let capturedRef: HTMLInputElement | null = null;
+        const TestComponent = () => {
+            const ref = React.useRef<HTMLInputElement>(null);
+
+            React.useEffect(() => {
+                capturedRef = ref.current;
+            }, []);
+
+            return (
+                <Dropdown ref={ref} label="Test">
+                    {mockOptions.map((option) => (
+                        <MenuItem key={option.id} value={option}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Dropdown>
+            );
+        };
+        render(<TestComponent />);
+        expect(capturedRef).not.toBeNull();
+        expect(capturedRef).toHaveProperty('tagName', 'INPUT');
+    });
+
+    it('prevents default behavior for non-navigation keys', () => {
+        const { getByRole } = render(
+            <Dropdown label="Test">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        const trigger = getByRole('combobox');
+        const event = fireEvent.keyDown(trigger, { key: 'a' });
+        expect(event).toBe(false); // fireEvent returns false if preventDefault was called
+    });
+
+    it('does not prevent default for Tab key', () => {
+        const { getByRole } = render(
+            <Dropdown label="Test">
+                {mockOptions.map((option) => (
+                    <MenuItem key={option.id} value={option}>
+                        {option.label}
+                    </MenuItem>
+                ))}
+            </Dropdown>,
+        );
+        const trigger = getByRole('combobox');
+        const event = fireEvent.keyDown(trigger, { key: 'Tab' });
+        expect(event).toBe(true);
+    });
 });
