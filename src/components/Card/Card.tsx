@@ -15,7 +15,8 @@ const StyledCard = styled.div<CardProps>`
             ? `box-shadow: ${getThemeValue(THEME_NAME.MODAL_SHADOW)};`
             : `box-shadow: ${getThemeValue(THEME_NAME.SHADOW)};`}
     margin: 5px;
-    overflow: auto;
+    overflow: visible;
+    display: flow-root;
     position: relative;
 `;
 

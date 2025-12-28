@@ -21,6 +21,7 @@ export const Body = styled.div`
     margin: 20px 0;
     flex: 1;
     overflow: visible;
+    display: flow-root;
 `;
 
 export const Footer = styled.div`

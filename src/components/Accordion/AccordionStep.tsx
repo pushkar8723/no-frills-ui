@@ -9,6 +9,7 @@ import { Card } from '../Card';
 const Step = styled(Card)<{ open?: boolean; completed?: boolean }>`
     transition: all 0.6s ease;
     overflow: visible;
+    display: flow-root;
 
     ${(props) => props.open && `margin: 20px 5px;`}
 `;
