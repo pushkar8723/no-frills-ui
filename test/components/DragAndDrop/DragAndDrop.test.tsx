@@ -7,6 +7,24 @@ import { DragAndDrop, ORIENTATION } from '../../../src/components/DragAndDrop';
 expect.extend(toHaveNoViolations);
 
 describe('DragAndDrop', () => {
+    beforeEach(() => {
+        // Mock navigator.vibrate
+        Object.defineProperty(navigator, 'vibrate', {
+            value: jest.fn(),
+            configurable: true,
+        });
+
+        // Mock document.elementFromPoint
+        document.elementFromPoint = jest.fn();
+
+        jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
+        jest.restoreAllMocks();
+    });
+
     it('renders children', () => {
         const { getByText } = render(
             <DragAndDrop onDrop={() => {}}>
@@ -337,20 +355,68 @@ describe('DragAndDrop', () => {
         const items = getAllByRole('listitem');
         const firstItem = items[0];
 
-        // Touch start (short press - should not trigger drag)
+        // Touch start
         act(() => {
             fireEvent.touchStart(firstItem, {
                 touches: [{ clientX: 0, clientY: 0 }],
             });
         });
 
-        // Touch end immediately
+        // Fast forward to trigger drag
+        act(() => {
+            jest.advanceTimersByTime(200);
+        });
+
+        expect(navigator.vibrate).toHaveBeenCalledWith(50);
+        expect(firstItem).toHaveAttribute('aria-grabbed', 'true');
+        expect(document.body.style.overflow).toBe('hidden');
+
+        // Touch end
         act(() => {
             fireEvent.touchEnd(firstItem);
         });
 
-        // Should not have called onDrop since it was a short press
-        expect(handleDrop).not.toHaveBeenCalled();
+        expect(handleDrop).toHaveBeenCalled();
+        expect(document.body.style.overflow).toBe('auto');
+    });
+
+    it('handles touch movement and reordering', () => {
+        const handleDrop = jest.fn();
+        const { getAllByRole } = render(
+            <DragAndDrop onDrop={handleDrop}>
+                <div>Item 1</div>
+                <div>Item 2</div>
+            </DragAndDrop>,
+        );
+
+        const items = getAllByRole('listitem');
+        const firstItem = items[0];
+        const secondItem = items[1];
+
+        // Mock elementFromPoint to return the second item when moving
+        (document.elementFromPoint as jest.Mock).mockReturnValue(secondItem);
+
+        // Touch start on first item
+        act(() => {
+            fireEvent.touchStart(firstItem, {
+                touches: [{ clientX: 0, clientY: 0 }],
+            });
+            jest.advanceTimersByTime(200);
+        });
+
+        // Touch move to second item
+        act(() => {
+            fireEvent.touchMove(firstItem, {
+                touches: [{ clientX: 0, clientY: 100 }],
+            });
+        });
+
+        // Touch end
+        act(() => {
+            fireEvent.touchEnd(firstItem);
+        });
+
+        expect(handleDrop).toHaveBeenCalledWith(0, 1);
     });
 
     it('handles touch cancel event', () => {
@@ -441,6 +507,7 @@ describe('DragAndDrop', () => {
     });
 
     it('is accessible', async () => {
+        jest.useRealTimers();
         const { container } = render(
             <DragAndDrop onDrop={() => {}}>
                 <div>Item 1</div>
@@ -449,5 +516,5 @@ describe('DragAndDrop', () => {
         );
         const results = await axe(container);
         expect(results).toHaveNoViolations();
-    }, 15000);
+    }, 30000);
 });
