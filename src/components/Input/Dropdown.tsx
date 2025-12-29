@@ -15,9 +15,9 @@ type DropdownCommonProps = {
     required?: boolean;
     /** Disables the field */
     disabled?: boolean;
-    /** Callback when dropdown is opened */
+    /** Callback called when dropdown is opened */
     onOpen?: () => void;
-    /** Callback when dropdown is closed */
+    /** Callback called when dropdown is closed */
     onClose?: () => void;
 };
 
@@ -26,9 +26,8 @@ type DropdownMultiSelectProps<T> = {
     value?: T[];
     /**
      * If multiple elements can be selected
-     * @default false
      */
-    multiSelect?: false;
+    multiSelect?: true;
     /** Change handler */
     onChange?: (v: T[]) => void;
     /** Function to provide custom display value */
@@ -42,17 +41,16 @@ type DropdownSingleSelectProps<T> = {
      * If multiple elements can be selected
      * @default false
      */
-    multiSelect?: true;
+    multiSelect?: false;
     /** Change handler */
     onChange?: (v: T) => void;
     /** Function to provide custom display value */
     displayNameProvider?: (value?: T) => string;
 };
 
-type DropdownProps<T> = React.PropsWithChildren<
-    DropdownSingleSelectProps<T> | DropdownMultiSelectProps<T>
+export type DropdownProps<T> = React.PropsWithChildren<
+    (DropdownSingleSelectProps<T> | DropdownMultiSelectProps<T>) & DropdownCommonProps
 > &
-    DropdownCommonProps &
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>;
 
 const ArrowContainer = styled.span`

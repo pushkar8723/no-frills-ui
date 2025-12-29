@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Card } from '../../../src/components/Card';
 import { Dropdown } from '../../../src/components/Input';
+import DropdownStory from '../../../src/components/Input/DropdownStory';
 import { MenuItem } from '../../../src/components/Menu';
 
-const meta: Meta<typeof Dropdown> = {
-    component: Dropdown,
+const meta: Meta<typeof DropdownStory> = {
+    component: DropdownStory,
     title: 'Declarative Components/Dropdown',
     tags: ['!dev', '!autodocs'],
 };
@@ -54,19 +55,4 @@ export const Variants: Story = {
     },
 };
 
-export const Primary: Story = {
-    args: {
-        label: 'Choose an option',
-        children: [
-            <MenuItem key="1" value="option1">
-                Option 1
-            </MenuItem>,
-            <MenuItem key="2" value="option2">
-                Option 2
-            </MenuItem>,
-            <MenuItem key="3" value="option3">
-                Option 3
-            </MenuItem>,
-        ],
-    },
-};
+export const Primary: Story = {};
