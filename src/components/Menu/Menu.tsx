@@ -2,12 +2,12 @@ import React, { useState, ForwardedRef } from 'react';
 import styled from '@emotion/styled';
 import { getThemeValue, THEME_NAME } from '../../shared/constants';
 import MenuContext from './MenuContext';
-/**
- * Props for the Menu component.
- * @template T - The type of value(s) in the menu.
- */
-type MenuProps<T> = {
-    /** Multiple Menu Items can be selected */
+
+export type MenuProps<T> = {
+    /**
+     * Multiple Menu Items can be selected
+     * @default false
+     */
     multiSelect?: boolean;
     /** Value(s) selected */
     value?: T | T[];
@@ -36,12 +36,6 @@ const MenuContainer = styled.div`
  * @template T - The type of value(s) in the menu.
  * @param props - The menu properties.
  * @param ref - The ref forwarded to the menu container.
- */
-/**
- * Menu Component
- * @template T - The type of value(s) in the menu.
- * @param props - Component props
- * @param ref - Ref forwarded to the underlying HTMLDivElement
  */
 function MenuInner<T>(props: MenuProps<T>, ref: ForwardedRef<HTMLDivElement>) {
     const { multiSelect = false, onChange, value: propValue, children, ...rest } = props;
