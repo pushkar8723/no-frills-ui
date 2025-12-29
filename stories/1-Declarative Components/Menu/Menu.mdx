@@ -1,5 +1,6 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as MenuStories from './Menu.stories';
+import * as MenuItemStories from './MenuItem.stories';
 
 <Meta of={MenuStories} />
 
@@ -30,14 +31,14 @@ import { Menu, MenuItem } from 'no-frills-ui';
 All `props` and `ref` are forwarded to the native `div` element.
 Following are the additional `props` added on top of `HTMLDivElement` props.
 
-<Controls of={MenuStories.MenuProps} />
+<Controls of={MenuStories.MenuStoryProps} />
 
 ## Props and Ref of `MenuItem`
 
 All `props` and `ref` are forwarded to the native `button` element.
 Following are the additional `props` added on top of `HTMLButtonElement` props.
 
-<Controls of={MenuStories.MenuItemProps} />
+<Controls of={MenuItemStories.MenuItemStoryProps} />
 
 ## CSS Variables Used
 

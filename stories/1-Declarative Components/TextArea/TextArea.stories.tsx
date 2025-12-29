@@ -35,9 +35,4 @@ export const Demo: Story = {
     },
 };
 
-export const Primary: Story = {
-    args: {
-        label: 'TextArea Label',
-        placeholder: 'Enter text...',
-    },
-};
+export const Primary: Story = {};

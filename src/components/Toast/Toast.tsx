@@ -5,11 +5,24 @@ import LayerManager, { LAYER_POSITION } from '../../shared/LayerManager';
 import { Card } from '../Card';
 
 export interface ToastOptions {
+    /** Text of the toast */
     text: string;
-    buttonText?: string;
-    buttonClick?: () => void;
+    /** Id for the notification, helps in de-duplication. */
+    id?: string;
+    /**
+     * Duration for the toast in milliseconds
+     * @default 2000
+     */
     duration?: number;
+    /**
+     * Type of toast
+     * @default TOAST_TYPE.NORMAL
+     */
     type?: TOAST_TYPE;
+    /** Action button text */
+    buttonText?: string;
+    /** Action button click callback */
+    buttonClick?: () => void;
 }
 
 export enum TOAST_TYPE {

@@ -1,14 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { Menu, MenuItem } from '../../../src/components/Menu';
+import MenuStory from '../../../src/components/Menu/MenuStory';
 
-const meta: Meta<typeof Menu> = {
-    component: Menu,
+const meta: Meta<typeof MenuStory> = {
+    component: MenuStory,
     title: 'Declarative Components/Menu',
     tags: ['!dev', '!autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof Menu>;
+type Story = StoryObj<typeof MenuStory>;
+
+export const MenuStoryProps: Story = {};
 
 export const Variants: Story = {
     render: () => (
@@ -64,25 +67,4 @@ export const Variants: Story = {
             },
         },
     },
-};
-
-export const MenuProps: Story = {
-    args: {
-        children: [
-            <MenuItem key="1" value="option1">
-                Option 1
-            </MenuItem>,
-            <MenuItem key="2" value="option2">
-                Option 2
-            </MenuItem>,
-            <MenuItem key="3" value="option3">
-                Option 3
-            </MenuItem>,
-        ],
-    },
-};
-
-export const MenuItemProps: Story = {
-    // @ts-expect-error - This is for Controls only
-    render: (args) => <MenuItem {...args}>Item</MenuItem>,
 };

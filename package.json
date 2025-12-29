@@ -1,6 +1,6 @@
 {
     "name": "no-frills-ui",
-    "version": "0.0.14-rc.4",
+    "version": "0.0.14-rc.5",
     "description": "React components that are made of styled native components. Mostly!",
     "main": "dist/index.js",
     "module": "lib-esm/index.js",
