@@ -215,7 +215,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -247,7 +247,7 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
-            expect(popper).toHaveStyle('transform: translate(-105px, 0px)');
+            expect(popper).toHaveStyle('transform: translate(-105px, -105px)');
 
             getBoundingClientRectMock.mockRestore();
         });
@@ -261,7 +261,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -293,7 +293,7 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
-            expect(popper).toHaveStyle('transform: translate(55px, 0px)');
+            expect(popper).toHaveStyle('transform: translate(55px, -105px)');
 
             getBoundingClientRectMock.mockRestore();
         });
@@ -307,7 +307,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -339,7 +339,7 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
-            expect(popper).toHaveStyle('transform: translate(-105px, 0px)');
+            expect(popper).toHaveStyle('transform: translate(-105px, 105px)');
 
             getBoundingClientRectMock.mockRestore();
         });
@@ -353,7 +353,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -385,7 +385,7 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
-            expect(popper).toHaveStyle('transform: translate(55px, 0px)');
+            expect(popper).toHaveStyle('transform: translate(55px, 105px)');
 
             getBoundingClientRectMock.mockRestore();
         });
