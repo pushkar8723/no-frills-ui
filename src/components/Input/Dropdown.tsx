@@ -6,16 +6,7 @@ import { MenuItemProps } from '../Menu/MenuItem';
 import { Popover, POPOVER_POSITION } from '../Popover';
 import Input from './Input';
 
-type DropdownProps<T> = React.PropsWithChildren<{
-    /** Value of the control */
-    value?: T | T[];
-    /**
-     * If multiple elements can be selected
-     * @default false
-     */
-    multiSelect?: boolean;
-    /** Change handler */
-    onChange?: (v: T | T[]) => void;
+type DropdownCommonProps = {
     /** Label of the control */
     label?: string;
     /** Error message */
@@ -24,9 +15,45 @@ type DropdownProps<T> = React.PropsWithChildren<{
     required?: boolean;
     /** Disables the field */
     disabled?: boolean;
-    children?: React.ReactElement<MenuItemProps<T>> | React.ReactElement<MenuItemProps<T>>[];
-}> &
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value'>;
+    /** Callback when dropdown is opened */
+    onOpen?: () => void;
+    /** Callback when dropdown is closed */
+    onClose?: () => void;
+};
+
+type DropdownMultiSelectProps<T> = {
+    /** Value of the control */
+    value?: T[];
+    /**
+     * If multiple elements can be selected
+     * @default false
+     */
+    multiSelect?: false;
+    /** Change handler */
+    onChange?: (v: T[]) => void;
+    /** Function to provide custom display value */
+    displayNameProvider?: (value?: T[]) => string;
+};
+
+type DropdownSingleSelectProps<T> = {
+    /** Value of the control */
+    value?: T;
+    /**
+     * If multiple elements can be selected
+     * @default false
+     */
+    multiSelect?: true;
+    /** Change handler */
+    onChange?: (v: T) => void;
+    /** Function to provide custom display value */
+    displayNameProvider?: (value?: T) => string;
+};
+
+type DropdownProps<T> = React.PropsWithChildren<
+    DropdownSingleSelectProps<T> | DropdownMultiSelectProps<T>
+> &
+    DropdownCommonProps &
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>;
 
 const ArrowContainer = styled.span`
     position: absolute;
@@ -138,10 +165,13 @@ function DropdownComponent<T extends object>(
         errorText,
         required,
         disabled,
+        onOpen,
+        onClose,
+        displayNameProvider,
         ...rest
     } = props;
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState<T | T[] | undefined>(propValue);
+    const [value, setValue] = useState(propValue);
     const id = React.useId();
     const menuId = `${id}-menu`;
     const menuRef = React.useRef<HTMLDivElement | null>(null);
@@ -180,7 +210,12 @@ function DropdownComponent<T extends object>(
         return findLabel(currentValue as T);
     };
 
-    const displayValue = getDisplayValue(value, children) || (value ? String(value) : '');
+    const displayValue =
+        (multiSelect
+            ? (displayNameProvider as (value?: T[]) => string)?.(value as T[])
+            : (displayNameProvider as (value?: T) => string)?.(value as T)) ||
+        getDisplayValue(value, children) ||
+        (value !== null && value !== undefined ? String(value) : '');
 
     // Sync prop value with state
     const prevValueRef = useRef<T | T[] | undefined>(undefined);
@@ -201,10 +236,13 @@ function DropdownComponent<T extends object>(
                 if (firstItem) {
                     firstItem.focus();
                 }
+                onOpen?.();
             }, 100); // Wait after Popover has set initial focus
             return () => clearTimeout(timer);
+        } else {
+            onClose?.();
         }
-    }, [open]);
+    }, [open, onOpen, onClose]);
 
     /**
      * Handles keydown events on the input trigger.
@@ -231,7 +269,11 @@ function DropdownComponent<T extends object>(
      */
     const changeHandler = (val: T | T[]) => {
         setValue(val);
-        onChange?.(val);
+        if (multiSelect) {
+            (onChange as (v: T[]) => void)?.(val as T[]);
+        } else {
+            (onChange as (v: T) => void)?.(val as T);
+        }
 
         // Close dropdown after selection if not multiSelect
         if (!multiSelect) {

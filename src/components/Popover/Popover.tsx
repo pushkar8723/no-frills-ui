@@ -39,9 +39,11 @@ const PopoverDiv = styled.div`
 `;
 
 const Popper = styled(Card)<{ position: POPOVER_POSITION; translateX: number; translateY: number }>`
+    display: flex;
     position: absolute;
     width: 100%;
     min-width: 200px;
+    max-height: 250px;
     overflow: auto;
     animation: enter 0.3s linear;
     border-radius: 3px;
@@ -221,7 +223,7 @@ function PopoverComponent(
                 left = 0,
                 right = 0,
             } = popperRef.current?.getBoundingClientRect() ?? {};
-            const height = popperRef.current?.scrollHeight ?? 0;
+            const height = popperRef.current?.clientHeight ?? 0;
             const viewportWidth = document.documentElement.clientWidth;
             const viewportHeight = document.documentElement.clientHeight;
             const translation = { x: 0, y: 0 };
