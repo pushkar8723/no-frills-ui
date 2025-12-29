@@ -215,7 +215,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -247,6 +247,8 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
+            // viewportHeight (800) - top (700) - height (200) = -100 -> translation.y = -105
+            // viewportWidth (1000) - right (1100) = -100 -> translation.x = -105
             expect(popper).toHaveStyle('transform: translate(-105px, -105px)');
 
             getBoundingClientRectMock.mockRestore();
@@ -261,7 +263,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -293,6 +295,8 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
+            // viewportHeight (800) - top (700) - height (200) = -100 -> translation.y = -105
+            // left (-50) < 0 -> translation.x = 55
             expect(popper).toHaveStyle('transform: translate(55px, -105px)');
 
             getBoundingClientRectMock.mockRestore();
@@ -307,7 +311,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -339,6 +343,8 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
+            // top (100) - height (200) = -100 -> translation.y = 105
+            // viewportWidth (1000) - right (1100) = -100 -> translation.x = -105
             expect(popper).toHaveStyle('transform: translate(-105px, 105px)');
 
             getBoundingClientRectMock.mockRestore();
@@ -353,7 +359,7 @@ describe('Popover', () => {
                 configurable: true,
                 value: 800,
             });
-            Object.defineProperty(HTMLDivElement.prototype, 'clientHeight', {
+            Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
                 configurable: true,
                 value: 200,
             });
@@ -385,6 +391,8 @@ describe('Popover', () => {
             );
 
             const popper = getByRole('dialog');
+            // top (100) - height (200) = -100 -> translation.y = 105
+            // left (-50) < 0 -> translation.x = 55
             expect(popper).toHaveStyle('transform: translate(55px, 105px)');
 
             getBoundingClientRectMock.mockRestore();

@@ -223,7 +223,7 @@ function PopoverComponent(
                 left = 0,
                 right = 0,
             } = popperRef.current?.getBoundingClientRect() ?? {};
-            const height = popperRef.current?.clientHeight ?? 0;
+            const height = Math.min(popperRef.current?.scrollHeight ?? 0, 250);
             const viewportWidth = document.documentElement.clientWidth;
             const viewportHeight = document.documentElement.clientHeight;
             const translation = { x: 0, y: 0 };
