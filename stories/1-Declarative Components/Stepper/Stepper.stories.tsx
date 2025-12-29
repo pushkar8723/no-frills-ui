@@ -14,7 +14,7 @@ type Story = StoryObj;
 
 export const Demo: Story = {
     render: () => (
-        <Card>
+        <Card style={{ overflow: 'auto' }}>
             <Stepper active={1}>
                 <Step name="Welcome" completed>
                     <StepBody>Welcome to this multi-step form.</StepBody>
