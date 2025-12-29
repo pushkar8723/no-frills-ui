@@ -1,0 +1,28 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+
+<Meta title="Get Started/With React Window" />
+
+# With React Window
+
+One of the challenge I have seen in UI development is having a list of very large number of items. The problem is
+not that we don't have tools for such problem. Actually we have many. But there are many such small problems which
+when bundled in a component library, would lead to bloat and may not be required for many projects.
+
+Hence, while creating the `Menu` component, I kept the API such that it can easily work with such tools. Below I created
+a codesandbox demo where I used `Dropdown` component with `react-window` to render a list of 1000 items. It showcases
+how a virtualized list library can used inside a `Dropdown`. Similar approach can we taken for `Menu` as well.
+
+If your projects requires a lot of different Dropdowns with virtualized list, then I recommend creating a wrapper component
+around `Dropdown` with `react-window` and then use this wrapper at all such places.
+
+This way the library remains lean and virtualization can be used as an when needed.
+
+## Demo
+
+<iframe
+    src="https://codesandbox.io/embed/ffz2hs?fontsize=12&module=%2Fsrc%2FWithReactWindow.tsx&hidenavigation=1"
+    style={{ width: '100%', height: '600px', border: '0', borderRadius: '4px', overflow: 'hidden' }}
+    title="with-formik"
+    allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+    sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+/>
