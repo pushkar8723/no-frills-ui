@@ -49,11 +49,11 @@ jobs:
 
             - name: Build Storybook (npm)
               if: steps.detect-pm.outputs.pm == 'npm'
-              run: npm run build-storybook
+              run: npm run build:storybook
 
             - name: Build Storybook (yarn)
               if: steps.detect-pm.outputs.pm == 'yarn'
-              run: yarn build-storybook
+              run: yarn build:storybook
 
             - name: Check if pre-release
               id: check_prerelease
