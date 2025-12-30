@@ -2351,11 +2351,11 @@ __metadata:
   linkType: hard
 
 "@swc/plugin-emotion@npm:^14.0.1":
-  version: 14.0.1
-  resolution: "@swc/plugin-emotion@npm:14.0.1"
+  version: 14.3.0
+  resolution: "@swc/plugin-emotion@npm:14.3.0"
   dependencies:
     "@swc/counter": "npm:^0.1.3"
-  checksum: 10c0/c4ba50c733a60d23c0ba2f08b01f3fa01b23b0e22e0e7a4a7100dac17b78048ffd5706b7204e4ab6bcac9f2ebad44c13ec0e51ba47577303f4c1ec9daba4aeca
+  checksum: 10c0/519089db8c5d476972594d935121d0d2b963985596af1605832d5b547b8cf46b7a9dbadbb0e1f23903166551e9ca64e7f9e85479aada4f1fd8eaa8463c82703f
   languageName: node
   linkType: hard
 
