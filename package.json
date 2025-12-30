@@ -9,8 +9,10 @@
     "sideEffects": false,
     "exports": {
         ".": {
+            "types": "./lib-esm/index.d.ts",
             "import": "./lib-esm/index.js",
-            "require": "./dist/index.js"
+            "require": "./dist/index.js",
+            "default": "./lib-esm/index.js"
         },
         "./package.json": "./package.json"
     },
