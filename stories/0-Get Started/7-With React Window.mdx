@@ -10,7 +10,7 @@ when bundled in a component library, would lead to bloat and may not be required
 
 Hence, while creating the `Menu` component, I kept the API such that it can easily work with such tools. Below I created
 a codesandbox demo where I used `Dropdown` component with `react-window` to render a list of 1000 items. It showcases
-how a virtualized list library can used inside a `Dropdown`. Similar approach can we taken for `Menu` as well.
+how a virtualized list library can used inside a `Dropdown`. Similar approach can be taken for `Menu` as well.
 
 If your projects requires a lot of different Dropdowns with virtualized list, then I recommend creating a wrapper component
 around `Dropdown` with `react-window` and then use this wrapper at all such places.

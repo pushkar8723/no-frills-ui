@@ -70,13 +70,13 @@ export const Variations: Story = {
             source: {
                 code: `<Button onClick={() => {
     Toast.add({
-        text: 'I am a 🍞 bro.',
+        text: 'This is a simple toast.',
     })
 }}>Simple Toast</Button>
 
 <Button onClick={() => {
     Toast.add({
-        text: 'I am a 🍞 bro.',
+        text: 'This is an action toast.',
         buttonText: 'Action',
         buttonClick: () => alert('Action button on toast was clicked.')
     })
@@ -84,15 +84,19 @@ export const Variations: Story = {
 
 <Button onClick={() => {
     Toast.add({
-        text: \`When a toast contains a very large string, the excess
-            string is wrapped and showed on the next line.\`
+        text: \`
+            When a toast contains a very large string, the excess
+            string is wrapped and showed on the next line.
+        \`
     })
 }}>Multiline Toast</Button>
 
 <Button onClick={() => {
     Toast.add({
-        text: \`When a toast contains a very large string, the excess
-            string is wrapped and showed on the next line.\`,
+        text: \`
+            This is multiline toast with an action. When a toast contains a very large string, the excess
+            string is wrapped and showed on the next line.
+        \`,
         buttonText: 'Action',
         buttonClick: () => alert('Action button on toast was clicked.'),
     })
@@ -153,28 +157,28 @@ export const Types: Story = {
             source: {
                 code: `<Button onClick={() => {
     Toast.add({
-        text: 'I am a 🍞 bro.',
+        text: 'This is an information toast.',
         type: TOAST_TYPE.INFO
     })
 }}>Information Toast</Button>
 
 <Button onClick={() => {
     Toast.add({
-        text: 'I am a 🍞 bro.',
+        text: 'This is a success toast.',
         type: TOAST_TYPE.SUCCESS
     })
 }}>Success Toast</Button>
 
 <Button onClick={() => {
     Toast.add({
-        text: 'I am a 🍞 bro.',
+        text: 'This is a warning toast.',
         type: TOAST_TYPE.WARNING
     })
 }}>Warning Toast</Button>
 
 <Button onClick={() => {
     Toast.add({
-        text: 'I am a 🍞 bro.',
+        text: 'This is a danger toast.',
         type: TOAST_TYPE.DANGER
     })
 }}>Danger Toast</Button>`,
