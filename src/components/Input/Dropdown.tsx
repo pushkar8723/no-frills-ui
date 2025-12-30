@@ -98,6 +98,9 @@ const DropdownTrigger = React.forwardRef<
             if (typeof forwardedRef === 'function') {
                 forwardedRef(node);
             } else {
+                // With react 19 the refs are forwarded as props.
+                // But since we still support react 18, we need to handle both cases.
+                // eslint-disable-next-line react-hooks/immutability
                 (forwardedRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
             }
         },
