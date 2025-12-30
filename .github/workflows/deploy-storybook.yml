@@ -2,7 +2,7 @@ name: Deploy Versioned Storybook to GitHub Pages
 
 on:
     release:
-        types: [released]
+        types: [published]
 
 permissions:
     contents: write
