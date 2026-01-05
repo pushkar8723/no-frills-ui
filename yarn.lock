@@ -1979,19 +1979,19 @@ __metadata:
   linkType: hard
 
 "@storybook/addon-docs@npm:^10.0.2":
-  version: 10.1.10
-  resolution: "@storybook/addon-docs@npm:10.1.10"
+  version: 10.1.11
+  resolution: "@storybook/addon-docs@npm:10.1.11"
   dependencies:
     "@mdx-js/react": "npm:^3.0.0"
-    "@storybook/csf-plugin": "npm:10.1.10"
+    "@storybook/csf-plugin": "npm:10.1.11"
     "@storybook/icons": "npm:^2.0.0"
-    "@storybook/react-dom-shim": "npm:10.1.10"
+    "@storybook/react-dom-shim": "npm:10.1.11"
     react: "npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     react-dom: "npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
     ts-dedent: "npm:^2.0.0"
   peerDependencies:
-    storybook: ^10.1.10
-  checksum: 10c0/b6560b9f61c0fe7257325ae72ac88b9b001f909b25b18378a622b8cba799bfa1b887ec48a46d71e76da7e4425fe4c9d9b5fa10f3405c72e7141c053de44fe6ca
+    storybook: ^10.1.11
+  checksum: 10c0/93006f0efc4dd92d296a32960ae886820e03240c26ad18caa7cd784d132bfc96a719d5929e49ff29d621fa8086a98d0be399eb81b182d6fb7071f575623bbb8c
   languageName: node
   linkType: hard
 
@@ -2095,15 +2095,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/csf-plugin@npm:10.1.10":
-  version: 10.1.10
-  resolution: "@storybook/csf-plugin@npm:10.1.10"
+"@storybook/csf-plugin@npm:10.1.11":
+  version: 10.1.11
+  resolution: "@storybook/csf-plugin@npm:10.1.11"
   dependencies:
     unplugin: "npm:^2.3.5"
   peerDependencies:
     esbuild: "*"
     rollup: "*"
-    storybook: ^10.1.10
+    storybook: ^10.1.11
     vite: "*"
     webpack: "*"
   peerDependenciesMeta:
@@ -2115,7 +2115,7 @@ __metadata:
       optional: true
     webpack:
       optional: true
-  checksum: 10c0/0580f6a485cf1e48da903d7809c6e6de9758530d97b11073fbc98ca96e0d73060803d074a6b8fa4267e6710a0d65818acc8ecca159cd645d481470ab8fc4c41f
+  checksum: 10c0/15c01fcb0c5f1bd5c14e02f75c2d0712ed2ea4706baa91ab18b4c257379f2b32df8420a7d49f2cd2ca068b0e99c32f68c3189d60ecb81102415c85fa3bbb02eb
   languageName: node
   linkType: hard
 
@@ -2175,17 +2175,6 @@ __metadata:
     typescript: ">= 4.x"
     webpack: ">= 4"
   checksum: 10c0/505a728f36df3f519f4985bdf18f2078ea18a1a8f7f837fc831f971363fb7643a182f01a6857a9729ac5a1246d370526fca5a19017f82e7493af4ca945cb7235
-  languageName: node
-  linkType: hard
-
-"@storybook/react-dom-shim@npm:10.1.10":
-  version: 10.1.10
-  resolution: "@storybook/react-dom-shim@npm:10.1.10"
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    storybook: ^10.1.10
-  checksum: 10c0/78bc51e99f538b6bff76c2753733b84e18c8234dd0fad90da9ce280cdb68a505181da813f8a364814113e9c0857bee412bad4d1d3690c4d5005ab9b243aa8f11
   languageName: node
   linkType: hard
 
