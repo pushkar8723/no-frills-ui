@@ -2028,17 +2028,17 @@ __metadata:
   linkType: hard
 
 "@storybook/addon-links@npm:^10.0.2":
-  version: 10.1.11
-  resolution: "@storybook/addon-links@npm:10.1.11"
+  version: 10.2.8
+  resolution: "@storybook/addon-links@npm:10.2.8"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    storybook: ^10.1.11
+    storybook: ^10.2.8
   peerDependenciesMeta:
     react:
       optional: true
-  checksum: 10c0/f12e88e89c9fdfbb4c538a5962459a9e66b89a853a9867181076a532e3b3a9fc567ac8cc8460a66cb971fd23d6c91713542d4e8155a4b4a3ebedd33d71c1c1fc
+  checksum: 10c0/ce4b39faaaf994ebe70c5e96132576c734a6c2f655c4c738db64a750ec342e0f240c0e73e39f40a9ff7f1ea13101d3bf309a44db68e95125d09502ed9593690d
   languageName: node
   linkType: hard
 
