@@ -56,7 +56,7 @@ const MenuItemInner = <T,>(props: MenuItemProps<T>, ref: React.Ref<HTMLButtonEle
         context.updateValue(value as T);
     };
 
-    let selected = false;
+    let selected: boolean;
     if (context.multiSelect) {
         const arr = context.value as unknown as T[] | undefined;
         selected = Array.isArray(arr) && arr.includes(value as unknown as T);
