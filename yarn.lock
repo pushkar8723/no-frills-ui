@@ -2290,35 +2290,35 @@ __metadata:
   linkType: hard
 
 "@storybook/cli@npm:^10.0.2":
-  version: 10.3.4
-  resolution: "@storybook/cli@npm:10.3.4"
+  version: 10.3.5
+  resolution: "@storybook/cli@npm:10.3.5"
   dependencies:
-    "@storybook/codemod": "npm:10.3.4"
+    "@storybook/codemod": "npm:10.3.5"
     "@types/semver": "npm:^7.7.1"
     commander: "npm:^14.0.2"
-    create-storybook: "npm:10.3.4"
+    create-storybook: "npm:10.3.5"
     jscodeshift: "npm:^0.15.1"
-    storybook: "npm:10.3.4"
+    storybook: "npm:10.3.5"
     ts-dedent: "npm:^2.0.0"
   bin:
     cli: ./dist/bin/index.js
-  checksum: 10c0/b27f3dc226bb64ca08e027bf67af9c6bca9c827119cf510e740f37c929ede56b6de1e4696081b623480578db98e428cdfe3f13e1d4bd6d4ce3763142c838c95d
+  checksum: 10c0/f32c330b807033fd00fbc9497c148236f267922aa0d4e01b6437f4b275f8d8bc75cfd411b871d819c28187d3b5f12cce71e22551d27ae171bac4e66a8be4765d
   languageName: node
   linkType: hard
 
-"@storybook/codemod@npm:10.3.4":
-  version: 10.3.4
-  resolution: "@storybook/codemod@npm:10.3.4"
+"@storybook/codemod@npm:10.3.5":
+  version: 10.3.5
+  resolution: "@storybook/codemod@npm:10.3.5"
   dependencies:
     "@types/cross-spawn": "npm:^6.0.6"
     cross-spawn: "npm:^7.0.6"
     es-toolkit: "npm:^1.43.0"
     jscodeshift: "npm:^0.15.1"
     prettier: "npm:^3.7.1"
-    storybook: "npm:10.3.4"
+    storybook: "npm:10.3.5"
     tiny-invariant: "npm:^1.3.1"
     tinyglobby: "npm:^0.2.13"
-  checksum: 10c0/46330bbbe0aa885b87fdfe36dc368ca1b1dd1375d2a03f8df9e105e2a0e893fbcbf67ba86ca1dedc444842c50a940ffb094700e94aaab673de150ae441f794ad
+  checksum: 10c0/96177ab78e944800d964d69bdf95a3f1b5783fbbad5877ad000c2bf16593fe90ba4c2f3cb71c2e4b49b7d7d0393f5d12a8cc535239ab1f09cc1ce0bc3a0641e0
   languageName: node
   linkType: hard
 
@@ -4578,15 +4578,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-storybook@npm:10.3.4":
-  version: 10.3.4
-  resolution: "create-storybook@npm:10.3.4"
+"create-storybook@npm:10.3.5":
+  version: 10.3.5
+  resolution: "create-storybook@npm:10.3.5"
   dependencies:
     semver: "npm:^7.7.3"
-    storybook: "npm:10.3.4"
+    storybook: "npm:10.3.5"
   bin:
     create-storybook: ./dist/bin/index.js
-  checksum: 10c0/3f62f71077c9a60bfd9c6e4def95b4ff6a14c03022b2993097bc9c8f0109f4a0ff9b092e824f3cd9459bd3d882b5a906650f380c8c895d6bfa2b4c1a9432b0f5
+  checksum: 10c0/509c1dd20023faf287dce7ebcdb1245f6d678e81f65e2d587d78c68956972a98484ff53449f9e7ace2a4f8002da491bdb550bec5c87cf2163e9c505e5deac8d5
   languageName: node
   linkType: hard
 
@@ -10796,9 +10796,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook@npm:10.3.4":
-  version: 10.3.4
-  resolution: "storybook@npm:10.3.4"
+"storybook@npm:10.3.5":
+  version: 10.3.5
+  resolution: "storybook@npm:10.3.5"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^2.0.1"
@@ -10820,7 +10820,7 @@ __metadata:
       optional: true
   bin:
     storybook: ./dist/bin/dispatcher.js
-  checksum: 10c0/884360de898caf25fab7184c41a30c84eaf0ee74e4b86402740f3cad03439dc9ffda077b85c0efe5bb95d04716e070f9e780411b27bf7a2a8dbed9561d4be89c
+  checksum: 10c0/1443e4710b0bb972db7704d8445c039a6335afafebe853d2b0d89b161262050cd7ae5eda3811c771d54d832f0acc80cf2c231d24f73d1f547d020898394afde6
   languageName: node
   linkType: hard
 
