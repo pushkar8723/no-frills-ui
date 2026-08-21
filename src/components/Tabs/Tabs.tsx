@@ -93,6 +93,7 @@ function TabsComponent(props: ITabsProps, ref: React.Ref<HTMLDivElement>) {
 
     useEffect(() => {
         if (propsActive !== undefined) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setActive(propsActive);
             onChange?.(propsActive);
         }

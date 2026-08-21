@@ -1,5 +1,5 @@
 import { act, fireEvent, screen } from '@testing-library/react';
-import { Toast, TOAST_TYPE } from '../../../src/components/Toast';
+import { Toast, TOAST_TYPE, ToastOptions } from '../../../src/components/Toast';
 
 describe('Toast', () => {
     beforeEach(() => {
@@ -19,9 +19,9 @@ describe('Toast', () => {
     });
 
     // Helper to add toast with testId
-    const addToast = (props: any) => {
+    const addToast = (props: Partial<ToastOptions> & Record<string, unknown>) => {
         act(() => {
-            Toast.add({ ...props, 'data-testid': 'toast-ui' } as any);
+            Toast.add({ ...props, 'data-testid': 'toast-ui' } as ToastOptions);
         });
     };
 
