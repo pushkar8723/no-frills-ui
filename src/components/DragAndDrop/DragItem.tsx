@@ -339,6 +339,7 @@ export default function DragItem(props: PropsWithChildren<DragItemProps>) {
     /** Update active state based on dragOver changes */
     useEffect(() => {
         if (context?.isDragging && context?.startIndex !== null && dragOver === index) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setActive(context?.startIndex - index);
         } else {
             setActive(0);

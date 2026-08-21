@@ -199,6 +199,7 @@ function PopoverComponent(
 
     useEffect(() => {
         if (propsOpen) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setOpen(true);
             // Use requestAnimationFrame to add listener after current event loop
             const rafId = requestAnimationFrame(() => {
@@ -263,6 +264,7 @@ function PopoverComponent(
             }
             // Note it can still overflow, but in that case fitting popper inside the
             // window is not possible.
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setTranslate(translation);
             popperRef.current?.focus();
         }

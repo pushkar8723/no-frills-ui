@@ -1,1 +1,1 @@
-export { default as Toast, TOAST_TYPE } from './Toast';
+export { default as Toast, TOAST_TYPE, type ToastOptions } from './Toast';

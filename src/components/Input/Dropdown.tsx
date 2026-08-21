@@ -91,6 +91,7 @@ const DropdownTrigger = React.forwardRef<
 
     // Helper to assign both internal triggerRef and external forwarded ref
     const assignRefs = React.useCallback(
+        // eslint-disable-next-line react-hooks/immutability
         (node: HTMLInputElement | null) => {
             triggerRef.current = node;
 
@@ -109,6 +110,7 @@ const DropdownTrigger = React.forwardRef<
 
     // Combine the ref passed by parent with our assignRefs so both are updated
     const combinedRef = React.useCallback(
+        // eslint-disable-next-line react-hooks/immutability
         (node: HTMLInputElement | null) => {
             assignRefs(node);
             if (typeof ref === 'function') {
