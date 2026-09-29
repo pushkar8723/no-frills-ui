@@ -26,12 +26,12 @@ __metadata:
   linkType: hard
 
 "@axe-core/react@npm:^4.11.0":
-  version: 4.11.2
-  resolution: "@axe-core/react@npm:4.11.2"
+  version: 4.13.0
+  resolution: "@axe-core/react@npm:4.13.0"
   dependencies:
-    axe-core: "npm:~4.11.3"
+    axe-core: "npm:~4.13.0"
     requestidlecallback: "npm:^0.3.0"
-  checksum: 10c0/0c8f3ad69e3460d4b0a0bde158a20f193b6ac30b7e4210e3f485eeb1703dbeffc4d15a03a66d5f315a65f228d5fbf5ce4bb91de0e9d097f99722bbfee837894d
+  checksum: 10c0/d1aa8586d3607b6a1ce2c53e1ffec429417206d54fcf0a7557c8f0fa2f026b09699924ff1a28de49b5d768fcc9ae3e7d38252bf2ea7edb2784e378a8f7a845d8
   languageName: node
   linkType: hard
 
@@ -4481,10 +4481,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:~4.11.3":
-  version: 4.11.3
-  resolution: "axe-core@npm:4.11.3"
-  checksum: 10c0/bc757775ef41396faf6470752a12e96f3972d0d97cae4ec28e99cec7bca2c5aaa6d040b97e7f0278e8d1ea354fa0b0bf7fcaa51775a725d7ed0a0834e7ea13d7
+"axe-core@npm:~4.13.0":
+  version: 4.13.0
+  resolution: "axe-core@npm:4.13.0"
+  checksum: 10c0/0e3be8be10eea64beddefd3007e1425424ff60c26c5f4d5f748ec48c2825356839c02ad4167fc1f03a6d84ecd82108f49fb2846ab7fe949273787391745561ca
   languageName: node
   linkType: hard
 
