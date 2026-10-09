@@ -147,5 +147,12 @@
         "@storybook/addon-webpack5-compiler-swc/@swc/core": "1.16.13",
         "@swc/core": "1.16.13",
         "@swc/plugin-emotion": "19.0.0"
+    },
+    "_comments": {
+        "resolutions": {
+            "@storybook/addon-webpack5-compiler-swc/@swc/core": "Temporary compatibility pin for Storybook's webpack SWC compiler. This addon still depends on a legacy @swc/core range that is incompatible with the newer @swc/plugin-emotion runtime used by the Rollup build. Remove when @storybook/addon-webpack5-compiler-swc ships a compatible SWC version.",
+            "@swc/core": "Keep the project and Storybook on the same SWC runtime so the Emotion transform plugin can deserialize the compiler output successfully.",
+            "@swc/plugin-emotion": "Align the Emotion transform plugin with the installed @swc/core version. This is required because newer SWC runtimes are not compatible with older plugin binaries. Remove once the upstream plugin/runtime compatibility issue is resolved."
+        }
     }
 }
