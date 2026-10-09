@@ -3580,7 +3580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^19.2.3":
+"@types/react-dom@npm:^19.3.0":
   version: 19.3.0
   resolution: "@types/react-dom@npm:19.3.0"
   peerDependencies:
@@ -3589,12 +3589,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^19.2.7":
-  version: 19.2.18
-  resolution: "@types/react@npm:19.2.18"
+"@types/react@npm:^19.3.0":
+  version: 19.3.0
+  resolution: "@types/react@npm:19.3.0"
   dependencies:
     csstype: "npm:^3.2.2"
-  checksum: 10c0/d04216172b4b4362b310017c210dfbe019fb4f4e7dffd0313e70b3acb3051d5c3e76e7e84e3cf4c6a3c824993ffadfe3949e589a6398a09d4200e7670e2962de
+  checksum: 10c0/fbcabf303f935ca9f36ed2dcf81751cf84744098c5a683c8a62a0fa7edd31714b48d5c46b12fd0014f7f2dfe4d9ec6de428a850748eec719a70294e51029551b
   languageName: node
   linkType: hard
 
@@ -9515,8 +9515,8 @@ __metadata:
     "@types/jest": "npm:^30.0.0"
     "@types/jest-axe": "npm:^3.5.9"
     "@types/node": "npm:^26.2.0"
-    "@types/react": "npm:^19.2.7"
-    "@types/react-dom": "npm:^19.2.3"
+    "@types/react": "npm:^19.3.0"
+    "@types/react-dom": "npm:^19.3.0"
     "@typescript-eslint/eslint-plugin": "npm:^8"
     "@typescript-eslint/parser": "npm:^8"
     eslint: "npm:^10"
@@ -9532,8 +9532,8 @@ __metadata:
     jest-environment-jsdom: "npm:30.5.2"
     lint-staged: "npm:^17"
     prettier: "npm:^3"
-    react: "npm:^19.2.8"
-    react-dom: "npm:^19.2.8"
+    react: "npm:^19.3.0"
+    react-dom: "npm:^19.3.0"
     remark-gfm: "npm:^4.0.1"
     rollup: "npm:^4.52.5"
     rollup-plugin-peer-deps-external: "npm:^2.2.4"
@@ -10463,7 +10463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0, react-dom@npm:^19.2.8":
+"react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0, react-dom@npm:^19.3.0":
   version: 19.3.0
   resolution: "react-dom@npm:19.3.0"
   dependencies:
@@ -10495,10 +10495,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^19.2.8":
-  version: 19.2.8
-  resolution: "react@npm:19.2.8"
-  checksum: 10c0/5f86bdb56426652fd6d989d30a6f2e603c057272c47c9ca3a3fbe190a3a39ee9ccce937d63cfc039717abed1b8891d6a499134bc35311acc07eafdacd86537cd
+"react@npm:^19.3.0":
+  version: 19.3.0
+  resolution: "react@npm:19.3.0"
+  checksum: 10c0/dd3099c3c43a7122bc01223bb26b0f8d5ba13cca569af6fb94a005fb54fa73223c9cb203bb226d40cfd49a82cbeef2e36ce84062a3a6d5b9fe8f4437694c7b52
   languageName: node
   linkType: hard
 
