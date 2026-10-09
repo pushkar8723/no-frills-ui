@@ -35,21 +35,8 @@ jobs:
             - name: Build
               run: yarn build
 
-            - name: Check bundle size
-              shell: bash
-              run: |
-                  node <<'NODE'
-                  const { execFileSync } = require('node:child_process');
-                  const output = execFileSync('npx', ['size-limit', '--json'], { encoding: 'utf8' });
-                  const results = JSON.parse(output);
-                  console.log(output.trim());
-
-                  const failed = results.filter((result) => !result.passed);
-                  if (failed.length) {
-                      console.error('\nBundle size checks failed:');
-                      for (const result of failed) {
-                          console.error(`- ${result.name}: ${result.size} bytes (limit ${result.sizeLimit})`);
-                      }
-                      process.exit(1);
-                  }
-                  NODE
+            - name: Check bundle size with PR comment
+              uses: andresz1/size-limit-action@v1
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  skip_step: install,build
