@@ -3279,15 +3279,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.6.1":
-  version: 14.6.1
-  resolution: "@testing-library/user-event@npm:14.6.1"
-  peerDependencies:
-    "@testing-library/dom": ">=7.21.4"
-  checksum: 10c0/75fea130a52bf320d35d46ed54f3eec77e71a56911b8b69a3fe29497b0b9947b2dc80d30f04054ad4ce7f577856ae3e5397ea7dff0ef14944d3909784c7a93fe
-  languageName: node
-  linkType: hard
-
 "@testing-library/user-event@npm:^14.6.3":
   version: 14.6.7
   resolution: "@testing-library/user-event@npm:14.6.7"
@@ -11417,14 +11408,14 @@ __metadata:
   linkType: hard
 
 "storybook@npm:^10.5.0":
-  version: 10.5.10
-  resolution: "storybook@npm:10.5.10"
+  version: 10.6.1
+  resolution: "storybook@npm:10.6.1"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
     "@storybook/icons": "npm:^2.0.2"
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/jest-dom": "npm:6.9.1"
-    "@testing-library/user-event": "npm:^14.6.1"
+    "@testing-library/user-event": "npm:^14.6.3"
     "@vitest/expect": "npm:3.2.4"
     "@vitest/spy": "npm:3.2.4"
     "@webcontainer/env": "npm:^1.1.1"
@@ -11450,7 +11441,7 @@ __metadata:
       optional: true
   bin:
     storybook: ./dist/bin/dispatcher.js
-  checksum: 10c0/057081585c44ad183ddae97e3b1e8aaaa748bd10336667d7c92698108806a687ead7e082b88962e7255e8b2cc0622b9598a653e5f0d84a807f96677ec0340be8
+  checksum: 10c0/fb95ae0e08f8db68d8564bfcbaf3fbeae87f49dbb6c9cb83d18573bbb51d2c58adf18f92dc8f6bf58fed433ed3c27bcb2b483c7137f1c6f1baf6fc8363d85a76
   languageName: node
   linkType: hard
 
