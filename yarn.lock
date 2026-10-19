@@ -2814,20 +2814,20 @@ __metadata:
   linkType: hard
 
 "@storybook/addon-links@npm:^10.5.0":
-  version: 10.6.1
-  resolution: "@storybook/addon-links@npm:10.6.1"
+  version: 10.6.2
+  resolution: "@storybook/addon-links@npm:10.6.2"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
   peerDependencies:
     "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    storybook: ^10.6.1
+    storybook: ^10.6.2
   peerDependenciesMeta:
     "@types/react":
       optional: true
     react:
       optional: true
-  checksum: 10c0/af07b5a30cd2e8b0d1f3a49382ff93476b299a924b72fea33646f2f848096312533db6d1eee6bad4473f0ec7eb9a28e2e064f611e7afa28a7e8fdf5575b3c7fb
+  checksum: 10c0/35cd67e9a816b377b9689f2df2a6572e71db57fa84e74dcc7efa845f3c798d7ea2d281f99ea08178f18a993317caa807b476557f98989674ff4c9b8c97b05833
   languageName: node
   linkType: hard
 
