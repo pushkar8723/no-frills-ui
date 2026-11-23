@@ -2900,20 +2900,20 @@ __metadata:
   linkType: hard
 
 "@storybook/addon-links@npm:^10.5.0":
-  version: 10.6.7
-  resolution: "@storybook/addon-links@npm:10.6.7"
+  version: 10.6.8
+  resolution: "@storybook/addon-links@npm:10.6.8"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
   peerDependencies:
     "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    storybook: ^10.6.7
+    storybook: ^10.6.8
   peerDependenciesMeta:
     "@types/react":
       optional: true
     react:
       optional: true
-  checksum: 10c0/d4bb50d4fde0b313af86b77dc7fb2149c572589bf5019fe593227f0fe886379a4f6169611939788a4dfc405640b89cd597f36cbabacf045d85f340ca69a773e3
+  checksum: 10c0/e3a89f4eaf5d7d9fd3f8035815b6094eafa710d8e4a6ae6c2e764fe7ad68e57057278b625d160d9d2572c987b28c26683c24e0adc13324c54ff8e67735d1ca39
   languageName: node
   linkType: hard
 
